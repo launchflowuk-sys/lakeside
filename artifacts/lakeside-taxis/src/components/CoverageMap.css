@@ -2,7 +2,7 @@
   position: relative;
 }
 
-/* Legend row above map */
+/* Legend */
 .cmap-legend {
   display: flex;
   align-items: center;
@@ -17,7 +17,7 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: rgba(245, 197, 24, 0.22);
+  background: rgba(245, 197, 24, 0.3);
   border: 2px solid #f5c518;
   flex-shrink: 0;
 }
@@ -25,111 +25,87 @@
 .cmap-legend-dot--major {
   width: 14px;
   height: 14px;
-  background: rgba(245, 197, 24, 0.42);
+  background: rgba(245, 197, 24, 0.5);
+  border-color: #fff;
 }
 
-/* Placeholder: full-width block so offsetWidth is measurable before Leaflet init */
-.cmap-placeholder {
+/* Map container */
+.cmap-map {
   width: 100%;
   height: 480px;
-}
-
-/* The Leaflet div replaces the placeholder — styled inline with explicit px */
-/* Style Leaflet's inner containers */
-.cmap-section .leaflet-container {
-  background: hsl(220 25% 8%);
   border-radius: 12px;
+  overflow: hidden;
   box-shadow: 0 4px 40px rgba(0, 0, 0, 0.5);
-  overflow: hidden;
+  background: hsl(220 25% 8%);
 }
 
-/* Tile opacity */
-.cmap-section .leaflet-tile-pane { opacity: 0.92; }
-
-/* Zoom controls */
-.cmap-section .leaflet-control-zoom {
-  border: none !important;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
-  border-radius: 8px;
-  overflow: hidden;
-  margin-bottom: 12px !important;
-  margin-right: 12px !important;
+/* Placeholder shown in dev when no API key */
+.cmap-no-key {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: rgba(224, 216, 200, 0.45);
+  text-align: center;
+  padding: 24px;
+  font-style: italic;
 }
 
-.cmap-section .leaflet-control-zoom a {
-  background: hsl(220 22% 13%) !important;
-  color: #e0d8c8 !important;
-  border: none !important;
-  border-bottom: 1px solid rgba(255,255,255,0.06) !important;
-  width: 32px !important;
-  height: 32px !important;
-  line-height: 32px !important;
-  font-size: 18px !important;
-  font-weight: 400 !important;
-  transition: background 0.15s;
+.cmap-no-key code {
+  font-family: monospace;
+  background: rgba(255,255,255,0.06);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-style: normal;
+  color: #f5c518;
 }
 
-.cmap-section .leaflet-control-zoom a:hover {
-  background: hsl(220 22% 22%) !important;
-  color: #f5c518 !important;
+/* Google Maps info window content */
+.cmap-iw {
+  font-family: 'Inter', 'Barlow', sans-serif;
+  padding: 4px 2px;
+  min-width: 170px;
 }
 
-/* Popup */
-.cmap-popup {
-  position: absolute;
-  z-index: 900;
-  background: hsl(220 22% 13%);
-  border: 1px solid rgba(245, 197, 24, 0.28);
-  border-radius: 10px;
-  padding: 14px 16px;
-  width: 200px;
-  pointer-events: none;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
-  animation: cmap-popup-in 0.16s ease;
-}
-
-@keyframes cmap-popup-in {
-  from { opacity: 0; transform: translateY(5px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.cmap-popup-name {
+.cmap-iw-name {
   font-family: 'Poppins', sans-serif;
   font-size: 14px;
   font-weight: 700;
-  color: #f5c518;
+  color: #111;
   margin-bottom: 4px;
 }
 
-.cmap-popup-desc {
+.cmap-iw-desc {
   font-size: 12px;
-  color: rgba(224, 216, 200, 0.7);
+  color: #555;
   line-height: 1.5;
   margin-bottom: 10px;
 }
 
-.cmap-popup-link {
+.cmap-iw-link {
   display: inline-block;
   font-size: 12px;
   font-weight: 600;
-  color: #f5c518;
+  color: #c49b00;
   text-decoration: none;
-  pointer-events: all;
-  transition: opacity 0.15s;
 }
 
-.cmap-popup-link:hover { opacity: 0.75; }
-
-/* Attribution */
-.cmap-credit {
-  font-size: 11px;
-  color: rgba(224, 216, 200, 0.3);
-  text-align: right;
-  padding: 6px 2px 0;
-  margin: 0;
+.cmap-iw-link:hover {
+  text-decoration: underline;
 }
 
-.cmap-credit a { color: inherit; text-decoration: underline; }
+/* Hide Google Maps default close button chrome if desired */
+.gm-style .gm-style-iw-c {
+  border-radius: 10px !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18) !important;
+}
+
+/* Zoom control style overrides */
+.cmap-map .gm-bundled-control .gmnoprint {
+  margin: 0 10px 10px 0 !important;
+}
 
 @media (max-width: 620px) {
   .cmap-map { height: 340px; }

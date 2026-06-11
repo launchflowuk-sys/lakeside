@@ -1,143 +1,115 @@
 import { useEffect, useRef } from "react";
-import type { Map as LeafletMap } from "leaflet";
+import { setOptions, importLibrary } from "@googlemaps/js-api-loader";
 import "./CoverageMap.css";
 
 const hotspots = [
   { name: "Grays",            lat: 51.4752, lng: 0.3232, desc: "Town centre, station & surrounding streets", major: true,  href: "/areas/grays" },
   { name: "Purfleet",         lat: 51.4782, lng: 0.2372, desc: "Riverside area & Purfleet-on-Thames",        major: false, href: "/areas/purfleet" },
   { name: "Chafford Hundred", lat: 51.4891, lng: 0.2963, desc: "Lakeside shopping & residential",            major: true,  href: "/areas/chafford-hundred" },
-  { name: "Tilbury",          lat: 51.4626, lng: 0.3584, desc: "Docks, cruise terminal & town centre",        major: false, href: "/areas/tilbury" },
+  { name: "Tilbury",          lat: 51.4626, lng: 0.3584, desc: "Docks, cruise terminal & town centre",       major: false, href: "/areas/tilbury" },
   { name: "South Ockendon",   lat: 51.5116, lng: 0.2953, desc: "Residential estates & village",              major: false, href: "/areas/south-ockendon" },
   { name: "Aveley",           lat: 51.5022, lng: 0.2663, desc: "Village & surrounding area",                 major: false, href: "/areas/aveley" },
   { name: "West Thurrock",    lat: 51.4878, lng: 0.2732, desc: "Retail parks & Stonehouse Corner",           major: false, href: "/areas/west-thurrock" },
-  { name: "Stanford-le-Hope", lat: 51.5147, lng: 0.4248, desc: "Town centre & station",                      major: false, href: "/areas/stanford-le-hope" },
+  { name: "Stanford-le-Hope", lat: 51.5147, lng: 0.4248, desc: "Town centre & station",                     major: false, href: "/areas/stanford-le-hope" },
   { name: "Corringham",       lat: 51.5130, lng: 0.4005, desc: "Town & surrounding villages",                major: false, href: "/areas/corringham" },
 ];
 
-const MAP_H = 480;
+const DARK_STYLE: google.maps.MapTypeStyle[] = [
+  { elementType: "geometry",           stylers: [{ color: "#1a1f2e" }] },
+  { elementType: "labels.text.stroke", stylers: [{ color: "#1a1f2e" }] },
+  { elementType: "labels.text.fill",   stylers: [{ color: "#8a96a8" }] },
+  { featureType: "administrative.locality", elementType: "labels.text.fill", stylers: [{ color: "#d0c8b8" }] },
+  { featureType: "poi",                stylers: [{ visibility: "off" }] },
+  { featureType: "road",               elementType: "geometry",         stylers: [{ color: "#2a3140" }] },
+  { featureType: "road",               elementType: "geometry.stroke",  stylers: [{ color: "#212a37" }] },
+  { featureType: "road",               elementType: "labels.text.fill", stylers: [{ color: "#6c7a8a" }] },
+  { featureType: "road.highway",       elementType: "geometry",         stylers: [{ color: "#3a4560" }] },
+  { featureType: "road.highway",       elementType: "geometry.stroke",  stylers: [{ color: "#1f2835" }] },
+  { featureType: "road.highway",       elementType: "labels.text.fill", stylers: [{ color: "#f3d19c" }] },
+  { featureType: "transit",            elementType: "geometry",         stylers: [{ color: "#2f3948" }] },
+  { featureType: "transit.station",    elementType: "labels.text.fill", stylers: [{ color: "#d59563" }] },
+  { featureType: "water",              elementType: "geometry",         stylers: [{ color: "#0f1921" }] },
+  { featureType: "water",              elementType: "labels.text.fill", stylers: [{ color: "#515c6d" }] },
+  { featureType: "water",              elementType: "labels.text.stroke", stylers: [{ color: "#17263c" }] },
+];
+
+const API_KEY = (import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? "") as string;
 
 export default function CoverageMap() {
-  // placeholderRef: always-rendered, used to measure available width synchronously
-  const placeholderRef = useRef<HTMLDivElement>(null);
-  // mapDivRef: the actual Leaflet container, created by us with explicit px dimensions
-  const mapDivRef = useRef<HTMLDivElement | null>(null);
-  const mapRef    = useRef<LeafletMap | null>(null);
+  const mapDivRef = useRef<HTMLDivElement>(null);
+  const initialised = useRef(false);
 
   useEffect(() => {
-    const placeholder = placeholderRef.current;
-    if (!placeholder || mapRef.current) return;
-
+    const el = mapDivRef.current;
+    if (!el || initialised.current) return;
+    initialised.current = true;
     let destroyed = false;
-    let map: LeafletMap | null = null;
 
-    // Read the placeholder's width — it is a block-level div so its offsetWidth
-    // is already determined by the CSS layout engine at this point.
-    const containerW = placeholder.offsetWidth;
+    if (!API_KEY) {
+      el.innerHTML = `<div class="cmap-no-key">Map visible on live site — add <code>VITE_GOOGLE_MAPS_API_KEY</code> to your Coolify environment.</div>`;
+      return;
+    }
 
-    // Create the Leaflet div with explicit px dimensions so Leaflet measures correctly
-    const el = document.createElement("div");
-    el.style.width  = `${containerW}px`;
-    el.style.height = `${MAP_H}px`;
-    el.style.position = "relative"; // for popup absolute positioning
-    placeholder.replaceWith(el);
-    mapDivRef.current = el;
+    setOptions({ key: API_KEY, v: "weekly" });
 
-    import("leaflet").then((mod) => {
-      if (destroyed || !el.isConnected) return;
-      const L = mod.default ?? mod;
+    (async () => {
+      try {
+        const { Map, InfoWindow } = await importLibrary("maps");
+        const { AdvancedMarkerElement, PinElement } = await importLibrary("marker");
+        if (destroyed || !mapDivRef.current) return;
 
-      map = L.map(el, {
-        center: [51.49, 0.34],
-        zoom: 12,
-        zoomControl: false,
-        attributionControl: false,
-        scrollWheelZoom: false,
-        preferCanvas: true,
-      });
-      mapRef.current = map;
+        const map = new Map(mapDivRef.current, {
+          center: { lat: 51.493, lng: 0.34 },
+          zoom: 12,
+          mapId: "lakeside_coverage",
+          styles: DARK_STYLE,
+          disableDefaultUI: true,
+          zoomControl: true,
+          zoomControlOptions: { position: google.maps.ControlPosition.RIGHT_BOTTOM },
+          gestureHandling: "cooperative",
+        });
 
-      L.tileLayer(
-        "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
-        { subdomains: "abcd", maxZoom: 19 }
-      ).addTo(map);
+        let openWindow: google.maps.InfoWindow | null = null;
 
-      L.control.zoom({ position: "bottomright" }).addTo(map);
+        for (const spot of hotspots) {
+          const pin = new PinElement({
+            background: "#f5c518",
+            borderColor: spot.major ? "#ffffff" : "#c9a010",
+            glyphColor: "#1a1a1a",
+            scale: spot.major ? 1.35 : 1.0,
+          });
 
-      // Popup
-      const popup = document.createElement("div");
-      popup.className = "cmap-popup";
-      popup.style.display = "none";
-      el.appendChild(popup);
+          const marker = new AdvancedMarkerElement({
+            map,
+            position: { lat: spot.lat, lng: spot.lng },
+            title: spot.name,
+            content: pin.element,
+          });
 
-      let activeMarker: ReturnType<typeof L.circleMarker> | null = null;
+          const infoWindow = new InfoWindow({
+            content: `<div class="cmap-iw">
+              <div class="cmap-iw-name">${spot.name}</div>
+              <div class="cmap-iw-desc">${spot.desc}</div>
+              <a class="cmap-iw-link" href="${spot.href}">View area &rarr;</a>
+            </div>`,
+          });
 
-      hotspots.forEach((spot) => {
-        const r = spot.major ? 14 : 10;
-
-        const marker = L.circleMarker([spot.lat, spot.lng], {
-          radius: r,
-          color: "#f5c518",
-          weight: spot.major ? 2.5 : 2,
-          fillColor: "#f5c518",
-          fillOpacity: spot.major ? 0.42 : 0.22,
-        }).addTo(map!);
-
-        L.circleMarker([spot.lat, spot.lng], {
-          radius: r + 8, color: "#f5c518", weight: 1,
-          fillOpacity: 0, opacity: 0.18, interactive: false,
-        }).addTo(map!);
-
-        const showPopup = () => {
-          const pt = map!.latLngToContainerPoint([spot.lat, spot.lng]);
-          popup.innerHTML = `
-            <div class="cmap-popup-name">${spot.name}</div>
-            <div class="cmap-popup-desc">${spot.desc}</div>
-            <a class="cmap-popup-link" href="${spot.href}">View area →</a>
-          `;
-          popup.style.display = "block";
-          const popW = 200;
-          let left = pt.x + 18;
-          if (left + popW > el.offsetWidth - 10) left = pt.x - popW - 18;
-          popup.style.left = `${Math.max(4, left)}px`;
-          popup.style.top  = `${Math.max(8, pt.y - 16)}px`;
-          if (activeMarker && activeMarker !== marker) {
-            activeMarker.setStyle({ fillOpacity: 0.22, weight: 2 });
-          }
-          marker.setStyle({ fillOpacity: 0.9, weight: 3 });
-          activeMarker = marker;
-        };
-
-        const hidePopup = () => {
-          popup.style.display = "none";
-          marker.setStyle({ fillOpacity: spot.major ? 0.42 : 0.22, weight: spot.major ? 2.5 : 2 });
-          activeMarker = null;
-        };
-
-        marker.on("mouseover", showPopup);
-        marker.on("mouseout", hidePopup);
-        marker.on("click", (e) => { L.DomEvent.stopPropagation(e); showPopup(); });
-      });
-
-      map.on("click", () => { popup.style.display = "none"; });
-
-      const onResize = () => {
-        if (!destroyed && map && el.parentElement) {
-          const newW = el.parentElement.offsetWidth;
-          el.style.width = `${newW}px`;
-          map.invalidateSize();
+          marker.addListener("click", () => {
+            openWindow?.close();
+            infoWindow.open({ map, anchor: marker });
+            openWindow = infoWindow;
+          });
         }
-      };
-      window.addEventListener("resize", onResize);
-      (el as any).__cleanup = () => window.removeEventListener("resize", onResize);
-    });
 
-    return () => {
-      destroyed = true;
-      const cleanup = (mapDivRef.current as any)?.__cleanup;
-      if (cleanup) cleanup();
-      map?.remove();
-      mapRef.current = null;
-    };
+        map.addListener("click", () => { openWindow?.close(); openWindow = null; });
+      } catch {
+        if (mapDivRef.current && !destroyed) {
+          mapDivRef.current.innerHTML = `<div class="cmap-no-key">Map unavailable — check your Google Maps API key.</div>`;
+        }
+      }
+    })();
+
+    return () => { destroyed = true; };
   }, []);
 
   return (
@@ -148,11 +120,7 @@ export default function CoverageMap() {
         <div className="cmap-legend-dot" />
         <span>Coverage area</span>
       </div>
-      {/* placeholder measured synchronously; replaced by the Leaflet div in useEffect */}
-      <div ref={placeholderRef} className="cmap-placeholder" />
-      <p className="cmap-credit">
-        Map © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors, © <a href="https://carto.com/" target="_blank" rel="noopener">CARTO</a>
-      </p>
+      <div ref={mapDivRef} className="cmap-map" />
     </div>
   );
 }
