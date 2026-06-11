@@ -5,8 +5,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.frontend
-    ports:
-      - "8080:80"
+    expose:
+      - "80"
+    networks:
+      - coolify
     depends_on:
       api:
         condition: service_started
@@ -65,3 +67,7 @@ services:
 volumes:
   postgres_data:
     driver: local
+
+networks:
+  coolify:
+    external: true
