@@ -46,12 +46,12 @@
 
 .hp-hero h1 {
   font-family: 'Poppins', sans-serif;
-  font-size: clamp(42px, 6.5vw, 84px);
-  line-height: 1.05;
-  margin: 24px 0 22px;
+  font-size: clamp(36px, 5.5vw, 72px);
+  line-height: 1.08;
+  margin: 20px 0 20px;
   text-transform: uppercase;
-  letter-spacing: -0.02em;
-  font-weight: 900;
+  letter-spacing: 0.01em;
+  font-weight: 600;
 }
 
 .hp-hero h1 span {

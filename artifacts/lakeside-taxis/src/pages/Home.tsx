@@ -178,16 +178,15 @@ export default function Home() {
 
             {/* Left: copy */}
             <div className="hp-hero-copy-block" data-testid="hero-copy">
-              <div className="hp-eyebrow">Serving Thurrock Since 1990</div>
+              <div className="hp-eyebrow">Request Your Taxi Quote Today</div>
               <h1>
                 Thurrock's
                 <span>Trusted Taxi</span>
-                Company
+                Company For Over 30 Years
               </h1>
-              <div className="hp-script">Since 1990</div>
               <p className="hp-hero-copy">
-                Local taxis, airport transfers, school runs and business travel across Grays, Purfleet,
-                Lakeside, Chafford Hundred, Tilbury and wider Thurrock.
+                From local journeys and school runs to airport transfers and corporate travel,
+                our team will confirm your availability and price quickly.
               </p>
               <div className="hp-coverage">
                 <span>Grays</span>
