@@ -38,9 +38,9 @@ export default function PrivacyPolicy() {
             <h2 className="font-display font-bold text-2xl text-foreground">4. Data retention</h2>
             <p>We retain booking request data for a reasonable period to manage ongoing journeys and for accounting purposes. You may request deletion of your data at any time by contacting us.</p>
             <h2 className="font-display font-bold text-2xl text-foreground">5. Your rights</h2>
-            <p>Under UK GDPR, you have the right to access, correct or delete your personal data. To exercise these rights, contact us at info@lakesidetaxis.co.uk.</p>
+            <p>Under UK GDPR, you have the right to access, correct or delete your personal data. To exercise these rights, contact us at info@lakesidetaxi.co.uk.</p>
             <h2 className="font-display font-bold text-2xl text-foreground">6. Contact us</h2>
-            <p>For any privacy-related queries, please contact: info@lakesidetaxis.co.uk</p>
+            <p>For any privacy-related queries, please contact: info@lakesidetaxi.co.uk</p>
           </div>
         </div>
       </section>

@@ -64,7 +64,7 @@ export default function AdminLogin() {
                 type="email"
                 {...form.register("email")}
                 className="mt-1"
-                placeholder="admin@lakesidetaxis.co.uk"
+                placeholder="admin@lakesidetaxi.co.uk"
                 data-testid="input-admin-email"
               />
               {form.formState.errors.email && (

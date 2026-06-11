@@ -28,7 +28,7 @@ export default function CookiePolicy() {
             <h2 className="font-display font-bold text-2xl text-foreground">Managing cookies</h2>
             <p>You can control and manage cookies through your browser settings. Please note that disabling cookies may affect the functionality of our website.</p>
             <h2 className="font-display font-bold text-2xl text-foreground">Contact us</h2>
-            <p>For any queries about our use of cookies, contact: info@lakesidetaxis.co.uk</p>
+            <p>For any queries about our use of cookies, contact: info@lakesidetaxi.co.uk</p>
           </div>
         </div>
       </section>

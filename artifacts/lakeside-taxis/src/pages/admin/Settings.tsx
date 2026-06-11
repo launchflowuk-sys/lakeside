@@ -52,7 +52,7 @@ export default function AdminSettings() {
         {/* Default password note */}
         <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 text-sm">
           <p className="text-yellow-400 font-semibold mb-1">Default credentials</p>
-          <p className="text-foreground/70">Default admin login: <span className="font-mono">admin@lakesidetaxis.co.uk</span> / <span className="font-mono">admin123</span></p>
+          <p className="text-foreground/70">Default admin login: <span className="font-mono">admin@lakesidetaxi.co.uk</span> / <span className="font-mono">admin123</span></p>
           <p className="text-foreground/60 text-xs mt-1">Change the admin password before going live.</p>
         </div>
       </div>

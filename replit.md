@@ -54,11 +54,11 @@ Lead-generation taxi website for Lakeside & Purfleet Taxis Ltd (Thurrock, Essex,
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- **No Replit dependencies** — no `@replit/*` packages or Replit-specific services in any artifact. Self-hosted deployment on Coolify; database is own PostgreSQL via `DATABASE_URL`.
 
 ## Gotchas
 
-- Default admin login: `admin@lakesidetaxis.co.uk` / `admin123` — **change before going live**
+- Default admin login: `admin@lakesidetaxi.co.uk` / `admin123` — **change before going live**
 - Email notifications require SMTP env vars: `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`, `ADMIN_EMAIL`
 - API proxy path is `/api` — frontend uses relative URLs through the shared Replit proxy
 - Session cookies use `sameSite: "lax"` in dev, `"strict"` in production

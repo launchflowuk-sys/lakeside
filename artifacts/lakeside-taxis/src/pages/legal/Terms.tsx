@@ -24,7 +24,7 @@ export default function Terms() {
             <h2 className="font-display font-bold text-2xl text-foreground">5. Delays and exceptional circumstances</h2>
             <p>While we aim to be punctual at all times, we cannot be held liable for delays caused by exceptional traffic, weather conditions or circumstances beyond our control.</p>
             <h2 className="font-display font-bold text-2xl text-foreground">6. Contact</h2>
-            <p>For any queries regarding these terms, contact us at info@lakesidetaxis.co.uk or call 01375 000000.</p>
+            <p>For any queries regarding these terms, contact us at info@lakesidetaxi.co.uk or call 01375 383878.</p>
           </div>
         </div>
       </section>
