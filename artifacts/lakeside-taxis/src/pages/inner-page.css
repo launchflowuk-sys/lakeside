@@ -810,6 +810,15 @@
     grid-template-columns: 1fr;
   }
 
+  .ip-faq-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .ip-faq-header {
+    position: static;
+  }
+
   .ip-cards-3,
   .ip-cards-4 {
     grid-template-columns: repeat(2, 1fr);
