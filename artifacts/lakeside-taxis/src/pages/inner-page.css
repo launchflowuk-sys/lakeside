@@ -1,0 +1,491 @@
+.ip * {
+  box-sizing: border-box;
+}
+
+.ip-inner {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+/* ── HERO ── */
+.ip-hero {
+  background:
+    linear-gradient(to right,
+      color-mix(in srgb, hsl(var(--foreground)) 93%, transparent),
+      color-mix(in srgb, hsl(var(--foreground)) 65%, transparent)),
+    var(--hero-image, url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1920&q=80'));
+  background-size: cover;
+  background-position: center;
+  color: hsl(var(--card));
+  padding: 72px 0 0;
+}
+
+.ip-hero-inner {
+  padding-bottom: 0;
+}
+
+.ip-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid color-mix(in srgb, hsl(var(--primary)) 65%, transparent);
+  color: hsl(var(--primary));
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: color-mix(in srgb, hsl(var(--foreground)) 50%, transparent);
+  margin-bottom: 20px;
+}
+
+.ip-hero h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(42px, 6vw, 82px);
+  line-height: 0.94;
+  margin: 0 0 20px;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  font-weight: 900;
+}
+
+.ip-hero h1 span {
+  color: hsl(var(--primary));
+  display: block;
+}
+
+.ip-hero-copy {
+  font-size: 18px;
+  line-height: 1.6;
+  color: color-mix(in srgb, hsl(var(--card)) 82%, transparent);
+  max-width: 600px;
+  margin-bottom: 28px;
+}
+
+.ip-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.ip-micro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  font-size: 13px;
+  color: color-mix(in srgb, hsl(var(--card)) 60%, transparent);
+  padding-bottom: 48px;
+}
+
+.ip-micro strong {
+  color: hsl(var(--primary));
+}
+
+/* ── TRUST STRIP ── */
+.ip-trust-strip {
+  border-top: 1px solid color-mix(in srgb, hsl(var(--primary)) 30%, transparent);
+  background: color-mix(in srgb, hsl(var(--foreground)) 85%, transparent);
+}
+
+.ip-trust-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.ip-trust-item {
+  padding: 20px 18px;
+  border-right: 1px solid color-mix(in srgb, hsl(var(--card)) 10%, transparent);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.ip-trust-icon {
+  color: hsl(var(--primary));
+  font-size: 26px;
+  flex-shrink: 0;
+}
+
+.ip-trust-item strong {
+  display: block;
+  color: hsl(var(--card));
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.ip-trust-item span {
+  color: color-mix(in srgb, hsl(var(--card)) 60%, transparent);
+  font-size: 12px;
+}
+
+/* ── BUTTONS ── */
+.ip-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 22px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 900;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+
+.ip-btn:hover { opacity: 0.88; }
+
+.ip-btn-primary { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
+.ip-btn-green   { background: #22C55E; color: #fff; }
+.ip-btn-outline-light {
+  color: hsl(var(--card));
+  border-color: color-mix(in srgb, hsl(var(--card)) 35%, transparent);
+  background: color-mix(in srgb, hsl(var(--foreground)) 55%, transparent);
+}
+.ip-btn-outline-dark {
+  color: hsl(var(--foreground));
+  border-color: color-mix(in srgb, hsl(var(--foreground)) 35%, transparent);
+  background: transparent;
+}
+
+/* ── SECTION SHELLS ── */
+.ip-light { padding: 80px 0; background: hsl(var(--background)); }
+.ip-dark  { padding: 80px 0; background: hsl(var(--foreground)); color: hsl(var(--card)); }
+.ip-muted { padding: 80px 0; background: hsl(var(--muted)); }
+
+.ip-kicker {
+  color: hsl(var(--primary));
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.ip-kicker-center { text-align: center; }
+
+.ip-section-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(32px, 4vw, 54px);
+  line-height: 1;
+  text-transform: uppercase;
+  margin: 0 0 14px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+.ip-section-title-center { text-align: center; }
+
+.ip-section-title span { color: hsl(var(--primary)); display: block; }
+
+.ip-section-sub {
+  font-size: 17px;
+  line-height: 1.6;
+  margin-bottom: 44px;
+}
+.ip-section-sub-center { text-align: center; max-width: 680px; margin-left: auto; margin-right: auto; }
+
+.ip-section-sub-light { color: hsl(var(--muted-foreground)); }
+.ip-section-sub-dark  { color: color-mix(in srgb, hsl(var(--card)) 75%, transparent); }
+
+/* ── TWO COL LAYOUT ── */
+.ip-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.ip-two-col-wide {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 56px;
+  align-items: center;
+}
+
+/* ── IMAGE BLOCK ── */
+.ip-image-block {
+  min-height: 380px;
+  border-radius: 18px;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid color-mix(in srgb, hsl(var(--card)) 14%, transparent);
+}
+
+.ip-image-block-light {
+  min-height: 380px;
+  border-radius: 18px;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 20px 60px color-mix(in srgb, hsl(var(--foreground)) 12%, transparent);
+}
+
+/* ── FEATURE / CHECK LISTS ── */
+.ip-check-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px;
+  display: grid;
+  gap: 13px;
+}
+
+.ip-check-list li {
+  display: flex;
+  gap: 10px;
+  line-height: 1.5;
+  font-size: 15px;
+}
+
+.ip-check-list-dark li  { color: color-mix(in srgb, hsl(var(--card)) 85%, transparent); }
+.ip-check-list-light li { color: hsl(var(--foreground)); }
+
+.ip-check-list li::before {
+  content: "✓";
+  color: hsl(var(--primary));
+  font-weight: 900;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── FEATURE CARDS GRID ── */
+.ip-cards-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.ip-cards-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.ip-cards-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+.ip-card {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 14px;
+  padding: 28px 22px;
+  box-shadow: 0 10px 30px color-mix(in srgb, hsl(var(--foreground)) 7%, transparent);
+}
+
+.ip-card-dark {
+  border: 1px solid color-mix(in srgb, hsl(var(--card)) 14%, transparent);
+  border-radius: 14px;
+  padding: 28px 22px;
+  background: color-mix(in srgb, hsl(var(--card)) 5%, transparent);
+}
+
+.ip-card-icon {
+  font-size: 32px;
+  margin-bottom: 14px;
+}
+
+.ip-card h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 17px;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+  color: hsl(var(--foreground));
+}
+
+.ip-card-dark h3 { color: hsl(var(--card)); }
+
+.ip-card p {
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 0;
+  color: hsl(var(--muted-foreground));
+}
+
+.ip-card-dark p { color: color-mix(in srgb, hsl(var(--card)) 65%, transparent); }
+
+/* ── AREA PILLS ── */
+.ip-area-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0 28px;
+}
+
+.ip-area-pill {
+  border: 1px solid color-mix(in srgb, hsl(var(--primary)) 40%, transparent);
+  border-radius: 999px;
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  color: hsl(var(--primary));
+  background: color-mix(in srgb, hsl(var(--primary)) 8%, transparent);
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.ip-area-pill:hover {
+  background: color-mix(in srgb, hsl(var(--primary)) 18%, transparent);
+}
+
+.ip-area-pill-dark {
+  border: 1px solid color-mix(in srgb, hsl(var(--card)) 20%, transparent);
+  border-radius: 999px;
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  color: hsl(var(--card));
+  background: color-mix(in srgb, hsl(var(--card)) 8%, transparent);
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+
+.ip-area-pill-dark:hover {
+  color: hsl(var(--primary));
+  border-color: hsl(var(--primary));
+}
+
+/* ── FINAL CTA BANNER ── */
+.ip-cta-banner {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  padding: 48px;
+  border-radius: 18px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 24px;
+}
+
+.ip-cta-banner h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(28px, 3.5vw, 48px);
+  line-height: 1;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+.ip-cta-banner p { margin: 0; opacity: 0.8; font-size: 15px; }
+
+.ip-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.ip-cta-btn-dark {
+  color: hsl(var(--primary-foreground));
+  border: 1px solid color-mix(in srgb, hsl(var(--primary-foreground)) 35%, transparent);
+  background: transparent;
+  padding: 14px 22px;
+  border-radius: 8px;
+  font-weight: 900;
+  font-size: 14px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+
+.ip-cta-btn-dark:hover { opacity: 0.8; }
+
+/* ── RELATED SERVICES ── */
+.ip-related-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.ip-related-card {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 12px;
+  padding: 22px 18px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  display: block;
+}
+
+.ip-related-card:hover {
+  border-color: color-mix(in srgb, hsl(var(--primary)) 50%, transparent);
+  box-shadow: 0 8px 24px color-mix(in srgb, hsl(var(--primary)) 8%, transparent);
+}
+
+.ip-related-icon { font-size: 28px; margin-bottom: 10px; }
+
+.ip-related-card h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin: 0 0 6px;
+  color: hsl(var(--foreground));
+}
+
+.ip-related-card p {
+  font-size: 13px;
+  color: hsl(var(--muted-foreground));
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 980px) {
+  .ip-two-col,
+  .ip-two-col-wide,
+  .ip-cta-banner {
+    grid-template-columns: 1fr;
+  }
+
+  .ip-cards-3,
+  .ip-cards-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ip-trust-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ip-related-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ip-cta-banner {
+    padding: 32px 24px;
+  }
+}
+
+@media (max-width: 620px) {
+  .ip-inner { width: calc(100% - 24px); }
+
+  .ip-hero h1 { font-size: 40px; }
+
+  .ip-cards-3,
+  .ip-cards-4,
+  .ip-cards-2,
+  .ip-related-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ip-trust-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ip-light,
+  .ip-dark,
+  .ip-muted {
+    padding: 56px 0;
+  }
+}

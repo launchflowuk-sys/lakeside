@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Menu, X, Phone, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -26,28 +26,10 @@ const navLinks = [
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [location] = useLocation();
 
-  const isHome = location === "/";
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const transparent = isHome && !scrolled;
-
   return (
-    <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        transparent
-          ? "bg-transparent border-b border-transparent"
-          : "bg-white/95 backdrop-blur-md border-b border-border shadow-sm"
-      }`}
-    >
+    <header className="sticky top-0 z-50 bg-white border-b border-border shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-[4.5rem]">
 
@@ -66,19 +48,13 @@ export default function Header() {
               item.children ? (
                 <div key={item.label} className="relative group">
                   <button
-                    className={`flex items-center gap-1 px-3 py-2 text-sm hover:text-primary transition-colors font-medium ${transparent ? "text-white/80" : "text-foreground/70"}`}
-                    onMouseEnter={() => setServicesOpen(true)}
-                    onMouseLeave={() => setServicesOpen(false)}
+                    className="flex items-center gap-1 px-3 py-2 text-sm hover:text-primary transition-colors font-medium text-foreground/70"
                     data-testid="nav-services-dropdown"
                   >
                     {item.label}
                     <ChevronDown className="w-3 h-3" />
                   </button>
-                  <div
-                    className="absolute top-full left-0 pt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50"
-                    onMouseEnter={() => setServicesOpen(true)}
-                    onMouseLeave={() => setServicesOpen(false)}
-                  >
+                  <div className="absolute top-full left-0 pt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
                     <div className="bg-card border border-border rounded-lg shadow-xl py-1 min-w-[200px]">
                       {item.children.map((child) => (
                         <Link
@@ -100,7 +76,7 @@ export default function Header() {
                   className={`px-3 py-2 text-sm font-medium transition-colors ${
                     location === item.href
                       ? "text-primary"
-                      : transparent ? "text-white/80 hover:text-primary" : "text-foreground/70 hover:text-primary"
+                      : "text-foreground/70 hover:text-primary"
                   }`}
                   data-testid={`nav-${item.href.replace(/\//g, "-") || "home"}`}
                 >
@@ -114,7 +90,7 @@ export default function Header() {
           <div className="flex items-center gap-2 lg:gap-3">
             <a
               href={PHONE_HREF}
-              className={`hidden md:flex items-center gap-1.5 text-sm font-semibold hover:text-primary transition-colors ${transparent ? "text-white/90" : "text-foreground/80"}`}
+              className="hidden md:flex items-center gap-1.5 text-sm font-semibold text-foreground/80 hover:text-primary transition-colors"
               data-testid="header-phone"
             >
               <Phone className="w-4 h-4 text-primary" />
@@ -130,7 +106,7 @@ export default function Header() {
               </Button>
             </Link>
             <button
-              className={`lg:hidden p-2.5 hover:text-primary ${transparent ? "text-white/80" : "text-foreground/70"}`}
+              className="lg:hidden p-2.5 text-foreground/70 hover:text-primary"
               onClick={() => setMobileOpen(!mobileOpen)}
               data-testid="mobile-menu-toggle"
             >
@@ -142,10 +118,7 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div
-          className="lg:hidden border-t border-border bg-white/98 backdrop-blur-md"
-          data-testid="mobile-menu"
-        >
+        <div className="lg:hidden border-t border-border bg-white" data-testid="mobile-menu">
           <div className="px-4 py-4 space-y-1">
             {navLinks.map((item) =>
               item.children ? (
