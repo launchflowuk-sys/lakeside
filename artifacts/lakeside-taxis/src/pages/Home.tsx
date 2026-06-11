@@ -234,7 +234,7 @@ function WhySection() {
               <h3>WhatsApp Us</h3>
               <p>The quickest way to get a fast response from our team.</p>
               <a href={WA_HREF} className="hp-why-card-btn hp-why-card-btn--green">
-                Chat on WhatsApp →
+                WhatsApp Us →
               </a>
             </div>
             <div className="hp-why-card hp-why-card--phone" style={{ "--i": 2 } as React.CSSProperties}>
