@@ -45,23 +45,23 @@ export default function Footer() {
                 TAXIS LTD
               </div>
             </div>
-            <p className="text-muted-foreground text-sm leading-relaxed mb-5">
+            <p className="text-white/55 text-sm leading-relaxed mb-5">
               Thurrock's trusted taxi company for over 30 years. Local taxis, airport transfers and business travel across Essex.
             </p>
             <div className="space-y-2">
-              <a href="tel:01375383878" className="flex items-center gap-2 text-sm text-foreground/80 hover:text-primary transition-colors">
+              <a href="tel:01375383878" className="flex items-center gap-2 text-sm text-white/70 hover:text-primary transition-colors">
                 <Phone className="w-4 h-4 text-primary flex-shrink-0" />
                 <span>01375 383878</span>
               </a>
-              <a href="https://wa.me/447879956275" className="flex items-center gap-2 text-sm text-foreground/80 hover:text-primary transition-colors">
+              <a href="https://wa.me/447879956275" className="flex items-center gap-2 text-sm text-white/70 hover:text-primary transition-colors">
                 <Phone className="w-4 h-4 text-primary flex-shrink-0" />
                 <span>WhatsApp: 07879 956275</span>
               </a>
-              <a href="mailto:info@lakesidetaxi.co.uk" className="flex items-center gap-2 text-sm text-foreground/80 hover:text-primary transition-colors">
+              <a href="mailto:info@lakesidetaxi.co.uk" className="flex items-center gap-2 text-sm text-white/70 hover:text-primary transition-colors">
                 <Mail className="w-4 h-4 text-primary flex-shrink-0" />
                 <span>info@lakesidetaxi.co.uk</span>
               </a>
-              <div className="flex items-start gap-2 text-sm text-foreground/80">
+              <div className="flex items-start gap-2 text-sm text-white/70">
                 <MapPin className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
                 <span>Thurrock, Essex, UK</span>
               </div>
@@ -76,7 +76,7 @@ export default function Footer() {
             <ul className="space-y-2">
               {serviceLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  <Link href={link.href} className="text-sm text-white/55 hover:text-primary transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -92,7 +92,7 @@ export default function Footer() {
             <ul className="space-y-2">
               {airportLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  <Link href={link.href} className="text-sm text-white/55 hover:text-primary transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -108,7 +108,7 @@ export default function Footer() {
             <ul className="space-y-2">
               {areaLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  <Link href={link.href} className="text-sm text-white/55 hover:text-primary transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -118,10 +118,10 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 pt-8 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-muted-foreground text-center sm:text-left">
+          <p className="text-xs text-white/40 text-center sm:text-left">
             &copy; {new Date().getFullYear()} Lakeside & Purfleet Taxis Ltd. All rights reserved.
           </p>
-          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+          <div className="flex items-center gap-4 text-xs text-white/50">
             <Link href="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link>
             <Link href="/terms" className="hover:text-primary transition-colors">Terms & Conditions</Link>
             <Link href="/cookie-policy" className="hover:text-primary transition-colors">Cookies</Link>

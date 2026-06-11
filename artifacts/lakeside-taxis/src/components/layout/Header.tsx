@@ -130,11 +130,11 @@ export default function Header() {
               </Button>
             </Link>
             <button
-              className={`lg:hidden p-2 hover:text-primary ${transparent ? "text-white/80" : "text-foreground/70"}`}
+              className={`lg:hidden p-2.5 hover:text-primary ${transparent ? "text-white/80" : "text-foreground/70"}`}
               onClick={() => setMobileOpen(!mobileOpen)}
               data-testid="mobile-menu-toggle"
             >
-              {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
         </div>
