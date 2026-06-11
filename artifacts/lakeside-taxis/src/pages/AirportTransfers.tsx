@@ -7,12 +7,12 @@ const WA = "https://wa.me/447879956275";
 const TEL = "tel:01375383878";
 
 const airports = [
-  { icon: "✈️", name: "Heathrow", code: "LHR", href: "/airport-transfers/heathrow", desc: "The UK's largest airport, all 5 terminals." },
-  { icon: "✈️", name: "Gatwick", code: "LGW", href: "/airport-transfers/gatwick", desc: "North and South terminals covered." },
-  { icon: "✈️", name: "Stansted", code: "STN", href: "/airport-transfers/stansted", desc: "Single terminal, fast access from Thurrock." },
-  { icon: "✈️", name: "Luton", code: "LTN", href: "/airport-transfers/luton", desc: "Popular for budget airlines and charters." },
-  { icon: "✈️", name: "London City", code: "LCY", href: "/airport-transfers/london-city", desc: "The executive airport in Docklands." },
-  { icon: "✈️", name: "Southend", code: "SEN", href: "/airport-transfers/southend", desc: "Your closest Essex airport option." },
+  { name: "Heathrow", code: "LHR", price: "£105", href: "/airport-transfers/heathrow", desc: "All 5 terminals. Meet & greet available." },
+  { name: "Gatwick", code: "LGW", price: "£80", href: "/airport-transfers/gatwick", desc: "North and South terminals covered." },
+  { name: "Stansted", code: "STN", price: "£70", href: "/airport-transfers/stansted", desc: "Single terminal. Quick access from Thurrock." },
+  { name: "Luton", code: "LTN", price: "£100", href: "/airport-transfers/luton", desc: "Popular for budget airlines and charters." },
+  { name: "London City", code: "LCY", price: "£55", href: "/airport-transfers/london-city", desc: "The executive airport in Docklands." },
+  { name: "Southend", code: "SEN", price: "£50", href: "/airport-transfers/southend", desc: "Your closest Essex airport — shortest journey." },
 ];
 
 export default function AirportTransfers() {
@@ -61,25 +61,27 @@ export default function AirportTransfers() {
         </section>
 
         {/* ── AIRPORTS GRID ── */}
-        <section className="ip-light">
+        <section className="ip-dark">
           <div className="ip-inner">
-            <div className="ip-kicker ip-kicker-center">We Cover Every Major Airport</div>
-            <h2 className="ip-section-title ip-section-title-center">Pick Your <span>Airport</span></h2>
-            <p className="ip-section-sub ip-section-sub-center ip-section-sub-light">
-              From Heathrow to Southend — we cover every terminal at every major airport serving London and Essex.
+            <div className="ip-kicker ip-kicker-center" style={{ color: "hsl(var(--primary))" }}>Fixed Prices From Thurrock</div>
+            <h2 className="ip-section-title ip-section-title-center" style={{ color: "hsl(var(--card))" }}>Airport Transfer <span>Prices</span></h2>
+            <p className="ip-section-sub ip-section-sub-center ip-section-sub-dark">
+              All prices are fixed — confirmed before travel, no surprises on the day.
             </p>
-            <div className="ip-cards-3">
+            <div className="ip-airport-grid">
               {airports.map(a => (
-                <Link key={a.href} href={a.href} className="ip-related-card" style={{ padding: "28px 22px" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
-                    <span style={{ fontSize: 28 }}>{a.icon}</span>
+                <div key={a.href} className="ip-airport-card">
+                  <div className="ip-airport-card-header">
                     <div>
-                      <div style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 900, fontSize: 18, textTransform: "uppercase" as const }}>{a.name}</div>
-                      <div style={{ fontSize: 12, opacity: 0.5, fontWeight: 700 }}>{a.code}</div>
+                      <div className="ip-airport-name">{a.name}</div>
+                      <div className="ip-airport-code">{a.code}</div>
                     </div>
                   </div>
-                  <p style={{ margin: 0, fontSize: 14, lineHeight: 1.5, color: "hsl(var(--muted-foreground))" }}>{a.desc}</p>
-                </Link>
+                  <div className="ip-airport-price">{a.price}</div>
+                  <div className="ip-airport-price-label">fixed price from Thurrock</div>
+                  <p className="ip-airport-desc">{a.desc}</p>
+                  <Link href="/quote-request" className="ip-airport-book-btn">Book Now →</Link>
+                </div>
               ))}
             </div>
           </div>
