@@ -162,7 +162,7 @@ export default function CruiseTerminalTransfers() {
         {/* ── HERO ── */}
         <section
           className="ip-hero cruise-hero"
-          style={{ "--hero-image": "url('https://images.unsplash.com/photo-1548438294-1ad5d5f4f063?auto=format&fit=crop&w=1920&q=80')" } as React.CSSProperties}
+          style={{ "--hero-image": "url('/cruise-hero-desktop.webp')" } as React.CSSProperties}
         >
           <div className="ip-inner ip-hero-inner">
 
@@ -306,11 +306,8 @@ export default function CruiseTerminalTransfers() {
               </ul>
             </div>
             <div
-              className="ip-image-block"
-              style={{
-                backgroundImage: "url('https://images.unsplash.com/photo-1519677100203-a0e668c92439?auto=format&fit=crop&w=900&q=80')",
-                minHeight: 420,
-              }}
+              className="ip-image-block cruise-terminal-placeholder"
+              style={{ minHeight: 420 }}
             />
           </div>
         </section>
