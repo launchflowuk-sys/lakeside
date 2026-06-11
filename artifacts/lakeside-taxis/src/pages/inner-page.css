@@ -562,6 +562,67 @@
   .ip-airport-price { font-size: 28px; }
 }
 
+/* ── COVERAGE MAP ── */
+.ip-map-section {
+  padding: 80px 0 72px;
+}
+
+.ip-map-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 36px;
+}
+
+.ip-map-header > div:first-child {
+  max-width: 560px;
+}
+
+.ip-map-stats {
+  display: flex;
+  gap: 28px;
+  flex-shrink: 0;
+}
+
+.ip-map-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+}
+
+.ip-map-stat strong {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(28px, 3vw, 42px);
+  font-weight: 900;
+  color: hsl(var(--primary));
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.ip-map-stat span {
+  font-size: 12px;
+  color: color-mix(in srgb, hsl(var(--card)) 45%, transparent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .ip-map-header {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+  .ip-map-stats {
+    gap: 20px;
+  }
+  .ip-map-stat {
+    align-items: flex-start;
+  }
+}
+
 /* ── FAQ ── */
 .ip-faq-section {
   background: hsl(220 25% 7%);

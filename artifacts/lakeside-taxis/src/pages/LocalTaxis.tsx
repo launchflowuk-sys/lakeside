@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/layout/Layout";
+import CoverageMap from "@/components/CoverageMap";
 import "./inner-page.css";
 
 const WA = "https://wa.me/447879956275";
@@ -60,6 +61,27 @@ export default function LocalTaxis() {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* ── COVERAGE MAP ── */}
+        <section className="ip-dark ip-map-section">
+          <div className="ip-inner">
+            <div className="ip-map-header">
+              <div>
+                <div className="ip-kicker">Coverage Area</div>
+                <h2 className="ip-section-title">Where We <span>Cover</span></h2>
+                <p className="ip-section-sub ip-section-sub-dark">
+                  Hover or tap any hotspot to explore our coverage across Thurrock Borough. Click through to each area page.
+                </p>
+              </div>
+              <div className="ip-map-stats">
+                <div className="ip-map-stat"><strong>9</strong><span>Areas</span></div>
+                <div className="ip-map-stat"><strong>30+</strong><span>Years local</span></div>
+                <div className="ip-map-stat"><strong>24/7</strong><span>Available</span></div>
+              </div>
+            </div>
+            <CoverageMap />
           </div>
         </section>
 
