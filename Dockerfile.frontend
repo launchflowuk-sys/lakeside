@@ -26,9 +26,12 @@ COPY artifacts/lakeside-taxis/ artifacts/lakeside-taxis/
 RUN pnpm run typecheck:libs 2>/dev/null || true
 
 # Vite requires PORT and BASE_PATH — provide them for the build step only
+# VITE_GOOGLE_MAPS_API_KEY is baked into the JS bundle at build time
+ARG VITE_GOOGLE_MAPS_API_KEY
 ENV PORT=3000 \
     BASE_PATH=/ \
-    NODE_ENV=production
+    NODE_ENV=production \
+    VITE_GOOGLE_MAPS_API_KEY=${VITE_GOOGLE_MAPS_API_KEY}
 
 RUN pnpm --filter @workspace/lakeside-taxis run build
 
