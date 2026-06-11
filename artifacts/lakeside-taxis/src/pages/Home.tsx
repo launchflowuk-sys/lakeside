@@ -10,12 +10,12 @@ const PHONE_HREF = "tel:01375383878";
 const WA_HREF = "https://wa.me/447879956275";
 
 const services = [
-  { title: "Local Taxi", desc: "Fast, reliable taxis across Thurrock — day and night, 365 days a year.", href: "/local-taxis", bg: "https://images.unsplash.com/photo-1537726235470-8504e3beef77?w=700&q=80" },
-  { title: "Airport Transfers", desc: "Fixed-price transfers to all major UK airports — Heathrow, Gatwick, Stansted and more.", href: "/airport-transfers", bg: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=700&q=80" },
-  { title: "School Runs", desc: "Safe, reliable school transport with DBS-checked, experienced drivers.", href: "/school-runs", bg: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=700&q=80" },
-  { title: "Corporate Travel", desc: "Professional business travel solutions and managed corporate accounts.", href: "/corporate-accounts", bg: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=700&q=80" },
-  { title: "Long Distance", desc: "Comfortable, stress-free UK-wide journeys with upfront pricing.", href: "/long-distance-travel", bg: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=700&q=80" },
-  { title: "Any Journey", desc: "Something else? We cover every journey — just get in touch.", href: "/quote-request", bg: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=700&q=80" },
+  { title: "Local Taxi", desc: "Fast, reliable taxis across Thurrock — day and night, 365 days a year.", href: "/local-taxis", bg: "/images/services/local-taxi.webp" },
+  { title: "Airport Transfers", desc: "Fixed-price transfers to all major UK airports — Heathrow, Gatwick, Stansted and more.", href: "/airport-transfers", bg: "/images/services/airport.webp" },
+  { title: "School Runs", desc: "Safe, reliable school transport with DBS-checked, experienced drivers.", href: "/school-runs", bg: "/images/services/school-runs.webp" },
+  { title: "Corporate Travel", desc: "Professional business travel solutions and managed corporate accounts.", href: "/corporate-accounts", bg: "/images/services/corporate.webp" },
+  { title: "Long Distance", desc: "Comfortable, stress-free UK-wide journeys with upfront pricing.", href: "/long-distance-travel", bg: "/images/services/long-distance.webp" },
+  { title: "Any Journey", desc: "Something else? We cover every journey — just get in touch.", href: "/quote-request", bg: "/images/services/airport.webp" },
 ];
 
 interface Review {
