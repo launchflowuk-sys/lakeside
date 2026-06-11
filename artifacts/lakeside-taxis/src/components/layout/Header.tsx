@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { Menu, X, Phone, ChevronDown, Anchor } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -26,9 +26,16 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [location] = useLocation();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-transparent lg:bg-white border-b border-transparent lg:border-border shadow-none lg:shadow-sm">
+    <header className={`sticky top-0 z-50 transition-all duration-300 lg:bg-white lg:border-b lg:border-border lg:shadow-sm ${scrolled ? "bg-white border-b border-border shadow-sm" : "bg-transparent border-b border-transparent shadow-none"}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-[4.5rem]">
 
