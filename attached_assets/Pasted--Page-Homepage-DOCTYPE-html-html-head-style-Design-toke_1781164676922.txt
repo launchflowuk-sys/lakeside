@@ -1,0 +1,853 @@
+<!-- Page: Homepage -->
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* ── Design tokens — must use these exact names ── */
+    :root {
+      --background: #FAFAFA;
+      --foreground: #141820;
+      --primary: #F5C518;
+      --primary-foreground: #141820;
+      --muted: #F1F2F4;
+      --muted-foreground: #6B7280;
+      --card: #FFFFFF;
+      --border: #E0E2E8;
+      --green: #22C55E;
+      --radius: 8px;
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+    /* Page-specific styles only — no header/footer/nav */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: var(--background);
+      color: var(--foreground);
+      font-family: var(--font-body);
+    }
+    .page {
+      overflow: hidden;
+    }
+    .section-inner {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+    .hero {
+      min-height: 760px;
+      background:
+        linear-gradient(to right, color-mix(in srgb, var(--foreground) 92%, transparent), color-mix(in srgb, var(--foreground) 62%, transparent)),
+        url('/images/lakeside-hero.jpg');
+      background-size: cover;
+      background-position: center;
+      color: var(--card);
+      padding: 82px 0 0;
+      position: relative;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 58px;
+      align-items: center;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid color-mix(in srgb, var(--primary) 65%, transparent);
+      color: var(--primary);
+      padding: 9px 16px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: color-mix(in srgb, var(--foreground) 50%, transparent);
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 7vw, 92px);
+      line-height: 0.92;
+      margin: 24px 0 18px;
+      text-transform: uppercase;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+    }
+    .hero h1 span {
+      color: var(--primary);
+      display: block;
+    }
+    .script {
+      font-family: var(--font-display);
+      color: var(--primary);
+      font-size: clamp(34px, 4vw, 56px);
+      font-style: italic;
+      margin-bottom: 24px;
+      font-weight: 700;
+    }
+    .hero-copy {
+      max-width: 650px;
+      font-size: 20px;
+      line-height: 1.55;
+      color: color-mix(in srgb, var(--card) 86%, transparent);
+      margin-bottom: 18px;
+    }
+    .coverage {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      color: color-mix(in srgb, var(--card) 90%, transparent);
+      font-weight: 700;
+      margin: 22px 0 28px;
+    }
+    .coverage span::before {
+      content: "✦";
+      color: var(--primary);
+      margin-right: 8px;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 22px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: 900;
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      border: 1px solid transparent;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+    .btn-green {
+      background: var(--green);
+      color: var(--card);
+    }
+    .btn-outline {
+      color: var(--card);
+      border-color: color-mix(in srgb, var(--card) 35%, transparent);
+      background: color-mix(in srgb, var(--foreground) 58%, transparent);
+    }
+    .micro-proof {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      color: color-mix(in srgb, var(--card) 78%, transparent);
+      font-size: 14px;
+      margin-top: 8px;
+    }
+    .micro-proof strong {
+      color: var(--primary);
+    }
+    .quote-card {
+      background: color-mix(in srgb, var(--foreground) 90%, transparent);
+      border: 1px solid color-mix(in srgb, var(--card) 18%, transparent);
+      border-radius: 22px;
+      padding: 34px;
+      box-shadow: 0 26px 80px color-mix(in srgb, var(--foreground) 70%, transparent);
+    }
+    .quote-card h2 {
+      font-family: var(--font-display);
+      color: var(--primary);
+      font-size: 34px;
+      line-height: 1;
+      margin: 0 0 12px;
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+    .quote-card p {
+      color: color-mix(in srgb, var(--card) 78%, transparent);
+      margin: 0 0 22px;
+      line-height: 1.5;
+    }
+    .quote-form {
+      display: grid;
+      gap: 13px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 13px;
+    }
+    .field label {
+      display: block;
+      font-size: 12px;
+      color: color-mix(in srgb, var(--card) 72%, transparent);
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+    .field input,
+    .field select {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid color-mix(in srgb, var(--card) 18%, transparent);
+      background: color-mix(in srgb, var(--foreground) 74%, transparent);
+      color: var(--card);
+      border-radius: var(--radius);
+      padding: 0 14px;
+      font-family: var(--font-body);
+    }
+    .quote-submit {
+      margin-top: 8px;
+      width: 100%;
+      min-height: 54px;
+      border: 0;
+      border-radius: var(--radius);
+      background: var(--primary);
+      color: var(--primary-foreground);
+      font-weight: 900;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .form-disclaimer {
+      display: flex;
+      gap: 10px;
+      font-size: 13px;
+      color: color-mix(in srgb, var(--card) 70%, transparent);
+      margin-top: 14px;
+      line-height: 1.5;
+    }
+    .hero-trust-strip {
+      margin-top: 58px;
+      border-top: 1px solid color-mix(in srgb, var(--primary) 35%, transparent);
+      border-bottom: 1px solid color-mix(in srgb, var(--primary) 35%, transparent);
+      background: color-mix(in srgb, var(--foreground) 82%, transparent);
+    }
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+    }
+    .trust-item {
+      padding: 24px 18px;
+      border-right: 1px solid color-mix(in srgb, var(--card) 12%, transparent);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .trust-icon {
+      color: var(--primary);
+      font-size: 28px;
+    }
+    .trust-item strong {
+      display: block;
+      color: var(--card);
+      font-size: 15px;
+      text-transform: uppercase;
+    }
+    .trust-item span {
+      color: color-mix(in srgb, var(--card) 66%, transparent);
+      font-size: 13px;
+    }
+    .light-section {
+      padding: 82px 0;
+      background: var(--background);
+    }
+    .dark-section {
+      padding: 82px 0;
+      background: var(--foreground);
+      color: var(--card);
+    }
+    .section-kicker {
+      color: var(--primary);
+      font-weight: 900;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(34px, 4vw, 58px);
+      line-height: 1;
+      text-transform: uppercase;
+      text-align: center;
+      margin: 0 0 42px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 18px;
+    }
+    .service-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 14px 40px color-mix(in srgb, var(--foreground) 10%, transparent);
+    }
+    .service-image {
+      height: 120px;
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-foreground);
+      font-size: 36px;
+      position: relative;
+    }
+    .service-icon {
+      position: absolute;
+      top: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      color: var(--primary-foreground);
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      border: 4px solid var(--background);
+    }
+    .service-body {
+      padding: 22px 16px 20px;
+      text-align: center;
+    }
+    .service-body h3 {
+      margin: 0 0 8px;
+      font-family: var(--font-display);
+      text-transform: uppercase;
+      font-size: 16px;
+      font-weight: 900;
+    }
+    .service-body p {
+      margin: 0;
+      color: var(--muted-foreground);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .center-cta {
+      text-align: center;
+      margin-top: 34px;
+    }
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 56px;
+      align-items: center;
+    }
+    .why-title {
+      font-family: var(--font-display);
+      font-size: clamp(34px, 4vw, 56px);
+      line-height: 1;
+      text-transform: uppercase;
+      margin: 0 0 22px;
+      font-weight: 900;
+    }
+    .why-title span {
+      color: var(--primary);
+      display: block;
+    }
+    .check-list {
+      display: grid;
+      gap: 12px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+    .check-list li {
+      display: flex;
+      gap: 10px;
+      color: color-mix(in srgb, var(--card) 86%, transparent);
+    }
+    .check-list li::before {
+      content: "✓";
+      color: var(--primary);
+      font-weight: 900;
+    }
+    .contact-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+    .contact-card {
+      border: 1px solid color-mix(in srgb, var(--card) 16%, transparent);
+      border-radius: 16px;
+      padding: 30px 24px;
+      text-align: center;
+      background: color-mix(in srgb, var(--card) 4%, transparent);
+    }
+    .contact-card .icon {
+      color: var(--primary);
+      font-size: 38px;
+      margin-bottom: 18px;
+    }
+    .contact-card h3 {
+      font-family: var(--font-display);
+      text-transform: uppercase;
+      margin: 0 0 10px;
+    }
+    .contact-card p {
+      color: color-mix(in srgb, var(--card) 68%, transparent);
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+    .testimonials {
+      background: var(--background);
+      padding: 82px 0;
+    }
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .testimonial-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 26px;
+      box-shadow: 0 16px 40px color-mix(in srgb, var(--foreground) 8%, transparent);
+    }
+    .stars {
+      color: var(--primary);
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+    }
+    .testimonial-card p {
+      color: var(--foreground);
+      line-height: 1.55;
+      margin: 0 0 20px;
+    }
+    .person {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--foreground);
+      color: var(--card);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+    .person strong {
+      display: block;
+    }
+    .person span {
+      color: var(--muted-foreground);
+      font-size: 13px;
+    }
+    .airport-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .airport-image {
+      min-height: 340px;
+      border-radius: 18px;
+      background:
+        linear-gradient(to bottom, color-mix(in srgb, var(--primary) 25%, transparent), color-mix(in srgb, var(--foreground) 70%, transparent)),
+        url('/images/airport-transfer.jpg');
+      background-size: cover;
+      background-position: center;
+      border: 1px solid color-mix(in srgb, var(--card) 14%, transparent);
+    }
+    .airport-title {
+      font-family: var(--font-display);
+      font-size: clamp(34px, 4vw, 56px);
+      line-height: 1;
+      text-transform: uppercase;
+      margin: 0 0 18px;
+      font-weight: 900;
+    }
+    .airport-title span {
+      color: var(--primary);
+      display: block;
+    }
+    .airport-list {
+      list-style: none;
+      padding: 0;
+      margin: 22px 0;
+      display: grid;
+      gap: 12px;
+    }
+    .airport-list li::before {
+      content: "✓";
+      color: var(--primary);
+      font-weight: 900;
+      margin-right: 10px;
+    }
+    .airport-buttons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 22px;
+    }
+    .airport-pill {
+      border: 1px solid color-mix(in srgb, var(--card) 16%, transparent);
+      border-radius: var(--radius);
+      padding: 14px;
+      text-align: center;
+      color: var(--card);
+      text-decoration: none;
+      font-weight: 900;
+    }
+    .final-cta {
+      background: var(--primary);
+      color: var(--primary-foreground);
+      padding: 46px;
+      border-radius: 18px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 24px;
+      margin-top: 64px;
+    }
+    .final-cta h2 {
+      font-family: var(--font-display);
+      font-size: clamp(30px, 4vw, 52px);
+      line-height: 1;
+      margin: 0 0 8px;
+      text-transform: uppercase;
+    }
+    .final-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .final-actions .btn-outline {
+      color: var(--primary-foreground);
+      border-color: color-mix(in srgb, var(--primary-foreground) 35%, transparent);
+      background: transparent;
+    }
+    @media (max-width: 980px) {
+      .hero {
+        min-height: auto;
+        padding: 54px 0 0;
+      }
+      .hero-grid,
+      .why-grid,
+      .airport-grid,
+      .final-cta {
+        grid-template-columns: 1fr;
+      }
+      .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .trust-grid,
+      .testimonial-grid,
+      .contact-cards {
+        grid-template-columns: 1fr;
+      }
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      .airport-buttons {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 620px) {
+      .section-inner {
+        width: min(100% - 24px, 1180px);
+      }
+      .hero h1 {
+        font-size: 46px;
+      }
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+      .airport-buttons {
+        grid-template-columns: 1fr;
+      }
+      .quote-card {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section id="hero" class="hero" data-section="hero">
+      <div class="section-inner hero-grid">
+        <div class="hero-copy-block">
+          <div class="eyebrow">Serving Thurrock Since 1990</div>
+          <h1>
+            Thurrock's
+            <span>Trusted Taxi</span>
+            Company
+          </h1>
+          <div class="script">Since 1990</div>
+          <p class="hero-copy">
+            Local taxis, airport transfers, school runs and business travel across Grays, Purfleet, Lakeside, Chafford Hundred, Tilbury and wider Thurrock.
+          </p>
+          <div class="coverage">
+            <span>Grays</span>
+            <span>Purfleet</span>
+            <span>Chafford Hundred</span>
+            <span>Tilbury</span>
+            <span>Aveley</span>
+            <span>West Thurrock</span>
+            <span>Stanford-le-Hope</span>
+          </div>
+          <div class="hero-actions">
+            <!-- CTA → links to /quote-request -->
+            <a href="/quote-request" class="btn btn-primary">Request a Quote →</a>
+            <!-- CTA → links to WhatsApp -->
+            <a href="https://wa.me/447879956275" class="btn btn-green">WhatsApp Us</a>
+            <!-- CTA → phone call -->
+            <a href="tel:01375383878" class="btn btn-outline">01375 383878</a>
+          </div>
+          <div class="micro-proof">
+            <span><strong>⚡</strong> We reply within 2 hours</span>
+            <span><strong>✓</strong> No payment required</span>
+            <span><strong>✓</strong> No app required</span>
+          </div>
+        </div>
+        <div class="quote-card">
+          <h2>Get Your Taxi Quote</h2>
+          <p>Reply within 2 hours. No payment required. No obligation.</p>
+          <form class="quote-form">
+            <div class="field">
+              <label>Journey Type</label>
+              <select>
+                <option>Select journey type</option>
+                <option>Local Taxi</option>
+                <option>Airport Transfer</option>
+                <option>School Run</option>
+                <option>Corporate Travel</option>
+                <option>Long Distance</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Pickup Location</label>
+              <input type="text" placeholder="Enter pickup location" />
+            </div>
+            <div class="field">
+              <label>Destination</label>
+              <input type="text" placeholder="Enter destination" />
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label>Date</label>
+                <input type="text" placeholder="DD/MM/YYYY" />
+              </div>
+              <div class="field">
+                <label>Time</label>
+                <input type="text" placeholder="HH:MM" />
+              </div>
+            </div>
+            <!-- CTA → continue multi-step form /quote-request -->
+            <button class="quote-submit" type="button">Continue →</button>
+            <div class="form-disclaimer">
+              <span>🔒</span>
+              <span>This is a booking request only. Our team will confirm availability and pricing.</span>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="hero-trust-strip">
+        <div class="section-inner trust-grid">
+          <div class="trust-item">
+            <div class="trust-icon">🛡</div>
+            <div><strong>30+ Years</strong><span>Serving Thurrock</span></div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">✈</div>
+            <div><strong>Airport Transfer</strong><span>Specialists</span></div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">🏢</div>
+            <div><strong>Corporate Accounts</strong><span>Available</span></div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">✓</div>
+            <div><strong>Fully Licensed</strong><span>& Insured</span></div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon">👥</div>
+            <div><strong>Local Thurrock</strong><span>Drivers</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="services" class="light-section" data-section="services">
+      <div class="section-inner">
+        <div class="section-kicker">Every Journey, Covered</div>
+        <h2 class="section-title">Our Services</h2>
+        <div class="services-grid">
+          <article class="service-card">
+            <div class="service-image"><div class="service-icon">🚕</div></div>
+            <div class="service-body">
+              <h3>Local Taxi</h3>
+              <p>Fast, reliable local taxis across Thurrock day and night.</p>
+            </div>
+          </article>
+          <article class="service-card">
+            <div class="service-image"><div class="service-icon">✈</div></div>
+            <div class="service-body">
+              <h3>Airport Transfers</h3>
+              <p>Transfers to and from all major airports in the UK.</p>
+            </div>
+          </article>
+          <article class="service-card">
+            <div class="service-image"><div class="service-icon">🎒</div></div>
+            <div class="service-body">
+              <h3>School Runs</h3>
+              <p>Safe, reliable school transport you can count on.</p>
+            </div>
+          </article>
+          <article class="service-card">
+            <div class="service-image"><div class="service-icon">💼</div></div>
+            <div class="service-body">
+              <h3>Corporate Travel</h3>
+              <p>Business travel solutions and corporate accounts.</p>
+            </div>
+          </article>
+          <article class="service-card">
+            <div class="service-image"><div class="service-icon">🛣</div></div>
+            <div class="service-body">
+              <h3>Long Distance</h3>
+              <p>UK-wide journeys made comfortable and stress-free.</p>
+            </div>
+          </article>
+          <article class="service-card">
+            <div class="service-image"><div class="service-icon">•••</div></div>
+            <div class="service-body">
+              <h3>Other Services</h3>
+              <p>Any other journey? We are here to help.</p>
+            </div>
+          </article>
+        </div>
+        <div class="center-cta">
+          <!-- CTA → links to /quote-request -->
+          <a href="/quote-request" class="btn btn-primary">Request a Quote for Any Journey →</a>
+        </div>
+      </div>
+    </section>
+    <section id="why-choose-us" class="dark-section" data-section="why-choose-us">
+      <div class="section-inner why-grid">
+        <div>
+          <div class="section-kicker" style="text-align:left;">Local People. Local Service.</div>
+          <h2 class="why-title">Why Thurrock <span>Chooses Us</span></h2>
+          <ul class="check-list">
+            <li>Over 30 years of trusted local service</li>
+            <li>Fully licensed, insured and compliant</li>
+            <li>Professional drivers and clean vehicles</li>
+            <li>Local taxis, airport transfers and business travel</li>
+            <li>Price confirmed before you travel</li>
+            <li>We reply to quote requests within 2 hours</li>
+          </ul>
+        </div>
+        <div class="contact-cards">
+          <div class="contact-card">
+            <div class="icon">📄</div>
+            <h3>Get a Quote</h3>
+            <p>Send your journey details and we will get back to you.</p>
+            <!-- CTA → links to /quote-request -->
+            <a href="/quote-request" class="btn btn-primary">Request Quote</a>
+          </div>
+          <div class="contact-card">
+            <div class="icon">🟢</div>
+            <h3>WhatsApp Us</h3>
+            <p>The quickest way to get a fast response.</p>
+            <!-- CTA → links to WhatsApp -->
+            <a href="https://wa.me/447879956275" class="btn btn-green">Chat on WhatsApp</a>
+          </div>
+          <div class="contact-card">
+            <div class="icon">📞</div>
+            <h3>Call Us</h3>
+            <p>Speak directly with our friendly team.</p>
+            <!-- CTA → phone call -->
+            <a href="tel:01375383878" class="btn btn-outline">01375 383878</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="testimonials" class="testimonials" data-section="testimonials">
+      <div class="section-inner">
+        <div class="section-kicker">Trusted by Customers Across Thurrock</div>
+        <h2 class="section-title">What Our Customers Say</h2>
+        <div class="testimonial-grid">
+          <article class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>Excellent service from start to finish. Driver was on time, friendly and the car was spotless. Highly recommend.</p>
+            <div class="person">
+              <div class="avatar">L</div>
+              <div><strong>Lisa M.</strong><span>Heathrow Airport Transfer</span></div>
+            </div>
+          </article>
+          <article class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>We use Lakeside Taxis for school runs. Always reliable and great communication.</p>
+            <div class="person">
+              <div class="avatar">M</div>
+              <div><strong>Mark T.</strong><span>School Run Service</span></div>
+            </div>
+          </article>
+          <article class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>Professional, punctual and great prices. Our go-to taxi company for business travel.</p>
+            <div class="person">
+              <div class="avatar">J</div>
+              <div><strong>James R.</strong><span>Corporate Account</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section id="airport-transfers" class="dark-section" data-section="airport-transfers">
+      <div class="section-inner">
+        <div class="airport-grid">
+          <div class="airport-image"></div>
+          <div>
+            <h2 class="airport-title">Airport Transfers <span>From Thurrock</span></h2>
+            <p>Reliable airport transfers from Grays, Purfleet, Lakeside and wider Thurrock to all major UK airports.</p>
+            <ul class="airport-list">
+              <li>Heathrow, Gatwick, Stansted, Luton, London City and Southend</li>
+              <li>Meet and greet available</li>
+              <li>Flight monitoring for delays</li>
+              <li>Fixed price confirmed before travel</li>
+              <li>24/7 airport transfer service</li>
+            </ul>
+            <div class="airport-buttons">
+              <a href="/airport-transfers/heathrow" class="airport-pill">Heathrow<br>LHR</a>
+              <a href="/airport-transfers/gatwick" class="airport-pill">Gatwick<br>LGW</a>
+              <a href="/airport-transfers/stansted" class="airport-pill">Stansted<br>STN</a>
+              <a href="/airport-transfers/luton" class="airport-pill">Luton<br>LTN</a>
+              <a href="/airport-transfers/london-city" class="airport-pill">London City<br>LCY</a>
+              <a href="/airport-transfers/southend" class="airport-pill">Southend<br>SEN</a>
+            </div>
+            <div class="center-cta" style="text-align:left;">
+              <!-- CTA → links to /quote-request -->
+              <a href="/quote-request" class="btn btn-primary">Get Airport Transfer Quote →</a>
+            </div>
+          </div>
+        </div>
+        <div class="final-cta" data-section="final-cta">
+          <div>
+            <h2>Need a Taxi in Thurrock?</h2>
+            <p>Fast response. Friendly service. Always here for you.</p>
+          </div>
+          <div class="final-actions">
+            <!-- CTA → links to WhatsApp -->
+            <a href="https://wa.me/447879956275" class="btn btn-green">WhatsApp Us</a>
+            <!-- CTA → phone call -->
+            <a href="tel:01375383878" class="btn btn-outline">01375 383878</a>
+            <!-- CTA → links to /quote-request -->
+            <a href="/quote-request" class="btn btn-outline">Request a Quote</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
