@@ -306,8 +306,12 @@ export default function CruiseTerminalTransfers() {
               </ul>
             </div>
             <div
-              className="ip-image-block cruise-terminal-placeholder"
-              style={{ minHeight: 420 }}
+              className="ip-image-block"
+              style={{
+                backgroundImage: "url('/cruise-terminal-aerial.webp')",
+                backgroundPosition: "center center",
+                minHeight: 420,
+              }}
             />
           </div>
         </section>
