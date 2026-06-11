@@ -49,17 +49,17 @@ export default function Footer() {
               Thurrock's trusted taxi company for over 30 years. Local taxis, airport transfers and business travel across Essex.
             </p>
             <div className="space-y-2">
-              <a href="tel:01375000000" className="flex items-center gap-2 text-sm text-foreground/80 hover:text-primary transition-colors">
+              <a href="tel:01375383878" className="flex items-center gap-2 text-sm text-foreground/80 hover:text-primary transition-colors">
                 <Phone className="w-4 h-4 text-primary flex-shrink-0" />
-                <span>01375 000000</span>
+                <span>01375 383878</span>
               </a>
-              <a href="https://wa.me/447700000000" className="flex items-center gap-2 text-sm text-foreground/80 hover:text-primary transition-colors">
+              <a href="https://wa.me/447879956275" className="flex items-center gap-2 text-sm text-foreground/80 hover:text-primary transition-colors">
                 <Phone className="w-4 h-4 text-primary flex-shrink-0" />
-                <span>WhatsApp: 07700 000000</span>
+                <span>WhatsApp: 07879 956275</span>
               </a>
-              <a href="mailto:info@lakesidetaxis.co.uk" className="flex items-center gap-2 text-sm text-foreground/80 hover:text-primary transition-colors">
+              <a href="mailto:info@lakesidetaxi.co.uk" className="flex items-center gap-2 text-sm text-foreground/80 hover:text-primary transition-colors">
                 <Mail className="w-4 h-4 text-primary flex-shrink-0" />
-                <span>info@lakesidetaxis.co.uk</span>
+                <span>info@lakesidetaxi.co.uk</span>
               </a>
               <div className="flex items-start gap-2 text-sm text-foreground/80">
                 <MapPin className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Core pages -->
+  <url><loc>https://lakesidetaxi.co.uk/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/about</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/contact</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/quote-request</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+
+  <!-- Services -->
+  <url><loc>https://lakesidetaxi.co.uk/local-taxis</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/airport-transfers</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/corporate-accounts</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/school-runs</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/long-distance-travel</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Airport transfer pages -->
+  <url><loc>https://lakesidetaxi.co.uk/airport-transfers/heathrow</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/airport-transfers/gatwick</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/airport-transfers/stansted</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/airport-transfers/luton</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/airport-transfers/london-city</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/airport-transfers/southend</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <!-- Area pages -->
+  <url><loc>https://lakesidetaxi.co.uk/areas/grays</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/areas/purfleet</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/areas/chafford-hundred</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/areas/tilbury</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/areas/south-ockendon</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/areas/aveley</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/areas/west-thurrock</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/areas/stanford-le-hope</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/areas/corringham</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Legal -->
+  <url><loc>https://lakesidetaxi.co.uk/privacy-policy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/terms</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/cookie-policy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+
+</urlset>

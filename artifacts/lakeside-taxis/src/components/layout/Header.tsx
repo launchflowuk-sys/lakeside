@@ -3,8 +3,8 @@ import { Link, useLocation } from "wouter";
 import { Menu, X, Phone, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const PHONE = "01375 000000";
-const PHONE_HREF = "tel:01375000000";
+const PHONE = "01375 383878";
+const PHONE_HREF = "tel:01375383878";
 
 const navLinks = [
   { href: "/", label: "Home" },

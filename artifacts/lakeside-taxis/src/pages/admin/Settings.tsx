@@ -29,9 +29,9 @@ export default function AdminSettings() {
         <div className="bg-card border border-border rounded-xl p-5">
           <h2 className="font-semibold text-foreground mb-4">Business Details</h2>
           <div className="grid sm:grid-cols-2 gap-3 text-sm">
-            <div className="flex gap-2"><Phone className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><div><p className="text-muted-foreground text-xs">Phone</p><p className="text-foreground">01375 000000</p></div></div>
-            <div className="flex gap-2"><Phone className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><div><p className="text-muted-foreground text-xs">WhatsApp</p><p className="text-foreground">07700 000000</p></div></div>
-            <div className="flex gap-2"><Mail className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><div><p className="text-muted-foreground text-xs">Email</p><p className="text-foreground">info@lakesidetaxis.co.uk</p></div></div>
+            <div className="flex gap-2"><Phone className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><div><p className="text-muted-foreground text-xs">Phone</p><p className="text-foreground">01375 383878</p></div></div>
+            <div className="flex gap-2"><Phone className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><div><p className="text-muted-foreground text-xs">WhatsApp</p><p className="text-foreground">07879 956275</p></div></div>
+            <div className="flex gap-2"><Mail className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><div><p className="text-muted-foreground text-xs">Email</p><p className="text-foreground">info@lakesidetaxi.co.uk</p></div></div>
             <div className="flex gap-2"><Globe className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" /><div><p className="text-muted-foreground text-xs">Location</p><p className="text-foreground">Thurrock, Essex</p></div></div>
           </div>
         </div>

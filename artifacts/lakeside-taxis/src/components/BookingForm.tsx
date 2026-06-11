@@ -543,6 +543,9 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
               <p className="font-semibold text-primary mb-1">Important — please read</p>
               <p>This is a booking request, not a confirmed booking. Our team will review your journey details and contact you with price and availability. Your booking is not confirmed until our team contacts you.</p>
             </div>
+            <p className="text-xs text-muted-foreground text-center">
+              We only use your details to respond to your taxi enquiry. We do not sell your information.
+            </p>
 
             {submitLead.isError && (
               <p className="text-destructive text-sm">Something went wrong. Please try again or call us directly.</p>

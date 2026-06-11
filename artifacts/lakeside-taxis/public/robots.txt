@@ -1,2 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /thank-you
+
+Sitemap: https://lakesidetaxi.co.uk/sitemap.xml

@@ -1,0 +1,271 @@
+The base build is good. Now refine the Lakeside & Purfleet Taxis website so it is production-ready, more premium, and more conversion-focused.
+
+Do NOT rebuild the whole project. Improve the existing codebase.
+
+Priority fixes:
+
+1. Replace all placeholder business details globally
+
+Use these constants/config values so they are easy to update later:
+
+Business name:
+Lakeside & Purfleet Taxis Ltd
+
+Phone:
+01375 383878
+
+Email:
+[info@lakesidetaxi.co.uk](mailto:info@lakesidetaxi.co.uk)
+
+WhatsApp:
+Use 01375 383878 for now unless a mobile WhatsApp number exists.
+
+Location:
+Thurrock, Essex
+
+Established:
+1990 / over 30 years serving Thurrock
+
+Make sure the phone number, email and WhatsApp details update across:
+
+* Header
+* Footer
+* Mobile sticky CTA bar
+* Contact page
+* Booking form confirmation
+* Customer emails
+* Admin emails
+* Schema markup
+
+2. Tighten the booking request language
+
+The site must never imply instant booking.
+
+Update all CTAs and form language so it is clear this is an enquiry/quote request.
+
+Use:
+
+* Request a Quote
+* Submit Booking Request
+* Send Journey Details
+* Get Airport Transfer Quote
+* Request Availability & Price
+
+Avoid:
+
+* Book Now
+* Confirm Booking
+* Instant Booking
+* Pay Now
+* Get Fare
+
+Add this disclaimer wherever the booking form appears:
+
+"This is a booking request, not a confirmed booking. Our team will contact you to confirm availability and price."
+
+3. Improve homepage hero
+
+Make the homepage hero feel premium and local, not generic.
+
+Use this message direction:
+
+Headline:
+Moving Thurrock Since 1990
+
+Supporting line:
+From Lakeside to Heathrow. From Purfleet to anywhere.
+
+Body:
+Local taxis, airport transfers, school runs and business travel across Grays, Purfleet, Lakeside, Chafford Hundred and wider Thurrock.
+
+Hero must include:
+
+* Header logo
+* Phone number visible
+* Request a Quote CTA
+* WhatsApp CTA
+* Quote request form above the fold
+* Trust badges:
+
+  * Over 30 Years Serving Thurrock
+  * Airport Transfer Specialists
+  * Corporate Accounts Available
+  * Local Thurrock Drivers
+
+Use dark cinematic styling with yellow taxi accents. Do not use a SaaS-style layout.
+
+4. Improve admin dashboard usability
+
+On /admin and /admin/leads:
+
+Add clearer lead management UI:
+
+* New lead highlight
+* Status badges
+* Journey date/time visible
+* Pickup and destination visible in table
+* Customer phone quick action
+* WhatsApp quick action
+* Email quick action
+* Search by customer name, phone, pickup, destination
+* Filter by status
+* Filter by journey type
+* Sort by newest first
+
+5. Improve lead detail page
+
+On each lead detail page, make the page useful for a taxi operator.
+
+Add sections:
+
+* Customer details
+* Journey details
+* Return journey details
+* Passenger/luggage requirements
+* Internal admin notes
+* Quote and reply section
+* Lead status controls
+* Booking management section
+
+Add action buttons:
+
+* Call customer
+* WhatsApp customer
+* Email customer
+* Send quote email
+* Mark as booked
+* Mark as cancelled
+* Archive
+
+When admin enters quoted price and sends reply:
+
+* Save quoted price
+* Save reply log
+* Change status to Quoted automatically unless already Booked
+* Show success toast/message
+
+6. Improve customer confirmation email
+
+Customer email should say:
+
+Subject:
+Your booking request has been received
+
+Body:
+Hi [Customer Name],
+
+Thank you for sending your journey details to Lakeside & Purfleet Taxis Ltd.
+
+This is not a confirmed booking yet. Our team will review your request and contact you to confirm availability and pricing.
+
+Journey summary:
+[Journey details]
+
+If your journey is urgent, please call us on 01375 383878.
+
+Kind regards,
+Lakeside & Purfleet Taxis Ltd
+
+7. Improve admin notification email
+
+Subject:
+New Booking Request - [Journey Type] - [Pickup] to [Destination]
+
+Include:
+
+* Customer name
+* Phone
+* Email
+* Preferred contact method
+* Journey type
+* Pickup
+* Destination
+* Date/time
+* Return details
+* Passengers
+* Luggage
+* Notes
+* Direct admin link to lead detail
+
+8. Improve SEO quality
+
+For every public page:
+
+* Confirm unique title
+* Confirm unique meta description
+* One H1 only
+* Proper H2 structure
+* Internal links to quote request page
+* Internal links to relevant area/airport pages
+* CTA section near bottom
+* FAQ section where relevant
+
+Add or improve:
+
+* LocalBusiness schema
+* TaxiService schema
+* FAQ schema
+* Breadcrumb schema on area/airport pages
+
+Generate:
+
+* sitemap.xml
+* robots.txt
+
+Make sure admin and thank-you pages are noindex.
+
+9. Improve content depth on SEO pages
+
+Area pages should not be thin.
+
+Each area page should have:
+
+* Local intro
+* Services available in that area
+* Airport transfers from that area
+* Popular journey types
+* Why choose Lakeside & Purfleet Taxis
+* FAQ section
+* Quote request CTA
+
+Airport pages should have:
+
+* Airport transfer intro
+* Areas served from Thurrock
+* Outbound airport transfers
+* Return airport pickups
+* Business/family/luggage travel copy
+* FAQ section
+* Quote request CTA
+
+10. Add privacy-friendly lead handling copy
+
+On quote request form include:
+"We only use your details to respond to your taxi enquiry. We do not sell your information."
+
+11. Final production readiness
+
+Add:
+
+* README with setup instructions
+* .env.example
+* Admin credential setup instructions
+* SMTP setup instructions
+* Database migration instructions
+* Deployment notes for Replit
+* Security reminder to change default admin password
+
+12. Do not add
+
+Do not add:
+
+* Online payments
+* Fare calculator
+* Live booking confirmation
+* Dispatch system
+* Driver tracking
+* Customer login
+* Mobile app style booking flow
+
+The purpose remains:
+A conversion-focused website with a back-end lead management system for manual quote replies and job booking.

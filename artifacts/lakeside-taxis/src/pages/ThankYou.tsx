@@ -38,12 +38,12 @@ export default function ThankYou() {
             Need an urgent response? Call or WhatsApp us directly:
           </p>
           <div className="flex flex-wrap justify-center gap-3 mb-8">
-            <a href="tel:01375000000">
+            <a href="tel:01375383878">
               <Button variant="outline" data-testid="thankyou-call-btn">
-                <Phone className="w-4 h-4 mr-2" /> 01375 000000
+                <Phone className="w-4 h-4 mr-2" /> 01375 383878
               </Button>
             </a>
-            <a href="https://wa.me/447700000000">
+            <a href="https://wa.me/447879956275">
               <Button variant="outline" className="text-green-400 border-green-400/30" data-testid="thankyou-whatsapp-btn">
                 <MessageCircle className="w-4 h-4 mr-2" /> WhatsApp Us
               </Button>

@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useListAdminLeads, getListAdminLeadsQueryKey } from "@workspace/api-client-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Filter } from "lucide-react";
+import { ChevronLeft, ChevronRight, Filter, Search, X } from "lucide-react";
 
 const STATUSES = ["all", "new", "contacted", "quoted", "booked", "completed", "cancelled", "archived"];
+const JOURNEY_TYPES = ["all", "local", "airport", "school_run", "corporate", "long_distance", "other"];
 const LIMIT = 20;
 
 function statusBadge(status: string) {
@@ -30,6 +31,8 @@ const journeyLabel: Record<string, string> = {
 
 export default function AdminLeads() {
   const [status, setStatus] = useState("all");
+  const [journeyType, setJourneyType] = useState("all");
+  const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
 
   const { data, isLoading } = useListAdminLeads(
@@ -37,7 +40,31 @@ export default function AdminLeads() {
     { query: { queryKey: getListAdminLeadsQueryKey({ status: status === "all" ? undefined : status, page, limit: LIMIT }) } }
   );
 
+  const filteredLeads = useMemo(() => {
+    if (!data?.leads) return [];
+    let leads = data.leads;
+    if (journeyType !== "all") {
+      leads = leads.filter((l) => l.journeyType === journeyType);
+    }
+    if (search.trim()) {
+      const q = search.trim().toLowerCase();
+      leads = leads.filter(
+        (l) =>
+          l.fullName.toLowerCase().includes(q) ||
+          l.mobile.toLowerCase().includes(q) ||
+          l.pickupLocation.toLowerCase().includes(q) ||
+          l.destination.toLowerCase().includes(q) ||
+          (l.email ?? "").toLowerCase().includes(q)
+      );
+    }
+    return leads;
+  }, [data?.leads, journeyType, search]);
+
   const totalPages = data ? Math.ceil(data.total / LIMIT) : 1;
+
+  const handleStatusChange = (s: string) => { setStatus(s); setPage(1); };
+  const handleJourneyTypeChange = (t: string) => { setJourneyType(t); setPage(1); };
+  const clearSearch = () => setSearch("");
 
   return (
     <AdminLayout>
@@ -45,17 +72,37 @@ export default function AdminLeads() {
       <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
         <div>
           <h1 className="font-display font-black text-3xl text-white">LEADS</h1>
-          <p className="text-muted-foreground text-sm mt-1">All booking requests</p>
+          <p className="text-muted-foreground text-sm mt-1">
+            {data ? `${data.total} total booking requests` : "All booking requests"}
+          </p>
         </div>
       </div>
 
+      {/* Search */}
+      <div className="relative mb-4">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search by name, phone, pickup, destination..."
+          className="w-full bg-card border border-border rounded-lg pl-9 pr-9 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/50"
+          data-testid="leads-search"
+        />
+        {search && (
+          <button onClick={clearSearch} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+            <X className="w-4 h-4" />
+          </button>
+        )}
+      </div>
+
       {/* Status filter */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 mb-5" data-testid="status-filter">
+      <div className="flex items-center gap-2 overflow-x-auto pb-2 mb-3" data-testid="status-filter">
         <Filter className="w-4 h-4 text-muted-foreground flex-shrink-0" />
         {STATUSES.map((s) => (
           <button
             key={s}
-            onClick={() => { setStatus(s); setPage(1); }}
+            onClick={() => handleStatusChange(s)}
             className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors flex-shrink-0 border capitalize ${
               status === s ? "bg-primary text-primary-foreground border-primary" : "bg-card border-border text-muted-foreground hover:text-foreground"
             }`}
@@ -66,12 +113,30 @@ export default function AdminLeads() {
         ))}
       </div>
 
+      {/* Journey type filter */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-2 mb-5">
+        <span className="text-xs text-muted-foreground flex-shrink-0">Type:</span>
+        {JOURNEY_TYPES.map((t) => (
+          <button
+            key={t}
+            onClick={() => handleJourneyTypeChange(t)}
+            className={`px-3 py-1 rounded-full text-xs font-medium transition-colors flex-shrink-0 border ${
+              journeyType === t ? "bg-primary/20 text-primary border-primary/40" : "bg-card border-border text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {t === "all" ? "All types" : (journeyLabel[t] ?? t)}
+          </button>
+        ))}
+      </div>
+
       <div className="bg-card border border-border rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
           {isLoading ? (
             <div className="p-5 space-y-3">{[1,2,3,4,5].map((i) => <Skeleton key={i} className="h-12 w-full" />)}</div>
-          ) : !data?.leads.length ? (
-            <div className="p-10 text-center text-muted-foreground">No leads found</div>
+          ) : !filteredLeads.length ? (
+            <div className="p-10 text-center text-muted-foreground">
+              {search || journeyType !== "all" ? "No leads match your filters" : "No leads found"}
+            </div>
           ) : (
             <table className="w-full text-sm" data-testid="leads-table">
               <thead>
@@ -85,8 +150,12 @@ export default function AdminLeads() {
                 </tr>
               </thead>
               <tbody>
-                {data.leads.map((lead) => (
-                  <tr key={lead.id} className="border-b border-border/50 hover:bg-muted/20 transition-colors" data-testid={`lead-row-${lead.id}`}>
+                {filteredLeads.map((lead) => (
+                  <tr
+                    key={lead.id}
+                    className={`border-b border-border/50 hover:bg-muted/20 transition-colors ${lead.status === "new" ? "border-l-2 border-l-blue-500" : ""}`}
+                    data-testid={`lead-row-${lead.id}`}
+                  >
                     <td className="px-5 py-3 text-muted-foreground font-mono text-xs">#{lead.id}</td>
                     <td className="px-5 py-3">
                       <p className="font-medium text-foreground">{lead.fullName}</p>
@@ -94,7 +163,9 @@ export default function AdminLeads() {
                     </td>
                     <td className="px-5 py-3 hidden md:table-cell">
                       <p className="text-foreground/80 text-xs">{lead.pickupLocation} &rarr; {lead.destination}</p>
-                      <p className="text-muted-foreground text-xs">{journeyLabel[lead.journeyType] ?? lead.journeyType}</p>
+                      <span className="text-muted-foreground text-xs bg-muted/30 px-1.5 py-0.5 rounded">
+                        {journeyLabel[lead.journeyType] ?? lead.journeyType}
+                      </span>
                     </td>
                     <td className="px-5 py-3 hidden lg:table-cell text-muted-foreground text-xs">
                       {lead.journeyDate}<br />{lead.journeyTime}

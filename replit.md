@@ -62,7 +62,7 @@ _Populate as you build — explicit user instructions worth remembering across s
 - Email notifications require SMTP env vars: `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`, `ADMIN_EMAIL`
 - API proxy path is `/api` — frontend uses relative URLs through the shared Replit proxy
 - Session cookies use `sameSite: "lax"` in dev, `"strict"` in production
-- Phone numbers and business details are placeholders (01375 000000, 07700 000000, info@lakesidetaxis.co.uk) — replace before going live
+- Phone: 01375 383878 | WhatsApp: 07879 956275 (wa.me/447879956275) | Email: info@lakesidetaxi.co.uk — set globally via `src/lib/constants.ts`
 
 ## Pointers
 

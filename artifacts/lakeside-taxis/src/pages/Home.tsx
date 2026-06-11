@@ -9,9 +9,9 @@ import {
   GraduationCap, Car, Star, CheckCircle2, ArrowRight
 } from "lucide-react";
 
-const PHONE = "01375 000000";
-const PHONE_HREF = "tel:01375000000";
-const WA_HREF = "https://wa.me/447700000000";
+const PHONE = "01375 383878";
+const PHONE_HREF = "tel:01375383878";
+const WA_HREF = "https://wa.me/447879956275";
 
 const areas = [
   { name: "Grays", href: "/areas/grays" },
