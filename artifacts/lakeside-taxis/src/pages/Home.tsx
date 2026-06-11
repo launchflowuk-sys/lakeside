@@ -201,7 +201,7 @@ export default function Home() {
               </div>
 
               {/* Headline */}
-              <h1 className="font-display font-bold text-3xl sm:text-4xl lg:text-[2.6rem] xl:text-5xl text-white leading-tight mb-5">
+              <h1 className="font-display font-bold text-2xl sm:text-[1.85rem] lg:text-[2.1rem] xl:text-[2.4rem] text-white leading-[1.15] mb-5">
                 Thurrock's Trusted Taxi &amp;<br />
                 Airport Transfer Company —<br />
                 <span className="text-primary">Serving Grays, Purfleet</span><br />
