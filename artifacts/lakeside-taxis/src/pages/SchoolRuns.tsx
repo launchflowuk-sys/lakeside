@@ -16,7 +16,7 @@ export default function SchoolRuns() {
       <div className="ip">
 
         {/* ── HERO ── */}
-        <section className="ip-hero" style={{ "--hero-image": "url('https://images.unsplash.com/photo-1544731612-de7f96afe55f?auto=format&fit=crop&w=1920&q=80')" } as React.CSSProperties}>
+        <section className="ip-hero" style={{ "--hero-image": "url('/images/school-runs-hero.jpg')" } as React.CSSProperties}>
           <div className="ip-inner ip-hero-inner">
             <div className="ip-eyebrow">School Runs · Thurrock & Essex</div>
             <h1>Safe, Reliable <span>School Runs</span> You Can Trust</h1>

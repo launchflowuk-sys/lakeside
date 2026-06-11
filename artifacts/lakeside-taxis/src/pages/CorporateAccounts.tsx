@@ -272,7 +272,7 @@ export default function CorporateAccounts() {
       </div>
 
       {/* ── Who we work with ── */}
-      <section className="ca-section ca-section--dark">
+      <section className="ca-section ca-section--contrast">
         <div className="ca-section-inner">
           <div className="ca-section-kicker">Who we work with</div>
           <h2 className="ca-section-h2">The right fit for your organisation</h2>
@@ -283,7 +283,9 @@ export default function CorporateAccounts() {
           <div className="ca-sectors-grid">
             {sectors.map((s) => (
               <div className="ca-sector-card" key={s.name}>
-                <span className="ca-sector-icon">{s.icon}</span>
+                <div className="ca-sector-icon-wrap">
+                  <span className="ca-sector-icon">{s.icon}</span>
+                </div>
                 <div className="ca-sector-name">{s.name}</div>
                 <div className="ca-sector-desc">{s.desc}</div>
               </div>
@@ -293,7 +295,7 @@ export default function CorporateAccounts() {
       </section>
 
       {/* ── Benefits ── */}
-      <section className="ca-section ca-section--mid">
+      <section className="ca-section ca-section--yellow">
         <div className="ca-section-inner">
           <div className="ca-section-kicker">Account benefits</div>
           <h2 className="ca-section-h2">Everything a business account should be</h2>
@@ -314,19 +316,22 @@ export default function CorporateAccounts() {
       </section>
 
       {/* ── How it works ── */}
-      <section className="ca-section ca-section--dark">
+      <section className="ca-section ca-section--texture">
         <div className="ca-section-inner">
           <div className="ca-section-kicker">How it works</div>
           <h2 className="ca-section-h2">Up and running in 24 hours</h2>
           <p className="ca-section-desc">Applying takes less than 5 minutes. We do the rest.</p>
-          <div className="ca-steps-grid">
-            {steps.map((s) => (
-              <div className="ca-step-card" key={s.num}>
-                <span className="ca-step-num">{s.num}</span>
-                <div className="ca-step-title">{s.title}</div>
-                <div className="ca-step-desc">{s.desc}</div>
-              </div>
-            ))}
+          <div className="ca-steps-wrap">
+            <div className="ca-steps-line" aria-hidden="true" />
+            <div className="ca-steps-grid">
+              {steps.map((s) => (
+                <div className="ca-step-card" key={s.num}>
+                  <span className="ca-step-num">{s.num}</span>
+                  <div className="ca-step-title">{s.title}</div>
+                  <div className="ca-step-desc">{s.desc}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
