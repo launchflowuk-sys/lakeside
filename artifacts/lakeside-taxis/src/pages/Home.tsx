@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
 import { FileText, MessageCircle, Phone } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import BookingForm from "@/components/BookingForm";
 import Layout from "@/components/layout/Layout";
 import "./home-page.css";
@@ -135,6 +135,120 @@ function GoogleReviewsSection() {
         </div>
       </div>
       <ReviewsMarquee reviews={reviews} />
+    </section>
+  );
+}
+
+const WHY_FEATURES = [
+  "Over 30 years of trusted local service",
+  "Fully licensed, insured and compliant",
+  "Professional drivers and clean vehicles",
+  "Local taxis, airport transfers and business travel",
+  "Price confirmed before you travel",
+  "We reply to quote requests within 2 hours",
+];
+
+const WHY_STATS = [
+  { value: "30+", label: "Years Serving Thurrock" },
+  { value: "24/7", label: "Day & Night Service" },
+  { value: "6", label: "Airport Routes" },
+  { value: "5★", label: "Google Rating" },
+];
+
+function WhySection() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("hp-why--visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section
+      ref={sectionRef}
+      className="hp-dark hp-why-section"
+      data-testid="why-section"
+      data-section="why-choose-us"
+    >
+      {/* background glow */}
+      <div className="hp-why-glow" aria-hidden="true" />
+
+      <div className="hp-inner">
+        {/* Header */}
+        <div className="hp-why-hd">
+          <div className="hp-kicker">Local People. Local Service.</div>
+          <h2 className="hp-why-title">
+            Why Thurrock <span>Chooses Us</span>
+          </h2>
+        </div>
+
+        {/* Stats row */}
+        <div className="hp-why-stats">
+          {WHY_STATS.map((s, i) => (
+            <div key={s.label} className="hp-why-stat" style={{ "--i": i } as React.CSSProperties}>
+              <strong>{s.value}</strong>
+              <span>{s.label}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Body: features + CTA cards */}
+        <div className="hp-why-body">
+          {/* Feature list */}
+          <ul className="hp-why-features">
+            {WHY_FEATURES.map((f, i) => (
+              <li key={f} style={{ "--i": i } as React.CSSProperties}>
+                <span className="hp-why-check" aria-hidden="true">✓</span>
+                {f}
+              </li>
+            ))}
+          </ul>
+
+          {/* CTA cards */}
+          <div className="hp-why-cards">
+            <div className="hp-why-card hp-why-card--yellow" style={{ "--i": 0 } as React.CSSProperties}>
+              <div className="hp-why-card-accent" />
+              <div className="hp-why-card-icon hp-why-card-icon--yellow"><FileText size={24} /></div>
+              <h3>Get a Quote</h3>
+              <p>Send your journey details and we'll reply within 2 hours.</p>
+              <Link href="/quote-request" className="hp-why-card-btn hp-why-card-btn--yellow">
+                Request a Quote →
+              </Link>
+            </div>
+            <div className="hp-why-card hp-why-card--green" style={{ "--i": 1 } as React.CSSProperties}>
+              <div className="hp-why-card-accent" />
+              <div className="hp-why-card-icon hp-why-card-icon--green"><MessageCircle size={24} /></div>
+              <h3>WhatsApp Us</h3>
+              <p>The quickest way to get a fast response from our team.</p>
+              <a href={WA_HREF} className="hp-why-card-btn hp-why-card-btn--green">
+                Chat on WhatsApp →
+              </a>
+            </div>
+            <div className="hp-why-card hp-why-card--phone" style={{ "--i": 2 } as React.CSSProperties}>
+              <div className="hp-why-card-accent" />
+              <div className="hp-why-card-icon"><Phone size={24} /></div>
+              <h3>Call Us Direct</h3>
+              <p>Speak with our friendly team any time, day or night.</p>
+              <a href={PHONE_HREF} className="hp-why-card-btn hp-why-card-btn--outline">
+                01375 383878 →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
@@ -301,54 +415,7 @@ export default function Home() {
         </section>
 
         {/* ── WHY CHOOSE US ── */}
-        <section className="hp-dark" data-testid="why-section" data-section="why-choose-us">
-          <div className="hp-inner hp-why-grid">
-            <div>
-              <div className="hp-kicker" style={{ textAlign: "left" }}>Local People. Local Service.</div>
-              <h2 className="hp-why-title">Why Thurrock <span>Chooses Us</span></h2>
-              <ul className="hp-check-list">
-                <li>Over 30 years of trusted local service</li>
-                <li>Fully licensed, insured and compliant</li>
-                <li>Professional drivers and clean vehicles</li>
-                <li>Local taxis, airport transfers and business travel</li>
-                <li>Price confirmed before you travel</li>
-                <li>We reply to quote requests within 2 hours</li>
-              </ul>
-            </div>
-            <div className="hp-contact-cards">
-              <div className="hp-contact-card">
-                <div className="hp-contact-icon"><FileText size={22} /></div>
-                <div className="hp-contact-body">
-                  <h3>Get a Quote</h3>
-                  <p>Send your journey details and we'll reply within 2 hours.</p>
-                </div>
-                <Link href="/quote-request" className="hp-contact-action hp-contact-action--yellow">
-                  Request a Quote →
-                </Link>
-              </div>
-              <div className="hp-contact-card">
-                <div className="hp-contact-icon hp-contact-icon--green"><MessageCircle size={22} /></div>
-                <div className="hp-contact-body">
-                  <h3>WhatsApp Us</h3>
-                  <p>The quickest way to get a fast response from our team.</p>
-                </div>
-                <a href={WA_HREF} className="hp-contact-action hp-contact-action--green">
-                  Chat on WhatsApp →
-                </a>
-              </div>
-              <div className="hp-contact-card">
-                <div className="hp-contact-icon"><Phone size={22} /></div>
-                <div className="hp-contact-body">
-                  <h3>Call Us Direct</h3>
-                  <p>Speak with our friendly team any time, day or night.</p>
-                </div>
-                <a href={PHONE_HREF} className="hp-contact-action hp-contact-action--outline">
-                  01375 383878 →
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
+        <WhySection />
 
         {/* ── GOOGLE REVIEWS ── */}
         <GoogleReviewsSection />
