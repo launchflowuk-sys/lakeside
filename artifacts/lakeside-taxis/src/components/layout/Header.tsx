@@ -1,26 +1,25 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Phone, ChevronDown } from "lucide-react";
+import { Menu, X, Phone, ChevronDown, Anchor } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const PHONE = "01375 383878";
 const PHONE_HREF = "tel:01375383878";
 
+const serviceLinks = [
+  { href: "/local-taxis",          label: "Local Taxis" },
+  { href: "/airport-transfers",    label: "Airport Transfers" },
+  { href: "/corporate-accounts",   label: "Corporate Accounts" },
+  { href: "/school-runs",          label: "School Runs" },
+  { href: "/long-distance-travel", label: "Long Distance" },
+];
+
 const navLinks = [
   { href: "/", label: "Home" },
-  {
-    label: "Services",
-    children: [
-      { href: "/local-taxis", label: "Local Taxis" },
-      { href: "/airport-transfers", label: "Airport Transfers" },
-      { href: "/corporate-accounts", label: "Corporate Accounts" },
-      { href: "/school-runs", label: "School Runs" },
-      { href: "/long-distance-travel", label: "Long Distance" },
-    ],
-  },
+  { label: "Services", children: serviceLinks },
   { href: "/areas-covered", label: "Areas Covered" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  { href: "/about",         label: "About" },
+  { href: "/contact",       label: "Contact" },
 ];
 
 export default function Header() {
@@ -55,7 +54,19 @@ export default function Header() {
                     <ChevronDown className="w-3 h-3" />
                   </button>
                   <div className="absolute top-full left-0 pt-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
-                    <div className="bg-card border border-border rounded-lg shadow-xl py-1 min-w-[200px]">
+                    <div className="bg-card border border-border rounded-lg shadow-xl py-1 min-w-[220px]">
+                      {/* Cruise Terminal — featured highlight */}
+                      <Link
+                        href="/tilbury-cruise-terminal"
+                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-semibold text-foreground hover:text-primary hover:bg-primary/8 transition-colors border-b border-border/60 group/cruise"
+                        data-testid="nav-cruise-terminal"
+                      >
+                        <Anchor className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+                        <span>Cruise Terminal</span>
+                        <span className="ml-auto text-[10px] font-bold uppercase tracking-wider bg-primary text-primary-foreground px-1.5 py-0.5 rounded">
+                          New
+                        </span>
+                      </Link>
                       {item.children.map((child) => (
                         <Link
                           key={child.href}
@@ -120,6 +131,21 @@ export default function Header() {
       {mobileOpen && (
         <div className="lg:hidden border-t border-border bg-white" data-testid="mobile-menu">
           <div className="px-4 py-4 space-y-1">
+
+            {/* Cruise Terminal — featured highlight at top of mobile menu */}
+            <Link
+              href="/tilbury-cruise-terminal"
+              className="flex items-center gap-3 px-3 py-3 rounded-lg bg-foreground text-card font-semibold text-sm mb-3"
+              onClick={() => setMobileOpen(false)}
+              data-testid="mobile-nav-cruise"
+            >
+              <Anchor className="w-4 h-4 text-primary flex-shrink-0" />
+              <span>Cruise Terminal Transfers</span>
+              <span className="ml-auto text-[10px] font-bold uppercase tracking-wider bg-primary text-primary-foreground px-1.5 py-0.5 rounded">
+                New
+              </span>
+            </Link>
+
             {navLinks.map((item) =>
               item.children ? (
                 <div key={item.label}>
