@@ -9,12 +9,12 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useSubmitLead } from "@workspace/api-client-react";
 import {
-  Car, Plane, GraduationCap, Briefcase, MapPin, Users, CheckCircle2,
+  Car, Plane, GraduationCap, Briefcase, Anchor, Users, CheckCircle2,
   ArrowRight, ArrowLeft, ChevronRight
 } from "lucide-react";
 
 const step1Schema = z.object({
-  journeyType: z.enum(["local", "airport", "school_run", "corporate", "long_distance", "other"]),
+  journeyType: z.enum(["local", "airport", "school_run", "corporate", "cruise_terminal", "other"]),
 });
 const step2Schema = z.object({
   pickupLocation: z.string().min(2, "Required"),
@@ -48,12 +48,12 @@ type Step4Data = z.infer<typeof step4Schema>;
 type FormData = Step1Data & Step2Data & Step3Data & Step4Data;
 
 const journeyTypes = [
-  { value: "local", label: "Local Taxi", icon: Car, desc: "Grays, Purfleet, Thurrock area" },
-  { value: "airport", label: "Airport Transfer", icon: Plane, desc: "Heathrow, Gatwick, Stansted & more" },
-  { value: "school_run", label: "School Run", icon: GraduationCap, desc: "Regular or one-off school runs" },
-  { value: "corporate", label: "Corporate Travel", icon: Briefcase, desc: "Business accounts welcome" },
-  { value: "long_distance", label: "Long Distance", icon: MapPin, desc: "UK-wide journeys" },
-  { value: "other", label: "Other", icon: Car, desc: "Any other journey" },
+  { value: "local",            label: "Local Taxi",        icon: Car,          desc: "Grays, Purfleet, Thurrock area",          bg: null },
+  { value: "airport",          label: "Airport Transfer",  icon: Plane,        desc: "Heathrow, Gatwick, Stansted & more",      bg: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80" },
+  { value: "school_run",       label: "School Run",        icon: GraduationCap, desc: "Regular or one-off school runs",         bg: null },
+  { value: "corporate",        label: "Corporate Travel",  icon: Briefcase,    desc: "Business accounts welcome",               bg: null },
+  { value: "cruise_terminal",  label: "Cruise Terminal",   icon: Anchor,       desc: "Tilbury Cruise Terminal transfers",       bg: "https://images.unsplash.com/photo-1548438294-1ad5d5f4f063?auto=format&fit=crop&w=600&q=80" },
+  { value: "other",            label: "Other",             icon: Car,          desc: "Any other journey",                       bg: null },
 ];
 
 const contactMethods = [
@@ -197,23 +197,46 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
               {journeyTypes.map((jt) => {
                 const Icon = jt.icon;
                 const selected = step1Form.watch("journeyType") === jt.value;
+                const featured = !!jt.bg;
                 return (
                   <button
                     key={jt.value}
                     type="button"
-                    className={`text-left p-3 rounded-lg border-2 transition-all ${
-                      selected
-                        ? "border-primary bg-primary/10"
-                        : "border-border hover:border-primary/50"
-                    }`}
                     onClick={() => step1Form.setValue("journeyType", jt.value as Step1Data["journeyType"])}
                     data-testid={`journey-type-${jt.value}`}
+                    className={`text-left rounded-lg border-2 transition-all overflow-hidden relative ${
+                      featured ? "min-h-[88px]" : "p-3"
+                    } ${
+                      selected
+                        ? "border-primary"
+                        : featured
+                          ? "border-transparent hover:border-primary/60"
+                          : "border-border hover:border-primary/50"
+                    }`}
+                    style={featured ? {
+                      backgroundImage: `linear-gradient(135deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.38) 100%), url('${jt.bg}')`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    } : undefined}
                   >
-                    <Icon className={`w-5 h-5 mb-1.5 ${selected ? "text-primary" : "text-muted-foreground"}`} />
-                    <div className={`text-sm font-semibold ${selected ? "text-primary" : "text-foreground"}`}>
-                      {jt.label}
-                    </div>
-                    <div className="text-xs text-muted-foreground mt-0.5">{jt.desc}</div>
+                    {featured && selected && (
+                      <span className="absolute inset-0 rounded-[6px] ring-2 ring-primary pointer-events-none" />
+                    )}
+                    <span className={`flex flex-col h-full ${featured ? "p-3" : ""}`}>
+                      <Icon className={`w-5 h-5 mb-1.5 flex-shrink-0 ${
+                        featured ? "text-primary" : selected ? "text-primary" : "text-muted-foreground"
+                      }`} />
+                      <span className={`text-sm font-semibold leading-tight ${
+                        featured ? "text-white" : selected ? "text-primary" : "text-foreground"
+                      }`}>
+                        {jt.label}
+                      </span>
+                      <span className={`text-xs mt-0.5 leading-snug ${
+                        featured ? "text-white/70" : "text-muted-foreground"
+                      }`}>
+                        {jt.desc}
+                      </span>
+                    </span>
                   </button>
                 );
               })}

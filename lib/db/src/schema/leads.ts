@@ -25,7 +25,7 @@ export const journeyTypeEnum = pgEnum("journey_type", [
   "airport",
   "school_run",
   "corporate",
-  "long_distance",
+  "cruise_terminal",
   "other",
 ]);
 

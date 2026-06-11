@@ -14,6 +14,6 @@ export const LeadInputJourneyType = {
   airport: 'airport',
   school_run: 'school_run',
   corporate: 'corporate',
-  long_distance: 'long_distance',
+  cruise_terminal: 'cruise_terminal',
   other: 'other',
 } as const;

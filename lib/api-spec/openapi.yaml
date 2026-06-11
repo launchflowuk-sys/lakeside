@@ -426,7 +426,7 @@ components:
       properties:
         journeyType:
           type: string
-          enum: [local, airport, school_run, corporate, long_distance, other]
+          enum: [local, airport, school_run, corporate, cruise_terminal, other]
         pickupLocation:
           type: string
         destination:

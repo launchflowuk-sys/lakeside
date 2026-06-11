@@ -20,7 +20,7 @@ export const HealthCheckResponse = zod.object({
  * @summary Submit a booking request / quote enquiry
  */
 export const SubmitLeadBody = zod.object({
-  "journeyType": zod.enum(['local', 'airport', 'school_run', 'corporate', 'long_distance', 'other']),
+  "journeyType": zod.enum(['local', 'airport', 'school_run', 'corporate', 'cruise_terminal', 'other']),
   "pickupLocation": zod.string(),
   "destination": zod.string(),
   "viaStops": zod.string().nullish(),
