@@ -6,6 +6,7 @@ import adminLeadsRouter from "./admin-leads";
 import adminStatsRouter from "./admin-stats";
 import corporateApplicationsRouter from "./corporate-applications";
 import adminCorporateRouter from "./admin-corporate";
+import reviewsRouter from "./reviews";
 
 const router: IRouter = Router();
 
@@ -16,5 +17,6 @@ router.use(adminAuthRouter);
 router.use(adminLeadsRouter);
 router.use(adminStatsRouter);
 router.use(adminCorporateRouter);
+router.use(reviewsRouter);
 
 export default router;
