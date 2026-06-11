@@ -356,27 +356,34 @@ export default function Home() {
         {/* ── AIRPORT TRANSFERS ── */}
         <section className="hp-dark" data-testid="airports-section" data-section="airport-transfers">
           <div className="hp-inner">
-            <div className="hp-airport-header">
-              <div>
+            <div className="hp-airport-layout">
+              <div className="hp-airport-image-col">
+                <img
+                  src="/images/airport-tile.png"
+                  alt="Airport Transfers from Thurrock — Lakeside Taxis"
+                  className="hp-airport-tile-img"
+                />
+              </div>
+              <div className="hp-airport-content-col">
                 <div className="hp-kicker">Fixed Prices From Thurrock</div>
                 <h2 className="hp-airport-title">Airport Transfers <span>From Thurrock</span></h2>
                 <p className="hp-airport-sub">Fixed prices confirmed before travel. Flight tracking on return pickups. 24/7 service.</p>
-              </div>
-              <Link href="/airport-transfers" className="hp-btn hp-btn-primary hp-airport-all-btn" data-testid="airports-cta-btn">
-                View All Airports →
-              </Link>
-            </div>
-            <div className="hp-airport-cards">
-              {airports.map((a) => (
-                <Link key={a.href} href={a.href} className="hp-airport-card" data-testid={`airport-pill-${a.code.toLowerCase()}`}>
-                  <div className="hp-airport-card-top">
-                    <span className="hp-airport-card-name">{a.name}</span>
-                    <span className="hp-airport-card-code">{a.code}</span>
-                  </div>
-                  <div className="hp-airport-card-price">{a.price}</div>
-                  <div className="hp-airport-card-label">fixed price</div>
+                <div className="hp-airport-cards">
+                  {airports.map((a) => (
+                    <Link key={a.href} href={a.href} className="hp-airport-card" data-testid={`airport-pill-${a.code.toLowerCase()}`}>
+                      <div className="hp-airport-card-top">
+                        <span className="hp-airport-card-name">{a.name}</span>
+                        <span className="hp-airport-card-code">{a.code}</span>
+                      </div>
+                      <div className="hp-airport-card-price">{a.price}</div>
+                      <div className="hp-airport-card-label">fixed price</div>
+                    </Link>
+                  ))}
+                </div>
+                <Link href="/airport-transfers" className="hp-btn hp-btn-primary hp-airport-all-btn" data-testid="airports-cta-btn">
+                  View All Airports &amp; Prices →
                 </Link>
-              ))}
+              </div>
             </div>
 
             {/* Final CTA */}

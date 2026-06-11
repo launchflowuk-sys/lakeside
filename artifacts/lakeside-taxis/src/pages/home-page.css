@@ -626,13 +626,29 @@
 }
 
 /* ── AIRPORT TRANSFERS ── */
-.hp-airport-header {
+.hp-airport-layout {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.hp-airport-image-col {
+  position: sticky;
+  top: 100px;
+}
+
+.hp-airport-tile-img {
+  width: 100%;
+  border-radius: 18px;
+  display: block;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+}
+
+.hp-airport-content-col {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 24px;
-  margin-bottom: 32px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 0;
 }
 
 .hp-airport-sub {
@@ -643,13 +659,14 @@
 }
 
 .hp-airport-all-btn {
-  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 24px;
   white-space: nowrap;
 }
 
 .hp-airport-title {
   font-family: 'Poppins', sans-serif;
-  font-size: clamp(26px, 3.2vw, 44px);
+  font-size: clamp(24px, 2.8vw, 40px);
   line-height: 1.1;
   text-transform: uppercase;
   margin: 8px 0 0;
@@ -664,8 +681,9 @@
 
 .hp-airport-cards {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 14px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 24px;
 }
 
 .hp-airport-card {
@@ -807,12 +825,17 @@
     max-width: 420px;
   }
 
-  .hp-airport-cards {
-    grid-template-columns: repeat(3, 1fr);
+  .hp-airport-layout {
+    grid-template-columns: 1fr;
   }
 
-  .hp-airport-header {
-    align-items: flex-start;
+  .hp-airport-image-col {
+    position: static;
+    max-width: 480px;
+  }
+
+  .hp-airport-cards {
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .hp-final-cta {
@@ -835,6 +858,12 @@
 
   .hp-airport-cards {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hp-airport-all-btn {
+    align-self: stretch;
+    text-align: center;
+    justify-content: center;
   }
 
   /* ── Button groups: full-width stacked on mobile ── */

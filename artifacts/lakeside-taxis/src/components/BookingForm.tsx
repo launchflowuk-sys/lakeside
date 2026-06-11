@@ -52,7 +52,7 @@ const journeyTypes = [
   { value: "airport",          label: "Airport Transfer",  icon: Plane,        desc: "Heathrow, Gatwick, Stansted & more",      bg: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80" },
   { value: "school_run",       label: "School Run",        icon: GraduationCap, desc: "Regular or one-off school runs",         bg: null },
   { value: "corporate",        label: "Corporate Travel",  icon: Briefcase,    desc: "Business accounts welcome",               bg: null },
-  { value: "cruise_terminal",  label: "Cruise Terminal",   icon: Anchor,       desc: "Tilbury Cruise Terminal transfers",       bg: "https://images.unsplash.com/photo-1548438294-1ad5d5f4f063?auto=format&fit=crop&w=600&q=80" },
+  { value: "cruise_terminal",  label: "Cruise Terminal",   icon: Anchor,       desc: "Tilbury Cruise Terminal transfers",       bg: "/images/cruise-taxis.png" },
   { value: "other",            label: "Other",             icon: Car,          desc: "Any other journey",                       bg: null },
 ];
 

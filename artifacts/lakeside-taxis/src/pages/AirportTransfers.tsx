@@ -1,7 +1,43 @@
+import { useState } from "react";
 import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/layout/Layout";
 import "./inner-page.css";
+
+const faqs = [
+  {
+    q: "How far in advance should I book my airport transfer?",
+    a: "We recommend booking at least 24 hours ahead, especially for early-morning or late-night flights. That said, we'll always try to accommodate last-minute requests — just give us a call or WhatsApp us directly.",
+  },
+  {
+    q: "What happens if my flight is delayed?",
+    a: "We track all inbound flights in real time. If your flight is delayed, your driver adjusts automatically — no extra charge, no panicked calls. We're there when you land, not when you were supposed to land.",
+  },
+  {
+    q: "Do you offer a meet & greet service?",
+    a: "Yes. Your driver will meet you in the arrivals hall holding a name board. No hunting for your car outside — just walk out of customs and your driver is right there.",
+  },
+  {
+    q: "What's included in the fixed price?",
+    a: "Everything. Fuel, tolls, parking at the terminal, and the driver's time waiting for you. The price we quote is the price you pay — no surcharges for traffic, no hidden fees.",
+  },
+  {
+    q: "Can you handle large groups or extra luggage?",
+    a: "Absolutely. We have larger vehicles available for groups and passengers with oversized or multiple pieces of luggage. Just mention it when you request your quote so we can send the right vehicle.",
+  },
+  {
+    q: "Do you cover all terminals at Heathrow?",
+    a: "Yes — all five Heathrow terminals (T2, T3, T4, T5 and T5B satellites). We'll confirm your specific terminal when you book and your driver will go directly to the right drop-off or pick-up point.",
+  },
+  {
+    q: "Can I book a return transfer at the same time?",
+    a: "Yes, and we recommend it. Book both legs when you enquire and we'll lock in your return price too. Popular travel dates fill up, so securing the return early avoids any last-minute stress.",
+  },
+  {
+    q: "How do I pay for my transfer?",
+    a: "Payment is arranged directly with us — cash on the day is most common, but we can discuss other arrangements when we confirm your booking. There's no online payment required upfront.",
+  },
+];
 
 const WA = "https://wa.me/447879956275";
 const TEL = "tel:01375383878";
@@ -16,6 +52,8 @@ const airports = [
 ];
 
 export default function AirportTransfers() {
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+
   return (
     <Layout>
       <Helmet>
@@ -135,6 +173,44 @@ export default function AirportTransfers() {
                   <p>{c.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── FAQ ── */}
+        <section className="ip-faq-section">
+          <div className="ip-inner">
+            <div className="ip-faq-layout">
+              <div className="ip-faq-header">
+                <div className="ip-kicker">Common Questions</div>
+                <h2 className="ip-faq-title">Everything You <span>Need to Know</span></h2>
+                <p className="ip-faq-intro">
+                  Quick answers to the questions we get asked most. If yours isn't here, just WhatsApp us.
+                </p>
+                <a href={WA} className="ip-btn ip-btn-green ip-faq-wa-btn">Ask Us on WhatsApp →</a>
+              </div>
+              <div className="ip-faq-list">
+                {faqs.map((faq, i) => (
+                  <div
+                    key={i}
+                    className={`ip-faq-item${openFaq === i ? " ip-faq-item--open" : ""}`}
+                    style={{ animationDelay: `${i * 55}ms` }}
+                  >
+                    <button
+                      className="ip-faq-question"
+                      onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                      aria-expanded={openFaq === i}
+                    >
+                      <span className="ip-faq-num">{String(i + 1).padStart(2, "0")}</span>
+                      <span className="ip-faq-q-text">{faq.q}</span>
+                      <span className="ip-faq-toggle">{openFaq === i ? "−" : "+"}</span>
+                    </button>
+                    <div className="ip-faq-answer">
+                      <p>{faq.a}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
