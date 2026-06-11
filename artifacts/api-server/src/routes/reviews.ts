@@ -39,7 +39,8 @@ async function fetchFromGoogle(): Promise<GoogleReview[]> {
 
 router.get("/reviews", async (req, res) => {
   if (reviewCache && Date.now() - reviewCache.at < CACHE_TTL) {
-    return res.json({ reviews: reviewCache.reviews, cached: true });
+    res.json({ reviews: reviewCache.reviews, cached: true });
+    return;
   }
 
   try {
