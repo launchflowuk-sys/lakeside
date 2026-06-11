@@ -41,11 +41,13 @@ export default function Header() {
 
           {/* Logo */}
           <Link href="/" className="flex items-center flex-shrink-0" data-testid="header-logo">
-            <img
-              src="/logo-transparent.png"
-              alt="Lakeside & Purfleet Taxis"
-              className="h-12 lg:h-14 w-auto"
-            />
+            <span className="logo-shine inline-block">
+              <img
+                src="/logo-transparent.png"
+                alt="Lakeside & Purfleet Taxis"
+                className="h-12 lg:h-14 w-auto"
+              />
+            </span>
           </Link>
 
           {/* Desktop Nav */}

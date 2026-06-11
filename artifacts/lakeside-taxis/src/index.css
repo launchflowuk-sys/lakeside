@@ -268,3 +268,36 @@
   .bg-yellow { background-color: hsl(45 97% 52%); }
   .border-yellow { border-color: hsl(45 97% 52%); }
 }
+
+/* ── Logo shine sweep ── */
+.logo-shine {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.logo-shine::after {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: -80%;
+  width: 45%;
+  height: 120%;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 100%
+  );
+  transform: skewX(-18deg);
+  animation: logo-shine-sweep 5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes logo-shine-sweep {
+  0%   { left: -80%; opacity: 0; }
+  8%   { opacity: 1; }
+  35%  { left: 130%; opacity: 1; }
+  36%  { opacity: 0; }
+  100% { left: 130%; opacity: 0; }
+}
