@@ -201,10 +201,11 @@ export default function Home() {
               </div>
 
               {/* Headline */}
-              <h1 className="font-display font-black text-[clamp(3.2rem,8.5vw,5.75rem)] text-white leading-[0.9] mb-5 tracking-tight">
-                MOVING<br />
-                <span className="text-primary">THURROCK</span><br />
-                SINCE 1990
+              <h1 className="font-display font-bold text-3xl sm:text-4xl lg:text-[2.6rem] xl:text-5xl text-white leading-tight mb-5">
+                Thurrock's Trusted Taxi &amp;<br />
+                Airport Transfer Company —<br />
+                <span className="text-primary">Serving Grays, Purfleet</span><br />
+                <span className="text-primary">&amp; Essex Since 1990</span>
               </h1>
 
               {/* Sub-headline */}
