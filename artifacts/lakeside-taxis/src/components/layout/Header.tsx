@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { Menu, X, Phone, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -26,25 +26,38 @@ const navLinks = [
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [location] = useLocation();
 
+  const isHome = location === "/";
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const transparent = isHome && !scrolled;
+
   return (
-    <header className="sticky top-0 z-50 bg-[hsl(220_25%_5%)] border-b border-border/50 shadow-lg">
+    <header
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        transparent
+          ? "bg-transparent border-b border-transparent"
+          : "bg-[hsl(220_25%_5%)]/95 backdrop-blur-md border-b border-border/50 shadow-lg"
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 lg:h-18">
+        <div className="flex items-center justify-between h-16 lg:h-[4.5rem]">
+
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 flex-shrink-0" data-testid="header-logo">
-            <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
-              <span className="text-primary-foreground font-display font-black text-sm">LT</span>
-            </div>
-            <div className="hidden sm:block">
-              <div className="font-display font-bold text-white text-sm leading-tight">
-                LAKESIDE & PURFLEET
-              </div>
-              <div className="text-primary text-xs font-semibold tracking-widest">
-                TAXIS LTD
-              </div>
-            </div>
+          <Link href="/" className="flex items-center flex-shrink-0" data-testid="header-logo">
+            <img
+              src="/logo-transparent.png"
+              alt="Lakeside & Purfleet Taxis"
+              className="h-12 lg:h-14 w-auto"
+            />
           </Link>
 
           {/* Desktop Nav */}
@@ -53,7 +66,7 @@ export default function Header() {
               item.children ? (
                 <div key={item.label} className="relative group">
                   <button
-                    className="flex items-center gap-1 px-3 py-2 text-sm text-foreground/80 hover:text-primary transition-colors font-medium"
+                    className="flex items-center gap-1 px-3 py-2 text-sm text-white/80 hover:text-primary transition-colors font-medium"
                     onMouseEnter={() => setServicesOpen(true)}
                     onMouseLeave={() => setServicesOpen(false)}
                     data-testid="nav-services-dropdown"
@@ -87,7 +100,7 @@ export default function Header() {
                   className={`px-3 py-2 text-sm font-medium transition-colors ${
                     location === item.href
                       ? "text-primary"
-                      : "text-foreground/80 hover:text-primary"
+                      : "text-white/80 hover:text-primary"
                   }`}
                   data-testid={`nav-${item.href.replace(/\//g, "-") || "home"}`}
                 >
@@ -101,7 +114,7 @@ export default function Header() {
           <div className="flex items-center gap-2 lg:gap-3">
             <a
               href={PHONE_HREF}
-              className="hidden md:flex items-center gap-1.5 text-sm font-semibold text-foreground/90 hover:text-primary transition-colors"
+              className="hidden md:flex items-center gap-1.5 text-sm font-semibold text-white/90 hover:text-primary transition-colors"
               data-testid="header-phone"
             >
               <Phone className="w-4 h-4 text-primary" />
@@ -117,7 +130,7 @@ export default function Header() {
               </Button>
             </Link>
             <button
-              className="lg:hidden p-2 text-foreground/80 hover:text-primary"
+              className="lg:hidden p-2 text-white/80 hover:text-primary"
               onClick={() => setMobileOpen(!mobileOpen)}
               data-testid="mobile-menu-toggle"
             >
@@ -129,13 +142,16 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="lg:hidden border-t border-border/50 bg-[hsl(220_25%_5%)]" data-testid="mobile-menu">
+        <div
+          className="lg:hidden border-t border-border/50 bg-[hsl(220_25%_5%)]/98 backdrop-blur-md"
+          data-testid="mobile-menu"
+        >
           <div className="px-4 py-4 space-y-1">
             {navLinks.map((item) =>
               item.children ? (
                 <div key={item.label}>
                   <button
-                    className="w-full flex items-center justify-between px-3 py-2.5 text-sm font-semibold text-foreground/80 hover:text-primary"
+                    className="w-full flex items-center justify-between px-3 py-2.5 text-sm font-semibold text-white/80 hover:text-primary"
                     onClick={() => setServicesOpen(!servicesOpen)}
                   >
                     {item.label}
@@ -147,7 +163,7 @@ export default function Header() {
                         <Link
                           key={child.href}
                           href={child.href}
-                          className="block px-3 py-2 text-sm text-foreground/70 hover:text-primary"
+                          className="block px-3 py-2 text-sm text-white/70 hover:text-primary"
                           onClick={() => setMobileOpen(false)}
                         >
                           {child.label}
@@ -161,7 +177,7 @@ export default function Header() {
                   key={item.href}
                   href={item.href!}
                   className={`block px-3 py-2.5 text-sm font-medium ${
-                    location === item.href ? "text-primary" : "text-foreground/80 hover:text-primary"
+                    location === item.href ? "text-primary" : "text-white/80 hover:text-primary"
                   }`}
                   onClick={() => setMobileOpen(false)}
                 >
