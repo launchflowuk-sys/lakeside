@@ -1,0 +1,381 @@
+/* ─── Areas Covered Page ─── */
+
+/* ── Hero ── */
+.ac-hero {
+  background:
+    linear-gradient(135deg,
+      hsl(220 25% 6%) 0%,
+      hsl(220 20% 9%) 100%);
+  padding: 88px 0 72px;
+  position: relative;
+  overflow: hidden;
+}
+.ac-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 56px,
+    rgba(255, 209, 0, 0.022) 56px,
+    rgba(255, 209, 0, 0.022) 57px
+  );
+  pointer-events: none;
+}
+.ac-inner {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.ac-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 209, 0, 0.1);
+  border: 1px solid rgba(255, 209, 0, 0.28);
+  color: #ffd100;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 3px;
+  margin-bottom: 24px;
+}
+.ac-hero h1 {
+  font-family: "Barlow Condensed", "Poppins", sans-serif;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin: 0 0 20px;
+}
+.ac-hero h1 span {
+  color: #ffd100;
+}
+.ac-hero-desc {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 580px;
+  margin: 0 0 36px;
+}
+.ac-hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+}
+.ac-hero-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ac-hero-stat-num {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: #ffd100;
+  line-height: 1;
+}
+.ac-hero-stat-lbl {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ── Area Grid Section ── */
+.ac-grid-section {
+  background: #0d1117;
+  padding: 80px 0;
+}
+.ac-section-kicker {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffd100;
+  margin-bottom: 12px;
+  display: block;
+}
+.ac-section-h2 {
+  font-family: "Barlow Condensed", "Poppins", sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin: 0 0 10px;
+}
+.ac-section-desc {
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.5);
+  max-width: 560px;
+  margin: 0 0 48px;
+}
+
+.ac-areas-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.ac-area-card {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-top: 3px solid transparent;
+  border-radius: 10px;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  text-decoration: none;
+  transition: border-top-color 0.22s ease, transform 0.22s ease,
+              box-shadow 0.22s ease, background 0.22s ease;
+}
+.ac-area-card:hover {
+  border-top-color: #ffd100;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(255, 209, 0, 0.1);
+  background: #141d2e;
+}
+.ac-area-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.ac-area-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 209, 0, 0.1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  transition: background 0.22s ease;
+}
+.ac-area-card:hover .ac-area-icon {
+  background: rgba(255, 209, 0, 0.2);
+}
+.ac-area-postcode {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(255, 209, 0, 0.7);
+  background: rgba(255, 209, 0, 0.08);
+  border: 1px solid rgba(255, 209, 0, 0.18);
+  padding: 4px 10px;
+  border-radius: 3px;
+}
+.ac-area-name {
+  font-family: "Barlow Condensed", "Poppins", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+  transition: color 0.22s ease;
+}
+.ac-area-card:hover .ac-area-name {
+  color: #ffd100;
+}
+.ac-area-desc {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 14px;
+}
+.ac-area-places {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+.ac-area-place-tag {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 3px 9px;
+  border-radius: 3px;
+}
+.ac-area-link {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #ffd100;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: auto;
+  transition: gap 0.2s ease;
+}
+.ac-area-card:hover .ac-area-link {
+  gap: 9px;
+}
+
+/* ── Coverage Info Section ── */
+.ac-coverage {
+  background: #0a0a0a;
+  padding: 80px 0;
+}
+.ac-coverage-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+.ac-coverage-text h3 {
+  font-family: "Barlow Condensed", "Poppins", sans-serif;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  margin: 12px 0 20px;
+}
+.ac-coverage-text p {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 16px;
+}
+.ac-coverage-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ac-coverage-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px;
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 8px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.ac-coverage-item:hover {
+  border-color: rgba(255, 209, 0, 0.25);
+  background: #141d2e;
+}
+.ac-coverage-item-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.ac-coverage-item-text strong {
+  display: block;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 3px;
+}
+.ac-coverage-item-text span {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* ── CTA Banner ── */
+.ac-cta {
+  background: #ffd100;
+  padding: 72px 0;
+  text-align: center;
+}
+.ac-cta h2 {
+  font-family: "Barlow Condensed", "Poppins", sans-serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 900;
+  color: #0a0a0a;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
+}
+.ac-cta p {
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 0 0 32px;
+}
+.ac-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+.ac-cta-btn-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #0a0a0a;
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 14px 28px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.18s, transform 0.18s;
+}
+.ac-cta-btn-dark:hover {
+  background: #1a1a1a;
+  transform: translateY(-1px);
+}
+.ac-cta-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: #0a0a0a;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 14px 28px;
+  border-radius: 4px;
+  border: 1.5px solid rgba(0, 0, 0, 0.3);
+  text-decoration: none;
+  transition: background 0.18s;
+}
+.ac-cta-btn-outline:hover {
+  background: rgba(0, 0, 0, 0.07);
+}
+
+/* ── Responsive ── */
+@media (max-width: 980px) {
+  .ac-areas-grid { grid-template-columns: repeat(2, 1fr); }
+  .ac-coverage-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+@media (max-width: 620px) {
+  .ac-hero { padding: 64px 0 52px; }
+  .ac-areas-grid { grid-template-columns: 1fr; }
+  .ac-hero-stats { gap: 20px; }
+  .ac-cta-actions { flex-direction: column; align-items: stretch; }
+  .ac-cta-btn-dark,
+  .ac-cta-btn-outline { width: 100%; justify-content: center; }
+}
