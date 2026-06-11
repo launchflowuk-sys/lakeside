@@ -3,8 +3,8 @@ FROM node:24-alpine AS builder
 
 WORKDIR /app
 
-# Enable pnpm via corepack (matches lockfileVersion 9)
-RUN corepack enable && corepack prepare pnpm@9 --activate
+# Enable pnpm via corepack — must match the version that generated the lockfile
+RUN corepack enable && corepack prepare pnpm@10 --activate
 
 # Copy workspace manifests for layer-cached dependency install
 COPY pnpm-workspace.yaml pnpm-lock.yaml package.json ./
