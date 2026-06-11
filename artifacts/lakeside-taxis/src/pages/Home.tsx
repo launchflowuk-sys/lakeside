@@ -140,12 +140,12 @@ function GoogleReviewsSection() {
 }
 
 const airports = [
-  { name: "Heathrow", code: "LHR", href: "/airport-transfers/heathrow" },
-  { name: "Gatwick", code: "LGW", href: "/airport-transfers/gatwick" },
-  { name: "Stansted", code: "STN", href: "/airport-transfers/stansted" },
-  { name: "Luton", code: "LTN", href: "/airport-transfers/luton" },
-  { name: "London City", code: "LCY", href: "/airport-transfers/london-city" },
-  { name: "Southend", code: "SEN", href: "/airport-transfers/southend" },
+  { name: "Heathrow", code: "LHR", price: "£105", href: "/airport-transfers/heathrow" },
+  { name: "Gatwick", code: "LGW", price: "£80", href: "/airport-transfers/gatwick" },
+  { name: "Stansted", code: "STN", price: "£70", href: "/airport-transfers/stansted" },
+  { name: "Luton", code: "LTN", price: "£100", href: "/airport-transfers/luton" },
+  { name: "London City", code: "LCY", price: "£55", href: "/airport-transfers/london-city" },
+  { name: "Southend", code: "SEN", price: "£50", href: "/airport-transfers/southend" },
 ];
 
 export default function Home() {
@@ -356,35 +356,27 @@ export default function Home() {
         {/* ── AIRPORT TRANSFERS ── */}
         <section className="hp-dark" data-testid="airports-section" data-section="airport-transfers">
           <div className="hp-inner">
-            <div className="hp-airport-grid">
-              <div className="hp-airport-image" />
+            <div className="hp-airport-header">
               <div>
-                <h2 className="hp-airport-title">
-                  Airport Transfers <span>From Thurrock</span>
-                </h2>
-                <p style={{ color: "color-mix(in srgb, hsl(var(--card)) 80%, transparent)", lineHeight: 1.6 }}>
-                  Reliable airport transfers from Grays, Purfleet, Lakeside and wider Thurrock to all major UK airports.
-                </p>
-                <ul className="hp-airport-list">
-                  <li>Heathrow, Gatwick, Stansted, Luton, London City and Southend</li>
-                  <li>Meet and greet available</li>
-                  <li>Flight monitoring for delays</li>
-                  <li>Fixed price confirmed before travel</li>
-                  <li>24/7 airport transfer service</li>
-                </ul>
-                <div className="hp-airport-buttons">
-                  {airports.map((a) => (
-                    <Link key={a.href} href={a.href} className="hp-airport-pill" data-testid={`airport-pill-${a.code.toLowerCase()}`}>
-                      {a.name}<br />{a.code}
-                    </Link>
-                  ))}
-                </div>
-                <div style={{ marginTop: 28 }}>
-                  <Link href="/quote-request" className="hp-btn hp-btn-primary" data-testid="airports-cta-btn">
-                    Get Airport Transfer Quote →
-                  </Link>
-                </div>
+                <div className="hp-kicker">Fixed Prices From Thurrock</div>
+                <h2 className="hp-airport-title">Airport Transfers <span>From Thurrock</span></h2>
+                <p className="hp-airport-sub">Fixed prices confirmed before travel. Flight tracking on return pickups. 24/7 service.</p>
               </div>
+              <Link href="/airport-transfers" className="hp-btn hp-btn-primary hp-airport-all-btn" data-testid="airports-cta-btn">
+                View All Airports →
+              </Link>
+            </div>
+            <div className="hp-airport-cards">
+              {airports.map((a) => (
+                <Link key={a.href} href={a.href} className="hp-airport-card" data-testid={`airport-pill-${a.code.toLowerCase()}`}>
+                  <div className="hp-airport-card-top">
+                    <span className="hp-airport-card-name">{a.name}</span>
+                    <span className="hp-airport-card-code">{a.code}</span>
+                  </div>
+                  <div className="hp-airport-card-price">{a.price}</div>
+                  <div className="hp-airport-card-label">fixed price</div>
+                </Link>
+              ))}
             </div>
 
             {/* Final CTA */}

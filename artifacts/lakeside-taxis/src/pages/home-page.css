@@ -626,32 +626,33 @@
 }
 
 /* ── AIRPORT TRANSFERS ── */
-.hp-airport-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
-  align-items: center;
+.hp-airport-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
 }
 
-.hp-airport-image {
-  min-height: 340px;
-  border-radius: 18px;
-  background:
-    linear-gradient(to bottom,
-      color-mix(in srgb, hsl(var(--primary)) 25%, transparent),
-      color-mix(in srgb, hsl(var(--foreground)) 70%, transparent)),
-    url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=900&q=80');
-  background-size: cover;
-  background-position: center;
-  border: 1px solid color-mix(in srgb, hsl(var(--card)) 14%, transparent);
+.hp-airport-sub {
+  color: color-mix(in srgb, hsl(var(--card)) 60%, transparent);
+  margin: 8px 0 0;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.hp-airport-all-btn {
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .hp-airport-title {
   font-family: 'Poppins', sans-serif;
-  font-size: clamp(30px, 3.8vw, 50px);
+  font-size: clamp(26px, 3.2vw, 44px);
   line-height: 1.1;
   text-transform: uppercase;
-  margin: 0 0 18px;
+  margin: 8px 0 0;
   font-weight: 900;
   color: hsl(var(--card));
   letter-spacing: -0.02em;
@@ -659,49 +660,83 @@
 
 .hp-airport-title span {
   color: hsl(var(--primary));
-  display: block;
 }
 
-.hp-airport-list {
-  list-style: none;
-  padding: 0;
-  margin: 22px 0;
+.hp-airport-cards {
   display: grid;
-  gap: 12px;
-  color: color-mix(in srgb, hsl(var(--card)) 80%, transparent);
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
 }
 
-.hp-airport-list li::before {
-  content: "✓";
-  color: hsl(var(--primary));
-  font-weight: 900;
-  margin-right: 10px;
-}
-
-.hp-airport-buttons {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-top: 22px;
-}
-
-.hp-airport-pill {
-  border: 1px solid color-mix(in srgb, hsl(var(--card)) 16%, transparent);
-  border-radius: 8px;
-  padding: 14px;
-  text-align: center;
-  color: hsl(var(--card));
+.hp-airport-card {
+  background: hsl(var(--foreground));
+  border: 1px solid color-mix(in srgb, hsl(var(--card)) 10%, transparent);
+  border-radius: 14px;
+  padding: 22px 18px;
   text-decoration: none;
-  font-weight: 900;
-  font-size: 13px;
-  line-height: 1.4;
-  transition: border-color 0.2s, background 0.2s;
-  background: color-mix(in srgb, hsl(var(--card)) 5%, transparent);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.hp-airport-pill:hover {
-  border-color: hsl(var(--primary));
+.hp-airport-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: hsl(var(--primary));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.22s ease;
+}
+
+.hp-airport-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, hsl(var(--primary)) 50%, transparent);
+  box-shadow: 0 12px 32px color-mix(in srgb, hsl(var(--primary)) 12%, transparent);
+}
+
+.hp-airport-card:hover::before {
+  transform: scaleX(1);
+}
+
+.hp-airport-card-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.hp-airport-card-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: hsl(var(--card));
+}
+
+.hp-airport-card-code {
+  font-size: 10px;
+  font-weight: 600;
+  color: color-mix(in srgb, hsl(var(--card)) 40%, transparent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hp-airport-card-price {
+  font-family: 'Poppins', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
   color: hsl(var(--primary));
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.hp-airport-card-label {
+  font-size: 10px;
+  color: color-mix(in srgb, hsl(var(--card)) 35%, transparent);
+  letter-spacing: 0.02em;
 }
 
 /* ── FINAL CTA ── */
@@ -772,8 +807,12 @@
     max-width: 420px;
   }
 
-  .hp-airport-buttons {
-    grid-template-columns: repeat(2, 1fr);
+  .hp-airport-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .hp-airport-header {
+    align-items: flex-start;
   }
 
   .hp-final-cta {
@@ -794,8 +833,8 @@
     grid-template-columns: 1fr;
   }
 
-  .hp-airport-buttons {
-    grid-template-columns: 1fr;
+  .hp-airport-cards {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   /* ── Button groups: full-width stacked on mobile ── */
