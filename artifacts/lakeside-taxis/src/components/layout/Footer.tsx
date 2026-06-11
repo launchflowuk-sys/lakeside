@@ -38,13 +38,11 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="mb-4">
-              <span className="logo-shine inline-block">
-                <img
-                  src="/logo-transparent.png"
-                  alt="Lakeside & Purfleet Taxis"
-                  className="h-20 w-auto"
-                />
-              </span>
+              <img
+                src="/logo-transparent.png"
+                alt="Lakeside & Purfleet Taxis"
+                className="h-20 w-auto"
+              />
             </div>
             <p className="text-white/55 text-sm leading-relaxed mb-5">
               Thurrock's trusted taxi company for over 30 years. Local taxis, airport transfers and business travel across Essex.
