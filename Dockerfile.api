@@ -1,0 +1,43 @@
+# ── Stage 1: Build the Express API ───────────────────────────────────────────
+FROM node:24-alpine AS builder
+
+WORKDIR /app
+
+RUN corepack enable && corepack prepare pnpm@9 --activate
+
+# Copy workspace manifests
+COPY pnpm-workspace.yaml pnpm-lock.yaml package.json ./
+
+# Copy only the packages the API needs
+COPY lib/db/package.json          lib/db/
+COPY lib/api-zod/package.json     lib/api-zod/
+COPY lib/api-spec/package.json    lib/api-spec/
+COPY artifacts/api-server/package.json artifacts/api-server/
+
+RUN pnpm install --frozen-lockfile
+
+# Copy source
+COPY lib/ lib/
+COPY artifacts/api-server/ artifacts/api-server/
+
+RUN pnpm --filter @workspace/api-server run build
+
+# ── Stage 2: Minimal production runner ───────────────────────────────────────
+FROM node:24-alpine
+
+WORKDIR /app
+
+# Install only the runtime packages that esbuild externalised
+# (nodemailer + pino-pretty for log formatting)
+RUN npm install --save nodemailer@8 pino-pretty@13 \
+    && npm cache clean --force
+
+# Copy the self-contained esbuild bundle + source maps
+COPY --from=builder /app/artifacts/api-server/dist ./dist
+
+EXPOSE 8080
+
+ENV NODE_ENV=production \
+    PORT=8080
+
+CMD ["node", "--enable-source-maps", "./dist/index.mjs"]

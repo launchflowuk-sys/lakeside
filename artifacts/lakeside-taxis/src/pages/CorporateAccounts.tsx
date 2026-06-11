@@ -118,7 +118,7 @@ export default function CorporateAccounts() {
                 }}>
                   <span style={{ fontSize: 30 }}>{c.icon}</span>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 900, textTransform: "uppercase" as const, color: "hsl(var(--card))", fontSize: 15 }}>{c.title}</div>
+                    <div style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 900, textTransform: "uppercase" as const, color: "hsl(var(--card))", fontSize: 15 }}>{c.title}</div>
                     <div style={{ fontSize: 13, color: "color-mix(in srgb, hsl(var(--card)) 60%, transparent)" }}>{c.sub}</div>
                   </div>
                   <a href={c.href} className="ip-btn ip-btn-primary" style={{ fontSize: 12, padding: "10px 16px" }}>{c.label}</a>

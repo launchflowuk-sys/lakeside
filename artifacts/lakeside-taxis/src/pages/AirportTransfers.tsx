@@ -74,7 +74,7 @@ export default function AirportTransfers() {
                   <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
                     <span style={{ fontSize: 28 }}>{a.icon}</span>
                     <div>
-                      <div style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 900, fontSize: 18, textTransform: "uppercase" as const }}>{a.name}</div>
+                      <div style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 900, fontSize: 18, textTransform: "uppercase" as const }}>{a.name}</div>
                       <div style={{ fontSize: 12, opacity: 0.5, fontWeight: 700 }}>{a.code}</div>
                     </div>
                   </div>

@@ -41,12 +41,12 @@
 }
 
 .ip-hero h1 {
-  font-family: 'Outfit', sans-serif;
-  font-size: clamp(42px, 6vw, 82px);
-  line-height: 0.94;
-  margin: 0 0 20px;
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(38px, 5.5vw, 74px);
+  line-height: 1.05;
+  margin: 0 0 22px;
   text-transform: uppercase;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
   font-weight: 900;
 }
 
@@ -172,13 +172,13 @@
 .ip-kicker-center { text-align: center; }
 
 .ip-section-title {
-  font-family: 'Outfit', sans-serif;
-  font-size: clamp(32px, 4vw, 54px);
-  line-height: 1;
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(28px, 3.6vw, 48px);
+  line-height: 1.1;
   text-transform: uppercase;
-  margin: 0 0 14px;
+  margin: 0 0 16px;
   font-weight: 900;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
 }
 
 .ip-section-title-center { text-align: center; }
@@ -295,12 +295,13 @@
 }
 
 .ip-card h3 {
-  font-family: 'Outfit', sans-serif;
-  font-size: 17px;
-  font-weight: 900;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
   text-transform: uppercase;
   margin: 0 0 8px;
   color: hsl(var(--foreground));
+  letter-spacing: -0.01em;
 }
 
 .ip-card-dark h3 { color: hsl(var(--card)); }
@@ -368,12 +369,13 @@
 }
 
 .ip-cta-banner h2 {
-  font-family: 'Outfit', sans-serif;
-  font-size: clamp(28px, 3.5vw, 48px);
-  line-height: 1;
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(24px, 3vw, 40px);
+  line-height: 1.1;
   margin: 0 0 8px;
   text-transform: uppercase;
   font-weight: 900;
+  letter-spacing: -0.02em;
 }
 
 .ip-cta-banner p { margin: 0; opacity: 0.8; font-size: 15px; }
@@ -426,12 +428,13 @@
 .ip-related-icon { font-size: 28px; margin-bottom: 10px; }
 
 .ip-related-card h3 {
-  font-family: 'Outfit', sans-serif;
-  font-size: 14px;
-  font-weight: 900;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
   text-transform: uppercase;
   margin: 0 0 6px;
   color: hsl(var(--foreground));
+  letter-spacing: -0.01em;
 }
 
 .ip-related-card p {

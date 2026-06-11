@@ -108,7 +108,7 @@ export default function SchoolRuns() {
                 padding: 32,
               }}>
                 <div style={{ fontSize: 48, marginBottom: 16 }}>💬</div>
-                <div style={{ fontFamily: "'Outfit', sans-serif", color: "hsl(var(--primary))", fontSize: 28, fontWeight: 900, textTransform: "uppercase" as const, marginBottom: 12 }}>What Parents Say</div>
+                <div style={{ fontFamily: "'Poppins', sans-serif", color: "hsl(var(--primary))", fontSize: 28, fontWeight: 900, textTransform: "uppercase" as const, marginBottom: 12 }}>What Parents Say</div>
                 <p style={{ color: "color-mix(in srgb, hsl(var(--card)) 80%, transparent)", lineHeight: 1.7, fontStyle: "italic" as const, marginBottom: 20 }}>
                   "They do our daughter's school run every morning. She's always picked up on time and the driver is brilliant with her. Complete peace of mind."
                 </p>

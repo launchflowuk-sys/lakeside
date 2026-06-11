@@ -109,7 +109,7 @@ export default function Home() {
                 boxShadow: "0 26px 80px color-mix(in srgb, hsl(var(--foreground)) 70%, transparent)",
               }}>
                 <h2 style={{
-                  fontFamily: "'Outfit', sans-serif",
+                  fontFamily: "'Poppins', sans-serif",
                   color: "hsl(var(--primary))",
                   fontSize: 28,
                   lineHeight: 1,

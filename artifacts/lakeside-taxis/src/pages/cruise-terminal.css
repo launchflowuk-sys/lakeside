@@ -92,7 +92,7 @@
 }
 
 .cruise-direction-card h3 {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 22px;
   font-weight: 900;
   text-transform: uppercase;
@@ -142,7 +142,7 @@
 
 .cruise-line-card strong {
   display: block;
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 900;
   font-size: 15px;
   color: hsl(var(--foreground));
@@ -206,7 +206,7 @@
 }
 
 .cruise-stat-number {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: clamp(28px, 4vw, 44px);
   font-weight: 900;
   color: hsl(var(--primary));
@@ -237,7 +237,7 @@
 }
 
 .cruise-faq-item h3 {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 16px;
   font-weight: 900;
   color: hsl(var(--foreground));
