@@ -110,9 +110,7 @@ export default function CorporateApplicationDetail({ params }: Props) {
   return (
     <AdminLayout>
       <Helmet>
-        <title>
-          {app ? `${app.companyName} | Corporate` : "Corporate Application"} | Lakeside Taxis Admin
-        </title>
+        <title>{app ? `${app.companyName} | Corporate | Lakeside Taxis Admin` : "Corporate Application | Lakeside Taxis Admin"}</title>
       </Helmet>
 
       {/* Back + header */}

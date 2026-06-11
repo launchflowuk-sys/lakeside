@@ -106,7 +106,7 @@ export default function AdminLeadDetail() {
 
   return (
     <AdminLayout>
-      <Helmet><title>Lead #{lead.id} | Lakeside Taxis Admin</title></Helmet>
+      <Helmet><title>{`Lead #${lead.id} | Lakeside Taxis Admin`}</title></Helmet>
       <div className="mb-5 flex items-center gap-3">
         <Link href="/admin/leads">
           <Button variant="ghost" size="sm" className="text-muted-foreground">
