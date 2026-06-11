@@ -3,20 +3,28 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Lakeside & Purfleet Taxis API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: leads
+    description: Public lead/booking request operations
+  - name: admin-auth
+    description: Admin authentication
+  - name: admin-leads
+    description: Admin lead management
+  - name: admin-stats
+    description: Admin dashboard statistics
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +32,237 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /leads:
+    post:
+      operationId: submitLead
+      tags: [leads]
+      summary: Submit a booking request / quote enquiry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LeadInput"
+      responses:
+        "201":
+          description: Lead created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Lead"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /admin/auth/login:
+    post:
+      operationId: adminLogin
+      tags: [admin-auth]
+      summary: Admin login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminLoginInput"
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminUser"
+        "401":
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /admin/auth/logout:
+    post:
+      operationId: adminLogout
+      tags: [admin-auth]
+      summary: Admin logout
+      responses:
+        "200":
+          description: Logged out
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  /admin/auth/me:
+    get:
+      operationId: getAdminMe
+      tags: [admin-auth]
+      summary: Get current admin user
+      responses:
+        "200":
+          description: Current admin
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminUser"
+        "401":
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /admin/stats:
+    get:
+      operationId: getAdminStats
+      tags: [admin-stats]
+      summary: Dashboard statistics
+      responses:
+        "200":
+          description: Stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminStats"
+
+  /admin/leads:
+    get:
+      operationId: listAdminLeads
+      tags: [admin-leads]
+      summary: List all leads with optional filters
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+          description: Filter by lead status
+        - name: page
+          in: query
+          schema:
+            type: integer
+          description: Page number
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          description: Items per page
+      responses:
+        "200":
+          description: List of leads
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeadListResponse"
+
+  /admin/leads/{id}:
+    get:
+      operationId: getAdminLead
+      tags: [admin-leads]
+      summary: Get a single lead
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lead detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeadDetail"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    patch:
+      operationId: updateAdminLead
+      tags: [admin-leads]
+      summary: Update a lead (status, notes, quoted price, etc.)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LeadUpdate"
+      responses:
+        "200":
+          description: Updated lead
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeadDetail"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /admin/leads/{id}/reply:
+    post:
+      operationId: replyToLead
+      tags: [admin-leads]
+      summary: Send an email reply to the customer
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LeadReplyInput"
+      responses:
+        "200":
+          description: Reply sent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeadReply"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /admin/leads/{id}/replies:
+    get:
+      operationId: getLeadReplies
+      tags: [admin-leads]
+      summary: Get reply log for a lead
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Reply log
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LeadReply"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +273,345 @@ components:
       required:
         - status
 
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+      required:
+        - success
+
+    LeadInput:
+      type: object
+      required:
+        - journeyType
+        - pickupLocation
+        - destination
+        - journeyDate
+        - journeyTime
+        - passengers
+        - fullName
+        - mobile
+        - email
+        - preferredContactMethod
+      properties:
+        journeyType:
+          type: string
+          enum: [local, airport, school_run, corporate, long_distance, other]
+        pickupLocation:
+          type: string
+        destination:
+          type: string
+        viaStops:
+          type: ["string", "null"]
+        journeyDate:
+          type: string
+        journeyTime:
+          type: string
+        returnRequired:
+          type: boolean
+        returnDate:
+          type: ["string", "null"]
+        returnTime:
+          type: ["string", "null"]
+        passengers:
+          type: integer
+        luggage:
+          type: ["string", "null"]
+        childSeatsRequired:
+          type: boolean
+        accessibilityRequirements:
+          type: ["string", "null"]
+        additionalNotes:
+          type: ["string", "null"]
+        fullName:
+          type: string
+        mobile:
+          type: string
+        email:
+          type: string
+        preferredContactMethod:
+          type: string
+          enum: [phone, whatsapp, email]
+
+    Lead:
+      type: object
+      required:
+        - id
+        - createdAt
+        - status
+        - journeyType
+        - pickupLocation
+        - destination
+        - journeyDate
+        - journeyTime
+        - passengers
+        - fullName
+        - mobile
+        - email
+        - preferredContactMethod
+      properties:
+        id:
+          type: integer
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        status:
+          type: string
+        journeyType:
+          type: string
+        pickupLocation:
+          type: string
+        destination:
+          type: string
+        viaStops:
+          type: ["string", "null"]
+        journeyDate:
+          type: string
+        journeyTime:
+          type: string
+        returnRequired:
+          type: boolean
+        returnDate:
+          type: ["string", "null"]
+        returnTime:
+          type: ["string", "null"]
+        passengers:
+          type: integer
+        luggage:
+          type: ["string", "null"]
+        childSeatsRequired:
+          type: boolean
+        accessibilityRequirements:
+          type: ["string", "null"]
+        additionalNotes:
+          type: ["string", "null"]
+        fullName:
+          type: string
+        mobile:
+          type: string
+        email:
+          type: string
+        preferredContactMethod:
+          type: string
+        quotedPrice:
+          type: ["string", "null"]
+        adminNotes:
+          type: ["string", "null"]
+        assignedDriver:
+          type: ["string", "null"]
+        bookingReference:
+          type: ["string", "null"]
+
+    LeadDetail:
+      type: object
+      required:
+        - id
+        - createdAt
+        - status
+        - journeyType
+        - pickupLocation
+        - destination
+        - journeyDate
+        - journeyTime
+        - passengers
+        - fullName
+        - mobile
+        - email
+        - preferredContactMethod
+      properties:
+        id:
+          type: integer
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        status:
+          type: string
+        journeyType:
+          type: string
+        pickupLocation:
+          type: string
+        destination:
+          type: string
+        viaStops:
+          type: ["string", "null"]
+        journeyDate:
+          type: string
+        journeyTime:
+          type: string
+        returnRequired:
+          type: boolean
+        returnDate:
+          type: ["string", "null"]
+        returnTime:
+          type: ["string", "null"]
+        passengers:
+          type: integer
+        luggage:
+          type: ["string", "null"]
+        childSeatsRequired:
+          type: boolean
+        accessibilityRequirements:
+          type: ["string", "null"]
+        additionalNotes:
+          type: ["string", "null"]
+        fullName:
+          type: string
+        mobile:
+          type: string
+        email:
+          type: string
+        preferredContactMethod:
+          type: string
+        quotedPrice:
+          type: ["string", "null"]
+        adminNotes:
+          type: ["string", "null"]
+        assignedDriver:
+          type: ["string", "null"]
+        bookingReference:
+          type: ["string", "null"]
+
+    LeadUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [new, contacted, quoted, booked, completed, cancelled, archived]
+        adminNotes:
+          type: ["string", "null"]
+        quotedPrice:
+          type: ["string", "null"]
+        assignedDriver:
+          type: ["string", "null"]
+        bookingReference:
+          type: ["string", "null"]
+
+    LeadListResponse:
+      type: object
+      required:
+        - leads
+        - total
+        - page
+        - limit
+      properties:
+        leads:
+          type: array
+          items:
+            $ref: "#/components/schemas/Lead"
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+
+    LeadReplyInput:
+      type: object
+      required:
+        - subject
+        - message
+      properties:
+        subject:
+          type: string
+        message:
+          type: string
+        quotedPrice:
+          type: ["string", "null"]
+
+    LeadReply:
+      type: object
+      required:
+        - id
+        - leadId
+        - subject
+        - message
+        - sentAt
+        - sentBy
+      properties:
+        id:
+          type: integer
+        leadId:
+          type: integer
+        subject:
+          type: string
+        message:
+          type: string
+        quotedPrice:
+          type: ["string", "null"]
+        sentAt:
+          type: string
+        sentBy:
+          type: string
+
+    AdminUser:
+      type: object
+      required:
+        - id
+        - email
+        - name
+        - role
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+
+    AdminLoginInput:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    AdminStats:
+      type: object
+      required:
+        - total
+        - new
+        - contacted
+        - quoted
+        - booked
+        - completed
+        - cancelled
+        - archived
+        - recentLeads
+      properties:
+        total:
+          type: integer
+        new:
+          type: integer
+        contacted:
+          type: integer
+        quoted:
+          type: integer
+        booked:
+          type: integer
+        completed:
+          type: integer
+        cancelled:
+          type: integer
+        archived:
+          type: integer
+        recentLeads:
+          type: array
+          items:
+            $ref: "#/components/schemas/Lead"
