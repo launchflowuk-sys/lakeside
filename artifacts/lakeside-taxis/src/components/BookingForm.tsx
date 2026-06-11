@@ -171,7 +171,7 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
   ];
 
   return (
-    <div className={`bg-card border border-border rounded-xl overflow-hidden ${compact ? "" : "shadow-2xl"}`} data-testid="booking-form">
+    <div className={`bg-card text-card-foreground border border-border rounded-xl overflow-hidden ${compact ? "" : "shadow-2xl"}`} style={{ colorScheme: "light" }} data-testid="booking-form">
       {/* Progress — simple bar, not a software wizard */}
       <div className="bg-muted px-5 pt-3 pb-3">
         <div className="flex items-center justify-between mb-2">
