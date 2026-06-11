@@ -221,56 +221,100 @@
 /* ── SERVICES ── */
 .hp-services-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 18px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
 }
 
 .hp-service-card {
-  background: hsl(var(--card));
-  border: 1px solid hsl(var(--border));
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 14px 40px color-mix(in srgb, hsl(var(--foreground)) 10%, transparent);
-  text-decoration: none;
-  color: inherit;
-  transition: border-color 0.2s, box-shadow 0.2s;
   display: block;
+  text-decoration: none;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 3 / 2;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  transition: transform 0.25s, box-shadow 0.25s;
 }
 
 .hp-service-card:hover {
-  border-color: color-mix(in srgb, hsl(var(--primary)) 50%, transparent);
-  box-shadow: 0 14px 40px color-mix(in srgb, hsl(var(--primary)) 8%, transparent);
+  transform: translateY(-4px);
+  box-shadow: 0 18px 48px rgba(0,0,0,0.28);
 }
 
-.hp-service-image {
-  height: 80px;
-  background: hsl(var(--muted));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 36px;
+.hp-service-photo {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
   position: relative;
+  transition: transform 0.35s;
 }
 
-.hp-service-body {
-  padding: 22px 16px 20px;
-  text-align: center;
+.hp-service-card:hover .hp-service-photo {
+  transform: scale(1.04);
 }
 
-.hp-service-body h3 {
-  margin: 0 0 8px;
+.hp-service-photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.88) 0%,
+    rgba(0,0,0,0.45) 50%,
+    rgba(0,0,0,0.12) 100%
+  );
+  transition: background 0.25s;
+}
+
+.hp-service-card:hover .hp-service-photo::after {
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.92) 0%,
+    rgba(0,0,0,0.55) 55%,
+    rgba(0,0,0,0.18) 100%
+  );
+}
+
+.hp-service-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 26px 24px;
+}
+
+.hp-service-overlay h3 {
+  margin: 0 0 6px;
   font-family: 'Poppins', sans-serif;
   text-transform: uppercase;
-  font-size: 15px;
+  font-size: 19px;
   font-weight: 900;
-  color: hsl(var(--foreground));
+  color: #fff;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
 }
 
-.hp-service-body p {
-  margin: 0;
-  color: hsl(var(--muted-foreground));
+.hp-service-overlay p {
+  margin: 0 0 14px;
+  color: rgba(255,255,255,0.78);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.hp-service-cta {
   font-size: 13px;
-  line-height: 1.45;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: hsl(var(--primary));
+  transition: letter-spacing 0.2s;
+}
+
+.hp-service-card:hover .hp-service-cta {
+  letter-spacing: 0.1em;
 }
 
 .hp-center-cta {
@@ -326,34 +370,89 @@
 .hp-contact-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
+  gap: 20px;
 }
 
 .hp-contact-card {
-  border: 1px solid color-mix(in srgb, hsl(var(--card)) 16%, transparent);
+  border: 1px solid rgba(255,255,255,0.1);
   border-radius: 16px;
-  padding: 30px 24px;
-  text-align: center;
-  background: color-mix(in srgb, hsl(var(--card)) 4%, transparent);
+  padding: 28px 24px;
+  background: rgba(255,255,255,0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
-.hp-contact-card .hp-icon {
-  font-size: 38px;
+.hp-contact-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: hsl(var(--primary));
   margin-bottom: 18px;
+  flex-shrink: 0;
 }
 
-.hp-contact-card h3 {
+.hp-contact-icon--green {
+  color: #25d366;
+}
+
+.hp-contact-body {
+  flex: 1;
+}
+
+.hp-contact-body h3 {
   font-family: 'Poppins', sans-serif;
   text-transform: uppercase;
-  margin: 0 0 10px;
-  color: hsl(var(--card));
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  margin: 0 0 8px;
+  color: #fff;
 }
 
-.hp-contact-card p {
-  color: color-mix(in srgb, hsl(var(--card)) 68%, transparent);
-  line-height: 1.5;
-  margin-bottom: 20px;
-  font-size: 14px;
+.hp-contact-body p {
+  color: rgba(255,255,255,0.58);
+  line-height: 1.55;
+  margin: 0 0 22px;
+  font-size: 13.5px;
+}
+
+.hp-contact-action {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: opacity 0.2s, transform 0.2s;
+  align-self: flex-start;
+}
+
+.hp-contact-action:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+.hp-contact-action--yellow {
+  background: hsl(var(--primary));
+  color: hsl(var(--foreground));
+}
+
+.hp-contact-action--green {
+  background: #25d366;
+  color: #fff;
+}
+
+.hp-contact-action--outline {
+  border: 1.5px solid rgba(255,255,255,0.3);
+  color: #fff;
+  background: transparent;
 }
 
 /* ── TESTIMONIALS ── */
@@ -553,9 +652,13 @@
   }
 
   .hp-trust-grid,
-  .hp-testimonial-grid,
+  .hp-testimonial-grid {
+    grid-template-columns: 1fr;
+  }
+
   .hp-contact-cards {
     grid-template-columns: 1fr;
+    max-width: 420px;
   }
 
   .hp-airport-buttons {

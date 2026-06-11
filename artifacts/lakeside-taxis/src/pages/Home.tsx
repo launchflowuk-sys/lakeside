@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
+import { FileText, MessageCircle, Phone } from "lucide-react";
 import BookingForm from "@/components/BookingForm";
 import Layout from "@/components/layout/Layout";
 import "./home-page.css";
@@ -8,12 +9,12 @@ const PHONE_HREF = "tel:01375383878";
 const WA_HREF = "https://wa.me/447879956275";
 
 const services = [
-  { icon: "🚕", title: "Local Taxi", desc: "Fast, reliable local taxis across Thurrock day and night.", href: "/local-taxis" },
-  { icon: "✈️", title: "Airport Transfers", desc: "Transfers to and from all major airports in the UK.", href: "/airport-transfers" },
-  { icon: "🎒", title: "School Runs", desc: "Safe, reliable school transport you can count on.", href: "/school-runs" },
-  { icon: "💼", title: "Corporate Travel", desc: "Business travel solutions and corporate accounts.", href: "/corporate-accounts" },
-  { icon: "🛣️", title: "Long Distance", desc: "UK-wide journeys made comfortable and stress-free.", href: "/long-distance-travel" },
-  { icon: "📞", title: "Any Journey", desc: "Any other journey? We are here to help.", href: "/quote-request" },
+  { title: "Local Taxi", desc: "Fast, reliable taxis across Thurrock — day and night, 365 days a year.", href: "/local-taxis", bg: "https://images.unsplash.com/photo-1537726235470-8504e3beef77?w=700&q=80" },
+  { title: "Airport Transfers", desc: "Fixed-price transfers to all major UK airports — Heathrow, Gatwick, Stansted and more.", href: "/airport-transfers", bg: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=700&q=80" },
+  { title: "School Runs", desc: "Safe, reliable school transport with DBS-checked, experienced drivers.", href: "/school-runs", bg: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=700&q=80" },
+  { title: "Corporate Travel", desc: "Professional business travel solutions and managed corporate accounts.", href: "/corporate-accounts", bg: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=700&q=80" },
+  { title: "Long Distance", desc: "Comfortable, stress-free UK-wide journeys with upfront pricing.", href: "/long-distance-travel", bg: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=700&q=80" },
+  { title: "Any Journey", desc: "Something else? We cover every journey — just get in touch.", href: "/quote-request", bg: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=700&q=80" },
 ];
 
 const testimonials = [
@@ -166,10 +167,12 @@ export default function Home() {
             <div className="hp-services-grid">
               {services.map((s) => (
                 <Link key={s.href} href={s.href} className="hp-service-card" data-testid={`service-card-${s.href.split("/").pop()}`}>
-                  <div className="hp-service-image">{s.icon}</div>
-                  <div className="hp-service-body">
-                    <h3>{s.title}</h3>
-                    <p>{s.desc}</p>
+                  <div className="hp-service-photo" style={{ backgroundImage: `url(${s.bg})` }}>
+                    <div className="hp-service-overlay">
+                      <h3>{s.title}</h3>
+                      <p>{s.desc}</p>
+                      <span className="hp-service-cta">Learn more →</span>
+                    </div>
                   </div>
                 </Link>
               ))}
@@ -199,22 +202,34 @@ export default function Home() {
             </div>
             <div className="hp-contact-cards">
               <div className="hp-contact-card">
-                <div className="hp-icon">📄</div>
-                <h3>Get a Quote</h3>
-                <p>Send your journey details and we will get back to you.</p>
-                <Link href="/quote-request" className="hp-btn hp-btn-primary">Request Quote</Link>
+                <div className="hp-contact-icon"><FileText size={22} /></div>
+                <div className="hp-contact-body">
+                  <h3>Get a Quote</h3>
+                  <p>Send your journey details and we'll reply within 2 hours.</p>
+                </div>
+                <Link href="/quote-request" className="hp-contact-action hp-contact-action--yellow">
+                  Request a Quote →
+                </Link>
               </div>
               <div className="hp-contact-card">
-                <div className="hp-icon">🟢</div>
-                <h3>WhatsApp Us</h3>
-                <p>The quickest way to get a fast response.</p>
-                <a href={WA_HREF} className="hp-btn hp-btn-green">Chat on WhatsApp</a>
+                <div className="hp-contact-icon hp-contact-icon--green"><MessageCircle size={22} /></div>
+                <div className="hp-contact-body">
+                  <h3>WhatsApp Us</h3>
+                  <p>The quickest way to get a fast response from our team.</p>
+                </div>
+                <a href={WA_HREF} className="hp-contact-action hp-contact-action--green">
+                  Chat on WhatsApp →
+                </a>
               </div>
               <div className="hp-contact-card">
-                <div className="hp-icon">📞</div>
-                <h3>Call Us</h3>
-                <p>Speak directly with our friendly team.</p>
-                <a href={PHONE_HREF} className="hp-btn hp-btn-outline">01375 383878</a>
+                <div className="hp-contact-icon"><Phone size={22} /></div>
+                <div className="hp-contact-body">
+                  <h3>Call Us Direct</h3>
+                  <p>Speak with our friendly team any time, day or night.</p>
+                </div>
+                <a href={PHONE_HREF} className="hp-contact-action hp-contact-action--outline">
+                  01375 383878 →
+                </a>
               </div>
             </div>
           </div>
