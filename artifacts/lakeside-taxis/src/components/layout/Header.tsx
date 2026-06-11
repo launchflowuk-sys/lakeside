@@ -28,7 +28,7 @@ export default function Header() {
   const [location] = useLocation();
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-border shadow-sm">
+    <header className="sticky top-0 z-50 bg-transparent lg:bg-white border-b border-transparent lg:border-border shadow-none lg:shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-[4.5rem]">
 
@@ -121,7 +121,7 @@ export default function Header() {
               onClick={() => setMobileOpen(!mobileOpen)}
               data-testid="mobile-menu-toggle"
             >
-              {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileOpen ? <X className="w-6 h-6 text-primary" /> : <Menu className="w-6 h-6 text-primary" />}
             </button>
           </div>
         </div>
