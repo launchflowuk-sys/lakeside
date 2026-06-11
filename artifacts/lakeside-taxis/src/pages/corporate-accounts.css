@@ -2,31 +2,23 @@
 
 /* ── Hero ── */
 .ca-hero {
-  background: #0a0a0a;
+  background:
+    linear-gradient(to right,
+      rgba(10, 10, 10, 0.88) 0%,
+      rgba(10, 10, 10, 0.60) 60%,
+      rgba(10, 10, 10, 0.35) 100%),
+    url('/images/corporate-hero.jpg') center / cover no-repeat;
   padding: 100px 0 80px;
   position: relative;
   overflow: hidden;
 }
-.ca-hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 60px,
-      rgba(255, 209, 0, 0.025) 60px,
-      rgba(255, 209, 0, 0.025) 61px
-    );
-  pointer-events: none;
-}
 .ca-hero-inner {
-  max-width: 900px;
+  width: min(1180px, calc(100% - 40px));
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0;
   position: relative;
   z-index: 1;
+  text-align: left;
 }
 .ca-hero-kicker {
   display: inline-flex;
