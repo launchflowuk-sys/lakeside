@@ -13,6 +13,7 @@ import AirportTransfers from "@/pages/AirportTransfers";
 import CorporateAccounts from "@/pages/CorporateAccounts";
 import SchoolRuns from "@/pages/SchoolRuns";
 import LongDistanceTravel from "@/pages/LongDistanceTravel";
+import CruiseTerminalTransfers from "@/pages/CruiseTerminalTransfers";
 import AreasCovered from "@/pages/AreasCovered";
 import QuoteRequest from "@/pages/QuoteRequest";
 import ThankYou from "@/pages/ThankYou";
@@ -82,6 +83,7 @@ function Router() {
       <Route path="/corporate-accounts" component={CorporateAccounts} />
       <Route path="/school-runs" component={SchoolRuns} />
       <Route path="/long-distance-travel" component={LongDistanceTravel} />
+      <Route path="/tilbury-cruise-terminal" component={CruiseTerminalTransfers} />
       <Route path="/areas-covered" component={AreasCovered} />
       <Route path="/areas/grays" component={GraysPage} />
       <Route path="/areas/purfleet" component={PurfleetPage} />
