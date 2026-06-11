@@ -1,1 +1,2 @@
 - [Zod import in api-server](zod-api-server-import.md) — use `from "zod"` (not `"zod/v4"`); add `"zod": "catalog:"` to api-server deps first.
+- [Coolify Docker deployment](coolify-docker-deploy.md) — 4 hard-won rules: slim not alpine, copy tsconfig.base.json, no host ports (use coolify network), pnpm version must match lockfile.
