@@ -52,8 +52,8 @@ export async function sendNewLeadNotification(lead: {
   returnDate?: string | null;
   returnTime?: string | null;
   passengers: number;
-  luggage?: number | null;
-  childSeats?: number | null;
+  luggage?: string | null;
+  childSeats?: boolean | null;
   notes?: string | null;
 }): Promise<void> {
   const transporter = createTransport();

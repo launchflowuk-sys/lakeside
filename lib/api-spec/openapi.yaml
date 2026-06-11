@@ -18,6 +18,10 @@ tags:
     description: Admin lead management
   - name: admin-stats
     description: Admin dashboard statistics
+  - name: corporate-applications
+    description: Public corporate account applications
+  - name: admin-corporate
+    description: Admin corporate application management
 
 paths:
   /healthz:
@@ -262,6 +266,123 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/LeadReply"
+
+  /corporate-applications:
+    post:
+      operationId: submitCorporateApplication
+      tags: [corporate-applications]
+      summary: Submit a corporate account application
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CorporateApplicationInput"
+      responses:
+        "201":
+          description: Application submitted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CorporateApplication"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /admin/corporate-applications:
+    get:
+      operationId: listAdminCorporateApplications
+      tags: [admin-corporate]
+      summary: List corporate account applications
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [new, reviewing, approved, rejected, on_hold]
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of applications
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CorporateApplicationListResponse"
+
+  /admin/corporate-applications/{id}:
+    get:
+      operationId: getAdminCorporateApplication
+      tags: [admin-corporate]
+      summary: Get a corporate application by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Corporate application detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CorporateApplication"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    patch:
+      operationId: updateAdminCorporateApplication
+      tags: [admin-corporate]
+      summary: Update status / notes on a corporate application
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CorporateApplicationUpdate"
+      responses:
+        "200":
+          description: Updated application
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CorporateApplication"
+    delete:
+      operationId: deleteAdminCorporateApplication
+      tags: [admin-corporate]
+      summary: Delete a corporate application
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
 
 components:
   schemas:
@@ -615,3 +736,150 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Lead"
+
+    CorporateApplicationInput:
+      type: object
+      required:
+        - companyName
+        - organisationType
+        - companyAddress
+        - city
+        - postcode
+        - contactName
+        - email
+        - phone
+        - estimatedMonthlyJourneys
+        - journeyTypes
+        - preferredBilling
+      properties:
+        companyName:
+          type: string
+        organisationType:
+          type: string
+          enum: [business, school, council, nhs, charity, other]
+        companyAddress:
+          type: string
+        city:
+          type: string
+        postcode:
+          type: string
+        website:
+          type: ["string", "null"]
+        contactName:
+          type: string
+        jobTitle:
+          type: ["string", "null"]
+        email:
+          type: string
+        phone:
+          type: string
+        estimatedMonthlyJourneys:
+          type: string
+        journeyTypes:
+          type: string
+        numberOfPassengers:
+          type: ["string", "null"]
+        preferredBilling:
+          type: string
+        contractStartDate:
+          type: ["string", "null"]
+        existingProviderDetails:
+          type: ["string", "null"]
+        additionalRequirements:
+          type: ["string", "null"]
+
+    CorporateApplication:
+      type: object
+      required:
+        - id
+        - createdAt
+        - status
+        - companyName
+        - organisationType
+        - companyAddress
+        - city
+        - postcode
+        - contactName
+        - email
+        - phone
+        - estimatedMonthlyJourneys
+        - journeyTypes
+        - preferredBilling
+      properties:
+        id:
+          type: integer
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        status:
+          type: string
+          enum: [new, reviewing, approved, rejected, on_hold]
+        companyName:
+          type: string
+        organisationType:
+          type: string
+        companyAddress:
+          type: string
+        city:
+          type: string
+        postcode:
+          type: string
+        website:
+          type: ["string", "null"]
+        contactName:
+          type: string
+        jobTitle:
+          type: ["string", "null"]
+        email:
+          type: string
+        phone:
+          type: string
+        estimatedMonthlyJourneys:
+          type: string
+        journeyTypes:
+          type: string
+        numberOfPassengers:
+          type: ["string", "null"]
+        preferredBilling:
+          type: string
+        contractStartDate:
+          type: ["string", "null"]
+        existingProviderDetails:
+          type: ["string", "null"]
+        additionalRequirements:
+          type: ["string", "null"]
+        adminNotes:
+          type: ["string", "null"]
+        assignedTo:
+          type: ["string", "null"]
+
+    CorporateApplicationUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [new, reviewing, approved, rejected, on_hold]
+        adminNotes:
+          type: ["string", "null"]
+        assignedTo:
+          type: ["string", "null"]
+
+    CorporateApplicationListResponse:
+      type: object
+      required:
+        - applications
+        - total
+        - page
+        - limit
+      properties:
+        applications:
+          type: array
+          items:
+            $ref: "#/components/schemas/CorporateApplication"
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer

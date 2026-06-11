@@ -1,0 +1,1 @@
+- [Zod import in api-server](zod-api-server-import.md) — use `from "zod"` (not `"zod/v4"`); add `"zod": "catalog:"` to api-server deps first.

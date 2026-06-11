@@ -23,6 +23,10 @@ import type {
   AdminLoginInput,
   AdminStats,
   AdminUser,
+  CorporateApplication,
+  CorporateApplicationInput,
+  CorporateApplicationListResponse,
+  CorporateApplicationUpdate,
   ErrorResponse,
   HealthStatus,
   Lead,
@@ -32,6 +36,7 @@ import type {
   LeadReply,
   LeadReplyInput,
   LeadUpdate,
+  ListAdminCorporateApplicationsParams,
   ListAdminLeadsParams,
   SuccessResponse
 } from './api.schemas';
@@ -872,4 +877,378 @@ export function useGetLeadReplies<TData = Awaited<ReturnType<typeof getLeadRepli
 
 
 
+
+export const getSubmitCorporateApplicationUrl = () => {
+
+
+
+
+  return `/api/corporate-applications`
+}
+
+/**
+ * @summary Submit a corporate account application
+ */
+export const submitCorporateApplication = async (corporateApplicationInput: CorporateApplicationInput, options?: RequestInit): Promise<CorporateApplication> => {
+
+  return customFetch<CorporateApplication>(getSubmitCorporateApplicationUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      corporateApplicationInput,)
+  }
+);}
+
+
+
+
+export const getSubmitCorporateApplicationMutationOptions = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof submitCorporateApplication>>, TError,{data: BodyType<CorporateApplicationInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof submitCorporateApplication>>, TError,{data: BodyType<CorporateApplicationInput>}, TContext> => {
+
+const mutationKey = ['submitCorporateApplication'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof submitCorporateApplication>>, {data: BodyType<CorporateApplicationInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  submitCorporateApplication(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type SubmitCorporateApplicationMutationResult = NonNullable<Awaited<ReturnType<typeof submitCorporateApplication>>>
+    export type SubmitCorporateApplicationMutationBody = BodyType<CorporateApplicationInput>
+    export type SubmitCorporateApplicationMutationError = ErrorType<ErrorResponse>
+
+    /**
+ * @summary Submit a corporate account application
+ */
+export const useSubmitCorporateApplication = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof submitCorporateApplication>>, TError,{data: BodyType<CorporateApplicationInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof submitCorporateApplication>>,
+        TError,
+        {data: BodyType<CorporateApplicationInput>},
+        TContext
+      > => {
+      return useMutation(getSubmitCorporateApplicationMutationOptions(options));
+    }
+
+export const getListAdminCorporateApplicationsUrl = (params?: ListAdminCorporateApplicationsParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/admin/corporate-applications?${stringifiedParams}` : `/api/admin/corporate-applications`
+}
+
+/**
+ * @summary List corporate account applications
+ */
+export const listAdminCorporateApplications = async (params?: ListAdminCorporateApplicationsParams, options?: RequestInit): Promise<CorporateApplicationListResponse> => {
+
+  return customFetch<CorporateApplicationListResponse>(getListAdminCorporateApplicationsUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListAdminCorporateApplicationsQueryKey = (params?: ListAdminCorporateApplicationsParams,) => {
+    return [
+    `/api/admin/corporate-applications`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getListAdminCorporateApplicationsQueryOptions = <TData = Awaited<ReturnType<typeof listAdminCorporateApplications>>, TError = ErrorType<unknown>>(params?: ListAdminCorporateApplicationsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listAdminCorporateApplications>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListAdminCorporateApplicationsQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listAdminCorporateApplications>>> = ({ signal }) => listAdminCorporateApplications(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listAdminCorporateApplications>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ListAdminCorporateApplicationsQueryResult = NonNullable<Awaited<ReturnType<typeof listAdminCorporateApplications>>>
+export type ListAdminCorporateApplicationsQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary List corporate account applications
+ */
+
+export function useListAdminCorporateApplications<TData = Awaited<ReturnType<typeof listAdminCorporateApplications>>, TError = ErrorType<unknown>>(
+ params?: ListAdminCorporateApplicationsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listAdminCorporateApplications>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getListAdminCorporateApplicationsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getGetAdminCorporateApplicationUrl = (id: number,) => {
+
+
+
+
+  return `/api/admin/corporate-applications/${id}`
+}
+
+/**
+ * @summary Get a corporate application by ID
+ */
+export const getAdminCorporateApplication = async (id: number, options?: RequestInit): Promise<CorporateApplication> => {
+
+  return customFetch<CorporateApplication>(getGetAdminCorporateApplicationUrl(id),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetAdminCorporateApplicationQueryKey = (id: number,) => {
+    return [
+    `/api/admin/corporate-applications/${id}`
+    ] as const;
+    }
+
+
+export const getGetAdminCorporateApplicationQueryOptions = <TData = Awaited<ReturnType<typeof getAdminCorporateApplication>>, TError = ErrorType<ErrorResponse>>(id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAdminCorporateApplication>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAdminCorporateApplicationQueryKey(id);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAdminCorporateApplication>>> = ({ signal }) => getAdminCorporateApplication(id, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAdminCorporateApplication>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetAdminCorporateApplicationQueryResult = NonNullable<Awaited<ReturnType<typeof getAdminCorporateApplication>>>
+export type GetAdminCorporateApplicationQueryError = ErrorType<ErrorResponse>
+
+
+/**
+ * @summary Get a corporate application by ID
+ */
+
+export function useGetAdminCorporateApplication<TData = Awaited<ReturnType<typeof getAdminCorporateApplication>>, TError = ErrorType<ErrorResponse>>(
+ id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAdminCorporateApplication>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetAdminCorporateApplicationQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getUpdateAdminCorporateApplicationUrl = (id: number,) => {
+
+
+
+
+  return `/api/admin/corporate-applications/${id}`
+}
+
+/**
+ * @summary Update status / notes on a corporate application
+ */
+export const updateAdminCorporateApplication = async (id: number,
+    corporateApplicationUpdate: CorporateApplicationUpdate, options?: RequestInit): Promise<CorporateApplication> => {
+
+  return customFetch<CorporateApplication>(getUpdateAdminCorporateApplicationUrl(id),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      corporateApplicationUpdate,)
+  }
+);}
+
+
+
+
+export const getUpdateAdminCorporateApplicationMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateAdminCorporateApplication>>, TError,{id: number;data: BodyType<CorporateApplicationUpdate>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateAdminCorporateApplication>>, TError,{id: number;data: BodyType<CorporateApplicationUpdate>}, TContext> => {
+
+const mutationKey = ['updateAdminCorporateApplication'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateAdminCorporateApplication>>, {id: number;data: BodyType<CorporateApplicationUpdate>}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateAdminCorporateApplication(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateAdminCorporateApplicationMutationResult = NonNullable<Awaited<ReturnType<typeof updateAdminCorporateApplication>>>
+    export type UpdateAdminCorporateApplicationMutationBody = BodyType<CorporateApplicationUpdate>
+    export type UpdateAdminCorporateApplicationMutationError = ErrorType<unknown>
+
+    /**
+ * @summary Update status / notes on a corporate application
+ */
+export const useUpdateAdminCorporateApplication = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateAdminCorporateApplication>>, TError,{id: number;data: BodyType<CorporateApplicationUpdate>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateAdminCorporateApplication>>,
+        TError,
+        {id: number;data: BodyType<CorporateApplicationUpdate>},
+        TContext
+      > => {
+      return useMutation(getUpdateAdminCorporateApplicationMutationOptions(options));
+    }
+
+export const getDeleteAdminCorporateApplicationUrl = (id: number,) => {
+
+
+
+
+  return `/api/admin/corporate-applications/${id}`
+}
+
+/**
+ * @summary Delete a corporate application
+ */
+export const deleteAdminCorporateApplication = async (id: number, options?: RequestInit): Promise<SuccessResponse> => {
+
+  return customFetch<SuccessResponse>(getDeleteAdminCorporateApplicationUrl(id),
+  {
+    ...options,
+    method: 'DELETE'
+
+
+  }
+);}
+
+
+
+
+export const getDeleteAdminCorporateApplicationMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteAdminCorporateApplication>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteAdminCorporateApplication>>, TError,{id: number}, TContext> => {
+
+const mutationKey = ['deleteAdminCorporateApplication'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteAdminCorporateApplication>>, {id: number}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteAdminCorporateApplication(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteAdminCorporateApplicationMutationResult = NonNullable<Awaited<ReturnType<typeof deleteAdminCorporateApplication>>>
+
+    export type DeleteAdminCorporateApplicationMutationError = ErrorType<unknown>
+
+    /**
+ * @summary Delete a corporate application
+ */
+export const useDeleteAdminCorporateApplication = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteAdminCorporateApplication>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof deleteAdminCorporateApplication>>,
+        TError,
+        {id: number},
+        TContext
+      > => {
+      return useMutation(getDeleteAdminCorporateApplicationMutationOptions(options));
+    }
 

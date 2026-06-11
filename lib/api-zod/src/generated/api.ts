@@ -288,3 +288,154 @@ export const GetLeadRepliesResponseItem = zod.object({
 export const GetLeadRepliesResponse = zod.array(GetLeadRepliesResponseItem)
 
 
+/**
+ * @summary Submit a corporate account application
+ */
+export const SubmitCorporateApplicationBody = zod.object({
+  "companyName": zod.string(),
+  "organisationType": zod.enum(['business', 'school', 'council', 'nhs', 'charity', 'other']),
+  "companyAddress": zod.string(),
+  "city": zod.string(),
+  "postcode": zod.string(),
+  "website": zod.string().nullish(),
+  "contactName": zod.string(),
+  "jobTitle": zod.string().nullish(),
+  "email": zod.string(),
+  "phone": zod.string(),
+  "estimatedMonthlyJourneys": zod.string(),
+  "journeyTypes": zod.string(),
+  "numberOfPassengers": zod.string().nullish(),
+  "preferredBilling": zod.string(),
+  "contractStartDate": zod.string().nullish(),
+  "existingProviderDetails": zod.string().nullish(),
+  "additionalRequirements": zod.string().nullish()
+})
+
+
+/**
+ * @summary List corporate account applications
+ */
+export const ListAdminCorporateApplicationsQueryParams = zod.object({
+  "status": zod.enum(['new', 'reviewing', 'approved', 'rejected', 'on_hold']).optional(),
+  "page": zod.coerce.number().optional(),
+  "limit": zod.coerce.number().optional()
+})
+
+export const ListAdminCorporateApplicationsResponse = zod.object({
+  "applications": zod.array(zod.object({
+  "id": zod.number(),
+  "createdAt": zod.string(),
+  "updatedAt": zod.string().optional(),
+  "status": zod.enum(['new', 'reviewing', 'approved', 'rejected', 'on_hold']),
+  "companyName": zod.string(),
+  "organisationType": zod.string(),
+  "companyAddress": zod.string(),
+  "city": zod.string(),
+  "postcode": zod.string(),
+  "website": zod.string().nullish(),
+  "contactName": zod.string(),
+  "jobTitle": zod.string().nullish(),
+  "email": zod.string(),
+  "phone": zod.string(),
+  "estimatedMonthlyJourneys": zod.string(),
+  "journeyTypes": zod.string(),
+  "numberOfPassengers": zod.string().nullish(),
+  "preferredBilling": zod.string(),
+  "contractStartDate": zod.string().nullish(),
+  "existingProviderDetails": zod.string().nullish(),
+  "additionalRequirements": zod.string().nullish(),
+  "adminNotes": zod.string().nullish(),
+  "assignedTo": zod.string().nullish()
+})),
+  "total": zod.number(),
+  "page": zod.number(),
+  "limit": zod.number()
+})
+
+
+/**
+ * @summary Get a corporate application by ID
+ */
+export const GetAdminCorporateApplicationParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const GetAdminCorporateApplicationResponse = zod.object({
+  "id": zod.number(),
+  "createdAt": zod.string(),
+  "updatedAt": zod.string().optional(),
+  "status": zod.enum(['new', 'reviewing', 'approved', 'rejected', 'on_hold']),
+  "companyName": zod.string(),
+  "organisationType": zod.string(),
+  "companyAddress": zod.string(),
+  "city": zod.string(),
+  "postcode": zod.string(),
+  "website": zod.string().nullish(),
+  "contactName": zod.string(),
+  "jobTitle": zod.string().nullish(),
+  "email": zod.string(),
+  "phone": zod.string(),
+  "estimatedMonthlyJourneys": zod.string(),
+  "journeyTypes": zod.string(),
+  "numberOfPassengers": zod.string().nullish(),
+  "preferredBilling": zod.string(),
+  "contractStartDate": zod.string().nullish(),
+  "existingProviderDetails": zod.string().nullish(),
+  "additionalRequirements": zod.string().nullish(),
+  "adminNotes": zod.string().nullish(),
+  "assignedTo": zod.string().nullish()
+})
+
+
+/**
+ * @summary Update status / notes on a corporate application
+ */
+export const UpdateAdminCorporateApplicationParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const UpdateAdminCorporateApplicationBody = zod.object({
+  "status": zod.enum(['new', 'reviewing', 'approved', 'rejected', 'on_hold']).optional(),
+  "adminNotes": zod.string().nullish(),
+  "assignedTo": zod.string().nullish()
+})
+
+export const UpdateAdminCorporateApplicationResponse = zod.object({
+  "id": zod.number(),
+  "createdAt": zod.string(),
+  "updatedAt": zod.string().optional(),
+  "status": zod.enum(['new', 'reviewing', 'approved', 'rejected', 'on_hold']),
+  "companyName": zod.string(),
+  "organisationType": zod.string(),
+  "companyAddress": zod.string(),
+  "city": zod.string(),
+  "postcode": zod.string(),
+  "website": zod.string().nullish(),
+  "contactName": zod.string(),
+  "jobTitle": zod.string().nullish(),
+  "email": zod.string(),
+  "phone": zod.string(),
+  "estimatedMonthlyJourneys": zod.string(),
+  "journeyTypes": zod.string(),
+  "numberOfPassengers": zod.string().nullish(),
+  "preferredBilling": zod.string(),
+  "contractStartDate": zod.string().nullish(),
+  "existingProviderDetails": zod.string().nullish(),
+  "additionalRequirements": zod.string().nullish(),
+  "adminNotes": zod.string().nullish(),
+  "assignedTo": zod.string().nullish()
+})
+
+
+/**
+ * @summary Delete a corporate application
+ */
+export const DeleteAdminCorporateApplicationParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const DeleteAdminCorporateApplicationResponse = zod.object({
+  "success": zod.boolean()
+})
+
+

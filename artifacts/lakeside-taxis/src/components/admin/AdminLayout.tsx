@@ -2,7 +2,7 @@ import { Link, useLocation } from "wouter";
 import { useAdminLogout, useGetAdminMe, getGetAdminMeQueryKey } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
 import {
-  LayoutDashboard, Users, CheckSquare, Settings, LogOut, Menu, X, Car
+  LayoutDashboard, Users, CheckSquare, Settings, LogOut, Menu, X, Car, Building2
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { href: "/admin/leads", label: "Leads", icon: Users },
   { href: "/admin/booked", label: "Booked Jobs", icon: CheckSquare },
+  { href: "/admin/corporate", label: "Corporate", icon: Building2 },
   { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
 

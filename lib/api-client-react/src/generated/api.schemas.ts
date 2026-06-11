@@ -217,6 +217,115 @@ export interface AdminStats {
   recentLeads: Lead[];
 }
 
+export type CorporateApplicationInputOrganisationType = typeof CorporateApplicationInputOrganisationType[keyof typeof CorporateApplicationInputOrganisationType];
+
+
+export const CorporateApplicationInputOrganisationType = {
+  business: 'business',
+  school: 'school',
+  council: 'council',
+  nhs: 'nhs',
+  charity: 'charity',
+  other: 'other',
+} as const;
+
+export interface CorporateApplicationInput {
+  companyName: string;
+  organisationType: CorporateApplicationInputOrganisationType;
+  companyAddress: string;
+  city: string;
+  postcode: string;
+  /** @nullable */
+  website?: string | null;
+  contactName: string;
+  /** @nullable */
+  jobTitle?: string | null;
+  email: string;
+  phone: string;
+  estimatedMonthlyJourneys: string;
+  journeyTypes: string;
+  /** @nullable */
+  numberOfPassengers?: string | null;
+  preferredBilling: string;
+  /** @nullable */
+  contractStartDate?: string | null;
+  /** @nullable */
+  existingProviderDetails?: string | null;
+  /** @nullable */
+  additionalRequirements?: string | null;
+}
+
+export type CorporateApplicationStatus = typeof CorporateApplicationStatus[keyof typeof CorporateApplicationStatus];
+
+
+export const CorporateApplicationStatus = {
+  new: 'new',
+  reviewing: 'reviewing',
+  approved: 'approved',
+  rejected: 'rejected',
+  on_hold: 'on_hold',
+} as const;
+
+export interface CorporateApplication {
+  id: number;
+  createdAt: string;
+  updatedAt?: string;
+  status: CorporateApplicationStatus;
+  companyName: string;
+  organisationType: string;
+  companyAddress: string;
+  city: string;
+  postcode: string;
+  /** @nullable */
+  website?: string | null;
+  contactName: string;
+  /** @nullable */
+  jobTitle?: string | null;
+  email: string;
+  phone: string;
+  estimatedMonthlyJourneys: string;
+  journeyTypes: string;
+  /** @nullable */
+  numberOfPassengers?: string | null;
+  preferredBilling: string;
+  /** @nullable */
+  contractStartDate?: string | null;
+  /** @nullable */
+  existingProviderDetails?: string | null;
+  /** @nullable */
+  additionalRequirements?: string | null;
+  /** @nullable */
+  adminNotes?: string | null;
+  /** @nullable */
+  assignedTo?: string | null;
+}
+
+export type CorporateApplicationUpdateStatus = typeof CorporateApplicationUpdateStatus[keyof typeof CorporateApplicationUpdateStatus];
+
+
+export const CorporateApplicationUpdateStatus = {
+  new: 'new',
+  reviewing: 'reviewing',
+  approved: 'approved',
+  rejected: 'rejected',
+  on_hold: 'on_hold',
+} as const;
+
+export interface CorporateApplicationUpdate {
+  status?: CorporateApplicationUpdateStatus;
+  /** @nullable */
+  adminNotes?: string | null;
+  /** @nullable */
+  assignedTo?: string | null;
+}
+
+export interface CorporateApplicationListResponse {
+  applications: CorporateApplication[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
 export type ListAdminLeadsParams = {
 /**
  * Filter by lead status
@@ -231,4 +340,21 @@ page?: number;
  */
 limit?: number;
 };
+
+export type ListAdminCorporateApplicationsParams = {
+status?: ListAdminCorporateApplicationsStatus;
+page?: number;
+limit?: number;
+};
+
+export type ListAdminCorporateApplicationsStatus = typeof ListAdminCorporateApplicationsStatus[keyof typeof ListAdminCorporateApplicationsStatus];
+
+
+export const ListAdminCorporateApplicationsStatus = {
+  new: 'new',
+  reviewing: 'reviewing',
+  approved: 'approved',
+  rejected: 'rejected',
+  on_hold: 'on_hold',
+} as const;
 

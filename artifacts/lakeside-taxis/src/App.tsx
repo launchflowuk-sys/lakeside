@@ -53,6 +53,8 @@ import AdminLeads from "@/pages/admin/Leads";
 import AdminLeadDetail from "@/pages/admin/LeadDetail";
 import AdminBooked from "@/pages/admin/Booked";
 import AdminSettings from "@/pages/admin/Settings";
+import AdminCorporateApplications from "@/pages/admin/CorporateApplications";
+import AdminCorporateApplicationDetail from "@/pages/admin/CorporateApplicationDetail";
 
 import NotFound from "@/pages/not-found";
 
@@ -106,6 +108,8 @@ function Router() {
       <Route path="/admin/leads" component={AdminLeads} />
       <Route path="/admin/booked" component={AdminBooked} />
       <Route path="/admin/settings" component={AdminSettings} />
+      <Route path="/admin/corporate/:id" component={AdminCorporateApplicationDetail} />
+      <Route path="/admin/corporate" component={AdminCorporateApplications} />
       <Route path="/admin" component={AdminDashboard} />
 
       <Route component={NotFound} />
