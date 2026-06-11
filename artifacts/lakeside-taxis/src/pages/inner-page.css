@@ -491,4 +491,23 @@
   .ip-muted {
     padding: 56px 0;
   }
+
+  /* ── Button groups: full-width stacked on mobile ── */
+  .ip-hero-actions,
+  .ip-cta-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .ip-hero-actions .ip-btn,
+  .ip-hero-actions a,
+  .ip-cta-actions .ip-btn,
+  .ip-cta-actions a,
+  .ip-cta-actions button {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
 }

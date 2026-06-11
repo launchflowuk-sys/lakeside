@@ -583,4 +583,23 @@
   .hp-airport-buttons {
     grid-template-columns: 1fr;
   }
+
+  /* ── Button groups: full-width stacked on mobile ── */
+  .hp-hero-actions,
+  .hp-final-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .hp-hero-actions .hp-btn,
+  .hp-hero-actions a,
+  .hp-final-actions .hp-btn,
+  .hp-final-actions a,
+  .hp-final-actions button {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
 }
