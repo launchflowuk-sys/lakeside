@@ -12,7 +12,7 @@ export default function QuoteRequest() {
       <section className="py-12 lg:py-16">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
-            <h1 className="font-display font-black text-4xl lg:text-5xl text-white mb-3">REQUEST A QUOTE</h1>
+            <h1 className="font-display font-black text-4xl lg:text-5xl text-foreground mb-3">REQUEST A QUOTE</h1>
             <p className="text-muted-foreground text-lg">
               Send us your journey details and our team will confirm availability and pricing.
             </p>

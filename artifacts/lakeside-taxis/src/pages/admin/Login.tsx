@@ -52,7 +52,7 @@ export default function AdminLogin() {
           <div className="w-14 h-14 bg-primary rounded-xl flex items-center justify-center mx-auto mb-4">
             <Lock className="w-7 h-7 text-primary-foreground" />
           </div>
-          <h1 className="font-display font-black text-3xl text-white mb-1">ADMIN LOGIN</h1>
+          <h1 className="font-display font-black text-3xl text-foreground mb-1">ADMIN LOGIN</h1>
           <p className="text-muted-foreground text-sm">Lakeside & Purfleet Taxis</p>
         </div>
         <div className="bg-card border border-border rounded-xl p-6 shadow-xl">

@@ -16,7 +16,7 @@ export default function LocalTaxis() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             <div>
-              <h1 className="font-display font-black text-5xl lg:text-6xl text-white mb-4">LOCAL TAXIS ACROSS THURROCK</h1>
+              <h1 className="font-display font-black text-5xl lg:text-6xl text-foreground mb-4">LOCAL TAXIS ACROSS THURROCK</h1>
               <p className="text-xl text-muted-foreground mb-6">
                 Reliable local taxi service across Grays, Purfleet, Lakeside, Chafford Hundred, Tilbury and the whole of Thurrock, Essex.
               </p>
@@ -38,7 +38,7 @@ export default function LocalTaxis() {
                   </div>
                 ))}
               </div>
-              <h2 className="font-display font-bold text-2xl text-white mb-4">Areas we cover</h2>
+              <h2 className="font-display font-bold text-2xl text-foreground mb-4">Areas we cover</h2>
               <div className="flex flex-wrap gap-2 mb-8">
                 {["Grays", "Purfleet", "Chafford Hundred", "Tilbury", "South Ockendon", "Aveley", "West Thurrock", "Stanford-le-Hope", "Corringham", "Lakeside", "Thurrock"].map((area) => (
                   <span key={area} className="bg-card border border-border text-foreground/80 text-xs px-3 py-1.5 rounded-full flex items-center gap-1">

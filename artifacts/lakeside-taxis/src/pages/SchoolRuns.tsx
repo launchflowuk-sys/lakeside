@@ -16,7 +16,7 @@ export default function SchoolRuns() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             <div>
-              <h1 className="font-display font-black text-5xl lg:text-6xl text-white mb-4">SCHOOL RUN TAXIS</h1>
+              <h1 className="font-display font-black text-5xl lg:text-6xl text-foreground mb-4">SCHOOL RUN TAXIS</h1>
               <p className="text-xl text-muted-foreground mb-6">
                 Safe, reliable school runs across Thurrock with trusted local drivers.
               </p>

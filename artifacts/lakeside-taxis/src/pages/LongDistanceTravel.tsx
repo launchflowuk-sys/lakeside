@@ -16,7 +16,7 @@ export default function LongDistanceTravel() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             <div>
-              <h1 className="font-display font-black text-5xl lg:text-6xl text-white mb-4">LONG DISTANCE TRAVEL</h1>
+              <h1 className="font-display font-black text-5xl lg:text-6xl text-foreground mb-4">LONG DISTANCE TRAVEL</h1>
               <p className="text-xl text-muted-foreground mb-6">
                 UK-wide taxi journeys from Thurrock. Whether it's London, Birmingham or beyond.
               </p>

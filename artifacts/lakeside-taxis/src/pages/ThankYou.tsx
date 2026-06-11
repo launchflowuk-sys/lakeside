@@ -16,7 +16,7 @@ export default function ThankYou() {
           <div className="w-20 h-20 bg-primary/10 border border-primary/30 rounded-full flex items-center justify-center mx-auto mb-8">
             <CheckCircle2 className="w-10 h-10 text-primary" />
           </div>
-          <h1 className="font-display font-black text-4xl lg:text-5xl text-white mb-4">
+          <h1 className="font-display font-black text-4xl lg:text-5xl text-foreground mb-4">
             REQUEST RECEIVED
           </h1>
           <p className="text-lg text-foreground/80 mb-4">

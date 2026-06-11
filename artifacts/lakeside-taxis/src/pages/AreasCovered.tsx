@@ -26,7 +26,7 @@ export default function AreasCovered() {
       <section className="py-12 lg:py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-10">
-            <h1 className="font-display font-black text-5xl lg:text-6xl text-white mb-4">AREAS WE COVER</h1>
+            <h1 className="font-display font-black text-5xl lg:text-6xl text-foreground mb-4">AREAS WE COVER</h1>
             <p className="text-xl text-muted-foreground mb-4">
               Local taxis across Thurrock and wider Essex. If you're in the area, we can get you there.
             </p>
@@ -43,7 +43,7 @@ export default function AreasCovered() {
                 data-testid={`area-card-${area.href.split("/").pop()}`}
               >
                 <MapPin className="w-5 h-5 text-primary mb-2" />
-                <h2 className="font-display font-bold text-lg text-white mb-1 group-hover:text-primary transition-colors">{area.name}</h2>
+                <h2 className="font-display font-bold text-lg text-foreground mb-1 group-hover:text-primary transition-colors">{area.name}</h2>
                 <p className="text-muted-foreground text-sm mb-3">{area.desc}</p>
                 <span className="text-primary text-sm font-semibold flex items-center gap-1">
                   Taxis in {area.name} <ArrowRight className="w-3.5 h-3.5" />
@@ -52,7 +52,7 @@ export default function AreasCovered() {
             ))}
           </div>
           <div className="bg-primary/10 border border-primary/30 rounded-xl p-8 text-center">
-            <h2 className="font-display font-black text-3xl text-white mb-3">Not sure if we cover your area?</h2>
+            <h2 className="font-display font-black text-3xl text-foreground mb-3">Not sure if we cover your area?</h2>
             <p className="text-foreground/70 mb-5">Call us or send a booking request — we'll let you know if we can help.</p>
             <Link href="/quote-request">
               <Button className="bg-primary text-primary-foreground font-semibold px-8" data-testid="areas-cta-btn">

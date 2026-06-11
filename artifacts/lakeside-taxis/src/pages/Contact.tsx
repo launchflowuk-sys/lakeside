@@ -12,7 +12,7 @@ export default function Contact() {
       <section className="py-12 lg:py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-10">
-            <h1 className="font-display font-black text-5xl lg:text-6xl text-white mb-4">CONTACT US</h1>
+            <h1 className="font-display font-black text-5xl lg:text-6xl text-foreground mb-4">CONTACT US</h1>
             <p className="text-xl text-muted-foreground">Get in touch. We're a local team — call, WhatsApp or email us directly.</p>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
@@ -76,7 +76,7 @@ export default function Contact() {
               ))}
             </div>
             <div className="bg-card border border-border rounded-xl p-8">
-              <h2 className="font-display font-bold text-2xl text-white mb-2">Booking requests</h2>
+              <h2 className="font-display font-bold text-2xl text-foreground mb-2">Booking requests</h2>
               <p className="text-muted-foreground text-sm mb-6">
                 For a booking request or quote, the quickest way is to use our online form. We'll review your journey details and get back to you with pricing and availability.
               </p>

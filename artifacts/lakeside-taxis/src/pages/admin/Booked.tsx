@@ -15,7 +15,7 @@ export default function AdminBooked() {
     <AdminLayout>
       <Helmet><title>Booked Jobs | Lakeside Taxis Admin</title></Helmet>
       <div className="mb-6">
-        <h1 className="font-display font-black text-3xl text-white">BOOKED JOBS</h1>
+        <h1 className="font-display font-black text-3xl text-foreground">BOOKED JOBS</h1>
         <p className="text-muted-foreground text-sm mt-1">Confirmed bookings</p>
       </div>
       <div className="bg-card border border-border rounded-xl overflow-hidden">

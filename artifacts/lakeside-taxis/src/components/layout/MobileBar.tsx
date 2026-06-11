@@ -3,7 +3,7 @@ import { Phone, MessageCircle, FileText } from "lucide-react";
 
 export default function MobileBar() {
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-[hsl(220_25%_5%)] border-t border-border/50 shadow-2xl" data-testid="mobile-bottom-bar">
+    <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-white border-t border-border shadow-lg" data-testid="mobile-bottom-bar">
       <div className="grid grid-cols-3 divide-x divide-border/50">
         <a
           href="tel:01375383878"

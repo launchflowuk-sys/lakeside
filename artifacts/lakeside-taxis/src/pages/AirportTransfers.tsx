@@ -23,7 +23,7 @@ export default function AirportTransfers() {
       <section className="py-12 lg:py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-10">
-            <h1 className="font-display font-black text-5xl lg:text-6xl text-white mb-4">AIRPORT TRANSFERS FROM THURROCK</h1>
+            <h1 className="font-display font-black text-5xl lg:text-6xl text-foreground mb-4">AIRPORT TRANSFERS FROM THURROCK</h1>
             <p className="text-xl text-muted-foreground mb-6">
               Pre-booked airport transfers from Thurrock, Grays, Purfleet and Lakeside to all major London and Essex airports.
             </p>
@@ -39,7 +39,7 @@ export default function AirportTransfers() {
               ))}
             </div>
           </div>
-          <h2 className="font-display font-bold text-3xl text-white mb-6">All airports covered</h2>
+          <h2 className="font-display font-bold text-3xl text-foreground mb-6">All airports covered</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
             {airports.map((a) => (
               <Link
@@ -49,7 +49,7 @@ export default function AirportTransfers() {
                 data-testid={`airport-card-${a.href.split("/").pop()}`}
               >
                 <Plane className="w-6 h-6 text-primary mb-3" />
-                <h3 className="font-display font-bold text-lg text-white mb-2">{a.name} Airport</h3>
+                <h3 className="font-display font-bold text-lg text-foreground mb-2">{a.name} Airport</h3>
                 <p className="text-muted-foreground text-sm mb-4">{a.desc}</p>
                 <span className="text-primary text-sm font-semibold flex items-center gap-1">
                   Request transfer <ArrowRight className="w-3.5 h-3.5" />
@@ -58,7 +58,7 @@ export default function AirportTransfers() {
             ))}
           </div>
           <div className="bg-primary/10 border border-primary/30 rounded-xl p-8 text-center">
-            <h2 className="font-display font-black text-3xl text-white mb-3">Ready to book your airport transfer?</h2>
+            <h2 className="font-display font-black text-3xl text-foreground mb-3">Ready to book your airport transfer?</h2>
             <p className="text-foreground/70 mb-5">Send your journey details and we'll confirm availability and pricing.</p>
             <Link href="/quote-request">
               <Button className="bg-primary text-primary-foreground font-semibold px-8" data-testid="airport-transfers-cta">

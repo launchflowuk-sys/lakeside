@@ -46,7 +46,7 @@ export default function AdminDashboard() {
     <AdminLayout>
       <Helmet><title>Dashboard | Lakeside Taxis Admin</title></Helmet>
       <div className="mb-6">
-        <h1 className="font-display font-black text-3xl text-white">DASHBOARD</h1>
+        <h1 className="font-display font-black text-3xl text-foreground">DASHBOARD</h1>
         <p className="text-muted-foreground text-sm mt-1">Overview of all booking requests</p>
       </div>
 

@@ -314,7 +314,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
             <div>
               <p className="text-primary text-xs font-bold tracking-widest uppercase mb-2">Real customers · Real reviews</p>
-              <h2 className="font-display font-black text-4xl lg:text-5xl text-white leading-tight">
+              <h2 className="font-display font-black text-4xl lg:text-5xl text-foreground leading-tight">
                 WHAT THURROCK<br className="hidden sm:block" /> SAYS ABOUT US
               </h2>
             </div>
@@ -365,11 +365,11 @@ export default function Home() {
       </section>
 
       {/* ─── SERVICES ─── */}
-      <section className="bg-[hsl(220_25%_5%)] py-16 lg:py-20 border-y border-border/50" data-testid="services-section">
+      <section className="bg-muted py-16 lg:py-20 border-y border-border" data-testid="services-section">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <p className="text-primary text-xs font-bold tracking-widest uppercase mb-3">Local · Airport · Corporate · School</p>
-            <h2 className="font-display font-black text-4xl lg:text-5xl text-white mb-3">EVERY JOURNEY, COVERED</h2>
+            <h2 className="font-display font-black text-4xl lg:text-5xl text-foreground mb-3">EVERY JOURNEY, COVERED</h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               From a local run to Lakeside to an early Heathrow departure — we cover every journey type across Thurrock and beyond.
             </p>
@@ -385,7 +385,7 @@ export default function Home() {
                 <div className="w-11 h-11 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
                   <s.icon className="w-5 h-5 text-primary" />
                 </div>
-                <h3 className="font-display font-bold text-xl text-white mb-2">{s.title}</h3>
+                <h3 className="font-display font-bold text-xl text-foreground mb-2">{s.title}</h3>
                 <p className="text-muted-foreground text-sm leading-relaxed mb-4">{s.desc}</p>
                 <span className="text-primary text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
                   Find out more <ArrowRight className="w-3.5 h-3.5" />
@@ -409,7 +409,7 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-12 items-center mb-12">
             <div>
               <p className="text-primary text-xs font-bold tracking-widest uppercase mb-3">All major London & Essex airports</p>
-              <h2 className="font-display font-black text-4xl lg:text-5xl text-white mb-4 leading-tight">
+              <h2 className="font-display font-black text-4xl lg:text-5xl text-foreground mb-4 leading-tight">
                 AIRPORT TRANSFERS<br />FROM THURROCK
               </h2>
               <p className="text-foreground/65 text-lg leading-relaxed mb-6">
@@ -456,12 +456,12 @@ export default function Home() {
       </section>
 
       {/* ─── WHY CHOOSE US ─── */}
-      <section className="bg-[hsl(220_25%_5%)] py-16 lg:py-20 border-y border-border/50" data-testid="why-section">
+      <section className="bg-muted py-16 lg:py-20 border-y border-border" data-testid="why-section">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div>
               <p className="text-primary text-xs font-bold tracking-widest uppercase mb-4">Local. Reliable. Honest.</p>
-              <h2 className="font-display font-black text-4xl lg:text-5xl text-white mb-6 leading-tight">
+              <h2 className="font-display font-black text-4xl lg:text-5xl text-foreground mb-6 leading-tight">
                 WHY THURROCK<br /><span className="text-primary">CHOOSES US</span>
               </h2>
               <p className="text-foreground/65 text-lg mb-8 leading-relaxed">
@@ -544,7 +544,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-10 gap-4">
             <div>
               <p className="text-primary text-xs font-bold tracking-widest uppercase mb-2">Thurrock & wider Essex</p>
-              <h2 className="font-display font-black text-4xl lg:text-5xl text-white">AREAS WE SERVE</h2>
+              <h2 className="font-display font-black text-4xl lg:text-5xl text-foreground">AREAS WE SERVE</h2>
             </div>
             <Link href="/areas-covered">
               <Button variant="outline" className="flex-shrink-0">
@@ -569,16 +569,16 @@ export default function Home() {
       </section>
 
       {/* ─── CORPORATE ─── */}
-      <section className="bg-[hsl(220_25%_5%)] py-16 lg:py-20 border-y border-border/50" data-testid="corporate-section">
+      <section className="bg-background py-16 lg:py-20 border-y border-border" data-testid="corporate-section">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-background rounded-2xl border border-border overflow-hidden">
+          <div className="bg-muted rounded-2xl border border-border overflow-hidden">
             <div className="grid lg:grid-cols-2">
               <div className="p-8 lg:p-12">
                 <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-full px-4 py-1.5 mb-5">
                   <Briefcase className="w-3.5 h-3.5 text-primary" />
                   <span className="text-primary text-xs font-bold tracking-widest uppercase">Business Travel</span>
                 </div>
-                <h2 className="font-display font-black text-4xl lg:text-5xl text-white mb-4 leading-tight">
+                <h2 className="font-display font-black text-4xl lg:text-5xl text-foreground mb-4 leading-tight">
                   CORPORATE<br />ACCOUNTS
                 </h2>
                 <p className="text-foreground/65 text-lg mb-7 leading-relaxed">
@@ -625,7 +625,7 @@ export default function Home() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <p className="text-primary text-xs font-bold tracking-widest uppercase mb-3">Common questions</p>
-            <h2 className="font-display font-black text-4xl lg:text-5xl text-white mb-3">QUICK ANSWERS</h2>
+            <h2 className="font-display font-black text-4xl lg:text-5xl text-foreground mb-3">QUICK ANSWERS</h2>
             <p className="text-muted-foreground">Everything you need to know before you book</p>
           </div>
           <Accordion type="single" collapsible className="space-y-3">
@@ -682,7 +682,7 @@ export default function Home() {
           <h2 className="font-display font-black text-5xl lg:text-7xl text-white mb-4 leading-tight">
             NEED A TAXI<br /><span className="text-primary">IN THURROCK?</span>
           </h2>
-          <p className="text-foreground/60 text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-white/70 text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
             Fill in the form and we'll confirm your price within 2 hours. Or call and speak to a real person right now.
           </p>
           <div className="flex flex-wrap justify-center gap-4 mb-8">
@@ -702,14 +702,14 @@ export default function Home() {
             <a href={PHONE_HREF}>
               <Button
                 variant="outline"
-                className="font-bold text-lg px-8 py-4 h-auto border-border/50 hover:border-primary/40"
+                className="font-bold text-lg px-8 py-4 h-auto border-white/25 text-white hover:border-white/50 hover:bg-white/5"
                 data-testid="final-cta-call-btn"
               >
                 <Phone className="w-5 h-5 mr-2" /> {PHONE}
               </Button>
             </a>
           </div>
-          <p className="text-muted-foreground text-sm">
+          <p className="text-white/45 text-sm">
             No payment required · No app · Price confirmed before your journey · Available 7 days a week
           </p>
         </div>

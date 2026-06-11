@@ -10,7 +10,7 @@ export default function AdminSettings() {
     <AdminLayout>
       <Helmet><title>Settings | Lakeside Taxis Admin</title></Helmet>
       <div className="mb-6">
-        <h1 className="font-display font-black text-3xl text-white">SETTINGS</h1>
+        <h1 className="font-display font-black text-3xl text-foreground">SETTINGS</h1>
         <p className="text-muted-foreground text-sm mt-1">System configuration</p>
       </div>
       <div className="max-w-2xl space-y-5">

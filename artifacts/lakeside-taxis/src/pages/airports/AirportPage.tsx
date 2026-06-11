@@ -42,7 +42,7 @@ export default function AirportPage({ airportName, airportCode, description, con
                   </span>
                 )}
               </div>
-              <h1 className="font-display font-black text-5xl lg:text-6xl text-white mb-4">
+              <h1 className="font-display font-black text-5xl lg:text-6xl text-foreground mb-4">
                 {airportName.toUpperCase()}<br />AIRPORT TRANSFERS
               </h1>
               <p className="text-primary font-semibold text-sm mb-2">From Thurrock, Grays, Purfleet & Lakeside</p>
@@ -52,7 +52,7 @@ export default function AirportPage({ airportName, airportCode, description, con
               <p className="text-xl text-muted-foreground mb-5">{description}</p>
               <p className="text-foreground/70 mb-6">{content}</p>
 
-              <h2 className="font-display font-bold text-2xl text-white mb-4">What's included</h2>
+              <h2 className="font-display font-bold text-2xl text-foreground mb-4">What's included</h2>
               <div className="space-y-3 mb-8">
                 {[
                   "Direct pickup from your home address",

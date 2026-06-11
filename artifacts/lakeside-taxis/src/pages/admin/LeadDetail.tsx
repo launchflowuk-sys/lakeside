@@ -114,7 +114,7 @@ export default function AdminLeadDetail() {
           </Button>
         </Link>
         <div>
-          <h1 className="font-display font-black text-2xl text-white">Lead #{lead.id}</h1>
+          <h1 className="font-display font-black text-2xl text-foreground">Lead #{lead.id}</h1>
           <p className="text-muted-foreground text-xs">Received {new Date(lead.createdAt).toLocaleDateString("en-GB", { dateStyle: "full" })}</p>
         </div>
       </div>

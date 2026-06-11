@@ -34,7 +34,7 @@ export default function AreaPage({ areaName, areaSlug, postcode, description, co
                 <span>/</span>
                 <span className="text-foreground">{areaName}</span>
               </div>
-              <h1 className="font-display font-black text-5xl lg:text-6xl text-white mb-4">
+              <h1 className="font-display font-black text-5xl lg:text-6xl text-foreground mb-4">
                 TAXIS IN {areaName.toUpperCase()}
               </h1>
               {postcode && (
@@ -46,7 +46,7 @@ export default function AreaPage({ areaName, areaSlug, postcode, description, co
               <p className="text-xl text-muted-foreground mb-5">{description}</p>
               <p className="text-foreground/70 mb-6">{content}</p>
 
-              <h2 className="font-display font-bold text-2xl text-white mb-4">Services from {areaName}</h2>
+              <h2 className="font-display font-bold text-2xl text-foreground mb-4">Services from {areaName}</h2>
               <div className="space-y-3 mb-6">
                 {[
                   { icon: MapPin, text: `Local taxis from ${areaName} across Thurrock` },

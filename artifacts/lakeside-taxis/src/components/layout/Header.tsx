@@ -45,7 +45,7 @@ export default function Header() {
       className={`sticky top-0 z-50 transition-all duration-300 ${
         transparent
           ? "bg-transparent border-b border-transparent"
-          : "bg-[hsl(220_25%_5%)]/95 backdrop-blur-md border-b border-border/50 shadow-lg"
+          : "bg-white/95 backdrop-blur-md border-b border-border shadow-sm"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -66,7 +66,7 @@ export default function Header() {
               item.children ? (
                 <div key={item.label} className="relative group">
                   <button
-                    className="flex items-center gap-1 px-3 py-2 text-sm text-white/80 hover:text-primary transition-colors font-medium"
+                    className={`flex items-center gap-1 px-3 py-2 text-sm hover:text-primary transition-colors font-medium ${transparent ? "text-white/80" : "text-foreground/70"}`}
                     onMouseEnter={() => setServicesOpen(true)}
                     onMouseLeave={() => setServicesOpen(false)}
                     data-testid="nav-services-dropdown"
@@ -100,7 +100,7 @@ export default function Header() {
                   className={`px-3 py-2 text-sm font-medium transition-colors ${
                     location === item.href
                       ? "text-primary"
-                      : "text-white/80 hover:text-primary"
+                      : transparent ? "text-white/80 hover:text-primary" : "text-foreground/70 hover:text-primary"
                   }`}
                   data-testid={`nav-${item.href.replace(/\//g, "-") || "home"}`}
                 >
@@ -114,7 +114,7 @@ export default function Header() {
           <div className="flex items-center gap-2 lg:gap-3">
             <a
               href={PHONE_HREF}
-              className="hidden md:flex items-center gap-1.5 text-sm font-semibold text-white/90 hover:text-primary transition-colors"
+              className={`hidden md:flex items-center gap-1.5 text-sm font-semibold hover:text-primary transition-colors ${transparent ? "text-white/90" : "text-foreground/80"}`}
               data-testid="header-phone"
             >
               <Phone className="w-4 h-4 text-primary" />
@@ -130,7 +130,7 @@ export default function Header() {
               </Button>
             </Link>
             <button
-              className="lg:hidden p-2 text-white/80 hover:text-primary"
+              className={`lg:hidden p-2 hover:text-primary ${transparent ? "text-white/80" : "text-foreground/70"}`}
               onClick={() => setMobileOpen(!mobileOpen)}
               data-testid="mobile-menu-toggle"
             >
@@ -143,7 +143,7 @@ export default function Header() {
       {/* Mobile Menu */}
       {mobileOpen && (
         <div
-          className="lg:hidden border-t border-border/50 bg-[hsl(220_25%_5%)]/98 backdrop-blur-md"
+          className="lg:hidden border-t border-border bg-white/98 backdrop-blur-md"
           data-testid="mobile-menu"
         >
           <div className="px-4 py-4 space-y-1">
@@ -151,7 +151,7 @@ export default function Header() {
               item.children ? (
                 <div key={item.label}>
                   <button
-                    className="w-full flex items-center justify-between px-3 py-2.5 text-sm font-semibold text-white/80 hover:text-primary"
+                    className="w-full flex items-center justify-between px-3 py-2.5 text-sm font-semibold text-foreground/70 hover:text-primary"
                     onClick={() => setServicesOpen(!servicesOpen)}
                   >
                     {item.label}
@@ -163,7 +163,7 @@ export default function Header() {
                         <Link
                           key={child.href}
                           href={child.href}
-                          className="block px-3 py-2 text-sm text-white/70 hover:text-primary"
+                          className="block px-3 py-2 text-sm text-foreground/60 hover:text-primary"
                           onClick={() => setMobileOpen(false)}
                         >
                           {child.label}
@@ -177,7 +177,7 @@ export default function Header() {
                   key={item.href}
                   href={item.href!}
                   className={`block px-3 py-2.5 text-sm font-medium ${
-                    location === item.href ? "text-primary" : "text-white/80 hover:text-primary"
+                    location === item.href ? "text-primary" : "text-foreground/70 hover:text-primary"
                   }`}
                   onClick={() => setMobileOpen(false)}
                 >

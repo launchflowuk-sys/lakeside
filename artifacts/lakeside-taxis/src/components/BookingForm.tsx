@@ -173,7 +173,7 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
   return (
     <div className={`bg-card border border-border rounded-xl overflow-hidden ${compact ? "" : "shadow-2xl"}`} data-testid="booking-form">
       {/* Progress — simple bar, not a software wizard */}
-      <div className="bg-[hsl(220_25%_5%)] px-5 pt-3 pb-3">
+      <div className="bg-muted px-5 pt-3 pb-3">
         <div className="flex items-center justify-between mb-2">
           <p className="text-xs font-semibold text-foreground/80 tracking-wide">
             {stepTitles[step - 1]}

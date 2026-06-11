@@ -20,14 +20,14 @@ export default function CorporateAccounts() {
                 <Briefcase className="w-3.5 h-3.5 text-primary" />
                 <span className="text-primary text-xs font-semibold tracking-wide uppercase">Business Travel</span>
               </div>
-              <h1 className="font-display font-black text-5xl lg:text-6xl text-white mb-4">CORPORATE TAXI ACCOUNTS</h1>
+              <h1 className="font-display font-black text-5xl lg:text-6xl text-foreground mb-4">CORPORATE TAXI ACCOUNTS</h1>
               <p className="text-xl text-muted-foreground mb-6">
                 Professional business travel for Thurrock companies. Reliable, punctual, and discreet.
               </p>
               <p className="text-foreground/70 mb-6">
                 We understand that business travel needs to be reliable. Whether it's getting your team to Heathrow on time, managing regular client runs or handling ad-hoc staff transport, Lakeside & Purfleet Taxis provides the dependable corporate taxi service that Thurrock businesses trust.
               </p>
-              <h2 className="font-display font-bold text-2xl text-white mb-4">Corporate account benefits</h2>
+              <h2 className="font-display font-bold text-2xl text-foreground mb-4">Corporate account benefits</h2>
               <div className="space-y-3 mb-8">
                 {[
                   "Monthly invoicing for easy accounting",

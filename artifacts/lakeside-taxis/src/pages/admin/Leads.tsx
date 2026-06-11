@@ -71,7 +71,7 @@ export default function AdminLeads() {
       <Helmet><title>Leads | Lakeside Taxis Admin</title></Helmet>
       <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="font-display font-black text-3xl text-white">LEADS</h1>
+          <h1 className="font-display font-black text-3xl text-foreground">LEADS</h1>
           <p className="text-muted-foreground text-sm mt-1">
             {data ? `${data.total} total booking requests` : "All booking requests"}
           </p>
