@@ -164,116 +164,143 @@ export default function Home() {
       {/* ─── HERO ─── */}
       <section
         className="relative overflow-hidden"
-        style={{ background: "linear-gradient(135deg, hsl(220 25% 4%) 0%, hsl(220 22% 8%) 60%, hsl(220 18% 11%) 100%)" }}
         data-testid="hero-section"
       >
-        {/* Diagonal grid texture */}
-        <div className="absolute inset-0 opacity-[0.04]" style={{
-          backgroundImage: `repeating-linear-gradient(-45deg, hsl(45 97% 52%) 0, hsl(45 97% 52%) 1px, transparent 0, transparent 50%)`,
-          backgroundSize: "24px 24px",
+        {/* Photo background — dark UK motorway at night */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1920&q=80')`,
+          }}
+        />
+        {/* Multi-layer overlay — very dark left, slightly less dark right, ensures text always readable */}
+        <div className="absolute inset-0" style={{
+          background: "linear-gradient(105deg, rgba(9,16,26,0.97) 0%, rgba(9,16,26,0.93) 45%, rgba(9,16,26,0.82) 100%)"
         }} />
-        {/* Left accent */}
+        {/* Bottom gradient fade to match page bg */}
+        <div className="absolute bottom-0 left-0 right-0 h-32" style={{
+          background: "linear-gradient(to bottom, transparent, hsl(220 20% 7%))"
+        }} />
+        {/* Yellow left accent stripe */}
         <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary" />
-        {/* Bottom fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-border/40" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-0 lg:pt-14">
-          <div className="grid lg:grid-cols-[1fr_480px] xl:grid-cols-[1fr_520px] gap-10 lg:gap-14 items-end">
+          <div className="grid lg:grid-cols-[1fr_460px] xl:grid-cols-[1fr_500px] gap-10 lg:gap-14 items-end">
 
             {/* LEFT: Copy */}
-            <div className="pb-10 lg:pb-14" data-testid="hero-copy">
-              {/* Eyebrow */}
-              <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5 mb-7">
-                <Shield className="w-3.5 h-3.5 text-primary" />
-                <span className="text-primary text-xs font-bold tracking-widest uppercase">Serving Thurrock Since 1990</span>
+            <div className="pb-12 lg:pb-16" data-testid="hero-copy">
+
+              {/* Social proof — above the headline */}
+              <div className="flex items-center gap-3 mb-5">
+                <div className="flex gap-0.5">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 text-primary fill-primary" />
+                  ))}
+                </div>
+                <span className="text-sm text-foreground/70 font-medium">Trusted by thousands of Thurrock customers since 1990</span>
               </div>
 
               {/* Headline */}
-              <h1 className="font-display font-black text-[clamp(3rem,8vw,5.5rem)] text-white leading-[0.92] mb-5 tracking-tight">
+              <h1 className="font-display font-black text-[clamp(3.2rem,8.5vw,5.75rem)] text-white leading-[0.9] mb-5 tracking-tight">
                 MOVING<br />
                 <span className="text-primary">THURROCK</span><br />
                 SINCE 1990
               </h1>
 
               {/* Sub-headline */}
-              <p className="text-xl font-semibold text-foreground/80 mb-2 leading-snug">
+              <p className="text-xl font-semibold text-white/80 mb-3 leading-snug">
                 From Lakeside to Heathrow. From Purfleet to anywhere.
               </p>
-              <p className="text-base text-foreground/55 mb-8 max-w-md leading-relaxed">
-                Local taxis, airport transfers, school runs and business travel across Thurrock. Call us, WhatsApp us, or fill in the form — we'll confirm your price within 2 hours.
+
+              {/* Coverage areas */}
+              <p className="text-sm text-primary/90 font-medium mb-4 tracking-wide">
+                Grays &bull; Purfleet &bull; Chafford Hundred &bull; Tilbury &bull; West Thurrock &bull; Aveley &bull; Stanford-le-Hope
+              </p>
+
+              <p className="text-base text-white/50 mb-8 max-w-md leading-relaxed">
+                Local taxis, airport transfers, school runs and business travel. Call us, WhatsApp us, or send your journey details — we confirm your price within 2 hours.
               </p>
 
               {/* CTAs */}
-              <div className="flex flex-wrap gap-3 mb-8">
+              <div className="flex flex-wrap gap-3 mb-5">
                 <a href={WA_HREF} data-testid="hero-whatsapp-btn">
-                  <Button className="bg-green-500 hover:bg-green-400 text-white font-bold text-base px-6 py-3 h-auto gap-2">
+                  <Button className="bg-green-500 hover:bg-green-400 text-white font-bold text-base px-7 py-3 h-auto gap-2 shadow-lg shadow-green-900/30">
                     <MessageCircle className="w-5 h-5" /> WhatsApp Us Now
                   </Button>
                 </a>
                 <a href={PHONE_HREF} data-testid="hero-call-btn">
-                  <Button variant="outline" className="font-bold text-base px-6 py-3 h-auto border-border/60 hover:border-primary/50">
+                  <Button variant="outline" className="font-bold text-base px-6 py-3 h-auto border-white/20 text-white hover:border-primary/60 hover:bg-white/5">
                     <Phone className="w-4 h-4 mr-2" /> {PHONE}
                   </Button>
                 </a>
               </div>
 
-              {/* Response promise */}
-              <div className="flex items-center gap-2 mb-8">
-                <Zap className="w-4 h-4 text-primary flex-shrink-0" />
-                <span className="text-sm text-foreground/60">We reply to all requests within 2 hours · No card details needed · No app required</span>
+              {/* Micro-assurance */}
+              <div className="flex items-center gap-2 mb-10">
+                <Zap className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+                <span className="text-xs text-white/45">Reply within 2 hours &middot; No card details &middot; No app &middot; Price confirmed before you travel</span>
               </div>
 
-              {/* Trust stats — horizontal */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 border-t border-border/30 pt-8">
+              {/* Hero stats */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 border-t border-white/10 pt-8">
                 {[
-                  { number: "30+", label: "Years in Thurrock" },
+                  { number: "30+", label: "Years serving Thurrock" },
                   { number: "10k+", label: "Journeys completed" },
                   { number: "6", label: "Airports served" },
                   { number: "9", label: "Areas covered" },
                 ].map((stat) => (
-                  <div key={stat.label} className="text-center sm:text-left">
+                  <div key={stat.label}>
                     <div className="font-display font-black text-3xl text-primary leading-none mb-1">{stat.number}</div>
-                    <div className="text-xs text-muted-foreground font-medium uppercase tracking-wide">{stat.label}</div>
+                    <div className="text-xs text-white/40 font-medium uppercase tracking-wide">{stat.label}</div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* RIGHT: Booking form — pinned to bottom of hero */}
+            {/* RIGHT: Enquiry card */}
             <div className="relative" data-testid="hero-form">
-              {/* Form header card */}
-              <div className="bg-primary px-5 py-4 rounded-t-2xl flex items-center justify-between">
-                <div>
-                  <p className="font-display font-black text-primary-foreground text-lg leading-tight">Get Your Free Quote</p>
-                  <p className="text-primary-foreground/70 text-xs mt-0.5">No payment · No obligation · Reply within 2 hours</p>
+              {/* Card header — local & warm, not SaaS */}
+              <div className="bg-[hsl(220_25%_10%)] border border-white/10 border-b-0 px-5 py-4 rounded-t-2xl">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="font-display font-black text-white text-lg leading-tight">Send Your Journey Details</p>
+                    <p className="text-white/45 text-xs mt-1">Our local team replies within 2 hours &middot; No payment needed</p>
+                  </div>
+                  <Link
+                    href="/quote-request"
+                    className="text-primary/70 text-xs hover:text-primary transition-colors whitespace-nowrap mt-0.5 flex-shrink-0"
+                  >
+                    Full form →
+                  </Link>
                 </div>
-                <Link href="/quote-request" className="text-primary-foreground/60 text-xs underline underline-offset-2 hover:text-primary-foreground whitespace-nowrap">
-                  Full form →
-                </Link>
               </div>
               {/* Form body */}
-              <div className="bg-card rounded-b-2xl border-x border-b border-border/50 shadow-2xl">
+              <div className="bg-card rounded-b-2xl border border-white/10 border-t-0 shadow-2xl shadow-black/50">
                 <BookingForm compact />
               </div>
+              {/* Below-form reassurance */}
+              <p className="text-center text-xs text-white/30 mt-3 pb-1">
+                No payment · No obligation · Trusted local service since 1990
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─── TRUST BAR ─── */}
-      <section className="bg-primary py-3.5" data-testid="trust-bar">
+      {/* ─── TRUST STRIP ─── */}
+      <section className="bg-primary py-4" data-testid="trust-bar">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2">
             {[
-              { icon: Clock, text: "Available 7 days a week" },
-              { icon: Shield, text: "Fully licensed & insured" },
-              { icon: Users, text: "Local Thurrock drivers" },
-              { icon: CheckCircle2, text: "Price confirmed before you travel" },
-              { icon: Award, text: "No hidden charges" },
+              { icon: Award,        text: "30+ Years Serving Thurrock" },
+              { icon: MapPin,       text: "9 Areas Covered" },
+              { icon: Plane,        text: "6 Major Airports Served" },
+              { icon: Users,        text: "Thousands of Journeys Completed" },
+              { icon: Shield,       text: "Fully Licensed & Insured" },
             ].map((item) => (
               <div key={item.text} className="flex items-center gap-2 text-primary-foreground">
                 <item.icon className="w-4 h-4 flex-shrink-0" />
-                <span className="text-sm font-semibold whitespace-nowrap">{item.text}</span>
+                <span className="text-sm font-bold whitespace-nowrap">{item.text}</span>
               </div>
             ))}
           </div>

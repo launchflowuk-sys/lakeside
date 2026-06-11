@@ -172,29 +172,20 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
 
   return (
     <div className={`bg-card border border-border rounded-xl overflow-hidden ${compact ? "" : "shadow-2xl"}`} data-testid="booking-form">
-      {/* Progress */}
-      <div className="bg-[hsl(220_25%_5%)] px-6 py-4">
-        <div className="flex items-center gap-2 mb-2">
-          {[1, 2, 3, 4, 5].map((s) => (
-            <div key={s} className="flex items-center gap-2">
-              <div
-                className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
-                  s < step
-                    ? "bg-primary text-primary-foreground"
-                    : s === step
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted text-muted-foreground"
-                }`}
-              >
-                {s < step ? <CheckCircle2 className="w-4 h-4" /> : s}
-              </div>
-              {s < 5 && <div className={`h-0.5 flex-1 w-4 ${s < step ? "bg-primary" : "bg-border"}`} />}
-            </div>
-          ))}
+      {/* Progress — simple bar, not a software wizard */}
+      <div className="bg-[hsl(220_25%_5%)] px-5 pt-3 pb-3">
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-xs font-semibold text-foreground/80 tracking-wide">
+            {stepTitles[step - 1]}
+          </p>
+          <p className="text-xs text-muted-foreground">{step} of 5</p>
         </div>
-        <p className="text-sm font-semibold text-foreground">
-          Step {step} of 5: {stepTitles[step - 1]}
-        </p>
+        <div className="h-1 bg-border/60 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-primary rounded-full transition-all duration-300"
+            style={{ width: `${(step / 5) * 100}%` }}
+          />
+        </div>
       </div>
 
       <div className="p-6">
