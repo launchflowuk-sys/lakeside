@@ -33,10 +33,23 @@ const DARK_STYLE: google.maps.MapTypeStyle[] = [
   { featureType: "water",              elementType: "labels.text.stroke", stylers: [{ color: "#17263c" }] },
 ];
 
+// Yellow circle SVG marker — no Map ID required, works with any API key
+function makeMarkerIcon(major: boolean): google.maps.Icon {
+  const size = major ? 20 : 14;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size * 2}" height="${size * 2}">
+    <circle cx="${size}" cy="${size}" r="${size - 2}" fill="#f5c518" stroke="${major ? "#ffffff" : "#c9a010"}" stroke-width="2"/>
+  </svg>`;
+  return {
+    url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`,
+    scaledSize: new google.maps.Size(size * 2, size * 2),
+    anchor: new google.maps.Point(size, size),
+  };
+}
+
 const API_KEY = (import.meta.env.VITE_GOOGLE_MAPS_API_KEY ?? "") as string;
 
 export default function CoverageMap() {
-  const mapDivRef = useRef<HTMLDivElement>(null);
+  const mapDivRef  = useRef<HTMLDivElement>(null);
   const initialised = useRef(false);
 
   useEffect(() => {
@@ -46,68 +59,58 @@ export default function CoverageMap() {
     let destroyed = false;
 
     if (!API_KEY) {
-      el.innerHTML = `<div class="cmap-no-key">Map visible on live site — add <code>VITE_GOOGLE_MAPS_API_KEY</code> to your Coolify environment.</div>`;
+      el.innerHTML = `<div class="cmap-no-key">Map visible on live site — add <code>VITE_GOOGLE_MAPS_API_KEY</code> to your Coolify build args.</div>`;
       return;
     }
 
     setOptions({ key: API_KEY, v: "weekly" });
 
-    (async () => {
-      try {
-        const { Map, InfoWindow } = await importLibrary("maps");
-        const { AdvancedMarkerElement, PinElement } = await importLibrary("marker");
-        if (destroyed || !mapDivRef.current) return;
+    importLibrary("maps").then(({ Map, InfoWindow }) => {
+      if (destroyed || !mapDivRef.current) return;
 
-        const map = new Map(mapDivRef.current, {
-          center: { lat: 51.493, lng: 0.34 },
-          zoom: 12,
-          mapId: "lakeside_coverage",
-          styles: DARK_STYLE,
-          disableDefaultUI: true,
-          zoomControl: true,
-          zoomControlOptions: { position: google.maps.ControlPosition.RIGHT_BOTTOM },
-          gestureHandling: "cooperative",
+      const map = new Map(mapDivRef.current, {
+        center: { lat: 51.493, lng: 0.34 },
+        zoom: 12,
+        styles: DARK_STYLE,
+        disableDefaultUI: true,
+        zoomControl: true,
+        zoomControlOptions: { position: google.maps.ControlPosition.RIGHT_BOTTOM },
+        gestureHandling: "cooperative",
+      });
+
+      let openWindow: google.maps.InfoWindow | null = null;
+
+      for (const spot of hotspots) {
+        const marker = new google.maps.Marker({
+          map,
+          position: { lat: spot.lat, lng: spot.lng },
+          title: spot.name,
+          icon: makeMarkerIcon(spot.major),
         });
 
-        let openWindow: google.maps.InfoWindow | null = null;
+        const infoWindow = new InfoWindow({
+          content: `<div class="cmap-iw">
+            <div class="cmap-iw-name">${spot.name}</div>
+            <div class="cmap-iw-desc">${spot.desc}</div>
+            <a class="cmap-iw-link" href="${spot.href}">View area &rarr;</a>
+          </div>`,
+        });
 
-        for (const spot of hotspots) {
-          const pin = new PinElement({
-            background: "#f5c518",
-            borderColor: spot.major ? "#ffffff" : "#c9a010",
-            glyphColor: "#1a1a1a",
-            scale: spot.major ? 1.35 : 1.0,
-          });
-
-          const marker = new AdvancedMarkerElement({
-            map,
-            position: { lat: spot.lat, lng: spot.lng },
-            title: spot.name,
-            content: pin.element,
-          });
-
-          const infoWindow = new InfoWindow({
-            content: `<div class="cmap-iw">
-              <div class="cmap-iw-name">${spot.name}</div>
-              <div class="cmap-iw-desc">${spot.desc}</div>
-              <a class="cmap-iw-link" href="${spot.href}">View area &rarr;</a>
-            </div>`,
-          });
-
-          marker.addListener("click", () => {
-            openWindow?.close();
-            infoWindow.open({ map, anchor: marker });
-            openWindow = infoWindow;
-          });
-        }
-
-        map.addListener("click", () => { openWindow?.close(); openWindow = null; });
-      } catch {
-        if (mapDivRef.current && !destroyed) {
-          mapDivRef.current.innerHTML = `<div class="cmap-no-key">Map unavailable — check your Google Maps API key.</div>`;
-        }
+        marker.addListener("click", () => {
+          openWindow?.close();
+          infoWindow.open({ map, anchor: marker });
+          openWindow = infoWindow;
+        });
       }
-    })();
+
+      map.addListener("click", () => { openWindow?.close(); openWindow = null; });
+
+    }).catch((err: unknown) => {
+      console.error("[CoverageMap] Google Maps failed to load:", err);
+      if (mapDivRef.current && !destroyed) {
+        mapDivRef.current.innerHTML = `<div class="cmap-no-key">Map unavailable.</div>`;
+      }
+    });
 
     return () => { destroyed = true; };
   }, []);
