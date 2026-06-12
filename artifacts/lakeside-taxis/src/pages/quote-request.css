@@ -1,0 +1,290 @@
+/* ── Quote Request Page ── */
+
+.qr-hero {
+  background: hsl(220 25% 6%);
+  padding: 72px 0 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.qr-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent, transparent 56px,
+    rgba(255,209,0,0.022) 56px,
+    rgba(255,209,0,0.022) 57px
+  );
+  pointer-events: none;
+}
+
+.qr-inner {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.qr-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffd100;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.qr-h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 900;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin: 0 0 16px;
+}
+
+.qr-h1 span { color: #ffd100; }
+
+.qr-hero-sub {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.55);
+  max-width: 520px;
+  margin: 0;
+}
+
+/* ── Trust Strip ── */
+.qr-trust {
+  background: #ffd100;
+}
+
+.qr-trust-inner {
+  width: min(1180px, calc(100% - 0px));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.qr-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 20px;
+  border-right: 1px solid rgba(0,0,0,0.1);
+}
+
+.qr-trust-item:last-child {
+  border-right: none;
+}
+
+.qr-trust-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.qr-trust-title {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #0a0a0a;
+  line-height: 1.2;
+}
+
+.qr-trust-sub {
+  font-size: 0.68rem;
+  color: rgba(0,0,0,0.5);
+}
+
+/* ── Form Section ── */
+.qr-body {
+  background: #0a0a0a;
+  padding: 64px 0 80px;
+}
+
+.qr-body-inner {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 48px;
+  align-items: start;
+}
+
+/* ── Form Card ── */
+.qr-form-card {
+  background: #0f1623;
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+  padding: 32px 28px;
+}
+
+.qr-form-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin: 0 0 4px;
+}
+
+.qr-form-sub {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.38);
+  margin: 0 0 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+/* ── Sidebar ── */
+.qr-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.qr-sidebar-card {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 10px;
+  padding: 24px 22px;
+}
+
+.qr-sidebar-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ffd100;
+  margin: 0 0 12px;
+  display: block;
+}
+
+/* ── What happens next steps ── */
+.qr-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.qr-step {
+  display: flex;
+  gap: 14px;
+}
+
+.qr-step-num {
+  width: 28px;
+  height: 28px;
+  background: #ffd100;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #0a0a0a;
+  flex-shrink: 0;
+}
+
+.qr-step-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 3px;
+}
+
+.qr-step-desc {
+  font-size: 0.73rem;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.38);
+  margin: 0;
+}
+
+/* ── Contact buttons ── */
+.qr-contact-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.qr-contact-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 6px;
+  padding: 11px 16px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.qr-contact-btn-phone {
+  background: rgba(255,209,0,0.1);
+  border: 1px solid rgba(255,209,0,0.2);
+  color: #ffd100;
+}
+
+.qr-contact-btn-whatsapp {
+  background: rgba(37,211,102,0.1);
+  border: 1px solid rgba(37,211,102,0.2);
+  color: #25D366;
+}
+
+/* ── Mobile ── */
+@media (max-width: 700px) {
+  .qr-hero {
+    padding: 36px 0 32px;
+  }
+
+  .qr-hero-sub {
+    font-size: 0.9rem;
+  }
+
+  /* Trust strip: 2x2 grid */
+  .qr-trust-inner {
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+  }
+
+  .qr-trust-item {
+    padding: 14px 16px;
+    border-right: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+
+  /* Remove right border from 2nd and 4th items */
+  .qr-trust-item:nth-child(2),
+  .qr-trust-item:nth-child(4) {
+    border-right: none;
+  }
+
+  /* Remove bottom border from last row */
+  .qr-trust-item:nth-child(3),
+  .qr-trust-item:nth-child(4) {
+    border-bottom: none;
+  }
+
+  /* Stack form above sidebar */
+  .qr-body {
+    padding: 32px 0 100px;
+  }
+
+  .qr-body-inner {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .qr-form-card {
+    padding: 24px 16px;
+  }
+
+  .qr-sidebar-card {
+    padding: 20px 16px;
+  }
+}
