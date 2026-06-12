@@ -3,7 +3,7 @@
 .qp-section-outer {
   background: hsl(220 25% 6%);
   min-height: 100vh;
-  padding: 60px 0 80px;
+  padding: 40px 0 100px;
 }
 
 .qp-inner {
@@ -608,25 +608,133 @@
 }
 
 /* ── Responsive ── */
-@media (max-width: 520px) {
-  .qp-card-header,
-  .qp-price-block,
-  .qp-section,
-  .qp-message,
-  .qp-cta-block,
-  .qp-accepted-block,
-  .qp-expired-block,
-  .qp-card-footer {
-    padding-left: 20px;
-    padding-right: 20px;
+@media (max-width: 600px) {
+  .qp-section-outer {
+    padding: 16px 0 120px;
   }
 
-  .qp-ref-value { font-size: 1.6rem; }
-  .qp-price-value { font-size: 2.8rem; }
-  .qp-detail-grid { grid-template-columns: 1fr; }
-  .qp-detail-full { grid-column: 1; }
+  .qp-inner {
+    width: 100%;
+    padding: 0;
+  }
 
+  /* Card goes edge-to-edge, no rounded corners on small screens */
+  .qp-card {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    box-shadow: none;
+  }
+
+  .qp-card-header {
+    padding: 20px 16px 18px;
+  }
+
+  .qp-logo-row {
+    margin-bottom: 14px;
+  }
+
+  .qp-brand {
+    font-size: 0.95rem;
+  }
+
+  .qp-ref-row {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .qp-ref-value {
+    font-size: 1.8rem;
+  }
+
+  .qp-price-block {
+    padding: 24px 16px;
+  }
+
+  .qp-price-value {
+    font-size: 2.6rem;
+  }
+
+  .qp-section {
+    padding: 20px 16px;
+  }
+
+  .qp-detail-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .qp-detail-full {
+    grid-column: 1;
+  }
+
+  .qp-payment-option {
+    padding: 14px 12px;
+    gap: 12px;
+  }
+
+  .qp-message {
+    padding: 18px 16px;
+  }
+
+  .qp-cta-block {
+    padding: 24px 16px;
+  }
+
+  .qp-btn-accept {
+    width: 100%;
+    font-size: 1.05rem;
+    padding: 16px 20px;
+  }
+
+  .qp-accepted-block {
+    padding: 28px 16px;
+  }
+
+  .qp-accepted-ctas,
+  .qp-expired-ctas,
+  .qp-error-ctas {
+    flex-direction: column;
+  }
+
+  .qp-accepted-ctas a,
+  .qp-expired-ctas a,
+  .qp-error-ctas a {
+    text-align: center;
+  }
+
+  .qp-expired-block {
+    padding: 20px 16px;
+  }
+
+  .qp-card-footer {
+    padding: 16px;
+  }
+
+  /* Lookup card — edge to edge */
   .qp-lookup {
-    padding: 36px 24px;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    box-shadow: none;
+    padding: 32px 16px;
+    max-width: 100%;
+  }
+
+  .qp-lookup h2 {
+    font-size: 1.5rem;
+  }
+
+  .qp-btn-full {
+    width: 100%;
+  }
+
+  /* Error card — edge to edge */
+  .qp-error {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    padding: 36px 16px;
+    max-width: 100%;
   }
 }
