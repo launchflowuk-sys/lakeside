@@ -1,0 +1,258 @@
+/* ─── Legal Pages (Privacy, Terms, Cookie Policy) ─── */
+
+.lg-hero {
+  background: hsl(220 25% 6%);
+  padding: 64px 0 52px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.lg-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 56px,
+    rgba(255, 209, 0, 0.018) 56px,
+    rgba(255, 209, 0, 0.018) 57px
+  );
+  pointer-events: none;
+}
+.lg-inner {
+  width: min(780px, calc(100% - 40px));
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.lg-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.3);
+}
+.lg-breadcrumb a {
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  transition: color 0.18s;
+}
+.lg-breadcrumb a:hover { color: #ffd100; }
+.lg-breadcrumb span { color: rgba(255, 255, 255, 0.18); }
+.lg-hero-tag {
+  display: inline-block;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 209, 0, 0.7);
+  background: rgba(255, 209, 0, 0.08);
+  border: 1px solid rgba(255, 209, 0, 0.18);
+  padding: 4px 12px;
+  border-radius: 3px;
+  margin-bottom: 16px;
+}
+.lg-hero h1 {
+  font-family: "Barlow Condensed", "Poppins", sans-serif;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 900;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin: 0 0 14px;
+}
+.lg-hero-meta {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.3);
+}
+.lg-hero-meta strong {
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 600;
+}
+
+/* ── Body ── */
+.lg-body {
+  background: #0a0a0a;
+  padding: 56px 0 80px;
+}
+
+/* ── Document layout ── */
+.lg-doc {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 48px;
+  align-items: start;
+}
+.lg-content { min-width: 0; }
+
+/* ── Section blocks ── */
+.lg-section {
+  margin-bottom: 44px;
+  padding-bottom: 44px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.lg-section:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+.lg-section-num {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ffd100;
+  display: block;
+  margin-bottom: 6px;
+}
+.lg-section h2 {
+  font-family: "Barlow Condensed", "Poppins", sans-serif;
+  font-size: 1.45rem;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin: 0 0 16px;
+}
+.lg-section p {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0 0 14px;
+}
+.lg-section p:last-child { margin-bottom: 0; }
+.lg-section a {
+  color: #ffd100;
+  text-decoration: none;
+}
+.lg-section a:hover { text-decoration: underline; }
+
+/* ── Lists ── */
+.lg-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 12px 0 16px;
+}
+.lg-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.55);
+}
+.lg-list-item::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ffd100;
+  flex-shrink: 0;
+  margin-top: 8px;
+}
+
+/* ── Side navigation ── */
+.lg-sidenav {
+  position: sticky;
+  top: 88px;
+}
+.lg-sidenav-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.25);
+  margin-bottom: 12px;
+  display: block;
+}
+.lg-sidenav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.lg-sidenav-link {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.38);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  border-left: 2px solid transparent;
+  transition: color 0.18s, background 0.18s, border-color 0.18s;
+}
+.lg-sidenav-link:hover {
+  color: #ffd100;
+  background: rgba(255, 209, 0, 0.06);
+  border-left-color: #ffd100;
+}
+.lg-sidenav-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  margin: 14px 0;
+}
+.lg-sidenav-other {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.lg-sidenav-other a {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.3);
+  text-decoration: none;
+  padding: 5px 12px;
+  border-radius: 4px;
+  transition: color 0.18s, background 0.18s;
+}
+.lg-sidenav-other a:hover {
+  color: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ── Contact note at bottom ── */
+.lg-contact-note {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 10px;
+  padding: 24px;
+  margin-top: 48px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.lg-contact-note-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+.lg-contact-note-text strong {
+  display: block;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 5px;
+}
+.lg-contact-note-text p {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.42);
+  margin: 0;
+}
+.lg-contact-note-text a { color: #ffd100; text-decoration: none; }
+.lg-contact-note-text a:hover { text-decoration: underline; }
+
+/* ── Responsive ── */
+@media (max-width: 760px) {
+  .lg-doc { grid-template-columns: 1fr; }
+  .lg-sidenav { display: none; }
+}
