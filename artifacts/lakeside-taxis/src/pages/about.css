@@ -1,0 +1,321 @@
+/* ─── About Page ─── */
+
+.ab-hero {
+  background: hsl(220 25% 6%);
+  padding: 80px 0 72px;
+  position: relative;
+  overflow: hidden;
+}
+.ab-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 56px,
+    rgba(255, 209, 0, 0.022) 56px,
+    rgba(255, 209, 0, 0.022) 57px
+  );
+  pointer-events: none;
+}
+.ab-inner {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.ab-hero-badge {
+  display: inline-block;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #0a0a0a;
+  background: #ffd100;
+  padding: 5px 14px;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+.ab-hero h1 {
+  font-family: "Barlow Condensed", "Poppins", sans-serif;
+  font-size: clamp(3rem, 7vw, 5.8rem);
+  font-weight: 900;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin: 0 0 18px;
+}
+.ab-hero h1 span { color: #ffd100; }
+.ab-hero-desc {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.55);
+  max-width: 560px;
+  margin: 0;
+}
+
+/* ── Trust strip ── */
+.ab-trust {
+  background: #ffd100;
+}
+.ab-trust-inner {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  display: flex;
+  align-items: stretch;
+}
+.ab-trust-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 22px 24px;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+.ab-trust-item:last-child { border-right: none; }
+.ab-trust-num {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #0a0a0a;
+  line-height: 1;
+}
+.ab-trust-label strong {
+  display: block;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #0a0a0a;
+  line-height: 1.2;
+}
+.ab-trust-label span {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.68rem;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+/* ── Body ── */
+.ab-body {
+  background: #0a0a0a;
+  padding: 72px 0 80px;
+}
+
+/* ── Story section ── */
+.ab-story {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 56px;
+  align-items: start;
+  margin-bottom: 72px;
+}
+.ab-kicker {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffd100;
+  display: block;
+  margin-bottom: 10px;
+}
+.ab-h2 {
+  font-family: "Barlow Condensed", "Poppins", sans-serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin: 0 0 24px;
+}
+.ab-prose p {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.58);
+  margin: 0 0 18px;
+}
+.ab-prose p:last-child { margin-bottom: 0; }
+
+/* ── Stat cards ── */
+.ab-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ab-stat-card {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 10px;
+  padding: 22px 22px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.ab-stat-card:hover {
+  border-color: rgba(255, 209, 0, 0.2);
+  background: #141d2e;
+}
+.ab-stat-icon { font-size: 1.4rem; margin-bottom: 8px; }
+.ab-stat-value {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: #ffd100;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.ab-stat-label {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 3px;
+}
+.ab-stat-sub {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.7rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.38);
+}
+
+/* ── Divider ── */
+.ab-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.07);
+  margin: 0 0 64px;
+}
+
+/* ── Values ── */
+.ab-values-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 32px;
+}
+.ab-value-card {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-top: 3px solid transparent;
+  border-radius: 10px;
+  padding: 24px 20px;
+  transition: border-top-color 0.22s, transform 0.22s, background 0.22s;
+}
+.ab-value-card:hover {
+  border-top-color: #ffd100;
+  transform: translateY(-3px);
+  background: #141d2e;
+}
+.ab-value-icon { font-size: 1.5rem; margin-bottom: 12px; }
+.ab-value-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 7px;
+}
+.ab-value-desc {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.42);
+}
+
+/* ── Team note ── */
+.ab-team-note {
+  background: rgba(255, 209, 0, 0.06);
+  border: 1px solid rgba(255, 209, 0, 0.18);
+  border-left: 3px solid #ffd100;
+  border-radius: 6px;
+  padding: 20px 24px;
+  margin-top: 56px;
+}
+.ab-team-note p {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0;
+}
+.ab-team-note strong { color: rgba(255, 209, 0, 0.85); }
+
+/* ── CTA ── */
+.ab-cta {
+  background: #ffd100;
+  padding: 72px 0;
+  text-align: center;
+}
+.ab-cta h2 {
+  font-family: "Barlow Condensed", "Poppins", sans-serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 900;
+  color: #0a0a0a;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
+}
+.ab-cta p {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;
+  color: rgba(0, 0, 0, 0.58);
+  margin: 0 0 28px;
+}
+.ab-cta-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.ab-cta-btn-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #0a0a0a;
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 14px 28px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.18s, transform 0.18s;
+}
+.ab-cta-btn-dark:hover { background: #1a1a1a; transform: translateY(-1px); }
+.ab-cta-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: #0a0a0a;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 13px 26px;
+  border-radius: 4px;
+  border: 1.5px solid rgba(0, 0, 0, 0.3);
+  text-decoration: none;
+  transition: background 0.18s;
+}
+.ab-cta-btn-outline:hover { background: rgba(0, 0, 0, 0.08); }
+
+/* ── Responsive ── */
+@media (max-width: 960px) {
+  .ab-story { grid-template-columns: 1fr; }
+  .ab-stats { flex-direction: row; }
+  .ab-stat-card { flex: 1; }
+}
+@media (max-width: 720px) {
+  .ab-values-grid { grid-template-columns: 1fr 1fr; }
+  .ab-trust-inner { flex-wrap: wrap; }
+  .ab-trust-item { flex: 0 0 50%; border-bottom: 1px solid rgba(0,0,0,0.1); }
+}
+@media (max-width: 520px) {
+  .ab-values-grid { grid-template-columns: 1fr; }
+  .ab-stats { flex-direction: column; }
+  .ab-trust-item { flex: 0 0 100%; }
+  .ab-cta-actions { flex-direction: column; align-items: center; }
+}

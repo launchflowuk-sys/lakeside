@@ -1,0 +1,316 @@
+/* ─── Contact Page ─── */
+
+.ct-hero {
+  background: hsl(220 25% 6%);
+  padding: 80px 0 72px;
+  position: relative;
+  overflow: hidden;
+}
+.ct-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 56px,
+    rgba(255, 209, 0, 0.022) 56px,
+    rgba(255, 209, 0, 0.022) 57px
+  );
+  pointer-events: none;
+}
+.ct-inner {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.ct-hero-eyebrow {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffd100;
+  display: block;
+  margin-bottom: 14px;
+}
+.ct-hero h1 {
+  font-family: "Barlow Condensed", "Poppins", sans-serif;
+  font-size: clamp(3rem, 7vw, 5.8rem);
+  font-weight: 900;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin: 0 0 18px;
+}
+.ct-hero h1 span { color: #ffd100; }
+.ct-hero-desc {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.55);
+  max-width: 540px;
+  margin: 0;
+}
+
+/* ── Body ── */
+.ct-body {
+  background: #0a0a0a;
+  padding: 64px 0 80px;
+}
+
+/* ── Main contact methods ── */
+.ct-methods {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 56px;
+}
+.ct-method-card {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-top: 4px solid transparent;
+  border-radius: 12px;
+  padding: 28px 24px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-top-color 0.22s, transform 0.22s, background 0.22s, box-shadow 0.22s;
+}
+.ct-method-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  background: #141d2e;
+}
+.ct-method-card--tel { border-top-color: #ffd100; }
+.ct-method-card--wa  { border-top-color: #25D366; }
+.ct-method-card--email { border-top-color: #4f8ef7; }
+.ct-method-icon { font-size: 1.8rem; line-height: 1; }
+.ct-method-label {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+}
+.ct-method-value {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 1.55rem;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.1;
+}
+.ct-method-sub {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.38);
+}
+.ct-method-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-top: 4px;
+  transition: gap 0.18s;
+}
+.ct-method-card:hover .ct-method-cta { gap: 10px; }
+.ct-method-card--tel .ct-method-cta  { color: #ffd100; }
+.ct-method-card--wa  .ct-method-cta  { color: #25D366; }
+.ct-method-card--email .ct-method-cta { color: #4f8ef7; }
+
+/* ── Lower section: info + booking ── */
+.ct-lower {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 0;
+}
+.ct-info-col, .ct-booking-col {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+  padding: 32px 28px;
+}
+.ct-col-kicker {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffd100;
+  display: block;
+  margin-bottom: 8px;
+}
+.ct-col-h2 {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin: 0 0 24px;
+}
+.ct-info-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.ct-info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+}
+.ct-info-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.ct-info-text strong {
+  display: block;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 3px;
+}
+.ct-info-text span {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ── Booking col ── */
+.ct-booking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+.ct-booking-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+.ct-booking-item::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffd100;
+  flex-shrink: 0;
+}
+.ct-booking-note {
+  background: rgba(255, 209, 0, 0.05);
+  border: 1px solid rgba(255, 209, 0, 0.15);
+  border-left: 3px solid #ffd100;
+  border-radius: 6px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+}
+.ct-booking-note p {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0;
+}
+.ct-booking-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffd100;
+  color: #0a0a0a;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 14px 24px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.18s, transform 0.18s;
+  width: 100%;
+  justify-content: center;
+}
+.ct-booking-btn:hover { background: #ffe033; transform: translateY(-1px); }
+
+/* ── CTA ── */
+.ct-cta {
+  background: #ffd100;
+  padding: 72px 0;
+  text-align: center;
+  margin-top: 0;
+}
+.ct-cta h2 {
+  font-family: "Barlow Condensed", "Poppins", sans-serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 900;
+  color: #0a0a0a;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
+}
+.ct-cta p {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;
+  color: rgba(0, 0, 0, 0.55);
+  margin: 0 0 28px;
+}
+.ct-cta-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.ct-cta-btn-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #0a0a0a;
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 14px 28px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.18s;
+}
+.ct-cta-btn-dark:hover { background: #1a1a1a; }
+.ct-cta-btn-wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #25D366;
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  padding: 14px 28px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.18s;
+}
+.ct-cta-btn-wa:hover { background: #1ebe5c; }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .ct-methods { grid-template-columns: 1fr; }
+  .ct-lower { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .ct-cta-actions { flex-direction: column; align-items: center; }
+}
