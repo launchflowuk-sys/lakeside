@@ -57,6 +57,7 @@ import AdminSettings from "@/pages/admin/Settings";
 import AdminCorporateApplications from "@/pages/admin/CorporateApplications";
 import AdminCorporateApplicationDetail from "@/pages/admin/CorporateApplicationDetail";
 
+import QuotePage from "@/pages/QuotePage";
 import NotFound from "@/pages/not-found";
 
 function ScrollToTop() {
@@ -109,6 +110,8 @@ function Router() {
       <Route path="/areas/corringham" component={CorringhamPage} />
       <Route path="/quote-request" component={QuoteRequest} />
       <Route path="/thank-you" component={ThankYou} />
+      <Route path="/quote/:ref" component={QuotePage} />
+      <Route path="/quote" component={QuotePage} />
       <Route path="/privacy-policy" component={PrivacyPolicy} />
       <Route path="/terms" component={Terms} />
       <Route path="/cookie-policy" component={CookiePolicy} />

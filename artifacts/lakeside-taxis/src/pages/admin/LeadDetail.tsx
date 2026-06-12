@@ -11,10 +11,11 @@ import {
   useGetAdminLead, getGetAdminLeadQueryKey,
   useUpdateAdminLead,
   useReplyToLead,
-  useGetLeadReplies, getGetLeadRepliesQueryKey
+  useGetLeadReplies, getGetLeadRepliesQueryKey,
+  useCreateQuote, useGetLeadQuote, getGetLeadQuoteQueryKey,
 } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { Phone, Mail, MessageCircle, CheckCircle2, Send, ArrowLeft } from "lucide-react";
+import { Phone, Mail, MessageCircle, CheckCircle2, Send, ArrowLeft, FileText, Copy, ExternalLink } from "lucide-react";
 
 const STATUSES = ["new", "contacted", "quoted", "booked", "completed", "cancelled", "archived"];
 
@@ -36,6 +37,12 @@ const journeyLabel: Record<string, string> = {
   corporate: "Corporate", long_distance: "Long Distance", other: "Other",
 };
 
+function getTodayPlus(days: number) {
+  const d = new Date();
+  d.setDate(d.getDate() + days);
+  return d.toISOString().split("T")[0];
+}
+
 export default function AdminLeadDetail() {
   const [, params] = useRoute("/admin/leads/:id");
   const leadId = parseInt(params?.id ?? "0", 10);
@@ -43,8 +50,10 @@ export default function AdminLeadDetail() {
 
   const { data: lead, isLoading } = useGetAdminLead(leadId, { query: { enabled: !!leadId, queryKey: getGetAdminLeadQueryKey(leadId) } });
   const { data: replies } = useGetLeadReplies(leadId, { query: { enabled: !!leadId, queryKey: getGetLeadRepliesQueryKey(leadId) } });
+  const { data: existingQuote } = useGetLeadQuote(leadId, { query: { enabled: !!leadId, queryKey: getGetLeadQuoteQueryKey(leadId), retry: false } });
   const updateLead = useUpdateAdminLead();
   const replyToLead = useReplyToLead();
+  const createQuote = useCreateQuote();
 
   const [adminNotes, setAdminNotes] = useState("");
   const [quotedPrice, setQuotedPrice] = useState("");
@@ -54,10 +63,24 @@ export default function AdminLeadDetail() {
   const [replyMessage, setReplyMessage] = useState("");
   const [replyQuotedPrice, setReplyQuotedPrice] = useState("");
   const [savedNote, setSavedNote] = useState(false);
+  const [showQuoteForm, setShowQuoteForm] = useState(false);
+  const [copiedRef, setCopiedRef] = useState(false);
+
+  const [qPrice, setQPrice] = useState("");
+  const [qPriceNotes, setQPriceNotes] = useState("");
+  const [qValidUntil, setQValidUntil] = useState(getTodayPlus(3));
+  const [qAdminMessage, setQAdminMessage] = useState("");
+  const [qPayCash, setQPayCash] = useState(true);
+  const [qPayCard, setQPayCard] = useState(false);
+  const [qPayBank, setQPayBank] = useState(false);
+  const [qBankName, setQBankName] = useState("");
+  const [qBankSort, setQBankSort] = useState("");
+  const [qBankAcc, setQBankAcc] = useState("");
 
   const refresh = () => {
     queryClient.invalidateQueries({ queryKey: getGetAdminLeadQueryKey(leadId) });
     queryClient.invalidateQueries({ queryKey: getGetLeadRepliesQueryKey(leadId) });
+    queryClient.invalidateQueries({ queryKey: getGetLeadQuoteQueryKey(leadId) });
   };
 
   const handleStatusChange = (status: string) => {
@@ -83,6 +106,50 @@ export default function AdminLeadDetail() {
         }
       }
     );
+  };
+
+  const handleCreateQuote = () => {
+    if (!lead) return;
+    createQuote.mutate({
+      id: leadId,
+      data: {
+        price: qPrice,
+        priceNotes: qPriceNotes || undefined,
+        validUntil: qValidUntil,
+        adminMessage: qAdminMessage || undefined,
+        journeyType: lead.journeyType,
+        pickupLocation: lead.pickupLocation,
+        destination: lead.destination,
+        viaStops: lead.viaStops || undefined,
+        journeyDate: lead.journeyDate,
+        journeyTime: lead.journeyTime,
+        returnRequired: lead.returnRequired ? "yes" : "no",
+        returnDate: lead.returnDate || undefined,
+        returnTime: lead.returnTime || undefined,
+        passengers: lead.passengers,
+        customerName: lead.fullName,
+        customerEmail: lead.email,
+        customerMobile: lead.mobile,
+        paymentCash: qPayCash ? "yes" : "no",
+        paymentCard: qPayCard ? "yes" : "no",
+        paymentBankTransfer: qPayBank ? "yes" : "no",
+        bankAccountName: qBankName || undefined,
+        bankSortCode: qBankSort || undefined,
+        bankAccountNumber: qBankAcc || undefined,
+      }
+    }, {
+      onSuccess: () => {
+        setShowQuoteForm(false);
+        refresh();
+      }
+    });
+  };
+
+  const copyQuoteLink = (ref: string) => {
+    const url = `${window.location.origin}/quote/${ref}`;
+    navigator.clipboard.writeText(url);
+    setCopiedRef(true);
+    setTimeout(() => setCopiedRef(false), 2000);
   };
 
   if (isLoading) {
@@ -200,6 +267,156 @@ export default function AdminLeadDetail() {
                 <p className="font-semibold text-foreground">{lead.additionalNotes}</p>
               </div>}
             </div>
+          </div>
+
+          {/* Quote Panel */}
+          <div className="bg-card border border-border rounded-xl p-5" data-testid="quote-panel">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="font-semibold text-foreground flex items-center gap-2">
+                <FileText className="w-4 h-4 text-primary" /> Customer Quote
+              </h2>
+              {!existingQuote && !showQuoteForm && (
+                <Button size="sm" onClick={() => setShowQuoteForm(true)} className="bg-primary text-primary-foreground font-semibold">
+                  Create Quote
+                </Button>
+              )}
+            </div>
+
+            {existingQuote && (
+              <div className="space-y-4">
+                <div className="bg-primary/10 border border-primary/30 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-0.5">Quote Reference</p>
+                      <p className="font-display font-black text-xl text-primary tracking-wide">{existingQuote.quoteRef}</p>
+                    </div>
+                    <span className={`text-xs font-bold px-2.5 py-1 rounded-full border capitalize ${
+                      existingQuote.status === "accepted" ? "bg-green-500/20 text-green-400 border-green-500/30" :
+                      existingQuote.status === "expired" ? "bg-red-500/20 text-red-400 border-red-500/30" :
+                      "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
+                    }`}>{existingQuote.status}</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3 text-sm mt-3">
+                    <div>
+                      <p className="text-muted-foreground text-xs">Price</p>
+                      <p className="font-bold text-foreground">{existingQuote.price}</p>
+                    </div>
+                    <div>
+                      <p className="text-muted-foreground text-xs">Valid Until</p>
+                      <p className="font-semibold text-foreground">{existingQuote.validUntil}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="flex-1"
+                    onClick={() => copyQuoteLink(existingQuote.quoteRef)}
+                  >
+                    {copiedRef ? <><CheckCircle2 className="w-3.5 h-3.5 mr-1.5 text-green-400" /> Copied!</> : <><Copy className="w-3.5 h-3.5 mr-1.5" /> Copy Link</>}
+                  </Button>
+                  <a
+                    href={`/quote/${existingQuote.quoteRef}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1"
+                  >
+                    <Button size="sm" variant="outline" className="w-full">
+                      <ExternalLink className="w-3.5 h-3.5 mr-1.5" /> Preview
+                    </Button>
+                  </a>
+                </div>
+                {existingQuote.status === "accepted" && existingQuote.acceptedAt && (
+                  <p className="text-green-400 text-xs flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    Accepted by customer on {new Date(existingQuote.acceptedAt).toLocaleDateString("en-GB", { dateStyle: "full" })}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {showQuoteForm && !existingQuote && (
+              <div className="space-y-4">
+                <div className="grid sm:grid-cols-2 gap-3">
+                  <div>
+                    <Label className="text-xs">Price <span className="text-red-400">*</span></Label>
+                    <Input value={qPrice} onChange={e => setQPrice(e.target.value)} placeholder="e.g. £95" className="mt-1 text-sm" data-testid="quote-price" />
+                  </div>
+                  <div>
+                    <Label className="text-xs">Valid Until <span className="text-red-400">*</span></Label>
+                    <Input type="date" value={qValidUntil} onChange={e => setQValidUntil(e.target.value)} className="mt-1 text-sm" data-testid="quote-valid-until" />
+                  </div>
+                </div>
+                <div>
+                  <Label className="text-xs">Price Notes (optional)</Label>
+                  <Input value={qPriceNotes} onChange={e => setQPriceNotes(e.target.value)} placeholder="e.g. Includes meet & greet, waiting time" className="mt-1 text-sm" />
+                </div>
+                <div>
+                  <Label className="text-xs">Message to Customer (optional)</Label>
+                  <Textarea value={qAdminMessage} onChange={e => setQAdminMessage(e.target.value)} placeholder="Any personal message to include on the quote..." rows={3} className="mt-1 text-sm resize-none" />
+                </div>
+
+                <div>
+                  <Label className="text-xs mb-2 block">Payment Options</Label>
+                  <div className="space-y-2">
+                    <label className="flex items-center gap-2 cursor-pointer text-sm text-foreground/80">
+                      <input type="checkbox" checked={qPayCash} onChange={e => setQPayCash(e.target.checked)} className="accent-yellow-400" />
+                      Cash on the day
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer text-sm text-foreground/80">
+                      <input type="checkbox" checked={qPayCard} onChange={e => setQPayCard(e.target.checked)} className="accent-yellow-400" />
+                      Card payment
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer text-sm text-foreground/80">
+                      <input type="checkbox" checked={qPayBank} onChange={e => setQPayBank(e.target.checked)} className="accent-yellow-400" />
+                      Bank transfer
+                    </label>
+                  </div>
+                </div>
+
+                {qPayBank && (
+                  <div className="bg-muted/20 rounded-lg p-3 space-y-2 border border-border">
+                    <p className="text-xs text-muted-foreground font-semibold">Bank Transfer Details</p>
+                    <div>
+                      <Label className="text-xs">Account Name</Label>
+                      <Input value={qBankName} onChange={e => setQBankName(e.target.value)} placeholder="e.g. Lakeside & Purfleet Taxis Ltd" className="mt-1 text-sm" />
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <Label className="text-xs">Sort Code</Label>
+                        <Input value={qBankSort} onChange={e => setQBankSort(e.target.value)} placeholder="00-00-00" className="mt-1 text-sm" />
+                      </div>
+                      <div>
+                        <Label className="text-xs">Account Number</Label>
+                        <Input value={qBankAcc} onChange={e => setQBankAcc(e.target.value)} placeholder="12345678" className="mt-1 text-sm" />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex gap-2">
+                  <Button
+                    onClick={handleCreateQuote}
+                    disabled={!qPrice || !qValidUntil || createQuote.isPending}
+                    className="flex-1 bg-primary text-primary-foreground font-semibold"
+                    data-testid="btn-create-quote"
+                  >
+                    {createQuote.isPending ? "Creating..." : "Create Quote"}
+                  </Button>
+                  <Button variant="outline" onClick={() => setShowQuoteForm(false)} className="flex-1">
+                    Cancel
+                  </Button>
+                </div>
+                {createQuote.isError && (
+                  <p className="text-red-400 text-xs">Failed to create quote. Please try again.</p>
+                )}
+              </div>
+            )}
+
+            {!existingQuote && !showQuoteForm && (
+              <p className="text-muted-foreground text-sm">No quote created yet. Click "Create Quote" to generate a shareable quote link for this customer.</p>
+            )}
           </div>
 
           {/* Reply Form */}

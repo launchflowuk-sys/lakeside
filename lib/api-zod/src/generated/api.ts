@@ -289,6 +289,160 @@ export const GetLeadRepliesResponse = zod.array(GetLeadRepliesResponseItem)
 
 
 /**
+ * @summary Create a customer quote for a lead
+ */
+export const CreateQuoteParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const CreateQuoteBody = zod.object({
+  "price": zod.string(),
+  "priceNotes": zod.string().optional(),
+  "validUntil": zod.string(),
+  "journeyType": zod.string(),
+  "pickupLocation": zod.string(),
+  "destination": zod.string(),
+  "viaStops": zod.string().optional(),
+  "journeyDate": zod.string(),
+  "journeyTime": zod.string(),
+  "returnRequired": zod.string(),
+  "returnDate": zod.string().optional(),
+  "returnTime": zod.string().optional(),
+  "passengers": zod.number(),
+  "customerName": zod.string(),
+  "customerEmail": zod.string(),
+  "customerMobile": zod.string(),
+  "paymentCash": zod.string().optional(),
+  "paymentCard": zod.string().optional(),
+  "paymentBankTransfer": zod.string().optional(),
+  "bankSortCode": zod.string().optional(),
+  "bankAccountNumber": zod.string().optional(),
+  "bankAccountName": zod.string().optional(),
+  "adminMessage": zod.string().optional()
+})
+
+
+/**
+ * @summary Get the quote for a lead (if one exists)
+ */
+export const GetLeadQuoteParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const GetLeadQuoteResponse = zod.object({
+  "id": zod.number(),
+  "quoteRef": zod.string(),
+  "leadId": zod.number(),
+  "status": zod.enum(['pending', 'accepted', 'expired', 'cancelled']),
+  "customerName": zod.string(),
+  "customerEmail": zod.string(),
+  "customerMobile": zod.string(),
+  "pickupLocation": zod.string(),
+  "destination": zod.string(),
+  "viaStops": zod.string().nullish(),
+  "journeyDate": zod.string(),
+  "journeyTime": zod.string(),
+  "returnRequired": zod.string(),
+  "returnDate": zod.string().nullish(),
+  "returnTime": zod.string().nullish(),
+  "passengers": zod.number(),
+  "journeyType": zod.string(),
+  "price": zod.string(),
+  "priceNotes": zod.string().nullish(),
+  "paymentCash": zod.string().nullable(),
+  "paymentCard": zod.string().nullable(),
+  "paymentBankTransfer": zod.string().nullable(),
+  "bankSortCode": zod.string().nullish(),
+  "bankAccountNumber": zod.string().nullish(),
+  "bankAccountName": zod.string().nullish(),
+  "validUntil": zod.string(),
+  "adminMessage": zod.string().nullish(),
+  "acceptedAt": zod.string().nullish(),
+  "createdAt": zod.string()
+})
+
+
+/**
+ * @summary Get a quote by reference (public)
+ */
+export const GetPublicQuoteParams = zod.object({
+  "ref": zod.coerce.string()
+})
+
+export const GetPublicQuoteResponse = zod.object({
+  "id": zod.number(),
+  "quoteRef": zod.string(),
+  "leadId": zod.number(),
+  "status": zod.enum(['pending', 'accepted', 'expired', 'cancelled']),
+  "customerName": zod.string(),
+  "customerEmail": zod.string(),
+  "customerMobile": zod.string(),
+  "pickupLocation": zod.string(),
+  "destination": zod.string(),
+  "viaStops": zod.string().nullish(),
+  "journeyDate": zod.string(),
+  "journeyTime": zod.string(),
+  "returnRequired": zod.string(),
+  "returnDate": zod.string().nullish(),
+  "returnTime": zod.string().nullish(),
+  "passengers": zod.number(),
+  "journeyType": zod.string(),
+  "price": zod.string(),
+  "priceNotes": zod.string().nullish(),
+  "paymentCash": zod.string().nullable(),
+  "paymentCard": zod.string().nullable(),
+  "paymentBankTransfer": zod.string().nullable(),
+  "bankSortCode": zod.string().nullish(),
+  "bankAccountNumber": zod.string().nullish(),
+  "bankAccountName": zod.string().nullish(),
+  "validUntil": zod.string(),
+  "adminMessage": zod.string().nullish(),
+  "acceptedAt": zod.string().nullish(),
+  "createdAt": zod.string()
+})
+
+
+/**
+ * @summary Customer accepts a quote
+ */
+export const AcceptQuoteParams = zod.object({
+  "ref": zod.coerce.string()
+})
+
+export const AcceptQuoteResponse = zod.object({
+  "id": zod.number(),
+  "quoteRef": zod.string(),
+  "leadId": zod.number(),
+  "status": zod.enum(['pending', 'accepted', 'expired', 'cancelled']),
+  "customerName": zod.string(),
+  "customerEmail": zod.string(),
+  "customerMobile": zod.string(),
+  "pickupLocation": zod.string(),
+  "destination": zod.string(),
+  "viaStops": zod.string().nullish(),
+  "journeyDate": zod.string(),
+  "journeyTime": zod.string(),
+  "returnRequired": zod.string(),
+  "returnDate": zod.string().nullish(),
+  "returnTime": zod.string().nullish(),
+  "passengers": zod.number(),
+  "journeyType": zod.string(),
+  "price": zod.string(),
+  "priceNotes": zod.string().nullish(),
+  "paymentCash": zod.string().nullable(),
+  "paymentCard": zod.string().nullable(),
+  "paymentBankTransfer": zod.string().nullable(),
+  "bankSortCode": zod.string().nullish(),
+  "bankAccountNumber": zod.string().nullish(),
+  "bankAccountName": zod.string().nullish(),
+  "validUntil": zod.string(),
+  "adminMessage": zod.string().nullish(),
+  "acceptedAt": zod.string().nullish(),
+  "createdAt": zod.string()
+})
+
+
+/**
  * @summary Submit a corporate account application
  */
 export const SubmitCorporateApplicationBody = zod.object({

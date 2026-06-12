@@ -326,6 +326,86 @@ export interface CorporateApplicationListResponse {
   limit: number;
 }
 
+export type QuoteStatus = typeof QuoteStatus[keyof typeof QuoteStatus];
+
+
+export const QuoteStatus = {
+  pending: 'pending',
+  accepted: 'accepted',
+  expired: 'expired',
+  cancelled: 'cancelled',
+} as const;
+
+export interface Quote {
+  id: number;
+  quoteRef: string;
+  leadId: number;
+  status: QuoteStatus;
+  customerName: string;
+  customerEmail: string;
+  customerMobile: string;
+  pickupLocation: string;
+  destination: string;
+  /** @nullable */
+  viaStops?: string | null;
+  journeyDate: string;
+  journeyTime: string;
+  returnRequired: string;
+  /** @nullable */
+  returnDate?: string | null;
+  /** @nullable */
+  returnTime?: string | null;
+  passengers: number;
+  journeyType: string;
+  price: string;
+  /** @nullable */
+  priceNotes?: string | null;
+  /** @nullable */
+  paymentCash: string | null;
+  /** @nullable */
+  paymentCard: string | null;
+  /** @nullable */
+  paymentBankTransfer: string | null;
+  /** @nullable */
+  bankSortCode?: string | null;
+  /** @nullable */
+  bankAccountNumber?: string | null;
+  /** @nullable */
+  bankAccountName?: string | null;
+  validUntil: string;
+  /** @nullable */
+  adminMessage?: string | null;
+  /** @nullable */
+  acceptedAt?: string | null;
+  createdAt: string;
+}
+
+export interface CreateQuoteInput {
+  price: string;
+  priceNotes?: string;
+  validUntil: string;
+  journeyType: string;
+  pickupLocation: string;
+  destination: string;
+  viaStops?: string;
+  journeyDate: string;
+  journeyTime: string;
+  returnRequired: string;
+  returnDate?: string;
+  returnTime?: string;
+  passengers: number;
+  customerName: string;
+  customerEmail: string;
+  customerMobile: string;
+  paymentCash?: string;
+  paymentCard?: string;
+  paymentBankTransfer?: string;
+  bankSortCode?: string;
+  bankAccountNumber?: string;
+  bankAccountName?: string;
+  adminMessage?: string;
+}
+
 export type ListAdminLeadsParams = {
 /**
  * Filter by lead status

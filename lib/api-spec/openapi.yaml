@@ -267,6 +267,116 @@ paths:
                 items:
                   $ref: "#/components/schemas/LeadReply"
 
+  /admin/leads/{id}/quote:
+    post:
+      operationId: createQuote
+      tags: [admin-leads]
+      summary: Create a customer quote for a lead
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateQuoteInput"
+      responses:
+        "201":
+          description: Quote created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Quote"
+        "404":
+          description: Lead not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    get:
+      operationId: getLeadQuote
+      tags: [admin-leads]
+      summary: Get the quote for a lead (if one exists)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Quote
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Quote"
+        "404":
+          description: No quote found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /quotes/{ref}:
+    get:
+      operationId: getPublicQuote
+      tags: [quotes]
+      summary: Get a quote by reference (public)
+      parameters:
+        - name: ref
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Quote details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Quote"
+        "404":
+          description: Quote not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /quotes/{ref}/accept:
+    post:
+      operationId: acceptQuote
+      tags: [quotes]
+      summary: Customer accepts a quote
+      parameters:
+        - name: ref
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Quote accepted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Quote"
+        "400":
+          description: Quote already accepted or expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Quote not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
   /corporate-applications:
     post:
       operationId: submitCorporateApplication
@@ -883,3 +993,150 @@ components:
           type: integer
         limit:
           type: integer
+
+    Quote:
+      type: object
+      required:
+        - id
+        - quoteRef
+        - leadId
+        - status
+        - customerName
+        - customerEmail
+        - customerMobile
+        - pickupLocation
+        - destination
+        - journeyDate
+        - journeyTime
+        - returnRequired
+        - passengers
+        - journeyType
+        - price
+        - paymentCash
+        - paymentCard
+        - paymentBankTransfer
+        - validUntil
+        - createdAt
+      properties:
+        id:
+          type: integer
+        quoteRef:
+          type: string
+        leadId:
+          type: integer
+        status:
+          type: string
+          enum: [pending, accepted, expired, cancelled]
+        customerName:
+          type: string
+        customerEmail:
+          type: string
+        customerMobile:
+          type: string
+        pickupLocation:
+          type: string
+        destination:
+          type: string
+        viaStops:
+          type: ["string", "null"]
+        journeyDate:
+          type: string
+        journeyTime:
+          type: string
+        returnRequired:
+          type: string
+        returnDate:
+          type: ["string", "null"]
+        returnTime:
+          type: ["string", "null"]
+        passengers:
+          type: integer
+        journeyType:
+          type: string
+        price:
+          type: string
+        priceNotes:
+          type: ["string", "null"]
+        paymentCash:
+          type: ["string", "null"]
+        paymentCard:
+          type: ["string", "null"]
+        paymentBankTransfer:
+          type: ["string", "null"]
+        bankSortCode:
+          type: ["string", "null"]
+        bankAccountNumber:
+          type: ["string", "null"]
+        bankAccountName:
+          type: ["string", "null"]
+        validUntil:
+          type: string
+        adminMessage:
+          type: ["string", "null"]
+        acceptedAt:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+
+    CreateQuoteInput:
+      type: object
+      required:
+        - price
+        - validUntil
+        - journeyType
+        - pickupLocation
+        - destination
+        - journeyDate
+        - journeyTime
+        - passengers
+        - customerName
+        - customerEmail
+        - customerMobile
+        - returnRequired
+      properties:
+        price:
+          type: string
+        priceNotes:
+          type: string
+        validUntil:
+          type: string
+        journeyType:
+          type: string
+        pickupLocation:
+          type: string
+        destination:
+          type: string
+        viaStops:
+          type: string
+        journeyDate:
+          type: string
+        journeyTime:
+          type: string
+        returnRequired:
+          type: string
+        returnDate:
+          type: string
+        returnTime:
+          type: string
+        passengers:
+          type: integer
+        customerName:
+          type: string
+        customerEmail:
+          type: string
+        customerMobile:
+          type: string
+        paymentCash:
+          type: string
+        paymentCard:
+          type: string
+        paymentBankTransfer:
+          type: string
+        bankSortCode:
+          type: string
+        bankAccountNumber:
+          type: string
+        bankAccountName:
+          type: string
+        adminMessage:
+          type: string
