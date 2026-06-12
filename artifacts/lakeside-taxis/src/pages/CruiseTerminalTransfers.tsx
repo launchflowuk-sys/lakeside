@@ -356,8 +356,8 @@ export default function CruiseTerminalTransfers() {
                 </div>
               ))}
             </div>
-            <div style={{ textAlign: "center", marginTop: 36 }}>
-              <Link href="/quote-request" className="ip-btn ip-btn-primary" style={{ marginRight: 14 }}>Get a UK Transfer Quote →</Link>
+            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 12, marginTop: 36 }}>
+              <Link href="/quote-request" className="ip-btn ip-btn-primary">Get a UK Transfer Quote →</Link>
               <a href={WA} className="ip-btn ip-btn-green">WhatsApp Your Location</a>
             </div>
           </div>
@@ -440,8 +440,10 @@ export default function CruiseTerminalTransfers() {
             </div>
             <div style={{ textAlign: "center", marginTop: 40 }}>
               <p style={{ color: "hsl(var(--muted-foreground))", marginBottom: 16, fontSize: 15 }}>Still have a question? Just ask us directly.</p>
-              <a href={WA} className="ip-btn ip-btn-green" style={{ marginRight: 12 }}>WhatsApp Us</a>
-              <a href={EMAIL} className="ip-btn ip-btn-outline-dark">Email Us</a>
+              <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 12 }}>
+                <a href={WA} className="ip-btn ip-btn-green">WhatsApp Us</a>
+                <a href={EMAIL} className="ip-btn ip-btn-outline-dark">Email Us</a>
+              </div>
             </div>
           </div>
         </section>
