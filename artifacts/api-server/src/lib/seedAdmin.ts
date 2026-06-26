@@ -7,13 +7,11 @@ export async function seedAdminFromEnv(): Promise<void> {
   const password = process.env.ADMIN_PASSWORD;
 
   if (!email || !password) {
-    logger.warn("ADMIN_EMAIL or ADMIN_PASSWORD not set — skipping admin seed");
     return;
   }
 
   try {
     const passwordHash = await bcrypt.hash(password, 12);
-
     const client = await pool.connect();
     try {
       await client.query(
@@ -28,7 +26,6 @@ export async function seedAdminFromEnv(): Promise<void> {
       client.release();
     }
   } catch (err) {
-    logger.error({ err }, "Admin seed: FAILED — check DB connection and schema");
-    throw err;
+    logger.error({ err }, "Admin seed: failed — check ADMIN_EMAIL and ADMIN_PASSWORD");
   }
 }
