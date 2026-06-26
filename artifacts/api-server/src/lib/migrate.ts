@@ -55,6 +55,9 @@ export async function runMigrations(): Promise<void> {
         role          TEXT NOT NULL DEFAULT 'admin'
       );
 
+      ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS name TEXT NOT NULL DEFAULT 'Admin';
+      ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS role TEXT NOT NULL DEFAULT 'admin';
+
       CREATE TABLE IF NOT EXISTS lead_replies (
         id         SERIAL PRIMARY KEY,
         created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -64,36 +67,58 @@ export async function runMigrations(): Promise<void> {
       );
 
       CREATE TABLE IF NOT EXISTS quotes (
-        id                   SERIAL PRIMARY KEY,
-        created_at           TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-        updated_at           TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-        quote_ref            TEXT NOT NULL UNIQUE,
-        lead_id              INTEGER NOT NULL REFERENCES leads(id) ON DELETE CASCADE,
-        status               quote_status NOT NULL DEFAULT 'pending',
-        customer_name        TEXT NOT NULL,
-        customer_email       TEXT NOT NULL,
-        customer_mobile      TEXT NOT NULL,
-        pickup_location      TEXT NOT NULL,
-        destination          TEXT NOT NULL,
-        via_stops            TEXT,
-        journey_date         TEXT NOT NULL,
-        journey_time         TEXT NOT NULL,
-        return_required      TEXT NOT NULL DEFAULT 'no',
-        return_date          TEXT,
-        return_time          TEXT,
-        passengers           INTEGER NOT NULL DEFAULT 1,
-        journey_type         TEXT NOT NULL,
-        price                TEXT NOT NULL,
-        price_notes          TEXT,
-        payment_cash         TEXT DEFAULT 'yes',
-        payment_card         TEXT DEFAULT 'no',
+        id                    SERIAL PRIMARY KEY,
+        created_at            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        updated_at            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        quote_ref             TEXT NOT NULL UNIQUE,
+        lead_id               INTEGER NOT NULL REFERENCES leads(id) ON DELETE CASCADE,
+        status                quote_status NOT NULL DEFAULT 'pending',
+        customer_name         TEXT NOT NULL,
+        customer_email        TEXT NOT NULL,
+        customer_mobile       TEXT NOT NULL,
+        pickup_location       TEXT NOT NULL,
+        destination           TEXT NOT NULL,
+        via_stops             TEXT,
+        journey_date          TEXT NOT NULL,
+        journey_time          TEXT NOT NULL,
+        return_required       TEXT NOT NULL DEFAULT 'no',
+        return_date           TEXT,
+        return_time           TEXT,
+        passengers            INTEGER NOT NULL DEFAULT 1,
+        journey_type          TEXT NOT NULL,
+        price                 TEXT NOT NULL,
+        price_notes           TEXT,
+        payment_cash          TEXT DEFAULT 'yes',
+        payment_card          TEXT DEFAULT 'no',
         payment_bank_transfer TEXT DEFAULT 'no',
-        bank_sort_code       TEXT,
-        bank_account_number  TEXT,
-        bank_account_name    TEXT,
-        valid_until          TEXT NOT NULL,
-        admin_message        TEXT,
-        accepted_at          TIMESTAMPTZ
+        bank_sort_code        TEXT,
+        bank_account_number   TEXT,
+        bank_account_name     TEXT,
+        valid_until           TEXT NOT NULL,
+        admin_message         TEXT,
+        accepted_at           TIMESTAMPTZ
+      );
+
+      CREATE TABLE IF NOT EXISTS corporate_applications (
+        id           SERIAL PRIMARY KEY,
+        created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        updated_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        company_name TEXT NOT NULL,
+        contact_name TEXT NOT NULL,
+        email        TEXT NOT NULL,
+        phone        TEXT NOT NULL,
+        message      TEXT,
+        status       TEXT NOT NULL DEFAULT 'new'
+      );
+
+      CREATE TABLE IF NOT EXISTS reviews (
+        id          SERIAL PRIMARY KEY,
+        created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        author      TEXT NOT NULL,
+        body        TEXT NOT NULL,
+        rating      INTEGER NOT NULL DEFAULT 5,
+        approved    BOOLEAN NOT NULL DEFAULT FALSE,
+        source      TEXT DEFAULT 'web'
       );
     `);
 

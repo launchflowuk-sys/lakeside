@@ -8,6 +8,7 @@ import corporateApplicationsRouter from "./corporate-applications";
 import adminCorporateRouter from "./admin-corporate";
 import reviewsRouter from "./reviews";
 import quotesRouter from "./quotes";
+import debugRouter from "./debug";
 
 const router: IRouter = Router();
 
@@ -20,5 +21,6 @@ router.use(adminStatsRouter);
 router.use(adminCorporateRouter);
 router.use(reviewsRouter);
 router.use(quotesRouter);
+router.use(debugRouter);
 
 export default router;

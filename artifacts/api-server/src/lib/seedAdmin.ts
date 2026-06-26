@@ -1,40 +1,34 @@
-import { eq } from "drizzle-orm";
-import bcrypt from "bcryptjs";
-import { db, adminUsersTable } from "@workspace/db";
+import { pool } from "@workspace/db";
 import { logger } from "./logger";
+import bcrypt from "bcryptjs";
 
 export async function seedAdminFromEnv(): Promise<void> {
   const email = process.env.ADMIN_EMAIL;
   const password = process.env.ADMIN_PASSWORD;
 
   if (!email || !password) {
+    logger.warn("ADMIN_EMAIL or ADMIN_PASSWORD not set — skipping admin seed");
     return;
   }
 
   try {
     const passwordHash = await bcrypt.hash(password, 12);
 
-    const [existing] = await db
-      .select()
-      .from(adminUsersTable)
-      .where(eq(adminUsersTable.email, email));
-
-    if (existing) {
-      await db
-        .update(adminUsersTable)
-        .set({ passwordHash })
-        .where(eq(adminUsersTable.email, email));
-      logger.info({ email }, "Admin seed: password synced from env");
-    } else {
-      await db.insert(adminUsersTable).values({
-        email,
-        passwordHash,
-        name: "Admin",
-        role: "admin",
-      });
-      logger.info({ email }, "Admin seed: admin user created from env");
+    const client = await pool.connect();
+    try {
+      await client.query(
+        `INSERT INTO admin_users (email, password_hash, name, role)
+         VALUES ($1, $2, 'Admin', 'admin')
+         ON CONFLICT (email) DO UPDATE
+           SET password_hash = EXCLUDED.password_hash`,
+        [email, passwordHash],
+      );
+      logger.info({ email }, "Admin seed: account ready");
+    } finally {
+      client.release();
     }
   } catch (err) {
-    logger.error({ err }, "Admin seed: failed");
+    logger.error({ err }, "Admin seed: FAILED — check DB connection and schema");
+    throw err;
   }
 }
