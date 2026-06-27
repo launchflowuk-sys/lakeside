@@ -1,0 +1,7 @@
+{"level":30,"time":1782457232107,"pid":1,"hostname":"46a47df0dfd5","msg":"Running database migrations…"}
+{"level":30,"time":1782457232204,"pid":1,"hostname":"46a47df0dfd5","msg":"Database migrations complete"}
+{"level":30,"time":1782457232493,"pid":1,"hostname":"46a47df0dfd5","email":"<REDACTED>","msg":"Admin seed: account ready"}
+{"level":30,"time":1782457232494,"pid":1,"hostname":"46a47df0dfd5","port":8080,"msg":"Server listening"}
+Warning: connect.session() MemoryStore is not
+designed for a production environment, as it will leak
+memory, and will not scale past a single process.

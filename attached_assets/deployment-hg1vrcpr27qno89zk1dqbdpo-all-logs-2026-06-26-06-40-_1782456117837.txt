@@ -1,0 +1,418 @@
+2026-Jun-26 06:39:11.453089 Docker 29.5.1 with BuildKit and Buildx detected on deployment server (localhost).
+2026-Jun-26 06:39:11.461929 Starting deployment of lakeside:main-nubcx2dusacsw7conhw6hp8u to localhost.
+2026-Jun-26 06:39:11.624242 Preparing container with helper image: ghcr.io/coollabsio/coolify-helper:1.0.14
+2026-Jun-26 06:39:11.720151 [DEBUG] [CMD]: docker stop --time=30 hg1vrcpr27qno89zk1dqbdpo
+2026-Jun-26 06:39:11.720151 [DEBUG] Flag --time has been deprecated, use --timeout instead
+2026-Jun-26 06:39:11.722374 [DEBUG] Error response from daemon: No such container: hg1vrcpr27qno89zk1dqbdpo
+2026-Jun-26 06:39:11.860626 [DEBUG] [CMD]: docker run -d --network 'coolify' --name hg1vrcpr27qno89zk1dqbdpo  --rm -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/coollabsio/coolify-helper:1.0.14
+2026-Jun-26 06:39:11.860626 [DEBUG] a637ec158c3ad6f8c5d5e35074a2cf76adc88b24ce32a809315fec3550d8dbf4
+2026-Jun-26 06:39:13.555245 [DEBUG] [CMD]: docker exec hg1vrcpr27qno89zk1dqbdpo bash -c 'GIT_SSH_COMMAND="ssh -o ConnectTimeout=30 -p 22 -o Port=22 -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git ls-remote https://x-access-token:<REDACTED>@github.com/launchflowuk-sys/lakeside.git refs/heads/main'
+2026-Jun-26 06:39:13.555245 [DEBUG] 95d51d241a7d8d7d7cc3678b53bfaca790193116	refs/heads/main
+2026-Jun-26 06:39:13.973093 ----------------------------------------
+2026-Jun-26 06:39:13.983977 Importing launchflowuk-sys/lakeside:main (commit sha 95d51d241a7d8d7d7cc3678b53bfaca790193116) to /artifacts/hg1vrcpr27qno89zk1dqbdpo.
+2026-Jun-26 06:39:14.159264 [DEBUG] [CMD]: docker exec hg1vrcpr27qno89zk1dqbdpo bash -c 'git clone --depth=1 --recurse-submodules --shallow-submodules -b '\''main'\'' '\''https://x-access-token:<REDACTED>@github.com/launchflowuk-sys/lakeside.git'\'' '\''/artifacts/hg1vrcpr27qno89zk1dqbdpo'\'' && cd '\''/artifacts/hg1vrcpr27qno89zk1dqbdpo'\'' && GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git fetch --depth=1 origin '\''95d51d241a7d8d7d7cc3678b53bfaca790193116'\'' && git -c advice.detachedHead=false checkout '\''95d51d241a7d8d7d7cc3678b53bfaca790193116'\'' >/dev/null 2>&1 && cd '\''/artifacts/hg1vrcpr27qno89zk1dqbdpo'\'' && if [ -f .gitmodules ]; then git submodule sync && GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git submodule update --init --recursive --depth=1; fi && cd '\''/artifacts/hg1vrcpr27qno89zk1dqbdpo'\'' && GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git lfs pull'
+2026-Jun-26 06:39:14.159264 [DEBUG] Cloning into '/artifacts/hg1vrcpr27qno89zk1dqbdpo'...
+2026-Jun-26 06:39:17.499804 [DEBUG] From https://github.com/launchflowuk-sys/lakeside
+2026-Jun-26 06:<REDACTED>@10 --activate
+2026-Jun-26 06:39:22.760028 [DEBUG] 
+2026-Jun-26 06:39:22.760028 [DEBUG] # Copy workspace manifests for layer-cached dependency install
+2026-Jun-26 06:39:22.760028 [DEBUG] COPY pnpm-workspace.yaml pnpm-lock.yaml package.json tsconfig.base.json ./
+2026-Jun-26 06:39:22.760028 [DEBUG] 
+2026-Jun-26 06:39:22.760028 [DEBUG] # Copy only the packages the frontend needs
+2026-Jun-26 06:39:22.760028 [DEBUG] COPY lib/api-client-react/package.json lib/api-client-react/
+2026-Jun-26 06:39:22.760028 [DEBUG] COPY lib/api-spec/package.json           lib/api-spec/
+2026-Jun-26 06:39:22.760028 [DEBUG] COPY lib/api-zod/package.json            lib/api-zod/
+2026-Jun-26 06:39:22.760028 [DEBUG] COPY lib/db/package.json                 lib/db/
+2026-Jun-26 06:39:22.760028 [DEBUG] COPY artifacts/lakeside-taxis/package.json artifacts/lakeside-taxis/
+2026-Jun-26 06:39:22.760028 [DEBUG] 
+2026-Jun-26 06:39:22.760028 [DEBUG] RUN pnpm install --frozen-lockfile
+2026-Jun-26 06:39:22.760028 [DEBUG] 
+2026-Jun-26 06:39:22.760028 [DEBUG] # Copy source after deps are cached
+2026-Jun-26 06:39:22.760028 [DEBUG] COPY lib/ lib/
+2026-Jun-26 06:39:22.760028 [DEBUG] COPY artifacts/lakeside-taxis/ artifacts/lakeside-taxis/
+2026-Jun-26 06:39:22.760028 [DEBUG] 
+2026-Jun-26 06:39:22.760028 [DEBUG] # Build lib types first (required for frontend typecheck)
+2026-Jun-26 06:39:22.760028 [DEBUG] RUN pnpm run typecheck:libs 2>/dev/null || true
+2026-Jun-26 06:39:22.760028 [DEBUG] 
+2026-Jun-26 06:39:22.760028 [DEBUG] # Vite requires PORT and BASE_PATH — provide them for the build step only
+2026-Jun-26 06:39:22.760028 [DEBUG] # VITE_GOOGLE_MAPS_API_KEY is baked into the JS bundle at build time
+2026-Jun-26 06:39:22.760028 [DEBUG] ARG VITE_GOOGLE_MAPS_API_KEY
+2026-Jun-26 06:39:22.760028 [DEBUG] ENV PORT=3000 \
+2026-Jun-26 06:39:22.760028 [DEBUG] BASE_PATH=/ \
+2026-Jun-26 06:39:22.760028 [DEBUG] NODE_ENV=production \
+2026-Jun-26 06:39:22.760028 [DEBUG] VITE_GOOGLE_MAPS_API_KEY=${VITE_GOOGLE_MAPS_API_KEY}
+2026-Jun-26 06:39:22.760028 [DEBUG] 
+2026-Jun-26 06:39:22.760028 [DEBUG] RUN pnpm --filter @workspace/lakeside-taxis run build
+2026-Jun-26 06:39:22.760028 [DEBUG] 
+2026-Jun-26 06:39:22.760028 [DEBUG] # ── Stage 2: Serve with nginx ────────────────────────────────────────────────
+2026-Jun-26 06:39:22.760028 [DEBUG] FROM nginx:1.27-alpine
+2026-Jun-26 06:39:22.760028 [DEBUG] 
+2026-Jun-26 06:39:22.760028 [DEBUG] # Remove default config
+2026-Jun-26 06:39:22.760028 [DEBUG] RUN rm /etc/nginx/conf.d/default.conf
+2026-Jun-26 06:39:22.760028 [DEBUG] 
+2026-Jun-26 06:39:22.760028 [DEBUG] COPY nginx.conf /etc/nginx/conf.d/default.conf
+2026-Jun-26 06:39:22.760028 [DEBUG] COPY --from=builder /app/artifacts/lakeside-taxis/dist/public /usr/share/nginx/html
+2026-Jun-26 06:39:22.760028 [DEBUG] 
+2026-Jun-26 06:39:22.760028 [DEBUG] EXPOSE 80
+2026-Jun-26 06:39:22.760028 [DEBUG] CMD ["nginx", "-g", "daemon off;"]
+2026-Jun-26 06:39:22.973606 Added 40 ARG declarations to Dockerfile for service frontend (multi-stage build, added to 2 stages).
+2026-Jun-26 06:39:23.132272 [DEBUG] [CMD]: docker exec hg1vrcpr27qno89zk1dqbdpo bash -c 'test -f /artifacts/hg1vrcpr27qno89zk1dqbdpo/Dockerfile.api && echo '\''exists'\'' || echo '\''not found'\'''
+2026-Jun-26 06:39:23.132272 [DEBUG] exists
+2026-Jun-26 06:39:23.274345 [DEBUG] [CMD]: docker exec hg1vrcpr27qno89zk1dqbdpo bash -c 'cat /artifacts/hg1vrcpr27qno89zk1dqbdpo/Dockerfile.api'
+2026-Jun-26 06:39:23.274345 [DEBUG] # ── Stage 1: Build the Express API ───────────────────────────────────────────
+2026-Jun-26 06:39:23.274345 [DEBUG] FROM node:24-slim AS builder
+2026-Jun-26 06:39:23.274345 [DEBUG] 
+2026-Jun-26 06:39:23.274345 [DEBUG] WORKDIR /app
+2026-Jun-26 06:39:23.274345 [DEBUG] 
+2026-Jun-26 06:39:23.274345 [DEBUG] RUN corepack enable && corepack prepare pnpm@10 --activate
+2026-Jun-26 06:39:23.274345 [DEBUG] 
+2026-Jun-26 06:39:23.274345 [DEBUG] # Copy workspace manifests
+2026-Jun-26 06:39:23.274345 [DEBUG] COPY pnpm-workspace.yaml pnpm-lock.yaml package.json tsconfig.base.json ./
+2026-Jun-26 06:39:23.274345 [DEBUG] 
+2026-Jun-26 06:39:23.274345 [DEBUG] # Copy only the packages the API needs
+2026-Jun-26 06:39:23.274345 [DEBUG] COPY lib/db/package.json          lib/db/
+2026-Jun-26 06:39:23.274345 [DEBUG] COPY lib/api-zod/package.json     lib/api-zod/
+2026-Jun-26 06:39:23.274345 [DEBUG] COPY lib/api-spec/package.json    lib/api-spec/
+2026-Jun-26 06:39:23.274345 [DEBUG] COPY artifacts/api-server/package.json artifacts/api-server/
+2026-Jun-26 06:39:23.274345 [DEBUG] 
+2026-Jun-26 06:39:23.274345 [DEBUG] RUN pnpm install --frozen-lockfile
+2026-Jun-26 06:39:23.274345 [DEBUG] 
+2026-Jun-26 06:39:23.274345 [DEBUG] # Copy source
+2026-Jun-26 06:39:23.274345 [DEBUG] COPY lib/ lib/
+2026-Jun-26 06:39:23.274345 [DEBUG] COPY artifacts/api-server/ artifacts/api-server/
+2026-Jun-26 06:39:23.274345 [DEBUG] 
+2026-Jun-26 06:39:23.274345 [DEBUG] RUN pnpm --filter @workspace/api-server run build
+2026-Jun-26 06:39:23.274345 [DEBUG] 
+2026-Jun-26 06:39:23.274345 [DEBUG] # ── Stage 2: Minimal production runner ───────────────────────────────────────
+2026-Jun-26 06:39:23.274345 [DEBUG] FROM node:24-slim
+2026-Jun-26 06:39:23.274345 [DEBUG] 
+2026-Jun-26 06:39:23.274345 [DEBUG] WORKDIR /app
+2026-Jun-26 06:39:23.274345 [DEBUG] 
+2026-Jun-26 06:39:23.274345 [DEBUG] # Install only the runtime packages that esbuild externalised
+2026-Jun-26 06:39:23.274345 [DEBUG] # (nodemailer + pino-pretty for log formatting)
+2026-Jun-26 06:39:23.274345 [DEBUG] RUN npm install --save nodemailer@8 pino-pretty@13 \
+2026-Jun-26 06:39:23.274345 [DEBUG] && npm cache clean --force
+2026-Jun-26 06:39:23.274345 [DEBUG] 
+2026-Jun-26 06:39:23.274345 [DEBUG] # Copy the self-contained esbuild bundle + source maps
+2026-Jun-26 06:39:23.274345 [DEBUG] COPY --from=builder /app/artifacts/api-server/dist ./dist
+2026-Jun-26 06:39:23.274345 [DEBUG] 
+2026-Jun-26 06:39:23.274345 [DEBUG] EXPOSE 8080
+2026-Jun-26 06:39:23.274345 [DEBUG] 
+2026-Jun-26 06:39:23.274345 [DEBUG] ENV NODE_ENV=production \
+2026-Jun-26 06:39:23.274345 [DEBUG] PORT=8080
+2026-Jun-26 06:39:23.274345 [DEBUG] 
+2026-Jun-26 06:39:23.274345 [DEBUG] CMD ["node", "--enable-source-maps", "./dist/index.mjs"]
+2026-Jun-26 06:39:23.452164 Added 40 ARG declarations to Dockerfile for service api (multi-stage build, added to 2 stages).
+2026-Jun-26 06:39:23.457452 Pulling & building required images.
+2026-Jun-26 06:39:23.537754 [DEBUG] Creating build-time .env file in /artifacts (outside Docker context).
+2026-Jun-26 06:39:23.684402 Adding build arguments to Docker Compose build command.
+2026-Jun-26 06:39:23.979771 [DEBUG] [CMD]: docker exec hg1vrcpr27qno89zk1dqbdpo bash -c 'DOCKER_BUILDKIT=1 COOLIFY_BRANCH=main COOLIFY_RESOURCE_UUID=nubcx2dusacsw7conhw6hp8u  docker compose --env-file /artifacts/build-time.env --project-name nubcx2dusacsw7conhw6hp8u --project-directory /artifacts/hg1vrcpr27qno89zk1dqbdpo -f /artifacts/hg1vrcpr27qno89zk1dqbdpo/docker-compose.yml build --pull --no-cache --build-arg COOLIFY_FQDN --build-arg POSTGRES_USER --build-arg GOOGLE_PLACES_API_KEY --build-arg SMTP_HOST --build-arg SERVICE_FQDN_API --build-arg SERVICE_URL_FRONTEND --build-arg SERVICE_URL_API --build-arg GOOGLE_PLACE_ID --build-arg SERVICE_FQDN_FRONTEND --build-arg SMTP_PORT --build-arg SMTP_FROM --build-arg ADMIN_EMAIL --build-arg VITE_GOOGLE_MAPS_API_KEY --build-arg POSTGRES_DB --build-arg SESSION_SECRET --build-arg POSTGRES_PASSWORD --build-arg DATABASE_URL --build-arg SMTP_USER --build-arg SMTP_PASS --build-arg ADMIN_PASSWORD --build-arg COOLIFY_BUILD_SECRETS_HASH=9a2e2c02575951c45daa4249a33d0f526aa10501d659349d99401c4d73e143b0'
+2026-Jun-26 06:39:23.979771 [DEBUG] #1 [internal] load local bake definitions
+2026-Jun-26 06:39:24.224378 [DEBUG] #1 reading from stdin 3.15kB done
+2026-Jun-26 06:39:24.224378 [DEBUG] #1 DONE 0.0s
+2026-Jun-26 06:39:24.224378 [DEBUG] 
+2026-Jun-26 06:39:24.224378 [DEBUG] #2 [api internal] load build definition from Dockerfile.api
+2026-Jun-26 06:39:24.224378 [DEBUG] #2 transferring dockerfile: 2.20kB done
+2026-Jun-26 06:39:24.224378 [DEBUG] #2 DONE 0.0s
+2026-Jun-26 06:39:24.224378 [DEBUG] 
+2026-Jun-26 06:39:24.224378 [DEBUG] #3 [frontend internal] load build definition from Dockerfile.frontend
+2026-Jun-26 06:39:24.224378 [DEBUG] #3 transferring dockerfile: 2.66kB done
+2026-Jun-26 06:39:24.224378 [DEBUG] #3 DONE 0.0s
+2026-Jun-26 06:39:24.224378 [DEBUG] 
+2026-Jun-26 06:39:24.224378 [DEBUG] #4 [frontend internal] load metadata for docker.io/library/node:24-slim
+2026-Jun-26 06:39:24.589583 [DEBUG] #4 ...
+2026-Jun-26 06:39:24.593907 [DEBUG] #5 [frontend internal] load metadata for docker.io/library/nginx:1.27-alpine
+2026-Jun-26 06:39:24.593907 [DEBUG] #5 DONE 0.5s
+2026-Jun-26 06:39:24.698314 [DEBUG] #4 [api internal] load metadata for docker.io/library/node:24-slim
+2026-Jun-26 06:39:24.698314 [DEBUG] #4 DONE 0.5s
+2026-Jun-26 06:39:24.698314 [DEBUG] 
+2026-Jun-26 06:39:24.698314 [DEBUG] #6 [frontend internal] load .dockerignore
+2026-Jun-26 06:39:24.698314 [DEBUG] #6 transferring context: 202B done
+2026-Jun-26 06:39:24.698314 [DEBUG] #6 DONE 0.0s
+2026-Jun-26 06:39:24.698314 [DEBUG] 
+2026-Jun-26 06:39:24.698314 [DEBUG] #7 [api builder  1/12] FROM docker.io/library/node:24-slim@sha256:b31e7a42fdf8b8aa5f5ed477c72d694301273f1069c5a2f71d53c6482e99a2fc
+2026-Jun-26 06:39:24.698314 [DEBUG] #7 resolve docker.io/library/node:24-slim@sha256:b31e7a42fdf8b8aa5f5ed477c72d694301273f1069c5a2f71d53c6482e99a2fc 0.0s done
+2026-Jun-26 06:39:24.698314 [DEBUG] #7 DONE 0.0s
+2026-Jun-26 06:39:24.698314 [DEBUG] 
+2026-Jun-26 06:39:24.698314 [DEBUG] #8 [api builder  2/12] WORKDIR /app
+2026-Jun-26 06:39:24.698314 [DEBUG] #8 CACHED
+2026-Jun-26 06:39:24.698314 [DEBUG] 
+2026-Jun-26 06:39:24.698314 [DEBUG] #9 [frontend stage-1 1/4] FROM docker.io/library/nginx:1.27-alpine@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10
+2026-Jun-26 06:39:24.698314 [DEBUG] #9 resolve docker.io/library/nginx:1.27-alpine@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10 0.0s done
+2026-Jun-26 06:39:24.698314 [DEBUG] #9 CACHED
+2026-Jun-26 06:39:24.698314 [DEBUG] 
+2026-Jun-26 06:39:24.698314 [DEBUG] #10 [api builder  3/12] RUN corepack enable && corepack prepare pnpm@10 --activate
+2026-Jun-26 06:39:24.808648 [DEBUG] #10 ...
+2026-Jun-26 06:39:24.808648 [DEBUG] 
+2026-Jun-26 06:39:24.808648 [DEBUG] #11 [api internal] load build context
+2026-Jun-26 06:39:24.808648 [DEBUG] #11 transferring context: 432.65kB 0.0s done
+2026-Jun-26 06:39:24.808648 [DEBUG] #11 DONE 0.1s
+2026-Jun-26 06:39:25.007039 [DEBUG] #12 [frontend internal] load build context
+2026-Jun-26 06:39:25.007039 [DEBUG] #12 transferring context: 16.43MB 0.2s done
+2026-Jun-26 06:39:25.007039 [DEBUG] #12 DONE 0.2s
+2026-Jun-26 06:39:25.007039 [DEBUG] 
+2026-Jun-26 06:39:25.007039 [DEBUG] #13 [frontend stage-1 2/4] RUN rm /etc/nginx/conf.d/default.conf
+2026-Jun-26 06:39:25.007039 [DEBUG] #13 DONE 0.3s
+2026-Jun-26 06:39:25.007039 [DEBUG] 
+2026-Jun-26 06:39:25.007039 [DEBUG] #14 [api stage-1 3/4] RUN npm install --save nodemailer@8 pino-pretty@13     && npm cache clean --force
+2026-Jun-26 06:39:25.236228 [DEBUG] #14 ...
+2026-Jun-26 06:39:25.236228 [DEBUG] 
+2026-Jun-26 06:39:25.236228 [DEBUG] #15 [frontend stage-1 3/4] COPY nginx.conf /etc/nginx/conf.d/default.conf
+2026-Jun-26 06:39:25.236228 [DEBUG] #15 DONE 0.1s
+2026-Jun-26 06:39:25.386328 [DEBUG] #10 [api builder  3/12] RUN corepack enable && corepack prepare pnpm@10 --activate
+2026-Jun-26 06:39:25.406356 [DEBUG] #10 0.733 Preparing pnpm@10 for immediate activation...
+2026-Jun-26 06:39:26.291243 [DEBUG] #10 DONE 1.5s
+2026-Jun-26 06:39:26.291243 [DEBUG] 
+2026-Jun-26 06:39:26.291243 [DEBUG] #16 [api builder  4/12] COPY pnpm-workspace.yaml pnpm-lock.yaml package.json tsconfig.base.json ./
+2026-Jun-26 06:39:26.291243 [DEBUG] #16 DONE 0.1s
+2026-Jun-26 06:39:26.291243 [DEBUG] 
+2026-Jun-26 06:39:26.291243 [DEBUG] #17 [frontend builder  4/14] COPY pnpm-workspace.yaml pnpm-lock.yaml package.json tsconfig.base.json ./
+2026-Jun-26 06:39:26.291243 [DEBUG] #17 CACHED
+2026-Jun-26 06:39:26.291243 [DEBUG] 
+2026-Jun-26 06:39:26.291243 [DEBUG] #18 [frontend builder  5/14] COPY lib/api-client-react/package.json lib/api-client-react/
+2026-Jun-26 06:39:26.291243 [DEBUG] #18 DONE 0.0s
+2026-Jun-26 06:39:26.291243 [DEBUG] 
+2026-Jun-26 06:39:26.291243 [DEBUG] #19 [api builder  5/12] COPY lib/db/package.json          lib/db/
+2026-Jun-26 06:39:26.291243 [DEBUG] #19 DONE 0.0s
+2026-Jun-26 06:39:26.291243 [DEBUG] 
+2026-Jun-26 06:39:26.291243 [DEBUG] #20 [frontend builder  6/14] COPY lib/api-spec/package.json           lib/api-spec/
+2026-Jun-26 06:39:26.291243 [DEBUG] #20 DONE 0.0s
+2026-Jun-26 06:39:26.291243 [DEBUG] 
+2026-Jun-26 06:39:26.291243 [DEBUG] #14 [api stage-1 3/4] RUN npm install --save nodemailer@8 pino-pretty@13     && npm cache clean --force
+2026-Jun-26 06:39:26.291243 [DEBUG] #14 1.580
+2026-Jun-26 06:39:26.291243 [DEBUG] #14 1.580 added 20 packages in 1s
+2026-Jun-26 06:39:26.291243 [DEBUG] #14 1.580
+2026-Jun-26 06:39:26.291243 [DEBUG] #14 1.580 3 packages are looking for funding
+2026-Jun-26 06:39:26.291243 [DEBUG] #14 1.580   run `npm fund` for details
+2026-Jun-26 06:39:26.291243 [DEBUG] #14 1.581 npm notice
+2026-Jun-26 06:39:26.291243 [DEBUG] #14 1.581 npm notice New minor version of npm available! 11.16.0 -> 11.17.0
+2026-Jun-26 06:39:26.291243 [DEBUG] #14 1.581 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.17.0
+2026-Jun-26 06:<REDACTED>@11.17.0
+2026-Jun-26 06:39:26.291243 [DEBUG] #14 1.581 npm notice
+2026-Jun-26 06:39:26.416518 [DEBUG] #14 ...
+2026-Jun-26 06:39:26.416518 [DEBUG] 
+2026-Jun-26 06:39:26.416518 [DEBUG] #21 [api builder  6/12] COPY lib/api-zod/package.json     lib/api-zod/
+2026-Jun-26 06:39:26.416518 [DEBUG] #21 DONE 0.0s
+2026-Jun-26 06:39:26.416518 [DEBUG] 
+2026-Jun-26 06:39:26.416518 [DEBUG] #22 [api builder  7/12] COPY lib/api-spec/package.json    lib/api-spec/
+2026-Jun-26 06:39:26.416518 [DEBUG] #22 DONE 0.0s
+2026-Jun-26 06:39:26.416518 [DEBUG] 
+2026-Jun-26 06:39:26.416518 [DEBUG] #23 [frontend builder  7/14] COPY lib/api-zod/package.json            lib/api-zod/
+2026-Jun-26 06:39:26.416518 [DEBUG] #23 DONE 0.0s
+2026-Jun-26 06:39:26.416518 [DEBUG] 
+2026-Jun-26 06:39:26.416518 [DEBUG] #24 [api builder  8/12] COPY artifacts/api-server/package.json artifacts/api-server/
+2026-Jun-26 06:39:26.416518 [DEBUG] #24 DONE 0.0s
+2026-Jun-26 06:39:26.416518 [DEBUG] 
+2026-Jun-26 06:39:26.416518 [DEBUG] #25 [frontend builder  8/14] COPY lib/db/package.json                 lib/db/
+2026-Jun-26 06:39:26.416518 [DEBUG] #25 DONE 0.0s
+2026-Jun-26 06:39:26.416518 [DEBUG] 
+2026-Jun-26 06:39:26.416518 [DEBUG] #26 [frontend builder  9/14] COPY artifacts/lakeside-taxis/package.json artifacts/lakeside-taxis/
+2026-Jun-26 06:39:26.416518 [DEBUG] #26 DONE 0.0s
+2026-Jun-26 06:39:26.416518 [DEBUG] 
+2026-Jun-26 06:39:26.416518 [DEBUG] #14 [api stage-1 3/4] RUN npm install --save nodemailer@8 pino-pretty@13     && npm cache clean --force
+2026-Jun-26 06:39:26.416518 [DEBUG] #14 1.742 npm warn using --force Recommended protections disabled.
+2026-Jun-26 06:39:26.591921 [DEBUG] #14 DONE 1.9s
+2026-Jun-26 06:39:26.591921 [DEBUG] 
+2026-Jun-26 06:39:26.591921 [DEBUG] #27 [frontend builder 10/14] RUN pnpm install --frozen-lockfile
+2026-Jun-26 06:39:27.071807 [DEBUG] #27 0.597 Scope: all 6 workspace projects
+2026-Jun-26 06:39:27.189981 [DEBUG] #27 0.691 Lockfile is up to date, resolution step is skipped
+2026-Jun-26 06:39:27.189981 [DEBUG] #27 0.749 Progress: resolved 1, reused 0, downloaded 0, added 0
+2026-Jun-26 06:39:27.189981 [DEBUG] #27 0.808 Packages: +379
+2026-Jun-26 06:39:27.189981 [DEBUG] #27 0.808 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-Jun-26 06:39:27.369060 [DEBUG] #27 0.986
+2026-Jun-26 06:39:27.369060 [DEBUG] #27 0.986    ╭──────────────────────────────────────────────╮
+2026-Jun-26 06:39:27.369060 [DEBUG] #27 0.986    │                                              │
+2026-Jun-26 06:39:27.369060 [DEBUG] #27 0.986    │     Update available! 10.34.4 → 11.9.0.      │
+2026-Jun-26 06:39:27.369060 [DEBUG] #27 0.986    │     Changelog: https://pnpm.io/v/11.9.0      │
+2026-Jun-26 06:<REDACTED>@11.9.0   │
+2026-Jun-26 06:39:27.369060 [DEBUG] #27 0.986    │                                              │
+2026-Jun-26 06:39:27.369060 [DEBUG] #27 0.986    ╰──────────────────────────────────────────────╯
+2026-Jun-26 06:39:27.369060 [DEBUG] #27 0.986
+2026-Jun-26 06:39:28.286221 [DEBUG] #27 1.750 Progress: resolved 379, reused 0, downloaded 132, added 103
+2026-Jun-26 06:39:29.135448 [DEBUG] #27 2.751 Progress: resolved 379, reused 0, downloaded 176, added 130
+2026-Jun-26 06:39:30.155408 [DEBUG] #27 3.759 Progress: resolved 379, reused 0, downloaded 267, added 176
+2026-Jun-26 06:39:30.397704 [DEBUG] #27 ...
+2026-Jun-26 06:39:30.397704 [DEBUG] 
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 [api builder  9/12] RUN pnpm install --frozen-lockfile
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 0.609 Scope: all 5 workspace projects
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 0.693 Lockfile is up to date, resolution step is skipped
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 0.727 Progress: resolved 1, reused 0, downloaded 0, added 0
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 0.759 Packages: +273
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 0.759 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 0.906
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 0.906    ╭──────────────────────────────────────────────╮
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 0.906    │                                              │
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 0.906    │     Update available! 10.34.4 → 11.9.0.      │
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 0.906    │     Changelog: https://pnpm.io/v/11.9.0      │
+2026-Jun-26 06:<REDACTED>@11.9.0   │
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 0.906    │                                              │
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 0.906    ╰──────────────────────────────────────────────╯
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 0.906
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 1.729 Progress: resolved 273, reused 0, downloaded 132, added 100
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 2.660 Progress: resolved 273, reused 0, downloaded 273, added 273, done
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 2.806 .../esbuild@0.27.3/node_modules/esbuild postinstall$ node install.js
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 2.909 .../esbuild@0.27.3/node_modules/esbuild postinstall: Done
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 3.157
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 3.157 devDependencies:
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 3.157 + prettier 3.8.3
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 3.157 + typescript 5.9.3
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 3.157
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 3.174 . preinstall$ sh -c 'rm -f package-lock.json yarn.lock; case "$npm_config_user_agent" in pnpm/*) ;; *) echo "Use pnpm instead" >&2; exit 1 ;; esac'
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 3.209 . preinstall: Done
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 3.359 Done in 3.1s using pnpm v10.34.4
+2026-Jun-26 06:39:30.397704 [DEBUG] #28 DONE 4.1s
+2026-Jun-26 06:39:30.555313 [DEBUG] #29 [api builder 10/12] COPY lib/ lib/
+2026-Jun-26 06:39:30.831699 [DEBUG] #29 DONE 0.4s
+2026-Jun-26 06:39:30.831699 [DEBUG] 
+2026-Jun-26 06:39:30.831699 [DEBUG] #27 [frontend builder 10/14] RUN pnpm install --frozen-lockfile
+2026-Jun-26 06:39:30.930691 [DEBUG] #27 ...
+2026-Jun-26 06:39:30.930691 [DEBUG] 
+2026-Jun-26 06:39:30.930691 [DEBUG] #30 [api builder 11/12] COPY artifacts/api-server/ artifacts/api-server/
+2026-Jun-26 06:39:30.930691 [DEBUG] #30 DONE 0.1s
+2026-Jun-26 06:39:31.086357 [DEBUG] #31 [api builder 12/12] RUN pnpm --filter @workspace/api-server run build
+2026-Jun-26 06:39:31.554347 [DEBUG] #31 0.496
+2026-Jun-26 06:39:31.554347 [DEBUG] #31 0.496 > @workspace/api-server@0.0.0 build /app/artifacts/api-server
+2026-Jun-26 06:39:31.554347 [DEBUG] #31 0.496 > node ./build.mjs
+2026-Jun-26 06:39:31.554347 [DEBUG] #31 0.496
+2026-Jun-26 06:39:31.846291 [DEBUG] #31 0.901
+2026-Jun-26 06:39:31.846291 [DEBUG] #31 0.901   dist/index.mjs                       2.3mb ⚠️
+2026-Jun-26 06:39:31.846291 [DEBUG] #31 0.901   dist/pino-worker.mjs               153.4kb
+2026-Jun-26 06:39:31.846291 [DEBUG] #31 0.901   dist/pino-file.mjs                 142.0kb
+2026-Jun-26 06:39:31.846291 [DEBUG] #31 0.901   dist/pino-pretty.mjs               114.6kb
+2026-Jun-26 06:39:31.846291 [DEBUG] #31 0.901   dist/thread-stream-worker.mjs        7.3kb
+2026-Jun-26 06:39:31.846291 [DEBUG] #31 0.901   dist/index.mjs.map                   3.9mb
+2026-Jun-26 06:39:31.846291 [DEBUG] #31 0.901   dist/pino-worker.mjs.map           256.9kb
+2026-Jun-26 06:39:31.846291 [DEBUG] #31 0.901   dist/pino-file.mjs.map             229.0kb
+2026-Jun-26 06:39:31.846291 [DEBUG] #31 0.901   dist/pino-pretty.mjs.map           204.0kb
+2026-Jun-26 06:39:31.846291 [DEBUG] #31 0.901   dist/thread-stream-worker.mjs.map   12.0kb
+2026-Jun-26 06:39:31.846291 [DEBUG] #31 0.901
+2026-Jun-26 06:39:31.846291 [DEBUG] #31 0.901 ⚡ Done in 340ms
+2026-Jun-26 06:39:31.946896 [DEBUG] #31 DONE 1.0s
+2026-Jun-26 06:39:31.946896 [DEBUG] 
+2026-Jun-26 06:39:31.946896 [DEBUG] #27 [frontend builder 10/14] RUN pnpm install --frozen-lockfile
+2026-Jun-26 06:39:31.946896 [DEBUG] #27 4.760 Progress: resolved 379, reused 0, downloaded 379, added 378
+2026-Jun-26 06:39:31.946896 [DEBUG] #27 4.830 Progress: resolved 379, reused 0, downloaded 379, added 379, done
+2026-Jun-26 06:39:31.946896 [DEBUG] #27 4.987 .../esbuild@0.27.3/node_modules/esbuild postinstall$ node install.js
+2026-Jun-26 06:39:31.946896 [DEBUG] #27 5.062 .../esbuild@0.27.3/node_modules/esbuild postinstall: Done
+2026-Jun-26 06:39:31.946896 [DEBUG] #27 5.172
+2026-Jun-26 06:39:31.946896 [DEBUG] #27 5.172 devDependencies:
+2026-Jun-26 06:39:31.946896 [DEBUG] #27 5.172 + prettier 3.8.3
+2026-Jun-26 06:39:31.946896 [DEBUG] #27 5.172 + typescript 5.9.3
+2026-Jun-26 06:39:31.946896 [DEBUG] #27 5.172
+2026-Jun-26 06:39:31.946896 [DEBUG] #27 5.194 . preinstall$ sh -c 'rm -f package-lock.json yarn.lock; case "$npm_config_user_agent" in pnpm/*) ;; *) echo "Use pnpm instead" >&2; exit 1 ;; esac'
+2026-Jun-26 06:39:31.946896 [DEBUG] #27 5.219 . preinstall: Done
+2026-Jun-26 06:39:31.946896 [DEBUG] #27 5.254 Done in 5s using pnpm v10.34.4
+2026-Jun-26 06:39:31.946896 [DEBUG] #27 DONE 5.5s
+2026-Jun-26 06:39:31.946896 [DEBUG] 
+2026-Jun-26 06:39:31.946896 [DEBUG] #32 [api stage-1 4/4] COPY --from=builder /app/artifacts/api-server/dist ./dist
+2026-Jun-26 06:39:32.375807 [DEBUG] #32 ...
+2026-Jun-26 06:39:32.375807 [DEBUG] 
+2026-Jun-26 06:39:32.375807 [DEBUG] #33 [frontend builder 11/14] COPY lib/ lib/
+2026-Jun-26 06:39:32.375807 [DEBUG] #33 DONE 0.4s
+2026-Jun-26 06:39:32.588920 [DEBUG] #32 [api stage-1 4/4] COPY --from=builder /app/artifacts/api-server/dist ./dist
+2026-Jun-26 06:39:32.588920 [DEBUG] #32 DONE 0.4s
+2026-Jun-26 06:39:32.588920 [DEBUG] 
+2026-Jun-26 06:39:32.588920 [DEBUG] #34 [frontend builder 12/14] COPY artifacts/lakeside-taxis/ artifacts/lakeside-taxis/
+2026-Jun-26 06:39:32.588920 [DEBUG] #34 DONE 0.1s
+2026-Jun-26 06:39:32.588920 [DEBUG] 
+2026-Jun-26 06:39:32.588920 [DEBUG] #35 [api] exporting to image
+2026-Jun-26 06:39:32.588920 [DEBUG] #35 exporting layers
+2026-Jun-26 06:39:32.752580 [DEBUG] #35 exporting layers 0.4s done
+2026-Jun-26 06:39:32.886246 [DEBUG] #35 exporting manifest sha256:02705b0120df436b6d1952555724800b60c367bbc08686fd8c1163fd6c6a21ac done
+2026-Jun-26 06:39:32.886246 [DEBUG] #35 exporting config sha256:82456fd662381a5e9b448f3cc335982ef900d57a6d67efebb9f5ac8bdbdf4ba3 done
+2026-Jun-26 06:39:32.886246 [DEBUG] #35 exporting attestation manifest sha256:c2bbad56d4a6ebd2a5fa46f817308dd05e021a977f634a2949941392a7ae0e4b 0.0s done
+2026-Jun-26 06:39:32.886246 [DEBUG] #35 exporting manifest list sha256:81748312cf5643bd2224afdf401861854c475cafc7be64ce4126b9f89ed6d968 done
+2026-Jun-26 06:39:32.886246 [DEBUG] #35 naming to docker.io/library/nubcx2dusacsw7conhw6hp8u_api:95d51d241a7d8d7d7cc3678b53bfaca790193116 done
+2026-Jun-26 06:39:32.886246 [DEBUG] #35 unpacking to docker.io/library/nubcx2dusacsw7conhw6hp8u_api:95d51d241a7d8d7d7cc3678b53bfaca790193116
+2026-Jun-26 06:39:33.024910 [DEBUG] #35 unpacking to docker.io/library/nubcx2dusacsw7conhw6hp8u_api:95d51d241a7d8d7d7cc3678b53bfaca790193116 0.1s done
+2026-Jun-26 06:39:33.024910 [DEBUG] #35 DONE 0.6s
+2026-Jun-26 06:39:33.024910 [DEBUG] 
+2026-Jun-26 06:39:33.024910 [DEBUG] #36 [api] resolving provenance for metadata file
+2026-Jun-26 06:39:33.189711 [DEBUG] #36 DONE 0.2s
+2026-Jun-26 06:39:33.189711 [DEBUG] 
+2026-Jun-26 06:39:33.189711 [DEBUG] #37 [frontend builder 13/14] RUN pnpm run typecheck:libs 2>/dev/null || true
+2026-Jun-26 06:39:33.189711 [DEBUG] #37 0.447
+2026-Jun-26 06:39:33.189711 [DEBUG] #37 0.447 > workspace@0.0.0 typecheck:libs /app
+2026-Jun-26 06:39:33.189711 [DEBUG] #37 0.447 > tsc --build
+2026-Jun-26 06:39:33.189711 [DEBUG] #37 0.447
+2026-Jun-26 06:39:33.189711 [DEBUG] #37 0.602 error TS5083: Cannot read file '/app/tsconfig.json'.
+2026-Jun-26 06:39:33.189711 [DEBUG] #37 0.621  ELIFECYCLE  Command failed with exit code 1.
+2026-Jun-26 06:39:33.189711 [DEBUG] #37 DONE 0.7s
+2026-Jun-26 06:39:33.189711 [DEBUG] 
+2026-Jun-26 06:39:33.189711 [DEBUG] #38 [frontend builder 14/14] RUN pnpm --filter @workspace/lakeside-taxis run build
+2026-Jun-26 06:39:33.571385 [DEBUG] #38 0.463
+2026-Jun-26 06:39:33.571385 [DEBUG] #38 0.463 > @workspace/lakeside-taxis@0.0.0 build /app/artifacts/lakeside-taxis
+2026-Jun-26 06:39:33.571385 [DEBUG] #38 0.463 > vite build --config vite.config.ts
+2026-Jun-26 06:39:33.571385 [DEBUG] #38 0.463
+2026-Jun-26 06:39:33.957897 [DEBUG] #38 0.849 vite v7.3.3 building client environment for production...
+2026-Jun-26 06:39:34.203517 [DEBUG] #38 0.944 transforming...
+2026-Jun-26 06:39:34.812702 [DEBUG] #38 1.701 src/components/ui/tooltip.tsx (2:0): Error when using sourcemap for reporting an error: Can't resolve original location of error.
+2026-Jun-26 06:39:35.180875 [DEBUG] #38 2.072 src/components/ui/label.tsx (2:0): Error when using sourcemap for reporting an error: Can't resolve original location of error.
+2026-Jun-26 06:39:36.523233 [DEBUG] #38 3.414 ✓ 1845 modules transformed.
+2026-Jun-26 06:39:36.860273 [DEBUG] #38 3.752 rendering chunks...
+2026-Jun-26 06:39:37.035976 [DEBUG] #38 3.760 computing gzip size...
+2026-Jun-26 06:39:37.035976 [DEBUG] #38 3.782 dist/public/index.html                   1.49 kB │ gzip:   0.56 kB
+2026-Jun-26 06:39:37.035976 [DEBUG] #38 3.782 dist/public/assets/index-BLTWwnnr.css  205.56 kB │ gzip:  32.13 kB
+2026-Jun-26 06:39:37.035976 [DEBUG] #38 3.782 dist/public/assets/index-CJAXZfPE.js   699.99 kB │ gzip: 192.95 kB
+2026-Jun-26 06:39:37.035976 [DEBUG] #38 3.782 ✓ built in 2.90s
+2026-Jun-26 06:39:37.035976 [DEBUG] #38 3.783
+2026-Jun-26 06:39:37.035976 [DEBUG] #38 3.783 (!) Some chunks are larger than 500 kB after minification. Consider:
+2026-Jun-26 06:39:37.035976 [DEBUG] #38 3.783 - Using dynamic import() to code-split the application
+2026-Jun-26 06:39:37.035976 [DEBUG] #38 3.783 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+2026-Jun-26 06:39:37.035976 [DEBUG] #38 3.783 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+2026-Jun-26 06:39:37.035976 [DEBUG] #38 DONE 3.9s
+2026-Jun-26 06:39:37.265211 [DEBUG] #39 [frontend stage-1 4/4] COPY --from=builder /app/artifacts/lakeside-taxis/dist/public /usr/share/nginx/html
+2026-Jun-26 06:39:37.265211 [DEBUG] #39 DONE 0.1s
+2026-Jun-26 06:39:37.265211 [DEBUG] 
+2026-Jun-26 06:39:37.265211 [DEBUG] #40 [frontend] exporting to image
+2026-Jun-26 06:39:37.585274 [DEBUG] #40 exporting layers 0.5s done
+2026-Jun-26 06:39:37.711174 [DEBUG] #40 exporting manifest sha256:06049c24b0536cbdfa232185d7eacfa66a6c1f927776462a1645ad66e6ddb7f1 done
+2026-Jun-26 06:39:37.711174 [DEBUG] #40 exporting config sha256:0c7970c130466ed24c001ac1bf7031a5ffc4240dc0785caab707a2ca62d6f69b done
+2026-Jun-26 06:39:37.711174 [DEBUG] #40 exporting attestation manifest sha256:8a6074b66d0f4775aee625bec848fd312bf8850f88596c121565717787e944b3 0.0s done
+2026-Jun-26 06:39:37.711174 [DEBUG] #40 exporting manifest list sha256:70249f777705b06ba27357baca66ffcb9a3e4e0f31e7ffb1e53f263b81076def done
+2026-Jun-26 06:39:37.711174 [DEBUG] #40 naming to docker.io/library/nubcx2dusacsw7conhw6hp8u_frontend:95d51d241a7d8d7d7cc3678b53bfaca790193116 done
+2026-Jun-26 06:39:37.711174 [DEBUG] #40 unpacking to docker.io/library/nubcx2dusacsw7conhw6hp8u_frontend:95d51d241a7d8d7d7cc3678b53bfaca790193116 0.1s done
+2026-Jun-26 06:39:37.830200 [DEBUG] #40 DONE 0.6s
+2026-Jun-26 06:39:37.830200 [DEBUG] 
+2026-Jun-26 06:39:37.830200 [DEBUG] #41 [frontend] resolving provenance for metadata file
+2026-Jun-26 06:39:37.830200 [DEBUG] #41 DONE 0.0s
+2026-Jun-26 06:39:37.833363 [DEBUG] frontend  Built
+2026-Jun-26 06:39:37.833363 [DEBUG] api  Built
+2026-Jun-26 06:39:37.899565 [DEBUG] Creating .env file with runtime variables for container.
+2026-Jun-26 06:39:38.169166 Removing old containers.
+2026-Jun-26 06:39:38.413826 [DEBUG] [CMD]: docker stop --time=30 frontend-nubcx2dusacsw7conhw6hp8u-062848320683
+2026-Jun-26 06:39:38.413826 [DEBUG] Flag --time has been deprecated, use --timeout instead
+2026-Jun-26 06:39:38.599570 [DEBUG] frontend-nubcx2dusacsw7conhw6hp8u-062848320683
+2026-Jun-26 06:39:38.766910 [DEBUG] [CMD]: docker rm -f frontend-nubcx2dusacsw7conhw6hp8u-062848320683
+2026-Jun-26 06:39:38.766910 [DEBUG] frontend-nubcx2dusacsw7conhw6hp8u-062848320683
+2026-Jun-26 06:39:38.867427 [DEBUG] [CMD]: docker stop --time=30 api-nubcx2dusacsw7conhw6hp8u-062848330180
+2026-Jun-26 06:39:38.867427 [DEBUG] Flag --time has been deprecated, use --timeout instead
+2026-Jun-26 06:39:38.875070 [DEBUG] api-nubcx2dusacsw7conhw6hp8u-062848330180
+2026-Jun-26 06:39:39.052292 [DEBUG] [CMD]: docker rm -f api-nubcx2dusacsw7conhw6hp8u-062848330180
+2026-Jun-26 06:39:39.052292 [DEBUG] api-nubcx2dusacsw7conhw6hp8u-062848330180
+2026-Jun-26 06:39:39.145625 [DEBUG] [CMD]: docker stop --time=30 db-nubcx2dusacsw7conhw6hp8u-062848351868
+2026-Jun-26 06:39:39.145625 [DEBUG] Flag --time has been deprecated, use --timeout instead
+2026-Jun-26 06:39:39.271149 [DEBUG] db-nubcx2dusacsw7conhw6hp8u-062848351868
+2026-Jun-26 06:39:39.417808 [DEBUG] [CMD]: docker rm -f db-nubcx2dusacsw7conhw6hp8u-062848351868
+2026-Jun-26 06:39:39.417808 [DEBUG] db-nubcx2dusacsw7conhw6hp8u-062848351868
+2026-Jun-26 06:39:39.422808 Starting new application.
+2026-Jun-26 06:39:39.608175 [DEBUG] [CMD]: docker exec hg1vrcpr27qno89zk1dqbdpo bash -c 'COOLIFY_BRANCH=main COOLIFY_RESOURCE_UUID=nubcx2dusacsw7conhw6hp8u  docker compose --env-file /artifacts/hg1vrcpr27qno89zk1dqbdpo/.env --project-name nubcx2dusacsw7conhw6hp8u --project-directory /artifacts/hg1vrcpr27qno89zk1dqbdpo -f /artifacts/hg1vrcpr27qno89zk1dqbdpo/docker-compose.yml up -d'
+2026-Jun-26 06:39:39.913289 Container db-nubcx2dusacsw7conhw6hp8u-063922201267  Creating
+2026-Jun-26 06:39:39.958936 Container db-nubcx2dusacsw7conhw6hp8u-063922201267  Created
+2026-Jun-26 06:39:39.958936 Container api-nubcx2dusacsw7conhw6hp8u-063922177920  Creating
+2026-Jun-26 06:39:39.981532 Container api-nubcx2dusacsw7conhw6hp8u-063922177920  Created
+2026-Jun-26 06:39:39.981532 Container frontend-nubcx2dusacsw7conhw6hp8u-063922166242  Creating
+2026-Jun-26 06:39:40.006030 Container frontend-nubcx2dusacsw7conhw6hp8u-063922166242  Created
+2026-Jun-26 06:39:40.015835 Container db-nubcx2dusacsw7conhw6hp8u-063922201267  Starting
+2026-Jun-26 06:39:40.134909 Container db-nubcx2dusacsw7conhw6hp8u-063922201267  Started
+2026-Jun-26 06:39:40.134909 Container db-nubcx2dusacsw7conhw6hp8u-063922201267  Waiting
+2026-Jun-26 06:39:45.638171 Container db-nubcx2dusacsw7conhw6hp8u-063922201267  Healthy
+2026-Jun-26 06:39:45.638171 Container api-nubcx2dusacsw7conhw6hp8u-063922177920  Starting
+2026-Jun-26 06:39:45.830381 Container api-nubcx2dusacsw7conhw6hp8u-063922177920  Started
+2026-Jun-26 06:39:45.830381 Container frontend-nubcx2dusacsw7conhw6hp8u-063922166242  Starting
+2026-Jun-26 06:39:46.005185 Container frontend-nubcx2dusacsw7conhw6hp8u-063922166242  Started
+2026-Jun-26 06:39:46.285135 New container started.
+2026-Jun-26 06:39:46.609767 Gracefully shutting down build container: hg1vrcpr27qno89zk1dqbdpo
+2026-Jun-26 06:39:46.702526 [DEBUG] [CMD]: docker stop --time=30 hg1vrcpr27qno89zk1dqbdpo
+2026-Jun-26 06:39:46.702526 [DEBUG] Flag --time has been deprecated, use --timeout instead
+2026-Jun-26 06:39:46.851530 [DEBUG] hg1vrcpr27qno89zk1dqbdpo

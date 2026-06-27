@@ -1,0 +1,27 @@
+
+PostgreSQL Database directory appears to contain a database; Skipping initialization
+
+2026-06-26 06:39:40.213 UTC [1] LOG:  starting PostgreSQL 16.14 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+2026-06-26 06:39:40.213 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2026-06-26 06:39:40.213 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2026-06-26 06:39:40.215 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2026-06-26 06:39:40.219 UTC [29] LOG:  database system was shut down at 2026-06-26 06:39:39 UTC
+2026-06-26 06:39:40.224 UTC [1] LOG:  database system is ready to accept connections
+2026-06-26 06:39:46.038 UTC [40] FATAL:  password authentication failed for user "postgres"
+2026-06-26 06:39:46.038 UTC [40] DETAIL:  Connection matched file "/var/lib/postgresql/data/pg_hba.conf" line 128: "host all all all scram-sha-256"
+2026-06-26 06:39:46.616 UTC [41] FATAL:  password authentication failed for user "postgres"
+2026-06-26 06:39:46.616 UTC [41] DETAIL:  Connection matched file "/var/lib/postgresql/data/pg_hba.conf" line 128: "host all all all scram-sha-256"
+2026-06-26 06:39:47.248 UTC [42] FATAL:  password authentication failed for user "postgres"
+2026-06-26 06:39:47.248 UTC [42] DETAIL:  Connection matched file "/var/lib/postgresql/data/pg_hba.conf" line 128: "host all all all scram-sha-256"
+2026-06-26 06:39:48.101 UTC [43] FATAL:  password authentication failed for user "postgres"
+2026-06-26 06:39:48.101 UTC [43] DETAIL:  Connection matched file "/var/lib/postgresql/data/pg_hba.conf" line 128: "host all all all scram-sha-256"
+2026-06-26 06:39:49.348 UTC [44] FATAL:  password authentication failed for user "postgres"
+2026-06-26 06:39:49.348 UTC [44] DETAIL:  Connection matched file "/var/lib/postgresql/data/pg_hba.conf" line 128: "host all all all scram-sha-256"
+2026-06-26 06:39:51.385 UTC [45] FATAL:  password authentication failed for user "postgres"
+2026-06-26 06:39:51.385 UTC [45] DETAIL:  Connection matched file "/var/lib/postgresql/data/pg_hba.conf" line 128: "host all all all scram-sha-256"
+2026-06-26 06:39:55.050 UTC [46] FATAL:  password authentication failed for user "postgres"
+2026-06-26 06:39:55.050 UTC [46] DETAIL:  Connection matched file "/var/lib/postgresql/data/pg_hba.conf" line 128: "host all all all scram-sha-256"
+2026-06-26 06:40:01.908 UTC [55] FATAL:  password authentication failed for user "postgres"
+2026-06-26 06:40:01.908 UTC [55] DETAIL:  Connection matched file "/var/lib/postgresql/data/pg_hba.conf" line 128: "host all all all scram-sha-256"
+2026-06-26 06:40:15.171 UTC [63] FATAL:  password authentication failed for user "postgres"
+2026-06-26 06:40:15.171 UTC [63] DETAIL:  Connection matched file "/var/lib/postgresql/data/pg_hba.conf" line 128: "host all all all scram-sha-256"
