@@ -149,6 +149,58 @@ export async function runMigrations(): Promise<void> {
         admin_notes                 TEXT,
         assigned_to                 TEXT
       );
+
+      -- ── Leads table column migrations ──────────────────────────────────────
+      -- Rename 'name' → 'full_name' if old schema exists
+      DO $$
+      BEGIN
+        IF EXISTS (
+          SELECT 1 FROM information_schema.columns
+          WHERE table_name = 'leads' AND column_name = 'name'
+        ) AND NOT EXISTS (
+          SELECT 1 FROM information_schema.columns
+          WHERE table_name = 'leads' AND column_name = 'full_name'
+        ) THEN
+          ALTER TABLE leads RENAME COLUMN name TO full_name;
+        END IF;
+      END $$;
+
+      -- Rename 'contact_method' → 'preferred_contact_method' if old schema exists
+      DO $$
+      BEGIN
+        IF EXISTS (
+          SELECT 1 FROM information_schema.columns
+          WHERE table_name = 'leads' AND column_name = 'contact_method'
+        ) AND NOT EXISTS (
+          SELECT 1 FROM information_schema.columns
+          WHERE table_name = 'leads' AND column_name = 'preferred_contact_method'
+        ) THEN
+          ALTER TABLE leads RENAME COLUMN contact_method TO preferred_contact_method;
+        END IF;
+      END $$;
+
+      -- Convert return_required from TEXT to BOOLEAN if needed
+      DO $$
+      BEGIN
+        IF (SELECT data_type FROM information_schema.columns
+            WHERE table_name = 'leads' AND column_name = 'return_required') = 'text' THEN
+          ALTER TABLE leads ALTER COLUMN return_required DROP DEFAULT;
+          ALTER TABLE leads ALTER COLUMN return_required TYPE BOOLEAN
+            USING CASE WHEN return_required IN ('yes', 'true', '1') THEN TRUE ELSE FALSE END;
+          ALTER TABLE leads ALTER COLUMN return_required SET DEFAULT FALSE;
+        END IF;
+      END $$;
+
+      -- Add missing columns that were added after initial schema
+      ALTER TABLE leads ADD COLUMN IF NOT EXISTS full_name TEXT;
+      ALTER TABLE leads ADD COLUMN IF NOT EXISTS preferred_contact_method TEXT;
+      ALTER TABLE leads ADD COLUMN IF NOT EXISTS child_seats_required BOOLEAN NOT NULL DEFAULT FALSE;
+      ALTER TABLE leads ADD COLUMN IF NOT EXISTS accessibility_requirements TEXT;
+      ALTER TABLE leads ADD COLUMN IF NOT EXISTS booking_reference TEXT;
+
+      -- lead_replies: add missing columns
+      ALTER TABLE lead_replies ADD COLUMN IF NOT EXISTS admin_name TEXT;
+      ALTER TABLE lead_replies ADD COLUMN IF NOT EXISTS admin_email TEXT;
     `);
 
     logger.info("Database migrations complete");
