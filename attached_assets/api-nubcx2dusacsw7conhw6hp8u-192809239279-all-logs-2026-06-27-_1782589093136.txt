@@ -1,0 +1,7 @@
+Warning: connect.session() MemoryStore is not
+designed for a production environment, as it will leak
+{"level":30,"time":1782588543108,"pid":1,"hostname":"66408c96a526","msg":"Running database migrations…"}
+{"level":30,"time":1782588543112,"pid":1,"hostname":"66408c96a526","msg":"Database migrations complete"}
+{"level":30,"time":1782588543421,"pid":1,"hostname":"66408c96a526","email":"<REDACTED>","msg":"Admin seed: account ready"}
+{"level":30,"time":1782588543422,"pid":1,"hostname":"66408c96a526","port":8080,"msg":"Server listening"}
+memory, and will not scale past a single process.
