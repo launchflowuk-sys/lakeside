@@ -118,7 +118,7 @@ function Router() {
 
       {/* Admin */}
       <Route path="/admin/login" component={AdminLogin} />
-      <Route path="/admin/leads/:id" component={AdminLeadDetail} />
+      <Route path="/admin/leads/:id">{(params) => <AdminLeadDetail key={params?.id} id={params?.id ?? ""} />}</Route>
       <Route path="/admin/leads" component={AdminLeads} />
       <Route path="/admin/booked" component={AdminBooked} />
       <Route path="/admin/settings" component={AdminSettings} />

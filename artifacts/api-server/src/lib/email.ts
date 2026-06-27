@@ -42,19 +42,21 @@ export async function sendNewLeadNotification(lead: {
   fullName: string;
   mobile: string;
   email: string;
-  preferredContact?: string | null;
+  preferredContactMethod?: string | null;
   journeyType: string;
   pickupLocation: string;
   destination: string;
+  viaStops?: string | null;
   journeyDate: string;
   journeyTime: string;
-  returnJourney?: boolean | null;
+  returnRequired?: boolean | null;
   returnDate?: string | null;
   returnTime?: string | null;
   passengers: number;
   luggage?: string | null;
-  childSeats?: boolean | null;
-  notes?: string | null;
+  childSeatsRequired?: boolean | null;
+  accessibilityRequirements?: string | null;
+  additionalNotes?: string | null;
 }): Promise<void> {
   const transporter = createTransport();
   if (!transporter) {
@@ -74,35 +76,37 @@ export async function sendNewLeadNotification(lead: {
       <div style="padding: 20px; background: #ffffff; border: 1px solid #e5e7eb;">
         <h3 style="color: #374151; margin-top: 0;">Customer Details</h3>
         <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
-          <tr><td style="padding: 4px 0; color: #6b7280; width: 140px;">Name</td><td style="padding: 4px 0; font-weight: 600;">${lead.fullName}</td></tr>
+          <tr><td style="padding: 4px 0; color: #6b7280; width: 160px;">Name</td><td style="padding: 4px 0; font-weight: 600;">${lead.fullName}</td></tr>
           <tr><td style="padding: 4px 0; color: #6b7280;">Mobile</td><td style="padding: 4px 0;"><a href="tel:${lead.mobile.replace(/\s+/g, "")}" style="color: #f5b50a;">${lead.mobile}</a></td></tr>
           <tr><td style="padding: 4px 0; color: #6b7280;">Email</td><td style="padding: 4px 0;"><a href="mailto:${lead.email}" style="color: #f5b50a;">${lead.email}</a></td></tr>
-          <tr><td style="padding: 4px 0; color: #6b7280;">Preferred Contact</td><td style="padding: 4px 0; text-transform: capitalize;">${lead.preferredContact ?? "Not specified"}</td></tr>
+          <tr><td style="padding: 4px 0; color: #6b7280;">Preferred Contact</td><td style="padding: 4px 0; text-transform: capitalize;">${lead.preferredContactMethod ?? "Not specified"}</td></tr>
         </table>
 
         <h3 style="color: #374151;">Journey Details</h3>
         <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
-          <tr><td style="padding: 4px 0; color: #6b7280; width: 140px;">Journey Type</td><td style="padding: 4px 0; font-weight: 600;">${journeyLabel}</td></tr>
+          <tr><td style="padding: 4px 0; color: #6b7280; width: 160px;">Journey Type</td><td style="padding: 4px 0; font-weight: 600;">${journeyLabel}</td></tr>
           <tr><td style="padding: 4px 0; color: #6b7280;">Pickup</td><td style="padding: 4px 0;">${lead.pickupLocation}</td></tr>
           <tr><td style="padding: 4px 0; color: #6b7280;">Destination</td><td style="padding: 4px 0;">${lead.destination}</td></tr>
+          ${lead.viaStops ? `<tr><td style="padding: 4px 0; color: #6b7280;">Via</td><td style="padding: 4px 0;">${lead.viaStops}</td></tr>` : ""}
           <tr><td style="padding: 4px 0; color: #6b7280;">Date</td><td style="padding: 4px 0;">${lead.journeyDate}</td></tr>
           <tr><td style="padding: 4px 0; color: #6b7280;">Time</td><td style="padding: 4px 0;">${lead.journeyTime}</td></tr>
           <tr><td style="padding: 4px 0; color: #6b7280;">Passengers</td><td style="padding: 4px 0;">${lead.passengers}</td></tr>
-          ${lead.luggage ? `<tr><td style="padding: 4px 0; color: #6b7280;">Luggage (bags)</td><td style="padding: 4px 0;">${lead.luggage}</td></tr>` : ""}
-          ${lead.childSeats ? `<tr><td style="padding: 4px 0; color: #6b7280;">Child Seats</td><td style="padding: 4px 0;">${lead.childSeats}</td></tr>` : ""}
+          ${lead.luggage ? `<tr><td style="padding: 4px 0; color: #6b7280;">Luggage</td><td style="padding: 4px 0;">${lead.luggage} bag(s)</td></tr>` : ""}
+          <tr><td style="padding: 4px 0; color: #6b7280;">Child Seats</td><td style="padding: 4px 0;">${lead.childSeatsRequired ? "Yes — required" : "No"}</td></tr>
+          ${lead.accessibilityRequirements ? `<tr><td style="padding: 4px 0; color: #6b7280;">Accessibility</td><td style="padding: 4px 0;">${lead.accessibilityRequirements}</td></tr>` : ""}
         </table>
 
-        ${lead.returnJourney ? `
+        ${lead.returnRequired ? `
         <h3 style="color: #374151;">Return Journey</h3>
         <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
-          <tr><td style="padding: 4px 0; color: #6b7280; width: 140px;">Return Date</td><td style="padding: 4px 0;">${lead.returnDate ?? "Not specified"}</td></tr>
+          <tr><td style="padding: 4px 0; color: #6b7280; width: 160px;">Return Date</td><td style="padding: 4px 0;">${lead.returnDate ?? "Not specified"}</td></tr>
           <tr><td style="padding: 4px 0; color: #6b7280;">Return Time</td><td style="padding: 4px 0;">${lead.returnTime ?? "Not specified"}</td></tr>
         </table>
         ` : ""}
 
-        ${lead.notes ? `
+        ${lead.additionalNotes ? `
         <h3 style="color: #374151;">Customer Notes</h3>
-        <p style="font-size: 14px; background: #f9fafb; padding: 10px 12px; border-radius: 4px; border-left: 3px solid #f5b50a;">${lead.notes}</p>
+        <p style="font-size: 14px; background: #f9fafb; padding: 10px 12px; border-radius: 4px; border-left: 3px solid #f5b50a;">${lead.additionalNotes}</p>
         ` : ""}
 
         <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #e5e7eb;">
@@ -129,8 +133,17 @@ export async function sendCustomerConfirmation(lead: {
   journeyType: string;
   pickupLocation: string;
   destination: string;
+  viaStops?: string | null;
   journeyDate: string;
   journeyTime: string;
+  returnRequired?: boolean | null;
+  returnDate?: string | null;
+  returnTime?: string | null;
+  passengers: number;
+  luggage?: string | null;
+  childSeatsRequired?: boolean | null;
+  accessibilityRequirements?: string | null;
+  additionalNotes?: string | null;
 }): Promise<void> {
   const transporter = createTransport();
   if (!transporter) {
@@ -157,13 +170,31 @@ export async function sendCustomerConfirmation(lead: {
 
         <h3 style="color: #374151; margin-top: 20px;">Your Journey Summary</h3>
         <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
-          <tr><td style="padding: 5px 0; color: #6b7280; width: 140px;">Journey Type</td><td style="padding: 5px 0; font-weight: 600;">${journeyLabel}</td></tr>
+          <tr><td style="padding: 5px 0; color: #6b7280; width: 160px;">Journey Type</td><td style="padding: 5px 0; font-weight: 600;">${journeyLabel}</td></tr>
           <tr><td style="padding: 5px 0; color: #6b7280;">Pickup</td><td style="padding: 5px 0;">${lead.pickupLocation}</td></tr>
           <tr><td style="padding: 5px 0; color: #6b7280;">Destination</td><td style="padding: 5px 0;">${lead.destination}</td></tr>
+          ${lead.viaStops ? `<tr><td style="padding: 5px 0; color: #6b7280;">Via</td><td style="padding: 5px 0;">${lead.viaStops}</td></tr>` : ""}
           <tr><td style="padding: 5px 0; color: #6b7280;">Date</td><td style="padding: 5px 0;">${lead.journeyDate}</td></tr>
           <tr><td style="padding: 5px 0; color: #6b7280;">Time</td><td style="padding: 5px 0;">${lead.journeyTime}</td></tr>
-          <tr><td style="padding: 5px 0; color: #6b7280;">Reference</td><td style="padding: 5px 0;">#${lead.id}</td></tr>
+          <tr><td style="padding: 5px 0; color: #6b7280;">Passengers</td><td style="padding: 5px 0;">${lead.passengers}</td></tr>
+          ${lead.luggage ? `<tr><td style="padding: 5px 0; color: #6b7280;">Luggage</td><td style="padding: 5px 0;">${lead.luggage} bag(s)</td></tr>` : ""}
+          ${lead.childSeatsRequired ? `<tr><td style="padding: 5px 0; color: #6b7280;">Child Seats</td><td style="padding: 5px 0;">Required</td></tr>` : ""}
+          ${lead.accessibilityRequirements ? `<tr><td style="padding: 5px 0; color: #6b7280;">Accessibility</td><td style="padding: 5px 0;">${lead.accessibilityRequirements}</td></tr>` : ""}
+          <tr><td style="padding: 5px 0; color: #6b7280;">Reference</td><td style="padding: 5px 0; font-weight: 600;">#${lead.id}</td></tr>
         </table>
+
+        ${lead.returnRequired ? `
+        <h3 style="color: #374151; margin-top: 20px;">Return Journey</h3>
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+          <tr><td style="padding: 5px 0; color: #6b7280; width: 160px;">Return Date</td><td style="padding: 5px 0;">${lead.returnDate ?? "To be confirmed"}</td></tr>
+          <tr><td style="padding: 5px 0; color: #6b7280;">Return Time</td><td style="padding: 5px 0;">${lead.returnTime ?? "To be confirmed"}</td></tr>
+        </table>
+        ` : ""}
+
+        ${lead.additionalNotes ? `
+        <h3 style="color: #374151; margin-top: 20px;">Your Notes</h3>
+        <p style="font-size: 14px; background: #f9fafb; padding: 10px 12px; border-radius: 4px; border-left: 3px solid #f5b50a; margin: 0;">${lead.additionalNotes}</p>
+        ` : ""}
 
         <p style="font-size: 14px; margin-top: 20px;">If your journey is urgent, please contact us directly:</p>
         <table style="font-size: 14px;">

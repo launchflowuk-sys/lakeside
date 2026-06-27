@@ -87,17 +87,20 @@ export async function runMigrations(): Promise<void> {
     // ── lead_replies ───────────────────────────────────────────────────────
     await client.query(`
       CREATE TABLE IF NOT EXISTS lead_replies (
-        id          SERIAL PRIMARY KEY,
-        created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-        lead_id     INTEGER NOT NULL REFERENCES leads(id) ON DELETE CASCADE,
-        body        TEXT NOT NULL,
-        sent_by     TEXT NOT NULL DEFAULT 'admin',
-        admin_name  TEXT,
-        admin_email TEXT
+        id           SERIAL PRIMARY KEY,
+        created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        lead_id      INTEGER NOT NULL REFERENCES leads(id) ON DELETE CASCADE,
+        subject      TEXT NOT NULL,
+        message      TEXT NOT NULL,
+        quoted_price TEXT,
+        sent_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        sent_by      TEXT NOT NULL DEFAULT 'admin'
       )
     `);
-    await client.query(`ALTER TABLE lead_replies ADD COLUMN IF NOT EXISTS admin_name TEXT`);
-    await client.query(`ALTER TABLE lead_replies ADD COLUMN IF NOT EXISTS admin_email TEXT`);
+    await client.query(`ALTER TABLE lead_replies ADD COLUMN IF NOT EXISTS subject TEXT NOT NULL DEFAULT ''`);
+    await client.query(`ALTER TABLE lead_replies ADD COLUMN IF NOT EXISTS message TEXT NOT NULL DEFAULT ''`);
+    await client.query(`ALTER TABLE lead_replies ADD COLUMN IF NOT EXISTS quoted_price TEXT`);
+    await client.query(`ALTER TABLE lead_replies ADD COLUMN IF NOT EXISTS sent_at TIMESTAMPTZ NOT NULL DEFAULT NOW()`);
 
     // ── quotes ─────────────────────────────────────────────────────────────
     await client.query(`

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useRoute, Link } from "wouter";
+import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { Button } from "@/components/ui/button";
@@ -43,9 +43,8 @@ function getTodayPlus(days: number) {
   return d.toISOString().split("T")[0];
 }
 
-export default function AdminLeadDetail() {
-  const [, params] = useRoute("/admin/leads/:id");
-  const leadId = parseInt(params?.id ?? "0", 10);
+export default function AdminLeadDetail({ id }: { id: string }) {
+  const leadId = parseInt(id || "0", 10);
   const queryClient = useQueryClient();
 
   const { data: lead, isLoading } = useGetAdminLead(leadId, { query: { enabled: !!leadId, queryKey: getGetAdminLeadQueryKey(leadId) } });
