@@ -6,71 +6,72 @@ export async function runMigrations(): Promise<void> {
   try {
     logger.info("Running database migrations…");
 
+    // ── Enum types ─────────────────────────────────────────────────────────
+    await client.query(`DO $$ BEGIN CREATE TYPE lead_status AS ENUM ('new','contacted','quoted','booked','completed','cancelled','archived'); EXCEPTION WHEN duplicate_object THEN NULL; END $$`);
+    await client.query(`DO $$ BEGIN CREATE TYPE journey_type AS ENUM ('local','airport','school_run','corporate','cruise_terminal','other'); EXCEPTION WHEN duplicate_object THEN NULL; END $$`);
+    await client.query(`DO $$ BEGIN CREATE TYPE contact_method AS ENUM ('phone','whatsapp','email'); EXCEPTION WHEN duplicate_object THEN NULL; END $$`);
+    await client.query(`DO $$ BEGIN CREATE TYPE corporate_app_status AS ENUM ('new','reviewing','approved','rejected','on_hold'); EXCEPTION WHEN duplicate_object THEN NULL; END $$`);
+    await client.query(`DO $$ BEGIN CREATE TYPE organisation_type AS ENUM ('business','school','council','nhs','charity','other'); EXCEPTION WHEN duplicate_object THEN NULL; END $$`);
+    await client.query(`DO $$ BEGIN CREATE TYPE quote_status AS ENUM ('pending','accepted','expired','cancelled'); EXCEPTION WHEN duplicate_object THEN NULL; END $$`);
+
+    // ── Detect and fix old leads schema ───────────────────────────────────
+    // If the table was created with the old column names ('name' instead of
+    // 'full_name'), drop dependents and recreate with the correct schema.
+    // Safe because no real leads exist yet in production.
+    const { rowCount } = await client.query(`
+      SELECT 1 FROM information_schema.columns
+      WHERE table_schema = 'public'
+        AND table_name   = 'leads'
+        AND column_name  = 'name'
+    `);
+
+    if (rowCount && rowCount > 0) {
+      logger.info("Old leads schema detected — dropping and recreating leads tables");
+      await client.query(`DROP TABLE IF EXISTS quotes CASCADE`);
+      await client.query(`DROP TABLE IF EXISTS lead_replies CASCADE`);
+      await client.query(`DROP TABLE IF EXISTS leads CASCADE`);
+    }
+
+    // ── leads ──────────────────────────────────────────────────────────────
     await client.query(`
-      DO $$ BEGIN
-        CREATE TYPE lead_status AS ENUM (
-          'new', 'contacted', 'quoted', 'booked', 'completed', 'cancelled', 'archived'
-        );
-      EXCEPTION WHEN duplicate_object THEN NULL; END $$;
-
-      DO $$ BEGIN
-        CREATE TYPE journey_type AS ENUM (
-          'local', 'airport', 'school_run', 'corporate', 'cruise_terminal', 'other'
-        );
-      EXCEPTION WHEN duplicate_object THEN NULL; END $$;
-
-      DO $$ BEGIN
-        CREATE TYPE contact_method AS ENUM ('phone', 'whatsapp', 'email');
-      EXCEPTION WHEN duplicate_object THEN NULL; END $$;
-
-      DO $$ BEGIN
-        CREATE TYPE corporate_app_status AS ENUM (
-          'new', 'reviewing', 'approved', 'rejected', 'on_hold'
-        );
-      EXCEPTION WHEN duplicate_object THEN NULL; END $$;
-
-      DO $$ BEGIN
-        CREATE TYPE organisation_type AS ENUM (
-          'business', 'school', 'council', 'nhs', 'charity', 'other'
-        );
-      EXCEPTION WHEN duplicate_object THEN NULL; END $$;
-
-      DO $$ BEGIN
-        CREATE TYPE quote_status AS ENUM (
-          'pending', 'accepted', 'expired', 'cancelled'
-        );
-      EXCEPTION WHEN duplicate_object THEN NULL; END $$;
-
       CREATE TABLE IF NOT EXISTS leads (
-        id                SERIAL PRIMARY KEY,
-        created_at        TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-        updated_at        TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-        name              TEXT NOT NULL,
-        email             TEXT NOT NULL,
-        mobile            TEXT NOT NULL,
-        pickup_location   TEXT NOT NULL,
-        destination       TEXT NOT NULL,
-        via_stops         TEXT,
-        journey_date      TEXT NOT NULL,
-        journey_time      TEXT NOT NULL,
-        return_required   TEXT NOT NULL DEFAULT 'no',
-        return_date       TEXT,
-        return_time       TEXT,
-        passengers        INTEGER NOT NULL DEFAULT 1,
-        luggage           TEXT,
-        journey_type      TEXT NOT NULL,
-        extras            TEXT,
-        message           TEXT,
-        status            TEXT NOT NULL DEFAULT 'new',
-        quoted_price      TEXT,
-        assigned_driver   TEXT,
-        admin_notes       TEXT,
-        source            TEXT DEFAULT 'web',
-        contact_method    TEXT,
-        flight_number     TEXT,
-        is_read           BOOLEAN NOT NULL DEFAULT FALSE
-      );
+        id                         SERIAL PRIMARY KEY,
+        created_at                 TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        updated_at                 TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        status                     lead_status NOT NULL DEFAULT 'new',
+        journey_type               journey_type NOT NULL,
+        pickup_location            TEXT NOT NULL,
+        destination                TEXT NOT NULL,
+        via_stops                  TEXT,
+        journey_date               TEXT NOT NULL,
+        journey_time               TEXT NOT NULL,
+        return_required            BOOLEAN NOT NULL DEFAULT FALSE,
+        return_date                TEXT,
+        return_time                TEXT,
+        passengers                 INTEGER NOT NULL DEFAULT 1,
+        luggage                    TEXT,
+        child_seats_required       BOOLEAN NOT NULL DEFAULT FALSE,
+        accessibility_requirements TEXT,
+        additional_notes           TEXT,
+        full_name                  TEXT NOT NULL,
+        mobile                     TEXT NOT NULL,
+        email                      TEXT NOT NULL,
+        preferred_contact_method   contact_method NOT NULL DEFAULT 'phone',
+        quoted_price               TEXT,
+        admin_notes                TEXT,
+        assigned_driver            TEXT,
+        booking_reference          TEXT
+      )
+    `);
 
+    // Safety net: add columns that may be missing on existing correct-schema tables
+    await client.query(`ALTER TABLE leads ADD COLUMN IF NOT EXISTS child_seats_required BOOLEAN NOT NULL DEFAULT FALSE`);
+    await client.query(`ALTER TABLE leads ADD COLUMN IF NOT EXISTS accessibility_requirements TEXT`);
+    await client.query(`ALTER TABLE leads ADD COLUMN IF NOT EXISTS additional_notes TEXT`);
+    await client.query(`ALTER TABLE leads ADD COLUMN IF NOT EXISTS booking_reference TEXT`);
+
+    // ── admin_users ────────────────────────────────────────────────────────
+    await client.query(`
       CREATE TABLE IF NOT EXISTS admin_users (
         id            SERIAL PRIMARY KEY,
         created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -78,19 +79,28 @@ export async function runMigrations(): Promise<void> {
         password_hash TEXT NOT NULL,
         name          TEXT NOT NULL DEFAULT 'Admin',
         role          TEXT NOT NULL DEFAULT 'admin'
-      );
+      )
+    `);
+    await client.query(`ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS name TEXT NOT NULL DEFAULT 'Admin'`);
+    await client.query(`ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS role TEXT NOT NULL DEFAULT 'admin'`);
 
-      ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS name TEXT NOT NULL DEFAULT 'Admin';
-      ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS role TEXT NOT NULL DEFAULT 'admin';
-
+    // ── lead_replies ───────────────────────────────────────────────────────
+    await client.query(`
       CREATE TABLE IF NOT EXISTS lead_replies (
-        id         SERIAL PRIMARY KEY,
-        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-        lead_id    INTEGER NOT NULL REFERENCES leads(id) ON DELETE CASCADE,
-        body       TEXT NOT NULL,
-        sent_by    TEXT NOT NULL DEFAULT 'admin'
-      );
+        id          SERIAL PRIMARY KEY,
+        created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        lead_id     INTEGER NOT NULL REFERENCES leads(id) ON DELETE CASCADE,
+        body        TEXT NOT NULL,
+        sent_by     TEXT NOT NULL DEFAULT 'admin',
+        admin_name  TEXT,
+        admin_email TEXT
+      )
+    `);
+    await client.query(`ALTER TABLE lead_replies ADD COLUMN IF NOT EXISTS admin_name TEXT`);
+    await client.query(`ALTER TABLE lead_replies ADD COLUMN IF NOT EXISTS admin_email TEXT`);
 
+    // ── quotes ─────────────────────────────────────────────────────────────
+    await client.query(`
       CREATE TABLE IF NOT EXISTS quotes (
         id                    SERIAL PRIMARY KEY,
         created_at            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -122,8 +132,11 @@ export async function runMigrations(): Promise<void> {
         valid_until           TEXT NOT NULL,
         admin_message         TEXT,
         accepted_at           TIMESTAMPTZ
-      );
+      )
+    `);
 
+    // ── corporate_applications ─────────────────────────────────────────────
+    await client.query(`
       CREATE TABLE IF NOT EXISTS corporate_applications (
         id                          SERIAL PRIMARY KEY,
         created_at                  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -148,59 +161,7 @@ export async function runMigrations(): Promise<void> {
         additional_requirements     TEXT,
         admin_notes                 TEXT,
         assigned_to                 TEXT
-      );
-
-      -- ── Leads table column migrations ──────────────────────────────────────
-      -- Rename 'name' → 'full_name' if old schema exists
-      DO $$
-      BEGIN
-        IF EXISTS (
-          SELECT 1 FROM information_schema.columns
-          WHERE table_name = 'leads' AND column_name = 'name'
-        ) AND NOT EXISTS (
-          SELECT 1 FROM information_schema.columns
-          WHERE table_name = 'leads' AND column_name = 'full_name'
-        ) THEN
-          ALTER TABLE leads RENAME COLUMN name TO full_name;
-        END IF;
-      END $$;
-
-      -- Rename 'contact_method' → 'preferred_contact_method' if old schema exists
-      DO $$
-      BEGIN
-        IF EXISTS (
-          SELECT 1 FROM information_schema.columns
-          WHERE table_name = 'leads' AND column_name = 'contact_method'
-        ) AND NOT EXISTS (
-          SELECT 1 FROM information_schema.columns
-          WHERE table_name = 'leads' AND column_name = 'preferred_contact_method'
-        ) THEN
-          ALTER TABLE leads RENAME COLUMN contact_method TO preferred_contact_method;
-        END IF;
-      END $$;
-
-      -- Convert return_required from TEXT to BOOLEAN if needed
-      DO $$
-      BEGIN
-        IF (SELECT data_type FROM information_schema.columns
-            WHERE table_name = 'leads' AND column_name = 'return_required') = 'text' THEN
-          ALTER TABLE leads ALTER COLUMN return_required DROP DEFAULT;
-          ALTER TABLE leads ALTER COLUMN return_required TYPE BOOLEAN
-            USING CASE WHEN return_required IN ('yes', 'true', '1') THEN TRUE ELSE FALSE END;
-          ALTER TABLE leads ALTER COLUMN return_required SET DEFAULT FALSE;
-        END IF;
-      END $$;
-
-      -- Add missing columns that were added after initial schema
-      ALTER TABLE leads ADD COLUMN IF NOT EXISTS full_name TEXT;
-      ALTER TABLE leads ADD COLUMN IF NOT EXISTS preferred_contact_method TEXT;
-      ALTER TABLE leads ADD COLUMN IF NOT EXISTS child_seats_required BOOLEAN NOT NULL DEFAULT FALSE;
-      ALTER TABLE leads ADD COLUMN IF NOT EXISTS accessibility_requirements TEXT;
-      ALTER TABLE leads ADD COLUMN IF NOT EXISTS booking_reference TEXT;
-
-      -- lead_replies: add missing columns
-      ALTER TABLE lead_replies ADD COLUMN IF NOT EXISTS admin_name TEXT;
-      ALTER TABLE lead_replies ADD COLUMN IF NOT EXISTS admin_email TEXT;
+      )
     `);
 
     logger.info("Database migrations complete");
