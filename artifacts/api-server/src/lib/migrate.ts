@@ -101,6 +101,7 @@ export async function runMigrations(): Promise<void> {
     await client.query(`ALTER TABLE lead_replies ADD COLUMN IF NOT EXISTS message TEXT NOT NULL DEFAULT ''`);
     await client.query(`ALTER TABLE lead_replies ADD COLUMN IF NOT EXISTS quoted_price TEXT`);
     await client.query(`ALTER TABLE lead_replies ADD COLUMN IF NOT EXISTS sent_at TIMESTAMPTZ NOT NULL DEFAULT NOW()`);
+    await client.query(`ALTER TABLE lead_replies ALTER COLUMN body SET DEFAULT ''`);
 
     // ── quotes ─────────────────────────────────────────────────────────────
     await client.query(`
