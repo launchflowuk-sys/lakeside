@@ -21,3 +21,10 @@ description: Hard-won lessons deploying a pnpm monorepo to Coolify with two Dock
 
 4. **pnpm version in Dockerfiles must match the lockfile.**
    Use `corepack prepare pnpm@10 --activate`. The lockfile format is tied to the major version — pnpm@9 cannot read a pnpm@10 lockfile.
+
+5. **Never use named Docker volumes for the database — use a host bind mount.**
+   Named volumes (`postgres_data: driver: local`) are destroyed when Coolify runs `docker-compose down -v` on redeploy, wiping the entire database.
+   Use a bind mount instead: `- /var/lib/lakeside/postgres:/var/lib/postgresql/data`
+   Host paths are never touched by `docker-compose down`, surviving every redeploy.
+   Also remove the top-level `volumes:` block — it is only needed for named volumes.
+   **Why:** Coolify tears down and recreates the stack on every deploy. Named volumes live in Docker's volume store and are removed with `-v`. Bind mounts live on the host filesystem and are immune.
