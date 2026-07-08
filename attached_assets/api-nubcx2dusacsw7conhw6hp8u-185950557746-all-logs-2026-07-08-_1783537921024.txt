@@ -1,0 +1,15 @@
+{"level":30,"time":1783537250194,"pid":1,"hostname":"454417b475dc","msg":"Running database migrations…"}
+{"level":30,"time":1783537250268,"pid":1,"hostname":"454417b475dc","msg":"Database migrations complete"}
+{"level":30,"time":1783537250559,"pid":1,"hostname":"454417b475dc","email":"<REDACTED>","msg":"Admin seed: account ready"}
+{"level":30,"time":1783537250561,"pid":1,"hostname":"454417b475dc","port":8080,"msg":"Server listening"}
+{"level":30,"time":1783537591356,"pid":1,"hostname":"454417b475dc","req":{"id":1,"method":"GET","url":"/api/reviews"},"res":{"statusCode":200},"responseTime":132,"msg":"request completed"}
+{"level":30,"time":1783537647737,"pid":1,"hostname":"454417b475dc","req":{"id":2,"method":"POST","url":"/api/leads"},"leadId":2,"msg":"Lead inserted successfully"}
+{"level":30,"time":1783537648187,"pid":1,"hostname":"454417b475dc","leadId":2,"msg":"New lead notification sent"}
+{"level":30,"time":1783537648187,"pid":1,"hostname":"454417b475dc","leadId":2,"msg":"Customer confirmation sent"}
+{"level":30,"time":1783537648188,"pid":1,"hostname":"454417b475dc","req":{"id":2,"method":"POST","url":"/api/leads"},"res":{"statusCode":201},"responseTime":474,"msg":"request completed"}
+{"level":30,"time":1783537665386,"pid":1,"hostname":"454417b475dc","req":{"id":3,"method":"GET","url":"/api/admin/auth/me"},"res":{"statusCode":401},"responseTime":2,"msg":"request completed"}
+{"level":30,"time":1783537669507,"pid":1,"hostname":"454417b475dc","req":{"id":4,"method":"POST","url":"/api/admin/auth/login"},"res":{"statusCode":200},"responseTime":308,"msg":"request completed"}
+{"level":50,"time":1783537669508,"pid":1,"hostname":"454417b475dc","req":{"id":4,"method":"POST","url":"/api/admin/auth/login"},"err":{"type":"Error","message":"ENOENT: no such file or directory, open '/app/dist/table.sql'","stack":"Error: ENOENT: no such file or directory, open '/app/dist/table.sql'\n    at async open (node:internal/fs/promises:640:25)\n    at async Object.readFile (node:internal/fs/promises:1290:14)\n    at async PGStore._rawEnsureSessionStoreTable (/node_modules/.pnpm/connect-pg-simple@10.0.0/node_modules/connect-pg-simple/index.js:183:32)\n    at async PGStore._asyncQuery (/node_modules/.pnpm/connect-pg-simple@10.0.0/node_modules/connect-pg-simple/index.js:315:7)","errno":-2,"code":"ENOENT","syscall":"open","path":"/app/dist/table.sql"},"msg":"Unhandled error in request handler"}
+{"level":30,"time":1783537872271,"pid":1,"hostname":"454417b475dc","req":{"id":5,"method":"GET","url":"/api/admin/leads"},"res":{"statusCode":401},"responseTime":2,"msg":"request completed"}
+{"level":30,"time":1783537874005,"pid":1,"hostname":"454417b475dc","req":{"id":6,"method":"GET","url":"/api/admin/stats"},"res":{"statusCode":401},"responseTime":1,"msg":"request completed"}
+{"level":30,"time":1783537874841,"pid":1,"hostname":"454417b475dc","req":{"id":7,"method":"GET","url":"/api/reviews"},"res":{"statusCode":200},"responseTime":1,"msg":"request completed"}

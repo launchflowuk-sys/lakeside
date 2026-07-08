@@ -180,6 +180,22 @@ export async function runMigrations(): Promise<void> {
       ALTER TABLE corporate_applications ALTER COLUMN organisation_type TYPE organisation_type USING organisation_type::organisation_type;
     EXCEPTION WHEN others THEN NULL; END $$`);
 
+    // ── admin_sessions ─────────────────────────────────────────────────────
+    // Managed here rather than via connect-pg-simple's createTableIfMissing
+    // option, because that option reads a SQL file from disk at runtime which
+    // does not exist inside the esbuild bundle (ENOENT /app/dist/table.sql).
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS admin_sessions (
+        sid    VARCHAR   NOT NULL COLLATE "default",
+        sess   JSON      NOT NULL,
+        expire TIMESTAMP(6) NOT NULL,
+        CONSTRAINT session_pkey PRIMARY KEY (sid) NOT DEFERRABLE INITIALLY IMMEDIATE
+      ) WITH (OIDS=FALSE)
+    `);
+    await client.query(`
+      CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON admin_sessions (expire)
+    `);
+
     logger.info("Database migrations complete");
   } catch (err) {
     logger.error({ err }, "Database migration failed — server will still start");
