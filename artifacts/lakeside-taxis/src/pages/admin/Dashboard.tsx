@@ -29,7 +29,7 @@ const journeyLabel: Record<string, string> = {
 };
 
 export default function AdminDashboard() {
-  const { data: stats, isLoading } = useGetAdminStats({ query: { queryKey: getGetAdminStatsQueryKey() } });
+  const { data: stats, isLoading } = useGetAdminStats({ query: { queryKey: getGetAdminStatsQueryKey(), staleTime: 30_000, refetchOnWindowFocus: false } });
 
   const statCards = [
     { label: "Total Leads", value: stats?.total ?? 0, icon: Users, color: "text-foreground" },

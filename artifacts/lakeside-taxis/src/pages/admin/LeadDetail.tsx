@@ -47,9 +47,9 @@ export default function AdminLeadDetail({ id }: { id: string }) {
   const leadId = parseInt(id || "0", 10);
   const queryClient = useQueryClient();
 
-  const { data: lead, isLoading } = useGetAdminLead(leadId, { query: { enabled: !!leadId, queryKey: getGetAdminLeadQueryKey(leadId) } });
-  const { data: replies } = useGetLeadReplies(leadId, { query: { enabled: !!leadId, queryKey: getGetLeadRepliesQueryKey(leadId) } });
-  const { data: existingQuote } = useGetLeadQuote(leadId, { query: { enabled: !!leadId, queryKey: getGetLeadQuoteQueryKey(leadId), retry: false } });
+  const { data: lead, isLoading } = useGetAdminLead(leadId, { query: { enabled: !!leadId, queryKey: getGetAdminLeadQueryKey(leadId), staleTime: 30_000, refetchOnWindowFocus: false } });
+  const { data: replies } = useGetLeadReplies(leadId, { query: { enabled: !!leadId, queryKey: getGetLeadRepliesQueryKey(leadId), staleTime: 30_000, refetchOnWindowFocus: false } });
+  const { data: existingQuote } = useGetLeadQuote(leadId, { query: { enabled: !!leadId, queryKey: getGetLeadQuoteQueryKey(leadId), retry: false, staleTime: 30_000, refetchOnWindowFocus: false } });
   const updateLead = useUpdateAdminLead();
   const replyToLead = useReplyToLead();
   const createQuote = useCreateQuote();

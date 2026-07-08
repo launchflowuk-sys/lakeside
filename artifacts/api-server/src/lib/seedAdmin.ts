@@ -3,7 +3,7 @@ import { logger } from "./logger";
 import bcrypt from "bcryptjs";
 
 export async function seedAdminFromEnv(): Promise<void> {
-  const email = process.env.ADMIN_EMAIL;
+  const email = process.env.ADMIN_EMAIL?.toLowerCase().trim();
   const password = process.env.ADMIN_PASSWORD;
 
   if (!email || !password) {

@@ -14,7 +14,8 @@ router.post("/admin/auth/login", async (req, res): Promise<void> => {
     return;
   }
 
-  const { email, password } = parsed.data;
+  const { email: rawEmail, password } = parsed.data;
+  const email = rawEmail.toLowerCase().trim();
 
   const [user] = await db
     .select()
@@ -22,12 +23,14 @@ router.post("/admin/auth/login", async (req, res): Promise<void> => {
     .where(eq(adminUsersTable.email, email));
 
   if (!user) {
+    req.log.warn({ email }, "admin login: user not found");
     res.status(401).json({ error: "Invalid email or password" });
     return;
   }
 
   const valid = await bcrypt.compare(password, user.passwordHash);
   if (!valid) {
+    req.log.warn({ email }, "admin login: password mismatch");
     res.status(401).json({ error: "Invalid email or password" });
     return;
   }

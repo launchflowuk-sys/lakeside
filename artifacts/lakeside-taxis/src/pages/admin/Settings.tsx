@@ -4,7 +4,7 @@ import { useGetAdminMe, getGetAdminMeQueryKey } from "@workspace/api-client-reac
 import { Settings2, Mail, Phone, Globe } from "lucide-react";
 
 export default function AdminSettings() {
-  const { data: me } = useGetAdminMe({ query: { queryKey: getGetAdminMeQueryKey(), retry: false } });
+  const { data: me } = useGetAdminMe({ query: { queryKey: getGetAdminMeQueryKey(), retry: false, staleTime: Infinity, refetchOnWindowFocus: false } });
 
   return (
     <AdminLayout>

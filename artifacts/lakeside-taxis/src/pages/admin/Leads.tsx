@@ -37,7 +37,7 @@ export default function AdminLeads() {
 
   const { data, isLoading } = useListAdminLeads(
     { status: status === "all" ? undefined : status, page, limit: LIMIT },
-    { query: { queryKey: getListAdminLeadsQueryKey({ status: status === "all" ? undefined : status, page, limit: LIMIT }) } }
+    { query: { queryKey: getListAdminLeadsQueryKey({ status: status === "all" ? undefined : status, page, limit: LIMIT }), staleTime: 30_000, refetchOnWindowFocus: false } }
   );
 
   const filteredLeads = useMemo(() => {

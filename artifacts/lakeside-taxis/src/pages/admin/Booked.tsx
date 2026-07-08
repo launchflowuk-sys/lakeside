@@ -8,7 +8,7 @@ import { CheckCircle } from "lucide-react";
 export default function AdminBooked() {
   const { data, isLoading } = useListAdminLeads(
     { status: "booked", limit: 50 },
-    { query: { queryKey: getListAdminLeadsQueryKey({ status: "booked", limit: 50 }) } }
+    { query: { queryKey: getListAdminLeadsQueryKey({ status: "booked", limit: 50 }), staleTime: 30_000, refetchOnWindowFocus: false } }
   );
 
   return (

@@ -65,6 +65,10 @@ export default function AdminLogin() {
                 {...form.register("email")}
                 className="mt-1"
                 placeholder="admin@lakesidetaxi.co.uk"
+                autoComplete="email"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
                 data-testid="input-admin-email"
               />
               {form.formState.errors.email && (
@@ -78,6 +82,7 @@ export default function AdminLogin() {
                 type="password"
                 {...form.register("password")}
                 className="mt-1"
+                autoComplete="current-password"
                 data-testid="input-admin-password"
               />
               {form.formState.errors.password && (
