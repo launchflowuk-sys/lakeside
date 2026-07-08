@@ -1,6 +1,7 @@
 import { Router, type IRouter } from "express";
 import { eq } from "drizzle-orm";
 import { db, leadsTable, quotesTable } from "@workspace/db";
+import { CreateQuoteBody } from "@workspace/api-zod";
 import { requireAdmin } from "../middlewares/requireAdmin";
 
 const router: IRouter = Router();
@@ -52,11 +53,12 @@ router.post("/admin/leads/:id/quote", requireAdmin, async (req, res): Promise<vo
   const [lead] = await db.select().from(leadsTable).where(eq(leadsTable.id, leadId));
   if (!lead) { res.status(404).json({ error: "Lead not found" }); return; }
 
-  const body = req.body;
-  if (!body.price || !body.validUntil) {
-    res.status(400).json({ error: "price and validUntil are required" });
+  const parsed = CreateQuoteBody.safeParse(req.body);
+  if (!parsed.success) {
+    res.status(400).json({ error: parsed.error.message });
     return;
   }
+  const body = parsed.data;
 
   let quoteRef = generateRef();
   let attempts = 0;

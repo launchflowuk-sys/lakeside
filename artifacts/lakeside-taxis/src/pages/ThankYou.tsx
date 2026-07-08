@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/layout/Layout";
+import "./thank-you.css";
 
 export default function ThankYou() {
   return (
@@ -10,13 +11,8 @@ export default function ThankYou() {
         <meta name="robots" content="noindex" />
       </Helmet>
 
-      <div style={{ background: "#0a0a0a", minHeight: "70vh", display: "flex", alignItems: "center", padding: "80px 0" }}>
-        <div style={{
-          width: "min(1180px, calc(100% - 40px))", margin: "0 auto",
-          display: "grid", gridTemplateColumns: "1fr 400px", gap: 48, alignItems: "center",
-        }}
-          data-testid="thank-you-page"
-        >
+      <div className="ty-wrap">
+        <div className="ty-grid" data-testid="thank-you-page">
 
           {/* Left */}
           <div>

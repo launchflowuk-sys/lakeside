@@ -8,6 +8,7 @@ const router: IRouter = Router();
 router.post("/leads", async (req, res): Promise<void> => {
   const parsed = SubmitLeadBody.safeParse(req.body);
   if (!parsed.success) {
+    req.log.warn({ err: parsed.error.message }, "Lead submission failed validation");
     res.status(400).json({ error: parsed.error.message });
     return;
   }
@@ -17,10 +18,18 @@ router.post("/leads", async (req, res): Promise<void> => {
     status: "new",
   }).returning();
 
-  await Promise.all([
-    sendNewLeadNotification(lead),
-    sendCustomerConfirmation(lead),
-  ]);
+  req.log.info({ leadId: lead.id }, "Lead inserted successfully");
+
+  try {
+    await Promise.all([
+      sendNewLeadNotification(lead),
+      sendCustomerConfirmation(lead),
+    ]);
+  } catch (err) {
+    // Email failures must never block a successful lead submission —
+    // the lead is already saved, so log and continue.
+    req.log.error({ err, leadId: lead.id }, "Failed to send lead notification emails");
+  }
 
   res.status(201).json({
     id: lead.id,

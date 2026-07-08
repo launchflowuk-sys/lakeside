@@ -101,7 +101,6 @@ export async function runMigrations(): Promise<void> {
     await client.query(`ALTER TABLE lead_replies ADD COLUMN IF NOT EXISTS message TEXT NOT NULL DEFAULT ''`);
     await client.query(`ALTER TABLE lead_replies ADD COLUMN IF NOT EXISTS quoted_price TEXT`);
     await client.query(`ALTER TABLE lead_replies ADD COLUMN IF NOT EXISTS sent_at TIMESTAMPTZ NOT NULL DEFAULT NOW()`);
-    await client.query(`DO $$ BEGIN ALTER TABLE lead_replies ALTER COLUMN body SET DEFAULT ''; EXCEPTION WHEN undefined_column THEN NULL; END $$`);
 
     // ── quotes ─────────────────────────────────────────────────────────────
     await client.query(`
@@ -111,7 +110,7 @@ export async function runMigrations(): Promise<void> {
         updated_at            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
         quote_ref             TEXT NOT NULL UNIQUE,
         lead_id               INTEGER NOT NULL REFERENCES leads(id) ON DELETE CASCADE,
-        status                TEXT NOT NULL DEFAULT 'pending',
+        status                quote_status NOT NULL DEFAULT 'pending',
         customer_name         TEXT NOT NULL,
         customer_email        TEXT NOT NULL,
         customer_mobile       TEXT NOT NULL,
@@ -138,6 +137,11 @@ export async function runMigrations(): Promise<void> {
         accepted_at           TIMESTAMPTZ
       )
     `);
+    // Safety net: convert pre-existing installs that had status as TEXT
+    await client.query(`DO $$ BEGIN
+      ALTER TABLE quotes ALTER COLUMN status TYPE quote_status USING status::quote_status;
+      ALTER TABLE quotes ALTER COLUMN status SET DEFAULT 'pending';
+    EXCEPTION WHEN others THEN NULL; END $$`);
 
     // ── corporate_applications ─────────────────────────────────────────────
     await client.query(`
@@ -145,9 +149,9 @@ export async function runMigrations(): Promise<void> {
         id                          SERIAL PRIMARY KEY,
         created_at                  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
         updated_at                  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-        status                      TEXT NOT NULL DEFAULT 'new',
+        status                      corporate_app_status NOT NULL DEFAULT 'new',
         company_name                TEXT NOT NULL,
-        organisation_type           TEXT NOT NULL,
+        organisation_type           organisation_type NOT NULL,
         company_address             TEXT NOT NULL,
         city                        TEXT NOT NULL,
         postcode                    TEXT NOT NULL,
@@ -167,6 +171,14 @@ export async function runMigrations(): Promise<void> {
         assigned_to                 TEXT
       )
     `);
+    // Safety net: convert pre-existing installs that had status/organisation_type as TEXT
+    await client.query(`DO $$ BEGIN
+      ALTER TABLE corporate_applications ALTER COLUMN status TYPE corporate_app_status USING status::corporate_app_status;
+      ALTER TABLE corporate_applications ALTER COLUMN status SET DEFAULT 'new';
+    EXCEPTION WHEN others THEN NULL; END $$`);
+    await client.query(`DO $$ BEGIN
+      ALTER TABLE corporate_applications ALTER COLUMN organisation_type TYPE organisation_type USING organisation_type::organisation_type;
+    EXCEPTION WHEN others THEN NULL; END $$`);
 
     logger.info("Database migrations complete");
   } catch (err) {

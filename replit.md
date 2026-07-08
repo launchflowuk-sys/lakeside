@@ -1,6 +1,16 @@
 # Lakeside & Purfleet Taxis Ltd
 
+**No Replit dependencies. This project lives on the owner's own server — deployed via GitHub → Coolify, not Replit.** Replit is used only as the development environment; production runs in Docker Compose on a self-hosted server with its own PostgreSQL database (see "Production deployment" below).
+
 Lead-generation taxi website for Lakeside & Purfleet Taxis Ltd (Thurrock, Essex, UK). Public multi-page frontend for enquiry capture + admin backend for lead management. No live booking or payment — enquiry capture and manual follow-up only.
+
+## Production deployment
+
+- **Pipeline**: push to GitHub (`launchflowuk-sys/lakeside`, main branch) → Coolify auto-builds and redeploys from `docker-compose.yml`.
+- **Services**: `frontend` (nginx serving the built React app, proxies `/api` to `api`), `api` (Express, port 8080), `db` (Postgres 16).
+- **Data persistence**: Postgres data is a host bind mount (`/var/lib/lakeside/postgres:/var/lib/postgresql/data`), NOT a named Docker volume — this survives every redeploy. Only manually deleting that folder on the server would wipe data.
+- **Migrations**: run automatically on API container startup (`runMigrations()` in `artifacts/api-server/src/lib/migrate.ts`). Every migration statement must be safe to re-run on both fresh and existing databases (fresh DB on first deploy, already-migrated DB on every redeploy after).
+- **No Replit services in production**: no `@replit/*` runtime packages, no Replit auth/db/storage. Only harmless `// @replit` code comments remain in some shadcn UI components — not dependencies.
 
 ## Run & Operate
 

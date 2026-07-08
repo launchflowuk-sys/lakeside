@@ -63,4 +63,10 @@ app.use(
 
 app.use("/api", router);
 
+app.use((err: unknown, req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  req.log?.error({ err }, "Unhandled error in request handler");
+  if (res.headersSent) return;
+  res.status(500).json({ error: "Something went wrong. Please try again or call us directly." });
+});
+
 export default app;
