@@ -1,0 +1,21 @@
+{"level":30,"time":1783538334229,"pid":1,"hostname":"94f035049c8f","msg":"Running database migrations…"}
+{"level":30,"time":1783538334276,"pid":1,"hostname":"94f035049c8f","msg":"Database migrations complete"}
+{"level":30,"time":1783538334563,"pid":1,"hostname":"94f035049c8f","email":"<REDACTED>","msg":"Admin seed: account ready"}
+{"level":30,"time":1783538334564,"pid":1,"hostname":"94f035049c8f","port":8080,"msg":"Server listening"}
+{"level":30,"time":1783538357936,"pid":1,"hostname":"94f035049c8f","req":{"id":1,"method":"GET","url":"/api/reviews"},"res":{"statusCode":200},"responseTime":153,"msg":"request completed"}
+{"level":30,"time":1783538370362,"pid":1,"hostname":"94f035049c8f","req":{"id":2,"method":"GET","url":"/api/admin/auth/me"},"res":{"statusCode":401},"responseTime":25,"msg":"request completed"}
+{"level":30,"time":1783538380359,"pid":1,"hostname":"94f035049c8f","req":{"id":3,"method":"POST","url":"/api/admin/auth/login"},"res":{"statusCode":200},"responseTime":314,"msg":"request completed"}
+{"level":30,"time":1783538388343,"pid":1,"hostname":"94f035049c8f","req":{"id":4,"method":"GET","url":"/api/admin/auth/me"},"res":{"statusCode":200},"responseTime":3,"msg":"request completed"}
+{"level":30,"time":1783538389913,"pid":1,"hostname":"94f035049c8f","req":{"id":5,"method":"GET","url":"/api/admin/stats"},"res":{"statusCode":null},"responseTime":4,"msg":"request aborted"}
+{"level":30,"time":1783538389929,"pid":1,"hostname":"94f035049c8f","req":{"id":6,"method":"GET","url":"/api/admin/auth/me"},"res":{"statusCode":304},"responseTime":15,"msg":"request completed"}
+{"level":30,"time":1783538406110,"pid":1,"hostname":"94f035049c8f","req":{"id":7,"method":"GET","url":"/api/admin/leads"},"res":{"statusCode":200},"responseTime":36,"msg":"request completed"}
+{"level":30,"time":1783538480750,"pid":1,"hostname":"94f035049c8f","req":{"id":8,"method":"POST","url":"/api/leads"},"leadId":3,"msg":"Lead inserted successfully"}
+{"level":30,"time":1783538481160,"pid":1,"hostname":"94f035049c8f","leadId":3,"msg":"New lead notification sent"}
+{"level":30,"time":1783538481163,"pid":1,"hostname":"94f035049c8f","leadId":3,"msg":"Customer confirmation sent"}
+{"level":30,"time":1783538481166,"pid":1,"hostname":"94f035049c8f","req":{"id":8,"method":"POST","url":"/api/leads"},"res":{"statusCode":201},"responseTime":437,"msg":"request completed"}
+{"level":30,"time":1783538494663,"pid":1,"hostname":"94f035049c8f","req":{"id":9,"method":"GET","url":"/api/admin/auth/me"},"res":{"statusCode":null},"responseTime":9,"msg":"request aborted"}
+{"level":30,"time":1783538502739,"pid":1,"hostname":"94f035049c8f","req":{"id":10,"method":"POST","url":"/api/admin/auth/login"},"res":{"statusCode":200},"responseTime":304,"msg":"request completed"}
+{"level":30,"time":1783538723252,"pid":1,"hostname":"94f035049c8f","req":{"id":11,"method":"GET","url":"/api/admin/auth/me"},"res":{"statusCode":200},"responseTime":21,"msg":"request completed"}
+{"level":30,"time":1783538725205,"pid":1,"hostname":"94f035049c8f","req":{"id":12,"method":"GET","url":"/api/admin/stats"},"res":{"statusCode":null},"responseTime":6,"msg":"request aborted"}
+{"level":30,"time":1783538730184,"pid":1,"hostname":"94f035049c8f","req":{"id":13,"method":"POST","url":"/api/admin/auth/login"},"res":{"statusCode":200},"responseTime":295,"msg":"request completed"}
+{"level":30,"time":1783538764934,"pid":1,"hostname":"94f035049c8f","req":{"id":14,"method":"GET","url":"/api/admin/auth/me"},"res":{"statusCode":200},"responseTime":14,"msg":"request completed"}

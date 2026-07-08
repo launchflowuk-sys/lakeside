@@ -1,13 +1,26 @@
 ---
 name: Coolify healthcheck pitfall
-description: nginx:alpine has no wget or curl — a healthcheck using either marks the container unhealthy, causing Traefik to silently refuse all traffic despite the container running fine.
+description: Neither nginx:alpine NOR node:24-slim include wget/curl — a failing healthcheck causes dual-container split-brain, not just traffic loss.
 ---
 
 # Coolify healthcheck pitfall
 
 ## The rule
-Do not add a `healthcheck` to the `frontend` service when using `nginx:1.27-alpine`. That image has no `wget` or `curl`, so the healthcheck always fails, Docker marks the container unhealthy, and Coolify/Traefik drops all incoming traffic with "no available server" — even though nginx is running perfectly.
+Never use `wget` or `curl` in healthchecks without first verifying the base image includes them. Both `nginx:alpine` and `node:24-slim` lack both tools. A failing healthcheck causes Docker to mark the container unhealthy — Coolify then keeps the OLD container running alongside the new one (dual-container split-brain). All resulting symptoms look like code bugs.
 
-**Why:** `nginx:alpine` is a minimal image. Busybox is present but `wget` is not wired up in the same way, and `curl` is absent entirely.
+**Symptoms of dual-container split-brain:**
+- Same endpoint returns different status codes on consecutive requests (e.g. 401 then 200, 404 then 200)
+- Sessions appear to save then immediately drop (requests to old container have no session)
+- Random 401/403/404/500 errors that disappear on retry
+- Failing requests don't appear in the NEW container's API logs (they hit the old container)
+- nginx logs show e.g. `/api/admin/stats → 404` but API logs show it as `aborted` — two different containers handling two different requests to the same endpoint
 
-**How to apply:** Leave the frontend service without a healthcheck. nginx starting up is sufficient signal. Only add healthchecks to services that have the necessary tooling (e.g. the `api` service uses `node:24-slim` which can run `wget` or a node script, and the `db` service uses `pg_isready`).
+**Why:** Coolify/Traefik load-balances across all running containers for a service. When the new container's healthcheck fails, Docker marks it unhealthy, and Coolify does not cut over — both old (working healthcheck or no healthcheck) and new (unhealthy) containers receive traffic indefinitely.
+
+**How to apply:**
+- `nginx:alpine` frontend — remove the healthcheck entirely; nginx starting is sufficient signal.
+- `node:24-slim` API — use node itself (always present) in the healthcheck:
+  ```yaml
+  test: ["CMD", "node", "-e", "require('http').get('http://localhost:8080/api/healthz', r => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
+  ```
+- `postgres:16-alpine` DB — `pg_isready` is built in, safe to use.
