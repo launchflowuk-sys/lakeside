@@ -23,12 +23,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const [location, setLocation] = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const queryClient = useQueryClient();
-  const { data: me } = useGetAdminMe({ query: { queryKey: getGetAdminMeQueryKey(), retry: false } });
+  const { data: me, isLoading } = useGetAdminMe({
+    query: { queryKey: getGetAdminMeQueryKey(), retry: 1, retryDelay: 500 },
+  });
   const logout = useAdminLogout();
 
   useEffect(() => {
-    if (!me) setLocation("/admin/login");
-  }, [me, setLocation]);
+    if (!isLoading && !me) setLocation("/admin/login");
+  }, [me, isLoading, setLocation]);
 
   const handleLogout = () => {
     logout.mutate(undefined, {
