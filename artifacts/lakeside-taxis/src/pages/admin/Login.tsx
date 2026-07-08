@@ -20,7 +20,7 @@ type LoginForm = z.infer<typeof loginSchema>;
 export default function AdminLogin() {
   const [, setLocation] = useLocation();
   const queryClient = useQueryClient();
-  const { data: me } = useGetAdminMe({ query: { queryKey: getGetAdminMeQueryKey(), retry: false } });
+  const { data: me } = useGetAdminMe({ query: { queryKey: getGetAdminMeQueryKey(), retry: false, staleTime: Infinity, refetchOnWindowFocus: false } });
   const login = useAdminLogin();
 
   useEffect(() => {

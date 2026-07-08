@@ -37,11 +37,17 @@ router.post("/admin/auth/login", async (req, res): Promise<void> => {
   req.session.adminUserName = user.name;
   req.session.adminUserRole = user.role;
 
-  res.json({
-    id: user.id,
-    email: user.email,
-    name: user.name,
-    role: user.role,
+  req.session.save((err) => {
+    if (err) {
+      res.status(500).json({ error: "Login failed" });
+      return;
+    }
+    res.json({
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+    });
   });
 });
 
