@@ -1,9 +1,10 @@
 import { Router, type IRouter } from "express";
 import { pool } from "@workspace/db";
+import { requireAdmin } from "../middlewares/requireAdmin";
 
 const router: IRouter = Router();
 
-router.get("/admin/auth/debug", async (req, res): Promise<void> => {
+router.get("/admin/auth/debug", requireAdmin, async (req, res): Promise<void> => {
   const token = process.env.DEBUG_TOKEN;
   if (!token || req.query.token !== token) {
     res.status(404).end();

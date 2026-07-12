@@ -49,11 +49,11 @@ export default function AdminSettings() {
             ))}
           </ul>
         </div>
-        {/* Default password note */}
+        {/* Admin credentials note */}
         <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 text-sm">
-          <p className="text-yellow-400 font-semibold mb-1">Default credentials</p>
-          <p className="text-foreground/70">Default admin login: <span className="font-mono">admin@lakesidetaxi.co.uk</span> / <span className="font-mono">admin123</span></p>
-          <p className="text-foreground/60 text-xs mt-1">Change the admin password before going live.</p>
+          <p className="text-yellow-400 font-semibold mb-1">Admin credentials</p>
+          <p className="text-foreground/70">The admin login is set via the <span className="font-mono">ADMIN_EMAIL</span> and <span className="font-mono">ADMIN_PASSWORD</span> environment variables on the server.</p>
+          <p className="text-foreground/60 text-xs mt-1">Rotate <span className="font-mono">ADMIN_PASSWORD</span> and redeploy to change the password.</p>
         </div>
       </div>
     </AdminLayout>

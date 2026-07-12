@@ -31,8 +31,26 @@ app.use(
   }),
 );
 
+const ALLOWED_ORIGINS = ["https://lakesidetaxi.co.uk"];
+const DEV_ORIGIN_PATTERN = /^http:\/\/localhost:\d+$/;
+
 app.use(cors({
-  origin: true,
+  origin(origin, callback) {
+    // No Origin header (same-origin requests, curl, healthchecks) — allow.
+    if (!origin) {
+      callback(null, true);
+      return;
+    }
+    if (ALLOWED_ORIGINS.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+    if (process.env.NODE_ENV !== "production" && DEV_ORIGIN_PATTERN.test(origin)) {
+      callback(null, true);
+      return;
+    }
+    callback(new Error(`Origin ${origin} not allowed by CORS`));
+  },
   credentials: true,
 }));
 
@@ -40,7 +58,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const PgSession = connectPgSimple(session);
-const sessionSecret = process.env.SESSION_SECRET ?? "lakeside-taxis-secret-change-in-production";
+const sessionSecret = process.env.SESSION_SECRET;
+
+if (!sessionSecret) {
+  throw new Error("SESSION_SECRET environment variable is required but was not provided.");
+}
 
 app.use(
   session({

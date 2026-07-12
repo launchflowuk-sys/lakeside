@@ -1,10 +1,20 @@
 import { Router, type IRouter } from "express";
+import rateLimit from "express-rate-limit";
 import { eq } from "drizzle-orm";
 import { db, leadsTable, quotesTable } from "@workspace/db";
 import { CreateQuoteBody } from "@workspace/api-zod";
 import { requireAdmin } from "../middlewares/requireAdmin";
+import { quoteRefRateLimit } from "../middlewares/quoteRefRateLimit";
 
 const router: IRouter = Router();
+
+const quoteIpRateLimit = rateLimit({
+  windowMs: 60_000,
+  limit: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "Too many requests. Please try again later." },
+});
 
 function generateRef(): string {
   const num = Math.floor(1000 + Math.random() * 9000);
@@ -119,14 +129,14 @@ router.get("/admin/leads/:id/quote", requireAdmin, async (req, res): Promise<voi
   res.json(serializeQuote(quote));
 });
 
-router.get("/quotes/:ref", async (req, res): Promise<void> => {
+router.get("/quotes/:ref", quoteIpRateLimit, quoteRefRateLimit, async (req, res): Promise<void> => {
   const ref = Array.isArray(req.params.ref) ? req.params.ref[0] : req.params.ref;
   const [quote] = await db.select().from(quotesTable).where(eq(quotesTable.quoteRef, ref));
   if (!quote) { res.status(404).json({ error: "Quote not found" }); return; }
   res.json(serializeQuote(quote));
 });
 
-router.post("/quotes/:ref/accept", async (req, res): Promise<void> => {
+router.post("/quotes/:ref/accept", quoteIpRateLimit, quoteRefRateLimit, async (req, res): Promise<void> => {
   const ref = Array.isArray(req.params.ref) ? req.params.ref[0] : req.params.ref;
   const [quote] = await db.select().from(quotesTable).where(eq(quotesTable.quoteRef, ref));
   if (!quote) { res.status(404).json({ error: "Quote not found" }); return; }
