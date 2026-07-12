@@ -27,7 +27,7 @@ Lead-generation taxi website for Lakeside & Purfleet Taxis Ltd (Thurrock, Essex,
 - pnpm workspaces, Node.js 24, TypeScript 5.9
 - Frontend: React + Vite (wouter routing, TanStack Query, react-helm-async, Tailwind CSS)
 - API: Express 5 + express-session (admin auth), bcryptjs (password hashing)
-- DB: PostgreSQL + Drizzle ORM (tables: `leads`, `admin_users`, `lead_replies`)
+- DB: PostgreSQL + Drizzle ORM (tables: `leads`, `admin_users`, `lead_replies`, `corporate_applications`, `quotes`, `admin_sessions`)
 - Validation: Zod (`zod/v4`), `drizzle-zod`
 - API codegen: Orval (from OpenAPI spec)
 - Email: nodemailer (SMTP, optional — set env vars to enable)
@@ -35,7 +35,7 @@ Lead-generation taxi website for Lakeside & Purfleet Taxis Ltd (Thurrock, Essex,
 
 ## Where things live
 
-- `lib/db/src/schema/` — DB schema (leads, admin_users, lead_replies)
+- `lib/db/src/schema/` — DB schema (leads, admin_users, lead_replies, corporate_applications, quotes; `admin_sessions` is created directly in `migrate.ts`, not part of the Drizzle schema)
 - `lib/api-spec/` — OpenAPI spec (source of truth for API contract)
 - `lib/api-client-react/src/generated/` — generated React Query hooks and Zod schemas
 - `artifacts/lakeside-taxis/src/` — React frontend
@@ -68,10 +68,10 @@ Lead-generation taxi website for Lakeside & Purfleet Taxis Ltd (Thurrock, Essex,
 
 ## Gotchas
 
-- Default admin login: `admin@lakesidetaxi.co.uk` / `admin123` — **change before going live**
+- Admin login is seeded from the `ADMIN_EMAIL` / `ADMIN_PASSWORD` environment variables on every server boot — there is no default credential baked into the code
 - Email notifications require SMTP env vars: `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`, `ADMIN_EMAIL`
 - API proxy path is `/api` — frontend uses relative URLs through the shared Replit proxy
-- Session cookies use `sameSite: "lax"` in dev, `"strict"` in production
+- Session cookies always use `sameSite: "lax"` (dev and production)
 - Phone: 01375 383878 | WhatsApp: 07879 956275 (wa.me/447879956275) | Email: info@lakesidetaxi.co.uk — set globally via `src/lib/constants.ts`
 
 ## Pointers

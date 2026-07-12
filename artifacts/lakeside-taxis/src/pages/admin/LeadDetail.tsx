@@ -50,7 +50,8 @@ export default function AdminLeadDetail({ id }: { id: string }) {
   const { data: lead, isLoading } = useGetAdminLead(leadId, { query: { enabled: !!leadId, queryKey: getGetAdminLeadQueryKey(leadId), staleTime: 30_000, refetchOnWindowFocus: false } });
   const { data: replies } = useGetLeadReplies(leadId, { query: { enabled: !!leadId, queryKey: getGetLeadRepliesQueryKey(leadId), staleTime: 30_000, refetchOnWindowFocus: false } });
   const { data: existingQuote } = useGetLeadQuote(leadId, { query: { enabled: !!leadId, queryKey: getGetLeadQuoteQueryKey(leadId), retry: false, staleTime: 30_000, refetchOnWindowFocus: false } });
-  const updateLead = useUpdateAdminLead();
+  const updateLeadStatus = useUpdateAdminLead();
+  const updateLeadNotes = useUpdateAdminLead();
   const replyToLead = useReplyToLead();
   const createQuote = useCreateQuote();
 
@@ -83,11 +84,11 @@ export default function AdminLeadDetail({ id }: { id: string }) {
   };
 
   const handleStatusChange = (status: string) => {
-    updateLead.mutate({ id: leadId, data: { status: status as any } }, { onSuccess: refresh });
+    updateLeadStatus.mutate({ id: leadId, data: { status: status as any } }, { onSuccess: refresh });
   };
 
   const handleSaveNotes = () => {
-    updateLead.mutate(
+    updateLeadNotes.mutate(
       { id: leadId, data: { adminNotes: adminNotes || lead?.adminNotes || undefined, quotedPrice: quotedPrice || lead?.quotedPrice || undefined, assignedDriver: assignedDriver || lead?.assignedDriver || undefined, bookingReference: bookingRef || lead?.bookingReference || undefined } },
       { onSuccess: () => { refresh(); setSavedNote(true); setTimeout(() => setSavedNote(false), 2000); } }
     );
@@ -506,7 +507,7 @@ export default function AdminLeadDetail({ id }: { id: string }) {
                 <button
                   key={s}
                   onClick={() => handleStatusChange(s)}
-                  disabled={lead.status === s || updateLead.isPending}
+                  disabled={lead.status === s || updateLeadStatus.isPending}
                   className={`w-full text-left px-3 py-2 rounded-lg text-sm capitalize transition-colors ${
                     lead.status === s
                       ? "bg-primary/10 text-primary border border-primary/30"
@@ -518,6 +519,9 @@ export default function AdminLeadDetail({ id }: { id: string }) {
                 </button>
               ))}
             </div>
+            {updateLeadStatus.isError && (
+              <p className="text-red-400 text-xs mt-2">Failed to update status. Please try again.</p>
+            )}
           </div>
 
           {/* Admin Notes */}
@@ -564,13 +568,16 @@ export default function AdminLeadDetail({ id }: { id: string }) {
               </div>
               <Button
                 onClick={handleSaveNotes}
-                disabled={updateLead.isPending}
+                disabled={updateLeadNotes.isPending}
                 size="sm"
                 className="w-full bg-primary text-primary-foreground"
                 data-testid="btn-save-notes"
               >
-                {savedNote ? <><CheckCircle2 className="w-3.5 h-3.5 mr-1" /> Saved</> : updateLead.isPending ? "Saving..." : "Save Changes"}
+                {savedNote ? <><CheckCircle2 className="w-3.5 h-3.5 mr-1" /> Saved</> : updateLeadNotes.isPending ? "Saving..." : "Save Changes"}
               </Button>
+              {updateLeadNotes.isError && (
+                <p className="text-red-400 text-xs">Failed to save changes. Please try again.</p>
+              )}
             </div>
           </div>
 
