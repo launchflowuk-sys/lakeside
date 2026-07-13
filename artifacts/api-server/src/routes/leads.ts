@@ -5,7 +5,21 @@ import { sendNewLeadNotification, sendCustomerConfirmation } from "../lib/email"
 
 const router: IRouter = Router();
 
+// TEMPORARY — remove once the POST /api/leads 400s are diagnosed. Logs the
+// raw request body for the first 10 submissions (success or failure) so we
+// can see exactly what a failing payload contains.
+let leadSubmissionLogCount = 0;
+const MAX_LEAD_SUBMISSION_LOGS = 10;
+
 router.post("/leads", async (req, res): Promise<void> => {
+  if (leadSubmissionLogCount < MAX_LEAD_SUBMISSION_LOGS) {
+    leadSubmissionLogCount++;
+    req.log.warn(
+      { body: req.body, count: leadSubmissionLogCount },
+      "TEMP DEBUG: raw lead submission body",
+    );
+  }
+
   const parsed = SubmitLeadBody.safeParse(req.body);
   if (!parsed.success) {
     req.log.warn({ err: parsed.error.message }, "Lead submission failed validation");

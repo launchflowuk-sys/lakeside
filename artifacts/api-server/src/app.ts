@@ -33,6 +33,9 @@ app.use(
 
 const ALLOWED_ORIGINS = ["https://lakesidetaxi.co.uk"];
 const DEV_ORIGIN_PATTERN = /^http:\/\/localhost:\d+$/;
+// TEMPORARY / TESTING-ONLY — Coolify preview URL, before the real domain is
+// wired up. Remove this once lakesidetaxi.co.uk is the only place traffic hits.
+const SSLIP_PREVIEW_PATTERN = /^https:\/\/[a-zA-Z0-9.-]+\.sslip\.io$/;
 
 app.use(cors({
   origin(origin, callback) {
@@ -42,6 +45,10 @@ app.use(cors({
       return;
     }
     if (ALLOWED_ORIGINS.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+    if (SSLIP_PREVIEW_PATTERN.test(origin)) {
       callback(null, true);
       return;
     }
