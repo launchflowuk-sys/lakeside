@@ -31,11 +31,15 @@ app.use(
   }),
 );
 
-const ALLOWED_ORIGINS = ["https://lakesidetaxi.co.uk"];
+// TEMPORARY — "https://b120tdgae25c9y9ggu6pze9w.178.105.149.221.sslip.io" is
+// this project's Coolify-generated preview URL, allowed only until
+// lakesidetaxi.co.uk is wired up as the real domain. Remove that entry once
+// the real domain is live and traffic no longer needs the preview URL.
+const ALLOWED_ORIGINS = [
+  "https://lakesidetaxi.co.uk",
+  "https://b120tdgae25c9y9ggu6pze9w.178.105.149.221.sslip.io",
+];
 const DEV_ORIGIN_PATTERN = /^http:\/\/localhost:\d+$/;
-// TEMPORARY / TESTING-ONLY — Coolify preview URL, before the real domain is
-// wired up. Remove this once lakesidetaxi.co.uk is the only place traffic hits.
-const SSLIP_PREVIEW_PATTERN = /^https:\/\/[a-zA-Z0-9.-]+\.sslip\.io$/;
 
 app.use(cors({
   origin(origin, callback) {
@@ -45,10 +49,6 @@ app.use(cors({
       return;
     }
     if (ALLOWED_ORIGINS.includes(origin)) {
-      callback(null, true);
-      return;
-    }
-    if (SSLIP_PREVIEW_PATTERN.test(origin)) {
       callback(null, true);
       return;
     }
