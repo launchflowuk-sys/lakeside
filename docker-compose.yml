@@ -45,7 +45,15 @@ services:
       db:
         condition: service_healthy
     networks:
-      - internal
+      internal:
+        # Globally-unique alias. The frontend container stays on the shared
+        # "coolify" network (required for Traefik) alongside every other app
+        # on the server, and Docker's embedded DNS can resolve a bare "api"
+        # across every network a multi-homed container touches — not just
+        # this one. A generic name like "api" is not safe to rely on; this
+        # alias can't collide with anything else on the box.
+        aliases:
+          - lakeside-taxis-api
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "node", "-e", "require('http').get('http://localhost:8080/api/healthz', r => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
