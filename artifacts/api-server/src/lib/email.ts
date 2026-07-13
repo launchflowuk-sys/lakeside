@@ -25,6 +25,15 @@ function createTransport() {
       user: SMTP_USER,
       pass: SMTP_PASS,
     },
+    // Without these, nodemailer's defaults allow a broken/unreachable SMTP
+    // server to hang the connection for up to 2 minutes — and since lead
+    // submission awaits email sending before responding, that hangs the
+    // customer's request too. Fail fast instead; the lead is already saved
+    // in the database before this runs, so a failed/slow email never loses
+    // data, it just gets logged (see the catch block around the callers).
+    connectionTimeout: 10_000,
+    greetingTimeout: 10_000,
+    socketTimeout: 10_000,
   });
 }
 
