@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import AddressAutocomplete from "@/components/AddressAutocomplete";
 import { useSubmitLead } from "@workspace/api-client-react";
 import {
   Car, Plane, GraduationCap, Briefcase, Anchor, Users, CheckCircle2,
@@ -256,12 +257,20 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
             <h3 className="font-display font-bold text-lg text-foreground mb-2">Journey details</h3>
             <div>
               <Label htmlFor="pickup">Pickup location *</Label>
-              <Input
-                id="pickup"
-                {...step2Form.register("pickupLocation")}
-                placeholder="e.g. 12 High Street, Grays"
-                className="mt-1"
-                data-testid="input-pickup"
+              <Controller
+                name="pickupLocation"
+                control={step2Form.control}
+                render={({ field }) => (
+                  <AddressAutocomplete
+                    id="pickup"
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    onBlur={field.onBlur}
+                    placeholder="e.g. 12 High Street, Grays"
+                    className="mt-1"
+                    data-testid="input-pickup"
+                  />
+                )}
               />
               {step2Form.formState.errors.pickupLocation && (
                 <p className="text-destructive text-xs mt-1">{step2Form.formState.errors.pickupLocation.message}</p>
@@ -269,12 +278,20 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
             </div>
             <div>
               <Label htmlFor="destination">Destination *</Label>
-              <Input
-                id="destination"
-                {...step2Form.register("destination")}
-                placeholder="e.g. Heathrow Terminal 5"
-                className="mt-1"
-                data-testid="input-destination"
+              <Controller
+                name="destination"
+                control={step2Form.control}
+                render={({ field }) => (
+                  <AddressAutocomplete
+                    id="destination"
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    onBlur={field.onBlur}
+                    placeholder="e.g. Heathrow Terminal 5"
+                    className="mt-1"
+                    data-testid="input-destination"
+                  />
+                )}
               />
               {step2Form.formState.errors.destination && (
                 <p className="text-destructive text-xs mt-1">{step2Form.formState.errors.destination.message}</p>
