@@ -10,6 +10,7 @@ import reviewsRouter from "./reviews";
 import quotesRouter from "./quotes";
 import debugRouter from "./debug";
 import webhooksRouter from "./webhooks";
+import adminPaymentLinksRouter from "./admin-payment-links";
 
 const router: IRouter = Router();
 
@@ -24,5 +25,6 @@ router.use(reviewsRouter);
 router.use(quotesRouter);
 router.use(debugRouter);
 router.use(webhooksRouter);
+router.use(adminPaymentLinksRouter);
 
 export default router;

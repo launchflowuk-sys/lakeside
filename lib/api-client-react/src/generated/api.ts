@@ -20,6 +20,8 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  AdhocPaymentLink,
+  AdhocPaymentLinkListResponse,
   AdminLoginInput,
   AdminStats,
   AdminUser,
@@ -27,6 +29,7 @@ import type {
   CorporateApplicationInput,
   CorporateApplicationListResponse,
   CorporateApplicationUpdate,
+  CreateAdhocPaymentLinkInput,
   CreateQuoteInput,
   ErrorResponse,
   HealthStatus,
@@ -1690,5 +1693,153 @@ export const useDeleteAdminCorporateApplication = <TError = ErrorType<unknown>,
         TContext
       > => {
       return useMutation(getDeleteAdminCorporateApplicationMutationOptions(options));
+    }
+
+export const getListAdminPaymentLinksUrl = () => {
+
+
+
+
+  return `/api/admin/payment-links`
+}
+
+/**
+ * @summary List ad-hoc payment links
+ */
+export const listAdminPaymentLinks = async ( options?: RequestInit): Promise<AdhocPaymentLinkListResponse> => {
+
+  return customFetch<AdhocPaymentLinkListResponse>(getListAdminPaymentLinksUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListAdminPaymentLinksQueryKey = () => {
+    return [
+    `/api/admin/payment-links`
+    ] as const;
+    }
+
+
+export const getListAdminPaymentLinksQueryOptions = <TData = Awaited<ReturnType<typeof listAdminPaymentLinks>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listAdminPaymentLinks>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListAdminPaymentLinksQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listAdminPaymentLinks>>> = ({ signal }) => listAdminPaymentLinks({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listAdminPaymentLinks>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ListAdminPaymentLinksQueryResult = NonNullable<Awaited<ReturnType<typeof listAdminPaymentLinks>>>
+export type ListAdminPaymentLinksQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary List ad-hoc payment links
+ */
+
+export function useListAdminPaymentLinks<TData = Awaited<ReturnType<typeof listAdminPaymentLinks>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listAdminPaymentLinks>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getListAdminPaymentLinksQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
+
+export const getCreateAdminPaymentLinkUrl = () => {
+
+
+
+
+  return `/api/admin/payment-links`
+}
+
+/**
+ * @summary Create an ad-hoc Square payment link for an arbitrary amount
+ */
+export const createAdminPaymentLink = async (createAdhocPaymentLinkInput: CreateAdhocPaymentLinkInput, options?: RequestInit): Promise<AdhocPaymentLink> => {
+
+  return customFetch<AdhocPaymentLink>(getCreateAdminPaymentLinkUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      createAdhocPaymentLinkInput,)
+  }
+);}
+
+
+
+
+export const getCreateAdminPaymentLinkMutationOptions = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createAdminPaymentLink>>, TError,{data: BodyType<CreateAdhocPaymentLinkInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createAdminPaymentLink>>, TError,{data: BodyType<CreateAdhocPaymentLinkInput>}, TContext> => {
+
+const mutationKey = ['createAdminPaymentLink'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createAdminPaymentLink>>, {data: BodyType<CreateAdhocPaymentLinkInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createAdminPaymentLink(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateAdminPaymentLinkMutationResult = NonNullable<Awaited<ReturnType<typeof createAdminPaymentLink>>>
+    export type CreateAdminPaymentLinkMutationBody = BodyType<CreateAdhocPaymentLinkInput>
+    export type CreateAdminPaymentLinkMutationError = ErrorType<ErrorResponse>
+
+    /**
+ * @summary Create an ad-hoc Square payment link for an arbitrary amount
+ */
+export const useCreateAdminPaymentLink = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createAdminPaymentLink>>, TError,{data: BodyType<CreateAdhocPaymentLinkInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof createAdminPaymentLink>>,
+        TError,
+        {data: BodyType<CreateAdhocPaymentLinkInput>},
+        TContext
+      > => {
+      return useMutation(getCreateAdminPaymentLinkMutationOptions(options));
     }
 

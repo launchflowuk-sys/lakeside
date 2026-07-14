@@ -56,6 +56,7 @@ import AdminBooked from "@/pages/admin/Booked";
 import AdminSettings from "@/pages/admin/Settings";
 import AdminCorporateApplications from "@/pages/admin/CorporateApplications";
 import AdminCorporateApplicationDetail from "@/pages/admin/CorporateApplicationDetail";
+import AdminPaymentLinks from "@/pages/admin/PaymentLinks";
 
 import QuotePage from "@/pages/QuotePage";
 import NotFound from "@/pages/not-found";
@@ -124,6 +125,7 @@ function Router() {
       <Route path="/admin/settings" component={AdminSettings} />
       <Route path="/admin/corporate/:id" component={AdminCorporateApplicationDetail} />
       <Route path="/admin/corporate" component={AdminCorporateApplications} />
+      <Route path="/admin/payment-links" component={AdminPaymentLinks} />
       <Route path="/admin" component={AdminDashboard} />
 
       <Route component={NotFound} />

@@ -18,6 +18,7 @@ export async function runMigrations(): Promise<void> {
     // the same transaction as an earlier use of the type, but each query()
     // call here is its own auto-committed statement, so this is safe.
     await client.query(`ALTER TYPE quote_status ADD VALUE IF NOT EXISTS 'paid'`);
+    await client.query(`DO $$ BEGIN CREATE TYPE adhoc_payment_link_status AS ENUM ('pending','paid'); EXCEPTION WHEN duplicate_object THEN NULL; END $$`);
 
     // ── Detect and fix old leads schema ───────────────────────────────────
     // If the table was created with the old column names ('name' instead of
@@ -156,6 +157,22 @@ export async function runMigrations(): Promise<void> {
     await client.query(`ALTER TABLE quotes ADD COLUMN IF NOT EXISTS square_payment_link_url TEXT`);
     await client.query(`ALTER TABLE quotes ADD COLUMN IF NOT EXISTS square_order_id TEXT`);
     await client.query(`ALTER TABLE quotes ADD COLUMN IF NOT EXISTS square_checkout_id TEXT`);
+
+    // ── adhoc_payment_links ──────────────────────────────────────────────────
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS adhoc_payment_links (
+        id                      SERIAL PRIMARY KEY,
+        created_at              TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        status                  adhoc_payment_link_status NOT NULL DEFAULT 'pending',
+        amount                  INTEGER NOT NULL,
+        description             TEXT NOT NULL,
+        customer_name           TEXT,
+        customer_email          TEXT,
+        square_payment_link_url TEXT,
+        square_order_id         TEXT,
+        created_by              TEXT NOT NULL
+      )
+    `);
 
     // ── corporate_applications ─────────────────────────────────────────────
     await client.query(`

@@ -22,6 +22,8 @@ tags:
     description: Public corporate account applications
   - name: admin-corporate
     description: Admin corporate application management
+  - name: admin-payment-links
+    description: Admin ad-hoc Square payment links (not tied to any lead/quote)
 
 paths:
   /healthz:
@@ -566,6 +568,48 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SuccessResponse"
+
+  /admin/payment-links:
+    get:
+      operationId: listAdminPaymentLinks
+      tags: [admin-payment-links]
+      summary: List ad-hoc payment links
+      responses:
+        "200":
+          description: Payment links
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdhocPaymentLinkListResponse"
+    post:
+      operationId: createAdminPaymentLink
+      tags: [admin-payment-links]
+      summary: Create an ad-hoc Square payment link for an arbitrary amount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAdhocPaymentLinkInput"
+      responses:
+        "201":
+          description: Payment link created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdhocPaymentLink"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "502":
+          description: Square is not configured or the payment link could not be created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
 components:
   schemas:
@@ -1216,4 +1260,61 @@ components:
         bankAccountName:
           type: string
         adminMessage:
+          type: string
+
+    AdhocPaymentLink:
+      type: object
+      required:
+        - id
+        - status
+        - amount
+        - description
+        - createdBy
+        - createdAt
+      properties:
+        id:
+          type: integer
+        status:
+          type: string
+          enum: [pending, paid]
+        amount:
+          type: integer
+          description: Minor currency units (pence)
+        description:
+          type: string
+        customerName:
+          type: ["string", "null"]
+        customerEmail:
+          type: ["string", "null"]
+        squarePaymentLinkUrl:
+          type: ["string", "null"]
+        createdBy:
+          type: string
+        createdAt:
+          type: string
+
+    AdhocPaymentLinkListResponse:
+      type: object
+      required:
+        - paymentLinks
+      properties:
+        paymentLinks:
+          type: array
+          items:
+            $ref: "#/components/schemas/AdhocPaymentLink"
+
+    CreateAdhocPaymentLinkInput:
+      type: object
+      required:
+        - amount
+        - description
+      properties:
+        amount:
+          type: integer
+          description: Minor currency units (pence)
+        description:
+          type: string
+        customerName:
+          type: string
+        customerEmail:
           type: string

@@ -2,7 +2,7 @@ import { Router, type IRouter, type Request } from "express";
 import rateLimit from "express-rate-limit";
 import { eq } from "drizzle-orm";
 import { WebhooksHelper } from "square";
-import { db, quotesTable } from "@workspace/db";
+import { db, quotesTable, adhocPaymentLinksTable } from "@workspace/db";
 import { markQuotePaid } from "./quotes";
 import { logger } from "../lib/logger";
 
@@ -88,25 +88,39 @@ router.post("/webhooks/square", webhookRateLimit, async (req: RequestWithRawBody
 
   const [quote] = await db.select().from(quotesTable).where(eq(quotesTable.squareOrderId, payment.order_id));
 
-  if (!quote) {
-    // Not necessarily an error — could be an ad-hoc payment link (unrelated
-    // to any quote) or an order this app didn't create. Acknowledge either way.
+  if (quote) {
+    if (quote.status === "pending" || quote.status === "accepted") {
+      // Paying online can happen without ever clicking "Accept This Quote" —
+      // a completed payment is itself an implicit acceptance.
+      if (!quote.acceptedAt) {
+        await db.update(quotesTable).set({ acceptedAt: new Date() }).where(eq(quotesTable.id, quote.id));
+      }
+      await markQuotePaid(quote);
+      logger.info({ quoteRef: quote.quoteRef, orderId: payment.order_id }, "Quote marked paid via Square webhook");
+    } else {
+      logger.warn({ quoteRef: quote.quoteRef, status: quote.status }, "Square webhook payment completed but quote already past accepted/pending — skipping");
+    }
     res.status(200).json({ received: true });
     return;
   }
 
-  if (quote.status === "pending" || quote.status === "accepted") {
-    // Paying online can happen without ever clicking "Accept This Quote" —
-    // a completed payment is itself an implicit acceptance.
-    if (!quote.acceptedAt) {
-      await db.update(quotesTable).set({ acceptedAt: new Date() }).where(eq(quotesTable.id, quote.id));
+  // Not a quote payment — check whether it's an ad-hoc payment link instead.
+  const [adhocLink] = await db.select().from(adhocPaymentLinksTable).where(eq(adhocPaymentLinksTable.squareOrderId, payment.order_id));
+
+  if (adhocLink) {
+    if (adhocLink.status === "pending") {
+      await db.update(adhocPaymentLinksTable).set({ status: "paid" }).where(eq(adhocPaymentLinksTable.id, adhocLink.id));
+      logger.info({ adhocLinkId: adhocLink.id, orderId: payment.order_id }, "Ad-hoc payment link marked paid via Square webhook");
+    } else {
+      logger.warn({ adhocLinkId: adhocLink.id, status: adhocLink.status }, "Square webhook payment completed but ad-hoc link already paid — skipping");
     }
-    await markQuotePaid(quote);
-    logger.info({ quoteRef: quote.quoteRef, orderId: payment.order_id }, "Quote marked paid via Square webhook");
-  } else {
-    logger.warn({ quoteRef: quote.quoteRef, status: quote.status }, "Square webhook payment completed but quote already past accepted/pending — skipping");
+    res.status(200).json({ received: true });
+    return;
   }
 
+  // Neither a quote nor an ad-hoc link this app created — could be an order
+  // from elsewhere in the Square account. Acknowledge regardless, since
+  // Square treats anything other than 200 as a failed delivery and retries.
   res.status(200).json({ received: true });
 });
 

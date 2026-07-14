@@ -411,6 +411,42 @@ export interface CreateQuoteInput {
   adminMessage?: string;
 }
 
+export type AdhocPaymentLinkStatus = typeof AdhocPaymentLinkStatus[keyof typeof AdhocPaymentLinkStatus];
+
+
+export const AdhocPaymentLinkStatus = {
+  pending: 'pending',
+  paid: 'paid',
+} as const;
+
+export interface AdhocPaymentLink {
+  id: number;
+  status: AdhocPaymentLinkStatus;
+  /** Minor currency units (pence) */
+  amount: number;
+  description: string;
+  /** @nullable */
+  customerName?: string | null;
+  /** @nullable */
+  customerEmail?: string | null;
+  /** @nullable */
+  squarePaymentLinkUrl?: string | null;
+  createdBy: string;
+  createdAt: string;
+}
+
+export interface AdhocPaymentLinkListResponse {
+  paymentLinks: AdhocPaymentLink[];
+}
+
+export interface CreateAdhocPaymentLinkInput {
+  /** Minor currency units (pence) */
+  amount: number;
+  description: string;
+  customerName?: string;
+  customerEmail?: string;
+}
+
 export type ListAdminLeadsParams = {
 /**
  * Filter by lead status

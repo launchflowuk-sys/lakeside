@@ -6,6 +6,9 @@
  * OpenAPI spec version: 0.1.0
  */
 
+export * from './adhocPaymentLink';
+export * from './adhocPaymentLinkListResponse';
+export * from './adhocPaymentLinkStatus';
 export * from './adminLoginInput';
 export * from './adminStats';
 export * from './adminUser';
@@ -16,6 +19,7 @@ export * from './corporateApplicationListResponse';
 export * from './corporateApplicationStatus';
 export * from './corporateApplicationUpdate';
 export * from './corporateApplicationUpdateStatus';
+export * from './createAdhocPaymentLinkInput';
 export * from './createQuoteInput';
 export * from './errorResponse';
 export * from './healthStatus';

@@ -684,3 +684,32 @@ export const DeleteAdminCorporateApplicationResponse = zod.object({
 })
 
 
+/**
+ * @summary List ad-hoc payment links
+ */
+export const ListAdminPaymentLinksResponse = zod.object({
+  "paymentLinks": zod.array(zod.object({
+  "id": zod.number(),
+  "status": zod.enum(['pending', 'paid']),
+  "amount": zod.number().describe('Minor currency units (pence)'),
+  "description": zod.string(),
+  "customerName": zod.string().nullish(),
+  "customerEmail": zod.string().nullish(),
+  "squarePaymentLinkUrl": zod.string().nullish(),
+  "createdBy": zod.string(),
+  "createdAt": zod.string()
+}))
+})
+
+
+/**
+ * @summary Create an ad-hoc Square payment link for an arbitrary amount
+ */
+export const CreateAdminPaymentLinkBody = zod.object({
+  "amount": zod.number().describe('Minor currency units (pence)'),
+  "description": zod.string(),
+  "customerName": zod.string().optional(),
+  "customerEmail": zod.string().optional()
+})
+
+

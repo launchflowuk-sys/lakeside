@@ -291,3 +291,54 @@ export async function sendAdminReply(opts: {
     logger.error({ err, to: opts.to }, "Failed to send admin reply");
   }
 }
+
+export async function sendPaymentLinkEmail(opts: {
+  to: string;
+  customerName?: string | null;
+  description: string;
+  amountFormatted: string;
+  paymentLinkUrl: string;
+}): Promise<void> {
+  const transporter = createTransport();
+  if (!transporter) {
+    logger.warn("Email not configured — skipping payment link email");
+    return;
+  }
+
+  const greetingName = opts.customerName ? opts.customerName : "there";
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background: #f5b50a; padding: 16px 20px;">
+        <h2 style="margin: 0; color: #0d1017; font-size: 18px;">Lakeside &amp; Purfleet Taxis Ltd</h2>
+      </div>
+      <div style="padding: 24px; background: #ffffff; border: 1px solid #e5e7eb;">
+        <p style="font-size: 16px;">Hi ${greetingName},</p>
+        <p style="font-size: 15px;">${opts.description}</p>
+        <div style="background: #fff8e1; border: 1px solid #f5b50a; border-radius: 6px; padding: 12px 16px; margin: 16px 0;">
+          <p style="margin: 0; font-size: 15px; color: #374151;"><strong>Amount:</strong> ${opts.amountFormatted}</p>
+        </div>
+        <div style="margin-top: 20px;">
+          <a href="${opts.paymentLinkUrl}" style="display: inline-block; background: #f5b50a; color: #0d1017; padding: 12px 24px; text-decoration: none; font-weight: 700; border-radius: 4px; font-size: 15px;">
+            Pay Online Now &rarr;
+          </a>
+        </div>
+        <p style="font-size: 14px; margin-top: 20px;">If you have any questions, contact us directly:</p>
+        <table style="font-size: 14px;">
+          <tr><td style="padding: 3px 12px 3px 0; color: #6b7280;">Phone</td><td><a href="tel:01375383878" style="color: #f5b50a; font-weight: 600;">${BUSINESS_PHONE}</a></td></tr>
+          <tr><td style="padding: 3px 12px 3px 0; color: #6b7280;">WhatsApp</td><td><a href="${BUSINESS_WHATSAPP_HREF}" style="color: #f5b50a; font-weight: 600;">${BUSINESS_WHATSAPP}</a></td></tr>
+        </table>
+        <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 24px 0;" />
+        <p style="font-size: 13px; color: #9ca3af; margin: 0;">
+          <strong>Lakeside &amp; Purfleet Taxis Ltd</strong> &mdash; Thurrock, Essex
+        </p>
+      </div>
+    </div>
+  `;
+
+  try {
+    await transporter.sendMail({ from: SMTP_FROM, to: opts.to, subject: "Your payment link — Lakeside & Purfleet Taxis Ltd", html });
+    logger.info({ to: opts.to }, "Payment link email sent");
+  } catch (err) {
+    logger.error({ err, to: opts.to }, "Failed to send payment link email");
+  }
+}
