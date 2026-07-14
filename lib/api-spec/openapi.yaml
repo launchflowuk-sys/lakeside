@@ -321,6 +321,37 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
+  /admin/leads/{id}/quote/mark-paid:
+    patch:
+      operationId: markQuotePaid
+      tags: [admin-leads]
+      summary: Mark an accepted quote's payment as received (cash / manually confirmed)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Quote marked paid, lead moved to booked
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Quote"
+        "400":
+          description: Quote is not in accepted status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: No quote found for this lead
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
   /quotes/{ref}:
     get:
       operationId: getPublicQuote
@@ -1026,7 +1057,7 @@ components:
           type: integer
         status:
           type: string
-          enum: [pending, accepted, expired, cancelled]
+          enum: [pending, accepted, paid, expired, cancelled]
         customerName:
           type: string
         customerEmail:
@@ -1074,6 +1105,8 @@ components:
         adminMessage:
           type: ["string", "null"]
         acceptedAt:
+          type: ["string", "null"]
+        paidAt:
           type: ["string", "null"]
         createdAt:
           type: string

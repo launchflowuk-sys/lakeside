@@ -332,6 +332,7 @@ export type QuoteStatus = typeof QuoteStatus[keyof typeof QuoteStatus];
 export const QuoteStatus = {
   pending: 'pending',
   accepted: 'accepted',
+  paid: 'paid',
   expired: 'expired',
   cancelled: 'cancelled',
 } as const;
@@ -377,6 +378,8 @@ export interface Quote {
   adminMessage?: string | null;
   /** @nullable */
   acceptedAt?: string | null;
+  /** @nullable */
+  paidAt?: string | null;
   createdAt: string;
 }
 

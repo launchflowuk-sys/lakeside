@@ -12,6 +12,7 @@ export type QuoteStatus = typeof QuoteStatus[keyof typeof QuoteStatus];
 export const QuoteStatus = {
   pending: 'pending',
   accepted: 'accepted',
+  paid: 'paid',
   expired: 'expired',
   cancelled: 'cancelled',
 } as const;

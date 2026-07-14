@@ -51,11 +51,13 @@ function QuoteDetail({ quoteRef }: { quoteRef: string }) {
   }
 
   const isExpired = quote.validUntil < new Date().toISOString().split("T")[0];
-  const isAccepted = quote.status === "accepted" || accepted;
+  const isPaid = quote.status === "paid";
+  const isAccepted = !isPaid && (quote.status === "accepted" || accepted);
   const isCancelled = quote.status === "cancelled";
-  const isPending = !isAccepted && !isCancelled && !isExpired;
+  const isPending = !isPaid && !isAccepted && !isCancelled && !isExpired;
 
   const validUntilFormatted = new Date(quote.validUntil + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+  const journeyDateFormatted = new Date(quote.journeyDate + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
 
   return (
     <div className="qp-card">
@@ -63,8 +65,8 @@ function QuoteDetail({ quoteRef }: { quoteRef: string }) {
       <div className="qp-card-header">
         <div className="qp-logo-row">
           <span className="qp-brand">Lakeside &amp; Purfleet Taxis</span>
-          <span className={`qp-status-badge qp-status-${isAccepted ? "accepted" : isExpired ? "expired" : isCancelled ? "cancelled" : "pending"}`}>
-            {isAccepted ? "Accepted" : isExpired ? "Expired" : isCancelled ? "Cancelled" : "Awaiting Acceptance"}
+          <span className={`qp-status-badge qp-status-${isPaid ? "paid" : isAccepted ? "accepted" : isExpired ? "expired" : isCancelled ? "cancelled" : "pending"}`}>
+            {isPaid ? "Paid" : isAccepted ? "Accepted" : isExpired ? "Expired" : isCancelled ? "Cancelled" : "Awaiting Acceptance"}
           </span>
         </div>
         <div className="qp-ref-row">
@@ -199,6 +201,18 @@ function QuoteDetail({ quoteRef }: { quoteRef: string }) {
           </button>
           {acceptError && <p className="qp-accept-error">{acceptError}</p>}
           <p className="qp-cta-sub">Accepting confirms you'd like to proceed. We'll then be in touch to confirm your booking.</p>
+        </div>
+      )}
+
+      {isPaid && (
+        <div className="qp-accepted-block">
+          <div className="qp-accepted-icon">✓</div>
+          <h3>Payment Received</h3>
+          <p>Thank you! Your payment has been received — see you on {journeyDateFormatted}.</p>
+          <div className="qp-accepted-ctas">
+            <a href={`tel:${PHONE}`} className="qp-btn-primary">Call Us</a>
+            <a href={WHATSAPP_URL} className="qp-btn-outline">WhatsApp</a>
+          </div>
         </div>
       )}
 

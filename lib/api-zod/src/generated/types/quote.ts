@@ -48,5 +48,7 @@ export interface Quote {
   adminMessage?: string | null;
   /** @nullable */
   acceptedAt?: string | null;
+  /** @nullable */
+  paidAt?: string | null;
   createdAt: string;
 }

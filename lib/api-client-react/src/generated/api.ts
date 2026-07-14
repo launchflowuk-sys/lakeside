@@ -1029,6 +1029,76 @@ export function useGetLeadQuote<TData = Awaited<ReturnType<typeof getLeadQuote>>
 
 
 
+export const getMarkQuotePaidUrl = (id: number,) => {
+
+
+
+
+  return `/api/admin/leads/${id}/quote/mark-paid`
+}
+
+/**
+ * @summary Mark an accepted quote's payment as received (cash / manually confirmed)
+ */
+export const markQuotePaid = async (id: number, options?: RequestInit): Promise<Quote> => {
+
+  return customFetch<Quote>(getMarkQuotePaidUrl(id),
+  {
+    ...options,
+    method: 'PATCH'
+
+
+  }
+);}
+
+
+
+
+export const getMarkQuotePaidMutationOptions = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof markQuotePaid>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof markQuotePaid>>, TError,{id: number}, TContext> => {
+
+const mutationKey = ['markQuotePaid'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof markQuotePaid>>, {id: number}> = (props) => {
+          const {id} = props ?? {};
+
+          return  markQuotePaid(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type MarkQuotePaidMutationResult = NonNullable<Awaited<ReturnType<typeof markQuotePaid>>>
+
+    export type MarkQuotePaidMutationError = ErrorType<ErrorResponse>
+
+    /**
+ * @summary Mark an accepted quote's payment as received (cash / manually confirmed)
+ */
+export const useMarkQuotePaid = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof markQuotePaid>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof markQuotePaid>>,
+        TError,
+        {id: number},
+        TContext
+      > => {
+      return useMutation(getMarkQuotePaidMutationOptions(options));
+    }
+
 export const getGetPublicQuoteUrl = (ref: string,) => {
 
 

@@ -13,6 +13,7 @@ import { leadsTable } from "./leads";
 export const quoteStatusEnum = pgEnum("quote_status", [
   "pending",
   "accepted",
+  "paid",
   "expired",
   "cancelled",
 ]);
@@ -63,6 +64,7 @@ export const quotesTable = pgTable("quotes", {
   adminMessage: text("admin_message"),
 
   acceptedAt: timestamp("accepted_at", { withTimezone: true }),
+  paidAt: timestamp("paid_at", { withTimezone: true }),
 });
 
 export const insertQuoteSchema = createInsertSchema(quotesTable).omit({

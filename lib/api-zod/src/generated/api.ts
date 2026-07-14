@@ -333,7 +333,7 @@ export const GetLeadQuoteResponse = zod.object({
   "id": zod.number(),
   "quoteRef": zod.string(),
   "leadId": zod.number(),
-  "status": zod.enum(['pending', 'accepted', 'expired', 'cancelled']),
+  "status": zod.enum(['pending', 'accepted', 'paid', 'expired', 'cancelled']),
   "customerName": zod.string(),
   "customerEmail": zod.string(),
   "customerMobile": zod.string(),
@@ -358,6 +358,48 @@ export const GetLeadQuoteResponse = zod.object({
   "validUntil": zod.string(),
   "adminMessage": zod.string().nullish(),
   "acceptedAt": zod.string().nullish(),
+  "paidAt": zod.string().nullish(),
+  "createdAt": zod.string()
+})
+
+
+/**
+ * @summary Mark an accepted quote's payment as received (cash / manually confirmed)
+ */
+export const MarkQuotePaidParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const MarkQuotePaidResponse = zod.object({
+  "id": zod.number(),
+  "quoteRef": zod.string(),
+  "leadId": zod.number(),
+  "status": zod.enum(['pending', 'accepted', 'paid', 'expired', 'cancelled']),
+  "customerName": zod.string(),
+  "customerEmail": zod.string(),
+  "customerMobile": zod.string(),
+  "pickupLocation": zod.string(),
+  "destination": zod.string(),
+  "viaStops": zod.string().nullish(),
+  "journeyDate": zod.string(),
+  "journeyTime": zod.string(),
+  "returnRequired": zod.string(),
+  "returnDate": zod.string().nullish(),
+  "returnTime": zod.string().nullish(),
+  "passengers": zod.number(),
+  "journeyType": zod.string(),
+  "price": zod.string(),
+  "priceNotes": zod.string().nullish(),
+  "paymentCash": zod.string().nullable(),
+  "paymentCard": zod.string().nullable(),
+  "paymentBankTransfer": zod.string().nullable(),
+  "bankSortCode": zod.string().nullish(),
+  "bankAccountNumber": zod.string().nullish(),
+  "bankAccountName": zod.string().nullish(),
+  "validUntil": zod.string(),
+  "adminMessage": zod.string().nullish(),
+  "acceptedAt": zod.string().nullish(),
+  "paidAt": zod.string().nullish(),
   "createdAt": zod.string()
 })
 
@@ -373,7 +415,7 @@ export const GetPublicQuoteResponse = zod.object({
   "id": zod.number(),
   "quoteRef": zod.string(),
   "leadId": zod.number(),
-  "status": zod.enum(['pending', 'accepted', 'expired', 'cancelled']),
+  "status": zod.enum(['pending', 'accepted', 'paid', 'expired', 'cancelled']),
   "customerName": zod.string(),
   "customerEmail": zod.string(),
   "customerMobile": zod.string(),
@@ -398,6 +440,7 @@ export const GetPublicQuoteResponse = zod.object({
   "validUntil": zod.string(),
   "adminMessage": zod.string().nullish(),
   "acceptedAt": zod.string().nullish(),
+  "paidAt": zod.string().nullish(),
   "createdAt": zod.string()
 })
 
@@ -413,7 +456,7 @@ export const AcceptQuoteResponse = zod.object({
   "id": zod.number(),
   "quoteRef": zod.string(),
   "leadId": zod.number(),
-  "status": zod.enum(['pending', 'accepted', 'expired', 'cancelled']),
+  "status": zod.enum(['pending', 'accepted', 'paid', 'expired', 'cancelled']),
   "customerName": zod.string(),
   "customerEmail": zod.string(),
   "customerMobile": zod.string(),
@@ -438,6 +481,7 @@ export const AcceptQuoteResponse = zod.object({
   "validUntil": zod.string(),
   "adminMessage": zod.string().nullish(),
   "acceptedAt": zod.string().nullish(),
+  "paidAt": zod.string().nullish(),
   "createdAt": zod.string()
 })
 

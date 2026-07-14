@@ -51,8 +51,26 @@ function serializeQuote(q: typeof quotesTable.$inferSelect) {
     validUntil: q.validUntil,
     adminMessage: q.adminMessage,
     acceptedAt: q.acceptedAt ? q.acceptedAt.toISOString() : null,
+    paidAt: q.paidAt ? q.paidAt.toISOString() : null,
     createdAt: q.createdAt.toISOString(),
   };
+}
+
+// Shared by the admin "Mark Payment Received" action and the Square webhook
+// (once payment is confirmed by either path) — one place that moves a quote
+// to "paid" and cascades the lead to "booked", so the two paths can never
+// drift out of sync with each other.
+async function markQuotePaid(quote: typeof quotesTable.$inferSelect) {
+  const [updated] = await db.update(quotesTable)
+    .set({ status: "paid", paidAt: new Date() })
+    .where(eq(quotesTable.id, quote.id))
+    .returning();
+
+  await db.update(leadsTable)
+    .set({ status: "booked" })
+    .where(eq(leadsTable.id, quote.leadId));
+
+  return updated;
 }
 
 router.post("/admin/leads/:id/quote", requireAdmin, async (req, res): Promise<void> => {
@@ -157,10 +175,32 @@ router.post("/quotes/:ref/accept", quoteIpRateLimit, quoteRefRateLimit, async (r
     .where(eq(quotesTable.quoteRef, ref))
     .returning();
 
-  await db.update(leadsTable)
-    .set({ status: "booked" })
-    .where(eq(leadsTable.id, quote.leadId));
+  // Accepting confirms intent to proceed, not payment — the lead stays
+  // "quoted" until payment is actually received (see markQuotePaid), whether
+  // that's an admin manually confirming cash/bank transfer or a completed
+  // Square payment.
 
+  res.json(serializeQuote(updated));
+});
+
+router.patch("/admin/leads/:id/quote/mark-paid", requireAdmin, async (req, res): Promise<void> => {
+  const rawId = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+  const leadId = parseInt(rawId, 10);
+  if (isNaN(leadId)) { res.status(400).json({ error: "Invalid lead ID" }); return; }
+
+  const [quote] = await db.select().from(quotesTable)
+    .where(eq(quotesTable.leadId, leadId))
+    .orderBy(quotesTable.createdAt)
+    .limit(1);
+
+  if (!quote) { res.status(404).json({ error: "No quote found for this lead" }); return; }
+
+  if (quote.status !== "accepted") {
+    res.status(400).json({ error: `Quote must be accepted before it can be marked paid (currently ${quote.status})` });
+    return;
+  }
+
+  const updated = await markQuotePaid(quote);
   res.json(serializeQuote(updated));
 });
 

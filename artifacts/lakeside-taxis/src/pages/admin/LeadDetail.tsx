@@ -13,6 +13,7 @@ import {
   useReplyToLead,
   useGetLeadReplies, getGetLeadRepliesQueryKey,
   useCreateQuote, useGetLeadQuote, getGetLeadQuoteQueryKey,
+  useMarkQuotePaid,
 } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Phone, Mail, MessageCircle, CheckCircle2, Send, ArrowLeft, FileText, Copy, ExternalLink } from "lucide-react";
@@ -54,6 +55,7 @@ export default function AdminLeadDetail({ id }: { id: string }) {
   const updateLeadNotes = useUpdateAdminLead();
   const replyToLead = useReplyToLead();
   const createQuote = useCreateQuote();
+  const markQuotePaid = useMarkQuotePaid();
 
   const [adminNotes, setAdminNotes] = useState("");
   const [quotedPrice, setQuotedPrice] = useState("");
@@ -143,6 +145,10 @@ export default function AdminLeadDetail({ id }: { id: string }) {
         refresh();
       }
     });
+  };
+
+  const handleMarkPaid = () => {
+    markQuotePaid.mutate({ id: leadId }, { onSuccess: refresh });
   };
 
   const copyQuoteLink = (ref: string) => {
@@ -291,8 +297,10 @@ export default function AdminLeadDetail({ id }: { id: string }) {
                       <p className="font-display font-black text-xl text-primary tracking-wide">{existingQuote.quoteRef}</p>
                     </div>
                     <span className={`text-xs font-bold px-2.5 py-1 rounded-full border capitalize ${
+                      existingQuote.status === "paid" ? "bg-blue-500/20 text-blue-400 border-blue-500/30" :
                       existingQuote.status === "accepted" ? "bg-green-500/20 text-green-400 border-green-500/30" :
                       existingQuote.status === "expired" ? "bg-red-500/20 text-red-400 border-red-500/30" :
+                      existingQuote.status === "cancelled" ? "bg-muted text-muted-foreground border-border" :
                       "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
                     }`}>{existingQuote.status}</span>
                   </div>
@@ -327,11 +335,34 @@ export default function AdminLeadDetail({ id }: { id: string }) {
                     </Button>
                   </a>
                 </div>
-                {existingQuote.status === "accepted" && existingQuote.acceptedAt && (
+                {(existingQuote.status === "accepted" || existingQuote.status === "paid") && existingQuote.acceptedAt && (
                   <p className="text-green-400 text-xs flex items-center gap-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     Accepted by customer on {new Date(existingQuote.acceptedAt).toLocaleDateString("en-GB", { dateStyle: "full" })}
                   </p>
+                )}
+                {existingQuote.status === "paid" && existingQuote.paidAt && (
+                  <p className="text-blue-400 text-xs flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    Payment received on {new Date(existingQuote.paidAt).toLocaleDateString("en-GB", { dateStyle: "full" })}
+                  </p>
+                )}
+                {existingQuote.status === "accepted" && (
+                  <div>
+                    <Button
+                      size="sm"
+                      onClick={handleMarkPaid}
+                      disabled={markQuotePaid.isPending}
+                      className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold"
+                      data-testid="btn-mark-paid"
+                    >
+                      {markQuotePaid.isPending ? "Marking as Paid..." : "Mark Payment Received"}
+                    </Button>
+                    <p className="text-muted-foreground text-xs mt-1.5">For cash, bank transfer, or any payment confirmed outside the system.</p>
+                    {markQuotePaid.isError && (
+                      <p className="text-red-400 text-xs mt-1">Failed to mark as paid. Please try again.</p>
+                    )}
+                  </div>
                 )}
               </div>
             )}

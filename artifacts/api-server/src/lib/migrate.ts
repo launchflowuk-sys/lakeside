@@ -12,7 +12,12 @@ export async function runMigrations(): Promise<void> {
     await client.query(`DO $$ BEGIN CREATE TYPE contact_method AS ENUM ('phone','whatsapp','email'); EXCEPTION WHEN duplicate_object THEN NULL; END $$`);
     await client.query(`DO $$ BEGIN CREATE TYPE corporate_app_status AS ENUM ('new','reviewing','approved','rejected','on_hold'); EXCEPTION WHEN duplicate_object THEN NULL; END $$`);
     await client.query(`DO $$ BEGIN CREATE TYPE organisation_type AS ENUM ('business','school','council','nhs','charity','other'); EXCEPTION WHEN duplicate_object THEN NULL; END $$`);
-    await client.query(`DO $$ BEGIN CREATE TYPE quote_status AS ENUM ('pending','accepted','expired','cancelled'); EXCEPTION WHEN duplicate_object THEN NULL; END $$`);
+    await client.query(`DO $$ BEGIN CREATE TYPE quote_status AS ENUM ('pending','accepted','paid','expired','cancelled'); EXCEPTION WHEN duplicate_object THEN NULL; END $$`);
+    // Safety net: add the 'paid' value to installs where quote_status was
+    // created before it existed. ALTER TYPE ... ADD VALUE cannot run inside
+    // the same transaction as an earlier use of the type, but each query()
+    // call here is its own auto-committed statement, so this is safe.
+    await client.query(`ALTER TYPE quote_status ADD VALUE IF NOT EXISTS 'paid'`);
 
     // ── Detect and fix old leads schema ───────────────────────────────────
     // If the table was created with the old column names ('name' instead of
@@ -134,7 +139,8 @@ export async function runMigrations(): Promise<void> {
         bank_account_name     TEXT,
         valid_until           TEXT NOT NULL,
         admin_message         TEXT,
-        accepted_at           TIMESTAMPTZ
+        accepted_at           TIMESTAMPTZ,
+        paid_at               TIMESTAMPTZ
       )
     `);
     // Safety net: convert pre-existing installs that had status as TEXT
@@ -142,6 +148,8 @@ export async function runMigrations(): Promise<void> {
       ALTER TABLE quotes ALTER COLUMN status TYPE quote_status USING status::quote_status;
       ALTER TABLE quotes ALTER COLUMN status SET DEFAULT 'pending';
     EXCEPTION WHEN others THEN NULL; END $$`);
+    // Safety net: add paid_at to pre-existing installs
+    await client.query(`ALTER TABLE quotes ADD COLUMN IF NOT EXISTS paid_at TIMESTAMPTZ`);
 
     // ── corporate_applications ─────────────────────────────────────────────
     await client.query(`
