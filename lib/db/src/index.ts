@@ -23,6 +23,19 @@ function getPool(): pg.Pool {
       // every subsequent query queues for a slot that will never free up.
       connectionTimeoutMillis: 10_000,
       idleTimeoutMillis: 30_000,
+      // node-postgres does not enable TCP keepalive by default. Without it, a
+      // connection sitting idle in the pool can have its socket silently
+      // killed by anything upstream (NAT, firewall, load balancer idle
+      // timeout) with neither side finding out — the pool still believes the
+      // connection is healthy until a query actually tries to use it.
+      keepAlive: true,
+      keepAliveInitialDelayMillis: 10_000,
+      // Server-side and client-side belt-and-braces: if a connection does go
+      // stale and gets handed to a query anyway, these make it fail fast
+      // with a clear error instead of hanging the request indefinitely.
+      statement_timeout: 30_000,
+      query_timeout: 35_000,
+      idle_in_transaction_session_timeout: 30_000,
     });
     // node-postgres requires an error listener on the pool. Without one, a
     // pooled connection that dies in the background (a brief network blip,
