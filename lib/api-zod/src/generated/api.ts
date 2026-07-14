@@ -359,6 +359,7 @@ export const GetLeadQuoteResponse = zod.object({
   "adminMessage": zod.string().nullish(),
   "acceptedAt": zod.string().nullish(),
   "paidAt": zod.string().nullish(),
+  "squarePaymentLinkUrl": zod.string().nullish(),
   "createdAt": zod.string()
 })
 
@@ -400,6 +401,50 @@ export const MarkQuotePaidResponse = zod.object({
   "adminMessage": zod.string().nullish(),
   "acceptedAt": zod.string().nullish(),
   "paidAt": zod.string().nullish(),
+  "squarePaymentLinkUrl": zod.string().nullish(),
+  "createdAt": zod.string()
+})
+
+
+/**
+ * @summary Create a Square Payment Link for this quote's price
+ */
+export const CreateQuotePaymentLinkParams = zod.object({
+  "id": zod.coerce.number(),
+  "quoteId": zod.coerce.number()
+})
+
+export const CreateQuotePaymentLinkResponse = zod.object({
+  "id": zod.number(),
+  "quoteRef": zod.string(),
+  "leadId": zod.number(),
+  "status": zod.enum(['pending', 'accepted', 'paid', 'expired', 'cancelled']),
+  "customerName": zod.string(),
+  "customerEmail": zod.string(),
+  "customerMobile": zod.string(),
+  "pickupLocation": zod.string(),
+  "destination": zod.string(),
+  "viaStops": zod.string().nullish(),
+  "journeyDate": zod.string(),
+  "journeyTime": zod.string(),
+  "returnRequired": zod.string(),
+  "returnDate": zod.string().nullish(),
+  "returnTime": zod.string().nullish(),
+  "passengers": zod.number(),
+  "journeyType": zod.string(),
+  "price": zod.string(),
+  "priceNotes": zod.string().nullish(),
+  "paymentCash": zod.string().nullable(),
+  "paymentCard": zod.string().nullable(),
+  "paymentBankTransfer": zod.string().nullable(),
+  "bankSortCode": zod.string().nullish(),
+  "bankAccountNumber": zod.string().nullish(),
+  "bankAccountName": zod.string().nullish(),
+  "validUntil": zod.string(),
+  "adminMessage": zod.string().nullish(),
+  "acceptedAt": zod.string().nullish(),
+  "paidAt": zod.string().nullish(),
+  "squarePaymentLinkUrl": zod.string().nullish(),
   "createdAt": zod.string()
 })
 
@@ -441,6 +486,7 @@ export const GetPublicQuoteResponse = zod.object({
   "adminMessage": zod.string().nullish(),
   "acceptedAt": zod.string().nullish(),
   "paidAt": zod.string().nullish(),
+  "squarePaymentLinkUrl": zod.string().nullish(),
   "createdAt": zod.string()
 })
 
@@ -482,6 +528,7 @@ export const AcceptQuoteResponse = zod.object({
   "adminMessage": zod.string().nullish(),
   "acceptedAt": zod.string().nullish(),
   "paidAt": zod.string().nullish(),
+  "squarePaymentLinkUrl": zod.string().nullish(),
   "createdAt": zod.string()
 })
 

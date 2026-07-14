@@ -140,7 +140,10 @@ export async function runMigrations(): Promise<void> {
         valid_until           TEXT NOT NULL,
         admin_message         TEXT,
         accepted_at           TIMESTAMPTZ,
-        paid_at               TIMESTAMPTZ
+        paid_at               TIMESTAMPTZ,
+        square_payment_link_url TEXT,
+        square_order_id         TEXT,
+        square_checkout_id      TEXT
       )
     `);
     // Safety net: convert pre-existing installs that had status as TEXT
@@ -148,8 +151,11 @@ export async function runMigrations(): Promise<void> {
       ALTER TABLE quotes ALTER COLUMN status TYPE quote_status USING status::quote_status;
       ALTER TABLE quotes ALTER COLUMN status SET DEFAULT 'pending';
     EXCEPTION WHEN others THEN NULL; END $$`);
-    // Safety net: add paid_at to pre-existing installs
+    // Safety net: add paid_at and Square columns to pre-existing installs
     await client.query(`ALTER TABLE quotes ADD COLUMN IF NOT EXISTS paid_at TIMESTAMPTZ`);
+    await client.query(`ALTER TABLE quotes ADD COLUMN IF NOT EXISTS square_payment_link_url TEXT`);
+    await client.query(`ALTER TABLE quotes ADD COLUMN IF NOT EXISTS square_order_id TEXT`);
+    await client.query(`ALTER TABLE quotes ADD COLUMN IF NOT EXISTS square_checkout_id TEXT`);
 
     // ── corporate_applications ─────────────────────────────────────────────
     await client.query(`

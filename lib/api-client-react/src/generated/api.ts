@@ -1099,6 +1099,78 @@ export const useMarkQuotePaid = <TError = ErrorType<ErrorResponse>,
       return useMutation(getMarkQuotePaidMutationOptions(options));
     }
 
+export const getCreateQuotePaymentLinkUrl = (id: number,
+    quoteId: number,) => {
+
+
+
+
+  return `/api/admin/leads/${id}/quote/${quoteId}/payment-link`
+}
+
+/**
+ * @summary Create a Square Payment Link for this quote's price
+ */
+export const createQuotePaymentLink = async (id: number,
+    quoteId: number, options?: RequestInit): Promise<Quote> => {
+
+  return customFetch<Quote>(getCreateQuotePaymentLinkUrl(id,quoteId),
+  {
+    ...options,
+    method: 'POST'
+
+
+  }
+);}
+
+
+
+
+export const getCreateQuotePaymentLinkMutationOptions = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createQuotePaymentLink>>, TError,{id: number;quoteId: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createQuotePaymentLink>>, TError,{id: number;quoteId: number}, TContext> => {
+
+const mutationKey = ['createQuotePaymentLink'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createQuotePaymentLink>>, {id: number;quoteId: number}> = (props) => {
+          const {id,quoteId} = props ?? {};
+
+          return  createQuotePaymentLink(id,quoteId,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateQuotePaymentLinkMutationResult = NonNullable<Awaited<ReturnType<typeof createQuotePaymentLink>>>
+
+    export type CreateQuotePaymentLinkMutationError = ErrorType<ErrorResponse>
+
+    /**
+ * @summary Create a Square Payment Link for this quote's price
+ */
+export const useCreateQuotePaymentLink = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createQuotePaymentLink>>, TError,{id: number;quoteId: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof createQuotePaymentLink>>,
+        TError,
+        {id: number;quoteId: number},
+        TContext
+      > => {
+      return useMutation(getCreateQuotePaymentLinkMutationOptions(options));
+    }
+
 export const getGetPublicQuoteUrl = (ref: string,) => {
 
 

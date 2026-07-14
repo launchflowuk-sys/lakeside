@@ -61,7 +61,16 @@ app.use(cors({
   credentials: true,
 }));
 
-app.use(express.json());
+app.use(express.json({
+  // Square's webhook signature covers the exact raw request bytes — stash
+  // them here so that one route can verify against them. Every other route
+  // just uses req.body as normal; this has no effect on them. body-parser
+  // types this callback's req as the raw http.IncomingMessage, not Express's
+  // Request, but it's the same underlying object at runtime.
+  verify: (req, _res, buf) => {
+    (req as typeof req & { rawBody?: Buffer }).rawBody = buf;
+  },
+}));
 app.use(express.urlencoded({ extended: true }));
 
 const PgSession = connectPgSimple(session);

@@ -5,6 +5,7 @@ import { db, leadsTable, quotesTable } from "@workspace/db";
 import { CreateQuoteBody } from "@workspace/api-zod";
 import { requireAdmin } from "../middlewares/requireAdmin";
 import { quoteRefRateLimit } from "../middlewares/quoteRefRateLimit";
+import { createPaymentLink } from "../lib/square";
 
 const router: IRouter = Router();
 
@@ -52,15 +53,25 @@ function serializeQuote(q: typeof quotesTable.$inferSelect) {
     adminMessage: q.adminMessage,
     acceptedAt: q.acceptedAt ? q.acceptedAt.toISOString() : null,
     paidAt: q.paidAt ? q.paidAt.toISOString() : null,
+    squarePaymentLinkUrl: q.squarePaymentLinkUrl,
     createdAt: q.createdAt.toISOString(),
   };
+}
+
+// Free-text price ("£95", "95.50", "95") -> minor currency units (pence).
+// Returns null if it can't be parsed into a positive amount.
+function parsePriceToMinorUnits(price: string): number | null {
+  const cleaned = price.replace(/[^0-9.]/g, "");
+  const value = parseFloat(cleaned);
+  if (isNaN(value) || value <= 0) return null;
+  return Math.round(value * 100);
 }
 
 // Shared by the admin "Mark Payment Received" action and the Square webhook
 // (once payment is confirmed by either path) — one place that moves a quote
 // to "paid" and cascades the lead to "booked", so the two paths can never
 // drift out of sync with each other.
-async function markQuotePaid(quote: typeof quotesTable.$inferSelect) {
+export async function markQuotePaid(quote: typeof quotesTable.$inferSelect) {
   const [updated] = await db.update(quotesTable)
     .set({ status: "paid", paidAt: new Date() })
     .where(eq(quotesTable.id, quote.id))
@@ -201,6 +212,50 @@ router.patch("/admin/leads/:id/quote/mark-paid", requireAdmin, async (req, res):
   }
 
   const updated = await markQuotePaid(quote);
+  res.json(serializeQuote(updated));
+});
+
+router.post("/admin/leads/:id/quote/:quoteId/payment-link", requireAdmin, async (req, res): Promise<void> => {
+  const rawId = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+  const rawQuoteId = Array.isArray(req.params.quoteId) ? req.params.quoteId[0] : req.params.quoteId;
+  const leadId = parseInt(rawId, 10);
+  const quoteId = parseInt(rawQuoteId, 10);
+  if (isNaN(leadId) || isNaN(quoteId)) { res.status(400).json({ error: "Invalid lead or quote ID" }); return; }
+
+  const [quote] = await db.select().from(quotesTable).where(eq(quotesTable.id, quoteId));
+  if (!quote || quote.leadId !== leadId) { res.status(404).json({ error: "Quote not found for this lead" }); return; }
+
+  if (quote.status === "expired" || quote.status === "cancelled" || quote.status === "paid") {
+    res.status(400).json({ error: `Cannot create a payment link for a quote that is ${quote.status}` });
+    return;
+  }
+
+  const minorUnits = parsePriceToMinorUnits(quote.price);
+  if (minorUnits === null) {
+    res.status(400).json({ error: `Quote price "${quote.price}" could not be parsed into a payment amount` });
+    return;
+  }
+
+  const link = await createPaymentLink({
+    name: `Taxi booking ${quote.quoteRef}`,
+    priceMinorUnits: minorUnits,
+    description: `Lakeside & Purfleet Taxis — quote ${quote.quoteRef}`,
+  });
+
+  if (!link) {
+    res.status(502).json({ error: "Square is not configured, or the payment link could not be created. Check server logs." });
+    return;
+  }
+
+  const [updated] = await db.update(quotesTable)
+    .set({
+      squarePaymentLinkUrl: link.url,
+      squareOrderId: link.orderId,
+      squareCheckoutId: link.id,
+    })
+    .where(eq(quotesTable.id, quoteId))
+    .returning();
+
   res.json(serializeQuote(updated));
 });
 

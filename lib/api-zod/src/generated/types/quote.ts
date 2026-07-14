@@ -50,5 +50,7 @@ export interface Quote {
   acceptedAt?: string | null;
   /** @nullable */
   paidAt?: string | null;
+  /** @nullable */
+  squarePaymentLinkUrl?: string | null;
   createdAt: string;
 }

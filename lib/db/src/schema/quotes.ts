@@ -65,6 +65,12 @@ export const quotesTable = pgTable("quotes", {
 
   acceptedAt: timestamp("accepted_at", { withTimezone: true }),
   paidAt: timestamp("paid_at", { withTimezone: true }),
+
+  // Populated once an admin generates a Square Payment Link for this quote.
+  // squareOrderId is what incoming webhook payments are matched against.
+  squarePaymentLinkUrl: text("square_payment_link_url"),
+  squareOrderId: text("square_order_id"),
+  squareCheckoutId: text("square_checkout_id"),
 });
 
 export const insertQuoteSchema = createInsertSchema(quotesTable).omit({
@@ -74,6 +80,10 @@ export const insertQuoteSchema = createInsertSchema(quotesTable).omit({
   quoteRef: true,
   status: true,
   acceptedAt: true,
+  paidAt: true,
+  squarePaymentLinkUrl: true,
+  squareOrderId: true,
+  squareCheckoutId: true,
 });
 
 export type InsertQuote = z.infer<typeof insertQuoteSchema>;

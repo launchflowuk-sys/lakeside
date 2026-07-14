@@ -14,6 +14,7 @@ import {
   useGetLeadReplies, getGetLeadRepliesQueryKey,
   useCreateQuote, useGetLeadQuote, getGetLeadQuoteQueryKey,
   useMarkQuotePaid,
+  useCreateQuotePaymentLink,
 } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Phone, Mail, MessageCircle, CheckCircle2, Send, ArrowLeft, FileText, Copy, ExternalLink } from "lucide-react";
@@ -56,6 +57,7 @@ export default function AdminLeadDetail({ id }: { id: string }) {
   const replyToLead = useReplyToLead();
   const createQuote = useCreateQuote();
   const markQuotePaid = useMarkQuotePaid();
+  const createPaymentLink = useCreateQuotePaymentLink();
 
   const [adminNotes, setAdminNotes] = useState("");
   const [quotedPrice, setQuotedPrice] = useState("");
@@ -149,6 +151,11 @@ export default function AdminLeadDetail({ id }: { id: string }) {
 
   const handleMarkPaid = () => {
     markQuotePaid.mutate({ id: leadId }, { onSuccess: refresh });
+  };
+
+  const handleCreatePaymentLink = () => {
+    if (!existingQuote) return;
+    createPaymentLink.mutate({ id: leadId, quoteId: existingQuote.id }, { onSuccess: refresh });
   };
 
   const copyQuoteLink = (ref: string) => {
@@ -335,6 +342,36 @@ export default function AdminLeadDetail({ id }: { id: string }) {
                     </Button>
                   </a>
                 </div>
+
+                {(existingQuote.status === "pending" || existingQuote.status === "accepted") && (
+                  <div className="bg-muted/20 rounded-lg p-3 border border-border">
+                    {existingQuote.squarePaymentLinkUrl ? (
+                      <div className="space-y-1.5">
+                        <p className="text-xs text-muted-foreground font-semibold">Online Payment Link</p>
+                        <a href={existingQuote.squarePaymentLinkUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-primary underline break-all">
+                          {existingQuote.squarePaymentLinkUrl}
+                        </a>
+                      </div>
+                    ) : (
+                      <div>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={handleCreatePaymentLink}
+                          disabled={createPaymentLink.isPending}
+                          className="w-full"
+                          data-testid="btn-create-payment-link"
+                        >
+                          {createPaymentLink.isPending ? "Generating Link..." : "Generate Online Payment Link (Square)"}
+                        </Button>
+                        {createPaymentLink.isError && (
+                          <p className="text-red-400 text-xs mt-1">Failed to create payment link. Check Square is configured.</p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {(existingQuote.status === "accepted" || existingQuote.status === "paid") && existingQuote.acceptedAt && (
                   <p className="text-green-400 text-xs flex items-center gap-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5" />

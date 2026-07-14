@@ -9,6 +9,7 @@ import adminCorporateRouter from "./admin-corporate";
 import reviewsRouter from "./reviews";
 import quotesRouter from "./quotes";
 import debugRouter from "./debug";
+import webhooksRouter from "./webhooks";
 
 const router: IRouter = Router();
 
@@ -22,5 +23,6 @@ router.use(adminCorporateRouter);
 router.use(reviewsRouter);
 router.use(quotesRouter);
 router.use(debugRouter);
+router.use(webhooksRouter);
 
 export default router;

@@ -180,6 +180,15 @@ function QuoteDetail({ quoteRef }: { quoteRef: string }) {
         </div>
       </div>
 
+      {/* Pay Online */}
+      {quote.squarePaymentLinkUrl && (isPending || isAccepted) && (
+        <div className="qp-section">
+          <a href={quote.squarePaymentLinkUrl} target="_blank" rel="noopener noreferrer" className="qp-btn-accept" style={{ display: "block", textAlign: "center", textDecoration: "none" }}>
+            Pay Online Now
+          </a>
+        </div>
+      )}
+
       {/* Admin message */}
       {quote.adminMessage && (
         <div className="qp-message">
