@@ -69,6 +69,7 @@ export default function AdminLeadDetail({ id }: { id: string }) {
   const [savedNote, setSavedNote] = useState(false);
   const [showQuoteForm, setShowQuoteForm] = useState(false);
   const [copiedRef, setCopiedRef] = useState(false);
+  const [copiedPaymentLink, setCopiedPaymentLink] = useState(false);
 
   const [qPrice, setQPrice] = useState("");
   const [qPriceNotes, setQPriceNotes] = useState("");
@@ -163,6 +164,12 @@ export default function AdminLeadDetail({ id }: { id: string }) {
     navigator.clipboard.writeText(url);
     setCopiedRef(true);
     setTimeout(() => setCopiedRef(false), 2000);
+  };
+
+  const copyPaymentLink = (url: string) => {
+    navigator.clipboard.writeText(url);
+    setCopiedPaymentLink(true);
+    setTimeout(() => setCopiedPaymentLink(false), 2000);
   };
 
   if (isLoading) {
@@ -351,6 +358,14 @@ export default function AdminLeadDetail({ id }: { id: string }) {
                         <a href={existingQuote.squarePaymentLinkUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-primary underline break-all">
                           {existingQuote.squarePaymentLinkUrl}
                         </a>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="w-full"
+                          onClick={() => copyPaymentLink(existingQuote.squarePaymentLinkUrl!)}
+                        >
+                          {copiedPaymentLink ? <><CheckCircle2 className="w-3.5 h-3.5 mr-1.5 text-green-400" /> Copied!</> : <><Copy className="w-3.5 h-3.5 mr-1.5" /> Copy Link</>}
+                        </Button>
                       </div>
                     ) : (
                       <div>
