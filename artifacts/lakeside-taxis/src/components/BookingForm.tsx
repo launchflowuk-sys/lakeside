@@ -30,6 +30,11 @@ function formatTimeDisplay(value?: string): string {
   return `${h12}:${String(m).padStart(2, "0")} ${period}`;
 }
 
+const FIELD_CLASS = "mt-1.5 h-12 px-4 text-base rounded-[6px] border-2 border-foreground/15 bg-transparent shadow-none transition-colors placeholder:text-muted-foreground/60 focus-visible:border-primary focus-visible:ring-0 hover:border-foreground/30";
+const TEXTAREA_CLASS = "mt-1.5 min-h-[100px] px-4 py-3 text-base rounded-[6px] border-2 border-foreground/15 bg-transparent shadow-none transition-colors placeholder:text-muted-foreground/60 focus-visible:border-primary focus-visible:ring-0 hover:border-foreground/30 resize-none";
+const DATETIME_BOX_CLASS = "flex h-12 w-full items-center gap-2.5 rounded-[6px] border-2 border-foreground/15 bg-transparent px-4 text-base shadow-none transition-colors has-[+input:focus]:border-primary";
+const FIELD_LABEL_CLASS = "text-sm font-semibold tracking-tight text-foreground/85";
+
 const step1Schema = z.object({
   journeyType: z.enum(["local", "airport", "school_run", "corporate", "cruise_terminal", "other"]),
 });
@@ -272,7 +277,7 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
           <form onSubmit={handleStep2} className="space-y-4">
             <h3 className="font-display font-bold text-lg text-foreground mb-2">Journey details</h3>
             <div>
-              <Label htmlFor="pickup">Pickup location *</Label>
+              <Label htmlFor="pickup" className={FIELD_LABEL_CLASS}>Pickup location *</Label>
               <Controller
                 name="pickupLocation"
                 control={step2Form.control}
@@ -283,7 +288,7 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
                     onValueChange={field.onChange}
                     onBlur={field.onBlur}
                     placeholder="e.g. 12 High Street, Grays"
-                    className="mt-1"
+                    className={FIELD_CLASS}
                     data-testid="input-pickup"
                   />
                 )}
@@ -293,7 +298,7 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
               )}
             </div>
             <div>
-              <Label htmlFor="destination">Destination *</Label>
+              <Label htmlFor="destination" className={FIELD_LABEL_CLASS}>Destination *</Label>
               <Controller
                 name="destination"
                 control={step2Form.control}
@@ -304,7 +309,7 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
                     onValueChange={field.onChange}
                     onBlur={field.onBlur}
                     placeholder="e.g. Heathrow Terminal 5"
-                    className="mt-1"
+                    className={FIELD_CLASS}
                     data-testid="input-destination"
                   />
                 )}
@@ -314,21 +319,21 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
               )}
             </div>
             <div>
-              <Label htmlFor="via">Via stops (optional)</Label>
+              <Label htmlFor="via" className={FIELD_LABEL_CLASS}>Via stops (optional)</Label>
               <Input
                 id="via"
                 {...step2Form.register("viaStops")}
                 placeholder="Any additional stops"
-                className="mt-1"
+                className={FIELD_CLASS}
                 data-testid="input-via"
               />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="min-w-0">
-                <Label htmlFor="date">Journey date *</Label>
+                <Label htmlFor="date" className={FIELD_LABEL_CLASS}>Journey date *</Label>
                 <div className="relative mt-1">
-                  <div className="flex h-9 w-full items-center gap-2 rounded-md border border-input bg-transparent px-3 text-sm shadow-sm">
-                    <CalendarDays className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                  <div className={DATETIME_BOX_CLASS}>
+                    <CalendarDays className="w-5 h-5 text-muted-foreground flex-shrink-0" />
                     <span className={step2Form.watch("journeyDate") ? "text-foreground" : "text-muted-foreground"}>
                       {formatDateDisplay(step2Form.watch("journeyDate")) || "Select date"}
                     </span>
@@ -346,10 +351,10 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
                 )}
               </div>
               <div className="min-w-0">
-                <Label htmlFor="time">Journey time *</Label>
+                <Label htmlFor="time" className={FIELD_LABEL_CLASS}>Journey time *</Label>
                 <div className="relative mt-1">
-                  <div className="flex h-9 w-full items-center gap-2 rounded-md border border-input bg-transparent px-3 text-sm shadow-sm">
-                    <Clock className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                  <div className={DATETIME_BOX_CLASS}>
+                    <Clock className="w-5 h-5 text-muted-foreground flex-shrink-0" />
                     <span className={step2Form.watch("journeyTime") ? "text-foreground" : "text-muted-foreground"}>
                       {formatTimeDisplay(step2Form.watch("journeyTime")) || "Select time"}
                     </span>
@@ -380,10 +385,10 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
             {returnRequired && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pl-6">
                 <div className="min-w-0">
-                  <Label htmlFor="returnDate">Return date</Label>
+                  <Label htmlFor="returnDate" className={FIELD_LABEL_CLASS}>Return date</Label>
                   <div className="relative mt-1">
-                    <div className="flex h-9 w-full items-center gap-2 rounded-md border border-input bg-transparent px-3 text-sm shadow-sm">
-                      <CalendarDays className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                    <div className={DATETIME_BOX_CLASS}>
+                      <CalendarDays className="w-5 h-5 text-muted-foreground flex-shrink-0" />
                       <span className={step2Form.watch("returnDate") ? "text-foreground" : "text-muted-foreground"}>
                         {formatDateDisplay(step2Form.watch("returnDate")) || "Select date"}
                       </span>
@@ -398,10 +403,10 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
                   </div>
                 </div>
                 <div className="min-w-0">
-                  <Label htmlFor="returnTime">Return time</Label>
+                  <Label htmlFor="returnTime" className={FIELD_LABEL_CLASS}>Return time</Label>
                   <div className="relative mt-1">
-                    <div className="flex h-9 w-full items-center gap-2 rounded-md border border-input bg-transparent px-3 text-sm shadow-sm">
-                      <Clock className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                    <div className={DATETIME_BOX_CLASS}>
+                      <Clock className="w-5 h-5 text-muted-foreground flex-shrink-0" />
                       <span className={step2Form.watch("returnTime") ? "text-foreground" : "text-muted-foreground"}>
                         {formatTimeDisplay(step2Form.watch("returnTime")) || "Select time"}
                       </span>
@@ -433,24 +438,24 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
           <form onSubmit={handleStep3} className="space-y-4">
             <h3 className="font-display font-bold text-lg text-foreground mb-2">Passengers & requirements</h3>
             <div>
-              <Label htmlFor="passengers">Number of passengers *</Label>
+              <Label htmlFor="passengers" className={FIELD_LABEL_CLASS}>Number of passengers *</Label>
               <Input
                 id="passengers"
                 type="number"
                 min={1}
                 max={16}
                 {...step3Form.register("passengers")}
-                className="mt-1"
+                className={FIELD_CLASS}
                 data-testid="input-passengers"
               />
             </div>
             <div>
-              <Label htmlFor="luggage">Luggage details (optional)</Label>
+              <Label htmlFor="luggage" className={FIELD_LABEL_CLASS}>Luggage details (optional)</Label>
               <Input
                 id="luggage"
                 {...step3Form.register("luggage")}
                 placeholder="e.g. 2 large suitcases, 1 carry-on"
-                className="mt-1"
+                className={FIELD_CLASS}
                 data-testid="input-luggage"
               />
             </div>
@@ -465,22 +470,22 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
               <Label htmlFor="childSeats" className="cursor-pointer">Child seat(s) required?</Label>
             </div>
             <div>
-              <Label htmlFor="accessibility">Accessibility requirements (optional)</Label>
+              <Label htmlFor="accessibility" className={FIELD_LABEL_CLASS}>Accessibility requirements (optional)</Label>
               <Input
                 id="accessibility"
                 {...step3Form.register("accessibilityRequirements")}
                 placeholder="e.g. wheelchair accessible vehicle"
-                className="mt-1"
+                className={FIELD_CLASS}
                 data-testid="input-accessibility"
               />
             </div>
             <div>
-              <Label htmlFor="notes">Additional notes (optional)</Label>
+              <Label htmlFor="notes" className={FIELD_LABEL_CLASS}>Additional notes (optional)</Label>
               <Textarea
                 id="notes"
                 {...step3Form.register("additionalNotes")}
                 placeholder="Any other information for the driver"
-                className="mt-1 resize-none"
+                className={TEXTAREA_CLASS}
                 rows={3}
                 data-testid="input-notes"
               />
@@ -501,12 +506,12 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
           <form onSubmit={handleStep4} className="space-y-4">
             <h3 className="font-display font-bold text-lg text-foreground mb-2">Your contact details</h3>
             <div>
-              <Label htmlFor="fullName">Full name *</Label>
+              <Label htmlFor="fullName" className={FIELD_LABEL_CLASS}>Full name *</Label>
               <Input
                 id="fullName"
                 {...step4Form.register("fullName")}
                 placeholder="Your full name"
-                className="mt-1"
+                className={FIELD_CLASS}
                 data-testid="input-full-name"
               />
               {step4Form.formState.errors.fullName && (
@@ -514,13 +519,13 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
               )}
             </div>
             <div>
-              <Label htmlFor="mobile">Mobile number *</Label>
+              <Label htmlFor="mobile" className={FIELD_LABEL_CLASS}>Mobile number *</Label>
               <Input
                 id="mobile"
                 type="tel"
                 {...step4Form.register("mobile")}
                 placeholder="e.g. 07700 000000"
-                className="mt-1"
+                className={FIELD_CLASS}
                 data-testid="input-mobile"
               />
               {step4Form.formState.errors.mobile && (
@@ -528,13 +533,13 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
               )}
             </div>
             <div>
-              <Label htmlFor="email">Email address *</Label>
+              <Label htmlFor="email" className={FIELD_LABEL_CLASS}>Email address *</Label>
               <Input
                 id="email"
                 type="email"
                 {...step4Form.register("email")}
                 placeholder="your@email.com"
-                className="mt-1"
+                className={FIELD_CLASS}
                 data-testid="input-email"
               />
               {step4Form.formState.errors.email && (
