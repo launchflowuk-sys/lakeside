@@ -39,9 +39,12 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <div className="mb-4">
               <img
-                src="/logo-transparent.png"
+                src="/logo-transparent.webp"
                 alt="Lakeside & Purfleet Taxis"
                 className="h-20 w-auto"
+                width={600}
+                height={368}
+                loading="lazy"
               />
             </div>
             <p className="text-white/55 text-sm leading-relaxed mb-5">

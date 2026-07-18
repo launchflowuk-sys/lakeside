@@ -43,9 +43,11 @@ export default function Header() {
           <Link href="/" className="flex items-center flex-shrink-0" data-testid="header-logo">
             <span className="logo-shine inline-block">
               <img
-                src="/logo-transparent.png"
+                src="/logo-transparent.webp"
                 alt="Lakeside & Purfleet Taxis"
                 className="h-12 lg:h-14 w-auto"
+                width={600}
+                height={368}
               />
             </span>
           </Link>

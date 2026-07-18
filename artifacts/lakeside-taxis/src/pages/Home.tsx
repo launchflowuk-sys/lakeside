@@ -407,9 +407,12 @@ export default function Home() {
             <div className="hp-airport-layout">
               <div className="hp-airport-image-col">
                 <img
-                  src="/images/airport-tile.webp"
+                  src="/images/airport-tile-sm.webp"
                   alt="Airport Transfers from Thurrock — Lakeside Taxis"
                   className="hp-airport-tile-img"
+                  width={900}
+                  height={1034}
+                  loading="lazy"
                 />
               </div>
               <div ref={airportContentRef} className="hp-airport-content-col hp-reveal">
