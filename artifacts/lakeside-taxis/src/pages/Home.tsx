@@ -312,8 +312,9 @@ export default function Home() {
           <div className="hp-inner hp-hero-stack">
             <div className="hp-eyebrow"><Car size={14} strokeWidth={2.5} /> Request Your Taxi Quote Today</div>
             <h1 className="hp-hero-title">
-              Thurrock's Trusted Taxi Services
-              <span>You Can Rely On</span>
+              <span className="hp-hero-title-l1">Thurrock's</span>
+              <span className="hp-hero-title-l2">Most Trusted</span>
+              <span className="hp-hero-title-l3">Taxi Service</span>
             </h1>
             <p className="hp-hero-copy">
               Request a quote for your local taxi, airport transfer, school run or corporate journey.
