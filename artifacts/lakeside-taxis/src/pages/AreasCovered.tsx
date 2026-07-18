@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/layout/Layout";
+import { BUSINESS_URL } from "@/lib/schema";
 import "./areas-covered.css";
 
 const TEL = "tel:01375383878";
@@ -114,15 +115,48 @@ const coveragePoints = [
   },
 ];
 
+const acTitle = "Areas Covered | Lakeside & Purfleet Taxis | Thurrock, Essex";
+const acMetaDesc = "Taxi services covering all areas of Thurrock including Grays, Purfleet, Chafford Hundred, Tilbury, South Ockendon, Aveley, West Thurrock, Stanford-le-Hope and Corringham. Fixed prices, 24/7.";
+const acCanonicalUrl = `${BUSINESS_URL}/areas-covered`;
+const acSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": `${acCanonicalUrl}#page`,
+      name: acTitle,
+      mainEntity: {
+        "@type": "ItemList",
+        itemListElement: areas.map((a, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: a.name,
+          url: `${BUSINESS_URL}${a.href}`,
+        })),
+      },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${BUSINESS_URL}/` },
+        { "@type": "ListItem", position: 2, name: "Areas Covered", item: acCanonicalUrl },
+      ],
+    },
+  ],
+};
+
 export default function AreasCovered() {
   return (
     <Layout>
       <Helmet>
-        <title>Areas Covered | Lakeside &amp; Purfleet Taxis | Thurrock, Essex</title>
-        <meta
-          name="description"
-          content="Taxi services covering all areas of Thurrock including Grays, Purfleet, Chafford Hundred, Tilbury, South Ockendon, Aveley, West Thurrock, Stanford-le-Hope and Corringham. Fixed prices, 24/7."
-        />
+        <title>{acTitle}</title>
+        <meta name="description" content={acMetaDesc} />
+        <link rel="canonical" href={acCanonicalUrl} />
+        <meta property="og:title" content={acTitle} />
+        <meta property="og:description" content={acMetaDesc} />
+        <meta property="og:url" content={acCanonicalUrl} />
+        <meta property="og:image" content={`${BUSINESS_URL}/opengraph.jpg`} />
+        <script type="application/ld+json">{JSON.stringify(acSchema)}</script>
       </Helmet>
 
       {/* ── Hero ── */}

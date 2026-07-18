@@ -1,14 +1,53 @@
 import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/layout/Layout";
+import { buildLocalBusinessSchema, BUSINESS_URL, BUSINESS_TEL, BUSINESS_EMAIL } from "@/lib/schema";
 import "./contact.css";
+
+const title = "Contact Us | Lakeside & Purfleet Taxis Ltd | Thurrock, Essex";
+const metaDesc = "Contact Lakeside & Purfleet Taxis. Call 01375 383878, WhatsApp 07879 956275 or email info@lakesidetaxi.co.uk. Based in Thurrock, Essex. Available 24/7.";
+const canonicalUrl = `${BUSINESS_URL}/contact`;
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ContactPage",
+      "@id": `${canonicalUrl}#page`,
+      name: title,
+      mainEntity: {
+        ...buildLocalBusinessSchema({ path: "/contact" }),
+        contactPoint: {
+          "@type": "ContactPoint",
+          telephone: BUSINESS_TEL,
+          email: BUSINESS_EMAIL,
+          contactType: "customer service",
+          areaServed: "GB",
+          availableLanguage: "English",
+        },
+      },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${BUSINESS_URL}/` },
+        { "@type": "ListItem", position: 2, name: "Contact", item: canonicalUrl },
+      ],
+    },
+  ],
+};
 
 export default function Contact() {
   return (
     <Layout>
       <Helmet>
-        <title>Contact Us | Lakeside & Purfleet Taxis Ltd | Thurrock, Essex</title>
-        <meta name="description" content="Contact Lakeside & Purfleet Taxis. Call 01375 383878, WhatsApp 07879 956275 or email info@lakesidetaxi.co.uk. Based in Thurrock, Essex. Available 24/7." />
+        <title>{title}</title>
+        <meta name="description" content={metaDesc} />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={metaDesc} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content={`${BUSINESS_URL}/opengraph.jpg`} />
+        <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
 
       {/* ── Hero ── */}

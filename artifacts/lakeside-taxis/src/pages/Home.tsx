@@ -4,6 +4,7 @@ import { FileText, MessageCircle, Phone } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import BookingForm from "@/components/BookingForm";
 import Layout from "@/components/layout/Layout";
+import { buildLocalBusinessSchema } from "@/lib/schema";
 import "./home-page.css";
 
 const PHONE_HREF = "tel:01375383878";
@@ -110,13 +111,17 @@ function ReviewsMarquee({ reviews }: { reviews: Review[] }) {
 
 function GoogleReviewsSection() {
   const [reviews, setReviews] = useState<Review[]>(FALLBACK_REVIEWS);
+  const [aggregate, setAggregate] = useState<{ rating: number; count: number } | null>(null);
 
   useEffect(() => {
     fetch("/api/reviews")
       .then((r) => r.json())
-      .then((data: { reviews: Review[] }) => {
+      .then((data: { reviews: Review[]; rating?: number; userRatingsTotal?: number }) => {
         if (data.reviews && data.reviews.length >= 6) {
           setReviews(data.reviews);
+        }
+        if (data.rating && data.userRatingsTotal) {
+          setAggregate({ rating: data.rating, count: data.userRatingsTotal });
         }
       })
       .catch(() => {/* keep fallback */});
@@ -124,14 +129,25 @@ function GoogleReviewsSection() {
 
   return (
     <section className="hp-light hp-reviews-section" data-testid="testimonials-section" data-section="reviews">
+      {aggregate && (
+        <Helmet>
+          <script type="application/ld+json">{JSON.stringify({
+            "@context": "https://schema.org",
+            ...buildLocalBusinessSchema({
+              path: "/",
+              aggregateRating: { ratingValue: aggregate.rating, reviewCount: aggregate.count },
+            }),
+          })}</script>
+        </Helmet>
+      )}
       <div className="hp-inner hp-reviews-header">
         <div className="hp-kicker">Trusted by Customers Across Thurrock</div>
         <h2 className="hp-section-title">What Our Customers Say</h2>
         <div className="hp-reviews-rating-badge">
           <GoogleIcon />
-          <span className="hp-reviews-score">5.0</span>
-          <StarRating rating={5} />
-          <span className="hp-reviews-count">Google Reviews</span>
+          <span className="hp-reviews-score">{aggregate ? aggregate.rating.toFixed(1) : "5.0"}</span>
+          <StarRating rating={aggregate ? Math.round(aggregate.rating) : 5} />
+          <span className="hp-reviews-count">{aggregate ? `${aggregate.count} Google Reviews` : "Google Reviews"}</span>
         </div>
       </div>
       <ReviewsMarquee reviews={reviews} />

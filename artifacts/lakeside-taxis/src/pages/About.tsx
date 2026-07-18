@@ -1,17 +1,41 @@
 import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/layout/Layout";
+import { buildLocalBusinessSchema, BUSINESS_URL } from "@/lib/schema";
 import "./about.css";
 
 const TEL = "tel:01375383878";
 const WA = "https://wa.me/447879956275";
 
+const title = "About Us | Lakeside & Purfleet Taxis Ltd | Thurrock Since 1990";
+const metaDesc = "Thurrock's trusted local taxi company since 1990. A family-run business based in Grays and Purfleet, serving the whole of Thurrock, Essex.";
+const canonicalUrl = `${BUSINESS_URL}/about`;
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "AboutPage", "@id": `${canonicalUrl}#page`, name: title, mainEntity: buildLocalBusinessSchema({ path: "/about" }) },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${BUSINESS_URL}/` },
+        { "@type": "ListItem", position: 2, name: "About", item: canonicalUrl },
+      ],
+    },
+  ],
+};
+
 export default function About() {
   return (
     <Layout>
       <Helmet>
-        <title>About Us | Lakeside & Purfleet Taxis Ltd | Thurrock Since 1990</title>
-        <meta name="description" content="Thurrock's trusted local taxi company since 1990. A family-run business based in Grays and Purfleet, serving the whole of Thurrock, Essex." />
+        <title>{title}</title>
+        <meta name="description" content={metaDesc} />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={metaDesc} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content={`${BUSINESS_URL}/opengraph.jpg`} />
+        <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
 
       {/* ── Hero ── */}
