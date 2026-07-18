@@ -307,7 +307,7 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
                 data-testid="input-via"
               />
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <Label htmlFor="date">Journey date *</Label>
                 <Input
@@ -346,7 +346,7 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
               <Label htmlFor="returnRequired" className="cursor-pointer">Return journey required?</Label>
             </div>
             {returnRequired && (
-              <div className="grid grid-cols-2 gap-3 pl-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pl-6">
                 <div>
                   <Label htmlFor="returnDate">Return date</Label>
                   <Input
