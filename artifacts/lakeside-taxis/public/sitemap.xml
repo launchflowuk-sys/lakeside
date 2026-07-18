@@ -13,6 +13,7 @@
   <url><loc>https://lakesidetaxi.co.uk/corporate-accounts</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://lakesidetaxi.co.uk/school-runs</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://lakesidetaxi.co.uk/long-distance-travel</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://lakesidetaxi.co.uk/tilbury-cruise-terminal</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
 
   <!-- Airport transfer pages -->
   <url><loc>https://lakesidetaxi.co.uk/airport-transfers/heathrow</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
@@ -23,6 +24,7 @@
   <url><loc>https://lakesidetaxi.co.uk/airport-transfers/southend</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
   <!-- Area pages -->
+  <url><loc>https://lakesidetaxi.co.uk/areas-covered</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://lakesidetaxi.co.uk/areas/grays</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://lakesidetaxi.co.uk/areas/purfleet</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://lakesidetaxi.co.uk/areas/chafford-hundred</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>

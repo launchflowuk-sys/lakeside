@@ -3,6 +3,7 @@ import AirportPage from "./AirportPage";
 const airportData = {
   heathrow: {
     airportName: "Heathrow",
+    airportSlug: "heathrow",
     airportCode: "LHR",
     distance: "25–30 miles",
     description: "Pre-booked Heathrow airport transfers from Thurrock, Grays and Purfleet. All terminals covered.",
@@ -10,6 +11,7 @@ const airportData = {
   },
   gatwick: {
     airportName: "Gatwick",
+    airportSlug: "gatwick",
     airportCode: "LGW",
     distance: "45–55 miles",
     description: "Gatwick airport transfers from Thurrock. North and South terminal. Pre-booked, reliable service.",
@@ -17,6 +19,7 @@ const airportData = {
   },
   stansted: {
     airportName: "Stansted",
+    airportSlug: "stansted",
     airportCode: "STN",
     distance: "30–40 miles",
     description: "Stansted airport transfers from Thurrock, Grays and Purfleet. Budget airline hub with early morning runs.",
@@ -24,6 +27,7 @@ const airportData = {
   },
   luton: {
     airportName: "Luton",
+    airportSlug: "luton",
     airportCode: "LTN",
     distance: "40–50 miles",
     description: "Luton airport transfers from Thurrock and Essex. Pre-booked taxi service to and from Luton.",
@@ -31,6 +35,7 @@ const airportData = {
   },
   "london-city": {
     airportName: "London City",
+    airportSlug: "london-city",
     airportCode: "LCY",
     distance: "15–20 miles",
     description: "London City Airport transfers from Thurrock. Ideal for business travel across the Docklands.",
@@ -38,6 +43,7 @@ const airportData = {
   },
   southend: {
     airportName: "Southend",
+    airportSlug: "southend",
     airportCode: "SEN",
     distance: "25–30 miles",
     description: "Southend Airport transfers from Thurrock. Essex's own airport, conveniently close.",

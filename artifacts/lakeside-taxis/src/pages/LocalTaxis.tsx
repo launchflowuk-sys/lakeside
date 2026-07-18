@@ -28,7 +28,7 @@ export default function LocalTaxis() {
       <div className="ip">
 
         {/* ── HERO ── */}
-        <section className="ip-hero" style={{ "--hero-image": "url('/images/local-taxis-hero.jpg')" } as React.CSSProperties}>
+        <section className="ip-hero" style={{ "--hero-image": "url('/images/local-taxis-hero.webp')" } as React.CSSProperties}>
           <div className="ip-inner ip-hero-inner">
             <div className="ip-eyebrow">Local Taxis · Thurrock & Essex</div>
             <h1>Thurrock's <span>Local Taxi</span> Service</h1>

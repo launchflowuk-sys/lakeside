@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/layout/Layout";
 import BookingForm from "@/components/BookingForm";
+import { buildAirportServiceSchema, BUSINESS_URL } from "@/lib/schema";
 import "../seo-pages.css";
 
 const TEL = "tel:01375383878";
@@ -9,6 +10,7 @@ const WA = "https://wa.me/447879956275";
 
 interface AirportPageProps {
   airportName: string;
+  airportSlug: string;
   airportCode?: string;
   description: string;
   content: string;
@@ -30,6 +32,7 @@ const defaultIncludes = [
 
 export default function AirportPage({
   airportName,
+  airportSlug,
   airportCode,
   description,
   content,
@@ -39,6 +42,8 @@ export default function AirportPage({
 }: AirportPageProps) {
   const title = `${airportName} Airport Transfers from Thurrock | Lakeside & Purfleet Taxis`;
   const metaDesc = `${airportName} airport transfers from Thurrock, Grays and Purfleet. Pre-booked, fixed price. All terminals. Request a quote from Lakeside & Purfleet Taxis Ltd.`;
+  const canonicalUrl = `${BUSINESS_URL}/airport-transfers/${airportSlug}`;
+  const schema = buildAirportServiceSchema({ airportName, airportSlug });
   const includes = highlights ?? defaultIncludes;
 
   return (
@@ -46,6 +51,12 @@ export default function AirportPage({
       <Helmet>
         <title>{title}</title>
         <meta name="description" content={metaDesc} />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={metaDesc} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content={`${BUSINESS_URL}/opengraph.jpg`} />
+        <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
 
       {/* ── Hero ── */}

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/layout/Layout";
+import { buildFaqSchema, BUSINESS_URL } from "@/lib/schema";
 import "./inner-page.css";
 
 const faqs = [
@@ -59,6 +60,12 @@ export default function AirportTransfers() {
       <Helmet>
         <title>Airport Transfers from Thurrock | Heathrow, Gatwick & More | Lakeside Taxis</title>
         <meta name="description" content="Reliable airport transfers from Grays, Purfleet and Thurrock to Heathrow, Gatwick, Stansted, Luton, London City and Southend. Fixed prices, flight tracking, 24/7 service." />
+        <link rel="canonical" href={`${BUSINESS_URL}/airport-transfers`} />
+        <meta property="og:title" content="Airport Transfers from Thurrock | Lakeside & Purfleet Taxis" />
+        <meta property="og:description" content="Reliable airport transfers from Grays, Purfleet and Thurrock to Heathrow, Gatwick, Stansted, Luton, London City and Southend. Fixed prices, flight tracking, 24/7 service." />
+        <meta property="og:url" content={`${BUSINESS_URL}/airport-transfers`} />
+        <meta property="og:image" content={`${BUSINESS_URL}/opengraph.jpg`} />
+        <script type="application/ld+json">{JSON.stringify(buildFaqSchema(faqs, "/airport-transfers"))}</script>
       </Helmet>
       <div className="ip">
 

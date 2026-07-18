@@ -7,7 +7,7 @@
       rgba(10, 10, 10, 0.88) 0%,
       rgba(10, 10, 10, 0.60) 60%,
       rgba(10, 10, 10, 0.35) 100%),
-    url('/images/corporate-hero.jpg') center / cover no-repeat;
+    url('/images/corporate-hero.webp') center / cover no-repeat;
   padding: 100px 0 80px;
   position: relative;
   overflow: hidden;

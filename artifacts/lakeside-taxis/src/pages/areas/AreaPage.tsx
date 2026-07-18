@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/layout/Layout";
 import BookingForm from "@/components/BookingForm";
+import { buildAreaServiceSchema, BUSINESS_URL } from "@/lib/schema";
 import "../seo-pages.css";
 
 const TEL = "tel:01375383878";
@@ -38,6 +39,8 @@ export default function AreaPage({
 }: AreaPageProps) {
   const title = `Taxis in ${areaName} | Lakeside & Purfleet Taxis Ltd`;
   const metaDesc = `Local taxis in ${areaName}, Thurrock, Essex. Airport transfers, school runs and corporate travel from ${areaName}. Fixed prices, 24/7. Request a quote from Lakeside & Purfleet Taxis.`;
+  const canonicalUrl = `${BUSINESS_URL}/areas/${areaSlug}`;
+  const schema = buildAreaServiceSchema({ areaName, areaSlug, postcode });
 
   const nearby =
     nearbyAreas ?? allAreas.filter((a) => a.slug !== areaSlug).slice(0, 6);
@@ -47,6 +50,12 @@ export default function AreaPage({
       <Helmet>
         <title>{title}</title>
         <meta name="description" content={metaDesc} />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={metaDesc} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content={`${BUSINESS_URL}/opengraph.jpg`} />
+        <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
 
       {/* ── Hero ── */}
