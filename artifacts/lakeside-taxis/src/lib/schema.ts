@@ -114,6 +114,11 @@ export function buildAirportServiceSchema({ airportName, airportSlug, price }: A
                 "@type": "Offer",
                 priceCurrency: "GBP",
                 price,
+                description: `Fixed-price taxi transfer to and from ${airportName} Airport from Thurrock, Essex.`,
+                itemOffered: {
+                  "@type": "Service",
+                  name: `${airportName} Airport Transfer`,
+                },
               },
             }
           : {}),
