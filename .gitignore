@@ -48,3 +48,6 @@ Thumbs.db
 .cache/
 .local/
 .gstack/
+
+# Claude Code local overrides (may contain credentials in allow-list command strings)
+.claude/settings.local.json

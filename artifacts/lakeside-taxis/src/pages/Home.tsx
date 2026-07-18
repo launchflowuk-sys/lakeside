@@ -4,6 +4,7 @@ import { FileText, MessageCircle, Phone, ShieldCheck, Users, Car, Clock, MapPin 
 import { useState, useEffect, useRef } from "react";
 import BookingForm from "@/components/BookingForm";
 import Layout from "@/components/layout/Layout";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { buildLocalBusinessSchema } from "@/lib/schema";
 import "./home-page.css";
 
@@ -112,6 +113,7 @@ function ReviewsMarquee({ reviews }: { reviews: Review[] }) {
 function GoogleReviewsSection() {
   const [reviews, setReviews] = useState<Review[]>(FALLBACK_REVIEWS);
   const [aggregate, setAggregate] = useState<{ rating: number; count: number } | null>(null);
+  const headerRef = useScrollReveal<HTMLDivElement>();
 
   useEffect(() => {
     fetch("/api/reviews")
@@ -140,7 +142,7 @@ function GoogleReviewsSection() {
           })}</script>
         </Helmet>
       )}
-      <div className="hp-inner hp-reviews-header">
+      <div ref={headerRef} className="hp-inner hp-reviews-header hp-reveal">
         <div className="hp-kicker">Trusted by Customers Across Thurrock</div>
         <h2 className="hp-section-title">What Our Customers Say</h2>
         <div className="hp-reviews-rating-badge">
@@ -279,6 +281,10 @@ const airports = [
 ];
 
 export default function Home() {
+  const servicesHeaderRef = useScrollReveal<HTMLDivElement>();
+  const servicesGridRef = useScrollReveal<HTMLDivElement>();
+  const airportContentRef = useScrollReveal<HTMLDivElement>();
+
   return (
     <Layout>
       <Helmet>
@@ -364,9 +370,11 @@ export default function Home() {
         {/* ── SERVICES ── */}
         <section className="hp-light" data-testid="services-section" data-section="services">
           <div className="hp-inner">
-            <div className="hp-kicker">Every Journey, Covered</div>
-            <h2 className="hp-section-title">Our Services</h2>
-            <div className="hp-services-grid">
+            <div ref={servicesHeaderRef} className="hp-reveal">
+              <div className="hp-kicker">Every Journey, Covered</div>
+              <h2 className="hp-section-title">Our Services</h2>
+            </div>
+            <div ref={servicesGridRef} className="hp-services-grid hp-reveal">
               {services.map((s) => (
                 <Link key={s.href} href={s.href} className="hp-service-card" data-testid={`service-card-${s.href.split("/").pop()}`}>
                   <div className="hp-service-photo" style={{ backgroundImage: `url(${s.bg})` }}>
@@ -404,7 +412,7 @@ export default function Home() {
                   className="hp-airport-tile-img"
                 />
               </div>
-              <div className="hp-airport-content-col">
+              <div ref={airportContentRef} className="hp-airport-content-col hp-reveal">
                 <div className="hp-kicker">Fixed Prices From Thurrock</div>
                 <h2 className="hp-airport-title">Airport Transfers <span>From Thurrock</span></h2>
                 <p className="hp-airport-sub">Fixed prices confirmed before travel. Flight tracking on return pickups. 24/7 service.</p>
