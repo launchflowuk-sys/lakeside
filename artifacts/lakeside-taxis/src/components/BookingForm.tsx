@@ -11,8 +11,24 @@ import AddressAutocomplete from "@/components/AddressAutocomplete";
 import { useSubmitLead } from "@workspace/api-client-react";
 import {
   Car, Plane, GraduationCap, Briefcase, Anchor, Users, CheckCircle2,
-  ArrowRight, ArrowLeft, ChevronRight
+  ArrowRight, ArrowLeft, ChevronRight, CalendarDays, Clock
 } from "lucide-react";
+
+function formatDateDisplay(value?: string): string {
+  if (!value) return "";
+  const d = new Date(`${value}T00:00:00`);
+  if (Number.isNaN(d.getTime())) return value;
+  return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+}
+
+function formatTimeDisplay(value?: string): string {
+  if (!value) return "";
+  const [h, m] = value.split(":").map(Number);
+  if (Number.isNaN(h) || Number.isNaN(m)) return value;
+  const period = h >= 12 ? "PM" : "AM";
+  const h12 = h % 12 === 0 ? 12 : h % 12;
+  return `${h12}:${String(m).padStart(2, "0")} ${period}`;
+}
 
 const step1Schema = z.object({
   journeyType: z.enum(["local", "airport", "school_run", "corporate", "cruise_terminal", "other"]),
@@ -310,26 +326,42 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="min-w-0">
                 <Label htmlFor="date">Journey date *</Label>
-                <Input
-                  id="date"
-                  type="date"
-                  {...step2Form.register("journeyDate")}
-                  className="mt-1 w-full min-w-0"
-                  data-testid="input-date"
-                />
+                <div className="relative mt-1">
+                  <div className="flex h-9 w-full items-center gap-2 rounded-md border border-input bg-transparent px-3 text-sm shadow-sm">
+                    <CalendarDays className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                    <span className={step2Form.watch("journeyDate") ? "text-foreground" : "text-muted-foreground"}>
+                      {formatDateDisplay(step2Form.watch("journeyDate")) || "Select date"}
+                    </span>
+                  </div>
+                  <Input
+                    id="date"
+                    type="date"
+                    {...step2Form.register("journeyDate")}
+                    className="absolute inset-0 h-full w-full opacity-0"
+                    data-testid="input-date"
+                  />
+                </div>
                 {step2Form.formState.errors.journeyDate && (
                   <p className="text-destructive text-xs mt-1">Required</p>
                 )}
               </div>
               <div className="min-w-0">
                 <Label htmlFor="time">Journey time *</Label>
-                <Input
-                  id="time"
-                  type="time"
-                  {...step2Form.register("journeyTime")}
-                  className="mt-1 w-full min-w-0"
-                  data-testid="input-time"
-                />
+                <div className="relative mt-1">
+                  <div className="flex h-9 w-full items-center gap-2 rounded-md border border-input bg-transparent px-3 text-sm shadow-sm">
+                    <Clock className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                    <span className={step2Form.watch("journeyTime") ? "text-foreground" : "text-muted-foreground"}>
+                      {formatTimeDisplay(step2Form.watch("journeyTime")) || "Select time"}
+                    </span>
+                  </div>
+                  <Input
+                    id="time"
+                    type="time"
+                    {...step2Form.register("journeyTime")}
+                    className="absolute inset-0 h-full w-full opacity-0"
+                    data-testid="input-time"
+                  />
+                </div>
                 {step2Form.formState.errors.journeyTime && (
                   <p className="text-destructive text-xs mt-1">Required</p>
                 )}
@@ -349,23 +381,39 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pl-6">
                 <div className="min-w-0">
                   <Label htmlFor="returnDate">Return date</Label>
-                  <Input
-                    id="returnDate"
-                    type="date"
-                    {...step2Form.register("returnDate")}
-                    className="mt-1 w-full min-w-0"
-                    data-testid="input-return-date"
-                  />
+                  <div className="relative mt-1">
+                    <div className="flex h-9 w-full items-center gap-2 rounded-md border border-input bg-transparent px-3 text-sm shadow-sm">
+                      <CalendarDays className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                      <span className={step2Form.watch("returnDate") ? "text-foreground" : "text-muted-foreground"}>
+                        {formatDateDisplay(step2Form.watch("returnDate")) || "Select date"}
+                      </span>
+                    </div>
+                    <Input
+                      id="returnDate"
+                      type="date"
+                      {...step2Form.register("returnDate")}
+                      className="absolute inset-0 h-full w-full opacity-0"
+                      data-testid="input-return-date"
+                    />
+                  </div>
                 </div>
                 <div className="min-w-0">
                   <Label htmlFor="returnTime">Return time</Label>
-                  <Input
-                    id="returnTime"
-                    type="time"
-                    {...step2Form.register("returnTime")}
-                    className="mt-1 w-full min-w-0"
-                    data-testid="input-return-time"
-                  />
+                  <div className="relative mt-1">
+                    <div className="flex h-9 w-full items-center gap-2 rounded-md border border-input bg-transparent px-3 text-sm shadow-sm">
+                      <Clock className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                      <span className={step2Form.watch("returnTime") ? "text-foreground" : "text-muted-foreground"}>
+                        {formatTimeDisplay(step2Form.watch("returnTime")) || "Select time"}
+                      </span>
+                    </div>
+                    <Input
+                      id="returnTime"
+                      type="time"
+                      {...step2Form.register("returnTime")}
+                      className="absolute inset-0 h-full w-full opacity-0"
+                      data-testid="input-return-time"
+                    />
+                  </div>
                 </div>
               </div>
             )}

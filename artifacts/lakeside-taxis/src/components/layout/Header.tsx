@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { Menu, X, Phone, ChevronDown, Anchor } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 
 const PHONE = "01375 383878";
 const PHONE_HREF = "tel:01375383878";
@@ -116,14 +116,15 @@ export default function Header() {
               <Phone className="w-4 h-4 text-primary" />
               <span>{PHONE}</span>
             </a>
-            <Link href="/quote-request">
-              <Button
-                size="sm"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-sm hidden sm:flex"
-                data-testid="header-quote-btn"
-              >
-                Request a Quote
-              </Button>
+            <Link
+              href="/quote-request"
+              className={buttonVariants({
+                size: "sm",
+                className: "bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-sm hidden sm:flex",
+              })}
+              data-testid="header-quote-btn"
+            >
+              Request a Quote
             </Link>
             <button
               className="lg:hidden p-2.5 text-foreground/70 hover:text-primary"
@@ -201,10 +202,13 @@ export default function Header() {
                 <Phone className="w-4 h-4" />
                 {PHONE}
               </a>
-              <Link href="/quote-request" onClick={() => setMobileOpen(false)}>
-                <Button className="w-full bg-primary text-primary-foreground font-semibold" data-testid="mobile-quote-btn">
-                  Request a Quote
-                </Button>
+              <Link
+                href="/quote-request"
+                onClick={() => setMobileOpen(false)}
+                className={buttonVariants({ className: "w-full bg-primary text-primary-foreground font-semibold" })}
+                data-testid="mobile-quote-btn"
+              >
+                Request a Quote
               </Link>
             </div>
           </div>
