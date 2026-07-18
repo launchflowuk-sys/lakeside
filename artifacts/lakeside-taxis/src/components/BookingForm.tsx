@@ -308,26 +308,26 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
               />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
+              <div className="min-w-0">
                 <Label htmlFor="date">Journey date *</Label>
                 <Input
                   id="date"
                   type="date"
                   {...step2Form.register("journeyDate")}
-                  className="mt-1"
+                  className="mt-1 w-full min-w-0"
                   data-testid="input-date"
                 />
                 {step2Form.formState.errors.journeyDate && (
                   <p className="text-destructive text-xs mt-1">Required</p>
                 )}
               </div>
-              <div>
+              <div className="min-w-0">
                 <Label htmlFor="time">Journey time *</Label>
                 <Input
                   id="time"
                   type="time"
                   {...step2Form.register("journeyTime")}
-                  className="mt-1"
+                  className="mt-1 w-full min-w-0"
                   data-testid="input-time"
                 />
                 {step2Form.formState.errors.journeyTime && (
@@ -347,23 +347,23 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
             </div>
             {returnRequired && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pl-6">
-                <div>
+                <div className="min-w-0">
                   <Label htmlFor="returnDate">Return date</Label>
                   <Input
                     id="returnDate"
                     type="date"
                     {...step2Form.register("returnDate")}
-                    className="mt-1"
+                    className="mt-1 w-full min-w-0"
                     data-testid="input-return-date"
                   />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <Label htmlFor="returnTime">Return time</Label>
                   <Input
                     id="returnTime"
                     type="time"
                     {...step2Form.register("returnTime")}
-                    className="mt-1"
+                    className="mt-1 w-full min-w-0"
                     data-testid="input-return-time"
                   />
                 </div>
