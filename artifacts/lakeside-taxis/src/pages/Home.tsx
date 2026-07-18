@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
-import { FileText, MessageCircle, Phone } from "lucide-react";
+import { FileText, MessageCircle, Phone, ShieldCheck, Users, Car, Clock, MapPin } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import BookingForm from "@/components/BookingForm";
 import Layout from "@/components/layout/Layout";
@@ -303,97 +303,53 @@ export default function Home() {
       <div className="hp">
 
         {/* ── HERO ── */}
-        <section className="hp-hero" data-testid="hero-section" data-section="hero">
-          <div className="hp-inner hp-hero-grid">
+        <section
+          className="hp-hero"
+          data-testid="hero-section"
+          data-section="hero"
+          style={{ "--hp-hero-photo": "url('/images/hero-bg.webp')" } as React.CSSProperties}
+        >
+          <div className="hp-inner hp-hero-stack">
+            <div className="hp-eyebrow"><Car size={14} strokeWidth={2.5} /> Request Your Taxi Quote Today</div>
+            <h1 className="hp-hero-title">
+              Thurrock's Trusted Taxi Services
+              <span>You Can Rely On</span>
+            </h1>
+            <p className="hp-hero-copy">
+              Request a quote for your local taxi, airport transfer, school run or corporate journey.
+              No payment required — we'll reply within 2 hours with availability and pricing.
+            </p>
 
-            {/* Left: copy */}
-            <div className="hp-hero-copy-block" data-testid="hero-copy">
-              <div className="hp-eyebrow">Request Your Taxi Quote Today</div>
-              <h1>
-                Thurrock's
-                <span>Trusted Taxi</span>
-                Company For Over 30 Years
-              </h1>
-              <p className="hp-hero-copy">
-                From local journeys and school runs to airport transfers and corporate travel,
-                our team will confirm your availability and price quickly.
-              </p>
-              <div className="hp-coverage">
-                <span>Grays</span>
-                <span>Purfleet</span>
-                <span>Chafford Hundred</span>
-                <span>Tilbury</span>
-                <span>Aveley</span>
-                <span>West Thurrock</span>
-                <span>Stanford-le-Hope</span>
-              </div>
-              <div className="hp-hero-actions">
-                <Link href="/quote-request" className="hp-btn hp-btn-primary" data-testid="hero-quote-btn">
-                  Request a Quote →
-                </Link>
-                <a href={WA_HREF} className="hp-btn hp-btn-green" data-testid="hero-whatsapp-btn">
-                  WhatsApp Us
-                </a>
-                <a href={PHONE_HREF} className="hp-btn hp-btn-outline" data-testid="hero-call-btn">
-                  01375 383878
-                </a>
-              </div>
-              <div className="hp-micro-proof">
-                <span><strong>⚡</strong> We reply within 2 hours</span>
-                <span><strong>✓</strong> No payment required</span>
-                <span><strong>✓</strong> No app required</span>
-              </div>
+            <div className="hp-hero-form-card" data-testid="hero-form">
+              <h2>Get Your Taxi Quote</h2>
+              <p>Reply within 2 hours. No payment required. No obligation.</p>
+              <BookingForm compact />
             </div>
+            <p className="hp-hero-form-note">
+              No payment · No obligation · Trusted local service since 1990
+            </p>
 
-            {/* Right: existing booking form */}
-            <div data-testid="hero-form">
-              <div style={{
-                background: "color-mix(in srgb, hsl(var(--foreground)) 90%, transparent)",
-                border: "1px solid color-mix(in srgb, hsl(var(--card)) 18%, transparent)",
-                borderRadius: 22,
-                padding: 34,
-                boxShadow: "0 26px 80px color-mix(in srgb, hsl(var(--foreground)) 70%, transparent)",
-              }}>
-                <h2 style={{
-                  fontFamily: "'Poppins', sans-serif",
-                  color: "hsl(var(--primary))",
-                  fontSize: 28,
-                  lineHeight: 1,
-                  margin: "0 0 8px",
-                  textTransform: "uppercase",
-                  fontWeight: 900,
-                }}>
-                  Get Your Taxi Quote
-                </h2>
-                <p style={{
-                  color: "color-mix(in srgb, hsl(var(--card)) 78%, transparent)",
-                  margin: "0 0 20px",
-                  lineHeight: 1.5,
-                  fontSize: 14,
-                }}>
-                  Reply within 2 hours. No payment required. No obligation.
-                </p>
-                <BookingForm compact />
-              </div>
-              <p style={{ textAlign: "center", fontSize: 12, color: "color-mix(in srgb, hsl(var(--card)) 40%, transparent)", marginTop: 10 }}>
-                No payment · No obligation · Trusted local service since 1990
-              </p>
+            <span className="hp-coverage-label">Serving Thurrock and Surrounding Areas</span>
+            <div className="hp-coverage">
+              {["Grays", "Purfleet", "Chafford Hundred", "Tilbury", "Aveley", "West Thurrock", "Stanford-le-Hope"].map((area) => (
+                <span key={area}><MapPin size={12} strokeWidth={2.5} /> {area}</span>
+              ))}
             </div>
-
           </div>
 
           {/* Trust strip */}
           <div className="hp-trust-strip">
             <div className="hp-inner hp-trust-grid">
               {[
-                { icon: "🛡", strong: "30+ Years", sub: "Serving Thurrock" },
-                { icon: "✈", strong: "Airport Transfer", sub: "Specialists" },
-                { icon: "🏢", strong: "Corporate Accounts", sub: "Available" },
-                { icon: "✓", strong: "Fully Licensed", sub: "& Insured" },
-                { icon: "👥", strong: "Local Thurrock", sub: "Drivers" },
+                { icon: Clock, strong: "Quick Response", sub: "We'll reply within 2 hours" },
+                { icon: ShieldCheck, strong: "No Obligation", sub: "Request a quote, no pressure" },
+                { icon: Users, strong: "Local Experts", sub: "30+ years serving Thurrock" },
+                { icon: null, strong: "24/7 Service", sub: "Available when you need us" },
               ].map((item) => (
                 <div className="hp-trust-item" key={item.strong}>
-                  <div className="hp-trust-icon">{item.icon}</div>
+                  <div className="hp-trust-icon">
+                    {item.icon ? <item.icon size={19} strokeWidth={2} /> : <span className="hp-trust-247">24/7</span>}
+                  </div>
                   <div>
                     <strong>{item.strong}</strong>
                     <span>{item.sub}</span>
