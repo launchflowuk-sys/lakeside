@@ -114,8 +114,14 @@ function GoogleReviewsSection() {
       .then((r) => r.json())
       .then((data: { reviews?: Review[]; rating?: number; userRatingsTotal?: number }) => {
         if (Array.isArray(data.reviews) && data.reviews.length > 0) {
-          setReviews(data.reviews);
+          // Feature 4- and 5-star reviews only. Each one shown is a real,
+          // unedited Google review — we're choosing which genuine reviews to
+          // feature, not writing them. Never relax this into inventing any.
+          setReviews(data.reviews.filter((r) => r.rating >= 4));
         }
+        // The aggregate stays exactly as Google reports it, across ALL
+        // reviews including the ones not featured above. Recomputing it from
+        // the filtered set would be a fabricated rating.
         if (data.rating && data.userRatingsTotal) {
           setAggregate({ rating: data.rating, count: data.userRatingsTotal });
         }
