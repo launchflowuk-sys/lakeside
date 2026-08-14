@@ -1,0 +1,327 @@
+/* ==========================================================================
+   Lakeside design system — the shared visual world.
+   Imported once from index.css. Page stylesheets consume these tokens and
+   primitives; they never redefine colour, radius, shadow or motion locally.
+   ========================================================================== */
+
+:root {
+  /* ── Surfaces ──
+     Three grounds only. Sections alternate between them to pace the scroll;
+     anything needing a fourth surface is a section that hasn't earned itself. */
+  --ls-white: #ffffff;
+  --ls-mist: #f5f5f7;
+  --ls-ink: #1d1d1f;
+  --ls-graphite: #0c0c0e;
+
+  /* ── Text ──
+     --ls-text-2 is 5.1:1 on white and 4.7:1 on mist. Secondary text on the
+     ink ground tints from the ground's own hue rather than going flat gray. */
+  --ls-text: #1d1d1f;
+  --ls-text-2: #6e6e73;
+  --ls-text-on-ink: #f5f5f7;
+  --ls-text-2-on-ink: #a1a1a8;
+
+  /* ── Accent ──
+     Brand yellow is a FILL, never a text colour on light grounds
+     (#ffd100 on white is 1.6:1). Ink sits on top of it at 13.9:1. */
+  --ls-yellow: #ffd100;
+  --ls-yellow-deep: #e8bd00;
+  --ls-on-yellow: #1d1d1f;
+
+  /* ── Hairlines ── */
+  --ls-line: rgba(0, 0, 0, 0.08);
+  --ls-line-strong: rgba(0, 0, 0, 0.14);
+  --ls-line-on-ink: rgba(255, 255, 255, 0.12);
+
+  /* ── Radii ── */
+  --ls-r-sm: 10px;
+  --ls-r-md: 16px;
+  --ls-r-lg: 22px;
+  --ls-r-xl: 30px;
+  --ls-r-pill: 980px;
+
+  /* ── Depth ──
+     Every shadow carries a real vertical offset plus a soft blur.
+     No zero-offset halos, no hard block shadows. */
+  --ls-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.04);
+  --ls-shadow-md: 0 2px 4px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.07);
+  --ls-shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.05), 0 18px 48px rgba(0, 0, 0, 0.10);
+  --ls-shadow-yellow: 0 4px 10px rgba(214, 176, 0, 0.22), 0 14px 34px rgba(214, 176, 0, 0.20);
+
+  /* ── Rhythm ──
+     One spacing scale sitewide. Section padding scales fluidly so the
+     generous vertical rhythm survives the drop to mobile. */
+  --ls-gap-xs: 8px;
+  --ls-gap-sm: 12px;
+  --ls-gap: 20px;
+  --ls-gap-lg: 32px;
+  --ls-gap-xl: 56px;
+  --ls-section-y: clamp(72px, 9vw, 132px);
+  --ls-shell: 1080px;
+  --ls-shell-wide: 1240px;
+  --ls-pad-x: clamp(20px, 5vw, 32px);
+
+  /* ── Motion ──
+     One authored moment: content rises and settles on an exponential
+     ease-out. Everything else borrows this curve so the site moves as
+     one material rather than as scattered effects. */
+  --ls-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ls-ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ls-dur: 720ms;
+  --ls-dur-fast: 240ms;
+}
+
+/* ==========================================================================
+   Type
+   ========================================================================== */
+
+.ls-display,
+.ls-h1,
+.ls-h2,
+.ls-h3 {
+  font-family: var(--app-font-display);
+  color: var(--ls-text);
+  text-wrap: balance;
+  font-weight: 700;
+}
+
+/* Display tops out well under the 6rem ceiling; tracking tightens as size
+   grows, which is what makes large type read as engineered rather than blown up. */
+.ls-display {
+  font-size: clamp(2.6rem, 6.2vw, 4.6rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+}
+
+.ls-h1 {
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  line-height: 1.07;
+  letter-spacing: -0.032em;
+}
+
+.ls-h2 {
+  font-size: clamp(1.75rem, 3.4vw, 2.6rem);
+  line-height: 1.12;
+  letter-spacing: -0.028em;
+}
+
+.ls-h3 {
+  font-size: clamp(1.15rem, 1.7vw, 1.35rem);
+  line-height: 1.25;
+  letter-spacing: -0.018em;
+  font-weight: 650;
+}
+
+/* Body copy holds a 65–75ch measure so long-form area/airport prose stays readable. */
+.ls-lede {
+  font-size: clamp(1.075rem, 1.65vw, 1.3rem);
+  line-height: 1.5;
+  letter-spacing: -0.012em;
+  color: var(--ls-text-2);
+  max-width: 62ch;
+}
+
+.ls-prose {
+  font-size: 1.0625rem;
+  line-height: 1.68;
+  color: var(--ls-text-2);
+  max-width: 68ch;
+}
+
+.ls-prose strong { color: var(--ls-text); font-weight: 600; }
+
+.ls-on-ink { color: var(--ls-text-on-ink); }
+.ls-on-ink .ls-lede,
+.ls-on-ink .ls-prose { color: var(--ls-text-2-on-ink); }
+
+/* ==========================================================================
+   Layout
+   ========================================================================== */
+
+.ls-shell {
+  width: 100%;
+  max-width: var(--ls-shell);
+  margin-inline: auto;
+  padding-inline: var(--ls-pad-x);
+}
+
+.ls-shell-wide { max-width: var(--ls-shell-wide); }
+
+.ls-section { padding-block: var(--ls-section-y); }
+.ls-section-tight { padding-block: clamp(48px, 6vw, 80px); }
+
+.ls-ground-white { background: var(--ls-white); }
+.ls-ground-mist { background: var(--ls-mist); }
+.ls-ground-ink { background: var(--ls-ink); color: var(--ls-text-on-ink); }
+
+/* More space above a heading than below it — applied once, globally. */
+.ls-section-head { margin-bottom: var(--ls-gap-lg); }
+.ls-section-head > * + * { margin-top: var(--ls-gap); }
+
+/* ==========================================================================
+   Cards
+   Borderless, soft-shouldered, real depth. No accent stripes, no nesting.
+   ========================================================================== */
+
+.ls-card {
+  background: var(--ls-white);
+  border-radius: var(--ls-r-lg);
+  padding: clamp(22px, 2.6vw, 30px);
+  box-shadow: var(--ls-shadow-sm);
+  transition:
+    transform var(--ls-dur-fast) var(--ls-ease-soft),
+    box-shadow var(--ls-dur-fast) var(--ls-ease-soft);
+}
+
+.ls-card-lg { border-radius: var(--ls-r-xl); padding: clamp(26px, 3vw, 38px); }
+.ls-card-on-mist { background: var(--ls-white); }
+.ls-card-on-white { background: var(--ls-mist); box-shadow: none; }
+
+.ls-card-on-ink {
+  background: rgba(255, 255, 255, 0.055);
+  box-shadow: none;
+  color: var(--ls-text-on-ink);
+}
+
+/* Interactive cards lift; static cards do not pretend to be clickable. */
+a.ls-card:hover,
+.ls-card-interactive:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--ls-shadow-md);
+}
+
+a.ls-card { display: block; text-decoration: none; color: inherit; }
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.ls-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 50px;
+  padding: 0 26px;
+  border: 0;
+  border-radius: var(--ls-r-pill);
+  font-family: inherit;
+  font-size: 1.0125rem;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    transform var(--ls-dur-fast) var(--ls-ease-soft),
+    box-shadow var(--ls-dur-fast) var(--ls-ease-soft),
+    background-color var(--ls-dur-fast) var(--ls-ease-soft);
+}
+
+.ls-btn:active { transform: scale(0.978); }
+
+.ls-btn-primary {
+  background: var(--ls-yellow);
+  color: var(--ls-on-yellow);
+  box-shadow: var(--ls-shadow-yellow);
+}
+.ls-btn-primary:hover { background: var(--ls-yellow-deep); box-shadow: var(--ls-shadow-lg); }
+
+.ls-btn-ink { background: var(--ls-ink); color: var(--ls-text-on-ink); }
+.ls-btn-ink:hover { background: #000; }
+
+.ls-btn-quiet {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--ls-text);
+}
+.ls-btn-quiet:hover { background: rgba(0, 0, 0, 0.085); }
+
+.ls-btn-on-ink { background: rgba(255, 255, 255, 0.12); color: var(--ls-text-on-ink); }
+.ls-btn-on-ink:hover { background: rgba(255, 255, 255, 0.2); }
+
+.ls-btn-lg { min-height: 56px; padding: 0 32px; font-size: 1.075rem; }
+.ls-btn-block { width: 100%; }
+.ls-btn svg { flex: none; }
+
+/* ==========================================================================
+   Pills, hairlines, misc
+   ========================================================================== */
+
+.ls-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 15px;
+  border-radius: var(--ls-r-pill);
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--ls-text);
+  font-size: 0.8375rem;
+  font-weight: 550;
+  letter-spacing: -0.006em;
+}
+
+.ls-pill-on-ink { background: rgba(255, 255, 255, 0.1); color: var(--ls-text-on-ink); }
+.ls-pill-yellow { background: var(--ls-yellow); color: var(--ls-on-yellow); font-weight: 600; }
+
+.ls-rule { height: 1px; background: var(--ls-line); border: 0; margin: 0; }
+.ls-rule-on-ink { background: var(--ls-line-on-ink); }
+
+/* ==========================================================================
+   Motion — the one authored moment.
+
+   Content is VISIBLE BY DEFAULT. The hidden state is applied only after JS
+   confirms an observer is running (data-reveal="armed"), so no-JS, crawler,
+   and reduced-motion visitors always get the fully rendered page.
+   ========================================================================== */
+
+[data-reveal="armed"] .ls-reveal {
+  opacity: 0;
+  transform: translateY(26px);
+}
+
+[data-reveal="armed"] .ls-reveal.is-revealed {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--ls-dur) var(--ls-ease),
+    transform var(--ls-dur) var(--ls-ease);
+}
+
+/* Staggering is authored per-group, not per-element, so a section arrives as
+   one gesture instead of a queue of independent pop-ins. */
+[data-reveal="armed"] .ls-stagger > .ls-reveal.is-revealed { transition-delay: var(--ls-stagger-d, 0ms); }
+[data-reveal="armed"] .ls-stagger > *:nth-child(1) { --ls-stagger-d: 0ms; }
+[data-reveal="armed"] .ls-stagger > *:nth-child(2) { --ls-stagger-d: 70ms; }
+[data-reveal="armed"] .ls-stagger > *:nth-child(3) { --ls-stagger-d: 140ms; }
+[data-reveal="armed"] .ls-stagger > *:nth-child(4) { --ls-stagger-d: 210ms; }
+[data-reveal="armed"] .ls-stagger > *:nth-child(5) { --ls-stagger-d: 280ms; }
+[data-reveal="armed"] .ls-stagger > *:nth-child(6) { --ls-stagger-d: 350ms; }
+[data-reveal="armed"] .ls-stagger > *:nth-child(7) { --ls-stagger-d: 420ms; }
+[data-reveal="armed"] .ls-stagger > *:nth-child(8) { --ls-stagger-d: 490ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal="armed"] .ls-reveal { opacity: 1; transform: none; }
+  .ls-card,
+  .ls-btn { transition: none; }
+  a.ls-card:hover,
+  .ls-card-interactive:hover { transform: none; }
+  .ls-btn:active { transform: none; }
+}
+
+/* ==========================================================================
+   Focus — one visible ring sitewide, legible on every ground.
+   ========================================================================== */
+
+.ls-btn:focus-visible,
+a.ls-card:focus-visible,
+.ls-pill:focus-visible,
+.ls-focus:focus-visible {
+  outline: 2.5px solid var(--ls-ink);
+  outline-offset: 3px;
+}
+
+.ls-ground-ink .ls-btn:focus-visible,
+.ls-ground-ink a:focus-visible,
+.ls-card-on-ink:focus-visible {
+  outline-color: var(--ls-yellow);
+}

@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "./styles/system.css";
 @plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
@@ -133,8 +134,11 @@
   --chart-4: 30 80% 48%;
   --chart-5: 280 60% 52%;
 
-  --app-font-sans: 'Inter', sans-serif;
-  --app-font-display: 'Poppins', sans-serif;
+  /* One family, four weights — replaces the previous Inter(9) + Poppins(4)
+     load. Schibsted Grotesk carries the tight-aperture neo-grotesque
+     character large display type needs without the Inter/Poppins default. */
+  --app-font-sans: 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --app-font-display: 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   --app-font-serif: Georgia, serif;
   --app-font-mono: Menlo, monospace;
   --radius: .5rem;

@@ -28,19 +28,6 @@ interface Review {
   text: string;
 }
 
-const FALLBACK_REVIEWS: Review[] = [
-  { author_name: "Lisa M.", rating: 5, relative_time_description: "2 months ago", text: "Excellent service from start to finish. Driver was on time, friendly and the car was spotless. Used them for a Heathrow transfer — absolutely perfect. Highly recommend." },
-  { author_name: "Mark T.", rating: 5, relative_time_description: "3 months ago", text: "We use Lakeside Taxis for the school run every week. Never late once, my kids feel completely safe with the drivers. Brilliant communication and great service." },
-  { author_name: "James R.", rating: 5, relative_time_description: "1 month ago", text: "Professional, punctual and very reasonable pricing. Set up a corporate account for our business travel and it's been seamless. Our go-to taxi company in Thurrock." },
-  { author_name: "Sarah K.", rating: 5, relative_time_description: "5 months ago", text: "Called at 4am for an early Gatwick flight and they were there bang on time. Clean car, friendly driver. Couldn't fault it. Will be using again for sure." },
-  { author_name: "David H.", rating: 5, relative_time_description: "6 months ago", text: "Long distance trip to Birmingham — comfortable car, great conversation, smooth journey. Price was very fair and confirmed upfront. No nasty surprises." },
-  { author_name: "Emma S.", rating: 5, relative_time_description: "4 months ago", text: "Fantastic local service. Driver knew the area perfectly and got me to the station despite the roadworks. WhatsApp booking is so easy. Definitely my first call now." },
-  { author_name: "Robert M.", rating: 5, relative_time_description: "7 months ago", text: "30 years in business and it really shows. Reliable, honest pricing, professional drivers. Our whole family uses Lakeside Taxis. Wouldn't go anywhere else in Grays." },
-  { author_name: "Aisha N.", rating: 5, relative_time_description: "2 months ago", text: "Got a quote on WhatsApp within the hour and the price was very competitive. Driver was friendly and early. The whole experience was smooth and stress-free." },
-  { author_name: "Tom W.", rating: 5, relative_time_description: "3 months ago", text: "Our flight was delayed by two hours and the driver waited without any fuss or extra charges. That kind of service is rare. Absolutely brilliant, thank you!" },
-  { author_name: "Claire B.", rating: 5, relative_time_description: "1 month ago", text: "Managed corporate accounts for a small business — the invoicing is simple, drivers are always immaculate and punctual. Couldn't be happier. Highly recommended." },
-];
-
 function StarRating({ rating }: { rating: number }) {
   return (
     <div className="hp-review-stars">
@@ -110,24 +97,35 @@ function ReviewsMarquee({ reviews }: { reviews: Review[] }) {
   );
 }
 
+/**
+ * Reviews come live from Google via /api/reviews. There is deliberately NO
+ * fallback content: if the API returns nothing, this section does not render
+ * at all. Previously ten invented reviews and a hardcoded 5.0 rating shipped
+ * as the default state — fabricated consumer reviews are a banned practice
+ * under the DMCC Act 2024, and fabricated AggregateRating markup is a Google
+ * manual-action risk. Both are gone. Never reintroduce a static fallback here.
+ */
 function GoogleReviewsSection() {
-  const [reviews, setReviews] = useState<Review[]>(FALLBACK_REVIEWS);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [aggregate, setAggregate] = useState<{ rating: number; count: number } | null>(null);
   const headerRef = useScrollReveal<HTMLDivElement>();
 
   useEffect(() => {
     fetch("/api/reviews")
       .then((r) => r.json())
-      .then((data: { reviews: Review[]; rating?: number; userRatingsTotal?: number }) => {
-        if (data.reviews && data.reviews.length >= 6) {
+      .then((data: { reviews?: Review[]; rating?: number; userRatingsTotal?: number }) => {
+        if (Array.isArray(data.reviews) && data.reviews.length > 0) {
           setReviews(data.reviews);
         }
         if (data.rating && data.userRatingsTotal) {
           setAggregate({ rating: data.rating, count: data.userRatingsTotal });
         }
       })
-      .catch(() => {/* keep fallback */});
+      .catch(() => {/* no reviews, no section */});
   }, []);
+
+  // Nothing real to show — render nothing rather than inventing proof.
+  if (reviews.length === 0) return null;
 
   return (
     <section className="hp-light hp-reviews-section" data-testid="testimonials-section" data-section="reviews">
@@ -143,14 +141,17 @@ function GoogleReviewsSection() {
         </Helmet>
       )}
       <div ref={headerRef} className="hp-inner hp-reviews-header hp-reveal">
-        <div className="hp-kicker">Trusted by Customers Across Thurrock</div>
-        <h2 className="hp-section-title">What Our Customers Say</h2>
-        <div className="hp-reviews-rating-badge">
-          <GoogleIcon />
-          <span className="hp-reviews-score">{aggregate ? aggregate.rating.toFixed(1) : "5.0"}</span>
-          <StarRating rating={aggregate ? Math.round(aggregate.rating) : 5} />
-          <span className="hp-reviews-count">{aggregate ? `${aggregate.count} Google Reviews` : "Google Reviews"}</span>
-        </div>
+        <h2 className="hp-section-title">What our customers say</h2>
+        {aggregate && (
+          <div className="hp-reviews-rating-badge">
+            <GoogleIcon />
+            <span className="hp-reviews-score">{aggregate.rating.toFixed(1)}</span>
+            <StarRating rating={Math.round(aggregate.rating)} />
+            <span className="hp-reviews-count">
+              {aggregate.count === 1 ? "1 Google review" : `${aggregate.count} Google reviews`}
+            </span>
+          </div>
+        )}
       </div>
       <ReviewsMarquee reviews={reviews} />
     </section>
