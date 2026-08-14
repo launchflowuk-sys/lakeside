@@ -493,3 +493,10 @@ a.ac-area-card:focus-visible,
   a.ac-area-card:hover { transform: none; }
   .ac-btn:active { transform: none; }
 }
+
+/* WhatsApp brand green — see --ls-whatsapp in system.css. */
+.ac-btn-whatsapp {
+  background: var(--ls-whatsapp);
+  color: var(--ls-on-whatsapp);
+}
+.ac-btn-whatsapp:hover { background: var(--ls-whatsapp-deep); }

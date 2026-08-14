@@ -938,3 +938,24 @@ a.ip-airport-card:hover .ip-airport-book-btn svg { transform: translateX(3px); }
   a.ip-related-card:hover, a.ip-airport-card:hover { transform: none; }
   .ip-btn:active { transform: none; }
 }
+
+/* WhatsApp brand green in the CTA banner — see --ls-whatsapp in system.css. */
+.ip-cta-btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 56px;
+  padding: 0 32px;
+  border-radius: var(--ls-r-pill);
+  background: var(--ls-whatsapp);
+  color: var(--ls-on-whatsapp);
+  font-size: 1.075rem;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--ls-dur-fast) var(--ls-ease-soft);
+}
+.ip-cta-btn-whatsapp:hover { background: var(--ls-whatsapp-deep); }
+.ip-cta-btn-whatsapp:focus-visible { outline: 2.5px solid var(--ls-yellow); outline-offset: 3px; }

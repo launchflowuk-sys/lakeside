@@ -222,3 +222,11 @@
   .ty-btn { transition: none; }
   .ty-btn:active { transform: none; }
 }
+
+/* WhatsApp keeps its brand green here too — see --ls-whatsapp in system.css.
+   Ink on the green at 8.1:1; white would be 1.8:1 and fail. */
+.ty-btn-whatsapp {
+  background: var(--ls-whatsapp);
+  color: var(--ls-on-whatsapp);
+}
+.ty-btn-whatsapp:hover { background: var(--ls-whatsapp-deep); }

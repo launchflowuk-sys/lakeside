@@ -418,3 +418,25 @@
   .ab-cta-btn-primary:active,
   .ab-cta-btn-outline:active { transform: none; }
 }
+
+/* WhatsApp brand green — see --ls-whatsapp in system.css. */
+.ab-cta-btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 56px;
+  padding: 0 32px;
+  border-radius: var(--ls-r-pill);
+  font-family: inherit;
+  font-size: 1.075rem;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  text-decoration: none;
+  white-space: nowrap;
+  background: var(--ls-whatsapp);
+  color: var(--ls-on-whatsapp);
+  transition: background-color var(--ls-dur-fast) var(--ls-ease-soft);
+}
+.ab-cta-btn-whatsapp:hover { background: var(--ls-whatsapp-deep); }
+.ab-cta-btn-whatsapp:focus-visible { outline: 2.5px solid var(--ls-yellow); outline-offset: 3px; }

@@ -293,7 +293,7 @@ export default function AirportTransfers() {
                   <IconArrowRight size={18} />
                 </Link>
                 <a href={TEL} className="ip-cta-btn-dark">01375 383878</a>
-                <a href={WA} className="ip-cta-btn-dark" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                <a href={WA} className="ip-cta-btn-whatsapp" target="_blank" rel="noopener noreferrer">WhatsApp</a>
               </div>
             </div>
 

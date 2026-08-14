@@ -171,7 +171,7 @@ export default function AreaPage({
               </Link>
               <a
                 href={WA}
-                className="ls-btn ls-btn-on-ink ls-btn-lg"
+                className="ls-btn ls-btn-whatsapp ls-btn-lg"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -301,7 +301,7 @@ export default function AreaPage({
                     </a>
                     <a
                       href={WA}
-                      className="ls-btn ls-btn-quiet"
+                      className="ls-btn ls-btn-whatsapp"
                       target="_blank"
                       rel="noopener noreferrer"
                     >

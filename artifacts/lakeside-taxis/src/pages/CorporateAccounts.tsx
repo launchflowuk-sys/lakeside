@@ -368,7 +368,7 @@ export default function CorporateAccounts() {
             01375 383878
           </a>
           <a
-            className="ca-cta-btn-outline"
+            className="ca-cta-btn-whatsapp"
             href={WA}
             target="_blank"
             rel="noopener noreferrer"

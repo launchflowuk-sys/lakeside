@@ -45,7 +45,7 @@ function QuoteDetail({ quoteRef }: { quoteRef: string }) {
         <p>We couldn't find a quote with that reference. Please double-check the code or contact us directly.</p>
         <div className="qp-error-ctas">
           <a href={`tel:${PHONE}`} className="qp-btn-primary">Call Us</a>
-          <a href={WHATSAPP_URL} className="qp-btn-outline">WhatsApp</a>
+          <a href={WHATSAPP_URL} className="qp-btn-whatsapp">WhatsApp</a>
         </div>
       </div>
     );
@@ -221,7 +221,7 @@ function QuoteDetail({ quoteRef }: { quoteRef: string }) {
           <p>Thank you! Your payment has been received — see you on {journeyDateFormatted}.</p>
           <div className="qp-accepted-ctas">
             <a href={`tel:${PHONE}`} className="qp-btn-primary">Call Us</a>
-            <a href={WHATSAPP_URL} className="qp-btn-outline">WhatsApp</a>
+            <a href={WHATSAPP_URL} className="qp-btn-whatsapp">WhatsApp</a>
           </div>
         </div>
       )}
@@ -233,7 +233,7 @@ function QuoteDetail({ quoteRef }: { quoteRef: string }) {
           <p>Thank you! We've received your acceptance and will be in touch shortly to confirm your booking details.</p>
           <div className="qp-accepted-ctas">
             <a href={`tel:${PHONE}`} className="qp-btn-primary">Call Us</a>
-            <a href={WHATSAPP_URL} className="qp-btn-outline">WhatsApp</a>
+            <a href={WHATSAPP_URL} className="qp-btn-whatsapp">WhatsApp</a>
           </div>
         </div>
       )}

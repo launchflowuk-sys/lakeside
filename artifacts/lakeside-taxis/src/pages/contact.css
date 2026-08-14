@@ -446,3 +446,11 @@ a.ct-method-card:focus-visible,
   a.ct-method-card:hover { transform: none; }
   .ct-booking-btn:active { transform: none; }
 }
+
+/* The WhatsApp route keeps its brand colour on the icon tile rather than the
+   whole card — three equal-weight contact cards should read as a set, and a
+   fully green card would shout over Call and Email. */
+.ct-method-card--wa .ct-method-icon {
+  background: var(--ls-whatsapp);
+  color: var(--ls-on-whatsapp);
+}

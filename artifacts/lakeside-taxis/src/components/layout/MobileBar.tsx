@@ -19,8 +19,8 @@ export default function MobileBar() {
         {/* WhatsApp — WhatsApp green */}
         <a
           href="https://wa.me/447879956275"
-          className="flex flex-col items-center justify-center py-3 gap-1 text-white hover:opacity-90 transition-opacity"
-          style={{ backgroundColor: "#25D366" }}
+          className="flex flex-col items-center justify-center py-3 gap-1 hover:opacity-90 transition-opacity"
+          style={{ backgroundColor: "var(--ls-whatsapp)", color: "var(--ls-on-whatsapp)" }}
           data-testid="mobile-bar-whatsapp"
         >
           <MessageCircle className="w-5 h-5" />

@@ -261,7 +261,7 @@ export default function AreasCovered() {
                     <IconPhone size={18} />
                     01375 383878
                   </a>
-                  <a href={WA} className="ac-btn ac-btn-quiet" target="_blank" rel="noopener noreferrer">
+                  <a href={WA} className="ac-btn ac-btn-whatsapp" target="_blank" rel="noopener noreferrer">
                     <IconMessage size={18} />
                     WhatsApp us
                   </a>

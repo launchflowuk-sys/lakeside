@@ -575,7 +575,7 @@ export default function Home() {
                   <IconPhone size={18} />
                   01375 383878
                 </a>
-                <a href={WA_HREF} className="hp-btn hp-btn-outline" target="_blank" rel="noopener noreferrer">
+                <a href={WA_HREF} className="hp-btn hp-btn-green" target="_blank" rel="noopener noreferrer">
                   <IconMessage size={18} />
                   WhatsApp
                 </a>

@@ -53,7 +53,7 @@ export default function ThankYou() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-testid="thankyou-whatsapp-btn"
-                className="ty-btn ty-btn-quiet"
+                className="ty-btn ty-btn-whatsapp"
               >
                 <IconMessage size={17} />
                 WhatsApp us

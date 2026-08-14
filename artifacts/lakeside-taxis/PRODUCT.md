@@ -32,7 +32,8 @@ The mechanism a competitor cannot truthfully copy: a Thurrock firm trading since
 
 ## Operating Context
 
-- Prices are **never** shown online. Every quote is confirmed personally by staff, usually within the hour, via callback or message. This is deliberate, not a gap to design around.
+- **Airport transfer prices are published** — a fixed price per airport (Heathrow £105, Gatwick £80, Stansted £70, Luton £100, London City £55, Southend £50) appears on the homepage, the airport index and the six airport pages. Confirmed by the owner (14 Aug 2026) as intended and correct. These are headline prices for the most-compared journey; publishing them is a deliberate competitive choice against Uber/Bolt surge pricing.
+- **Every other journey is priced individually.** There is no fare calculator and no instant quote: local, school run, corporate, long-distance and cruise transfers are all confirmed personally by staff, usually within the hour, via callback or message. This is deliberate, not a gap to design around.
 - Visitors arrive mid-task and often mid-journey — on mobile, on data, sometimes in a hurry or at night.
 - The public site feeds an internal admin dashboard: leads, booked jobs, corporate applications, payment links, settings. A quote request becomes a lead an operator prices and sends a payment link for.
 - Public surface: home, about, contact, 6 service pages (local taxis, airport transfers, corporate accounts, school runs, long-distance, Tilbury cruise terminal), 9 town pages, 6 airport pages, areas-covered index, quote request, thank-you, quote view, and three legal pages.
@@ -43,7 +44,7 @@ The mechanism a competitor cannot truthfully copy: a Thurrock firm trading since
 - Every town and airport page carries canonical URLs, OpenGraph tags and JSON-LD structured data. **URLs and structured data must survive any redesign** — these pages earn the traffic.
 - The booking form (`BookingForm`) has a `compact` variant used in page sidebars and a full variant on the quote-request page. It is the conversion target sitewide.
 - Mobile PageSpeed is a live concern; a previous regression from oversized images and duplicate font loading was fixed on 18 Jul 2026 and must not be reintroduced.
-- No pricing, no fare calculator, no live tracking, no account system, no native app.
+- Published airport prices only; no fare calculator, no instant quoting, no live tracking, no account system, no native app.
 
 ## Brand Commitments
 
@@ -58,6 +59,8 @@ Confirmed true by the owner (14 Aug 2026), safe to build on:
 
 - **Trading since 1990** — 30+ years serving Thurrock.
 - **Flight monitoring and meet-and-greet** on airport transfers — genuinely offered.
+- **Named corporate clients: Thurrock Council and Inchcape.** Confirmed genuine by the owner (14 Aug 2026). These are real, checkable accounts and the strongest trust asset the firm has — a council and a plc chose them. Safe to name on the corporate pages.
+- **Published airport prices** — the six fixed fares above are real and honoured.
 
 Explicitly false — must be removed, not merely hidden:
 
@@ -67,7 +70,11 @@ Explicitly false — must be removed, not merely hidden:
 
 **Owner decision (14 Aug 2026): reviews come live from Google via `/api/reviews`, with no fallback.** `FALLBACK_REVIEWS` and the hardcoded 5.0/5-star display are deleted. When the API returns nothing, the reviews section does not render at all. `AggregateRating` JSON-LD emits only when a real aggregate is returned by that API — never from static values.
 
-Social proof is genuinely thin: three reviews, no aggregate rating, no testimonials, no case studies, no press coverage, no named corporate clients, no driver photographs, no fleet photography. **The design must not lean on review counts, star ratings, or "trusted by thousands" claims, and must look complete with the reviews section absent.** Trust is carried by verifiable facts — trading since 1990, local coverage, fixed-price-before-travel, flight monitoring, meet-and-greet, 24/7 — never by invented social proof.
+Consumer social proof is genuinely thin: three reviews, no aggregate rating, no testimonials, no case studies, no press coverage, no driver photographs, no fleet photography. **The design must not lean on review counts, star ratings, or "trusted by thousands" claims, and must look complete with the reviews section absent.**
+
+Corporate proof is the exception and is strong: **Thurrock Council and Inchcape are real, named accounts** (confirmed 14 Aug 2026). A council and a plc are worth more to a business visitor than any number of consumer reviews, and unlike a star rating they can be verified. Name them on corporate-facing surfaces; do not stretch them into a general "trusted by" claim on consumer pages, where they mean little to someone booking a school run.
+
+Trust is otherwise carried by verifiable facts — trading since 1990, local coverage, published airport prices, fixed-price-before-travel, flight monitoring, meet-and-greet, 24/7 — never by invented social proof.
 
 ## Product Principles
 

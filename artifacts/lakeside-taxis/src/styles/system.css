@@ -253,6 +253,15 @@ a.ls-card { display: block; text-decoration: none; color: inherit; }
 .ls-btn-on-ink { background: rgba(255, 255, 255, 0.12); color: var(--ls-text-on-ink); }
 .ls-btn-on-ink:hover { background: rgba(255, 255, 255, 0.2); }
 
+/* WhatsApp keeps its brand green on every ground, light or ink — the colour is
+   the affordance and people find it faster than they read the label. Ink on
+   top at 8.1:1; white on this green is 1.8:1 and fails. */
+.ls-btn-whatsapp {
+  background: var(--ls-whatsapp);
+  color: var(--ls-on-whatsapp);
+}
+.ls-btn-whatsapp:hover { background: var(--ls-whatsapp-deep); }
+
 .ls-btn-lg { min-height: 56px; padding: 0 32px; font-size: 1.075rem; }
 .ls-btn-block { width: 100%; }
 .ls-btn svg { flex: none; }

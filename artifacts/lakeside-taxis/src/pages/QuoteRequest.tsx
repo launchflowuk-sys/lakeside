@@ -155,7 +155,7 @@ export default function QuoteRequest() {
                     </a>
                     <a
                       href={WA}
-                      className="ls-btn ls-btn-quiet ls-btn-block"
+                      className="ls-btn ls-btn-whatsapp ls-btn-block"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -205,7 +205,7 @@ export default function QuoteRequest() {
               </a>
               <a
                 href={WA}
-                className="ls-btn ls-btn-on-ink ls-btn-lg"
+                className="ls-btn ls-btn-whatsapp ls-btn-lg"
                 target="_blank"
                 rel="noopener noreferrer"
               >

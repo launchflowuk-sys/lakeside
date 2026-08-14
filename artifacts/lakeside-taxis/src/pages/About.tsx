@@ -225,7 +225,7 @@ export default function About() {
                 <IconPhone size={18} />
                 01375 383878
               </a>
-              <a href={WA} className="ab-cta-btn-outline" target="_blank" rel="noopener noreferrer">
+              <a href={WA} className="ab-cta-btn-whatsapp" target="_blank" rel="noopener noreferrer">
                 <IconMessage size={18} />
                 WhatsApp us
               </a>

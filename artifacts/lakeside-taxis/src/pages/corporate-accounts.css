@@ -648,3 +648,10 @@
   .ca-hero-btn-primary:active,
   .ca-submit-btn:active { transform: none; }
 }
+
+/* WhatsApp brand green — see --ls-whatsapp in system.css. */
+.ca-cta-btn-whatsapp {
+  background: var(--ls-whatsapp);
+  color: var(--ls-on-whatsapp);
+}
+.ca-cta-btn-whatsapp:hover { background: var(--ls-whatsapp-deep); }

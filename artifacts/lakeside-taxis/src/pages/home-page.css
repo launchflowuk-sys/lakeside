@@ -801,12 +801,16 @@ a.hp-service-card:hover .hp-service-cta svg { transform: translateX(3px); }
 }
 .hp-why-card-btn--yellow:hover { background: var(--ls-yellow-deep); }
 
-.hp-why-card-btn--green,
+.hp-why-card-btn--green {
+  background: var(--ls-whatsapp);
+  color: var(--ls-on-whatsapp);
+}
+.hp-why-card-btn--green:hover { background: var(--ls-whatsapp-deep); }
+
 .hp-why-card-btn--outline {
   background: rgba(255, 255, 255, 0.12);
   color: var(--ls-text-on-ink);
 }
-.hp-why-card-btn--green:hover,
 .hp-why-card-btn--outline:hover { background: rgba(255, 255, 255, 0.2); }
 
 /* ==========================================================================

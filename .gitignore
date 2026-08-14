@@ -51,3 +51,9 @@ Thumbs.db
 
 # Claude Code local overrides (may contain credentials in allow-list command strings)
 .claude/settings.local.json
+
+# Local credential notes — never commit. Added 14 Aug 2026 after admin
+# credentials were placed in artifacts/mockup-sandbox, which is tracked.
+credentials*.txt
+*credentials*.txt
+**/credentials*
