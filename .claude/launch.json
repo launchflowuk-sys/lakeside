@@ -6,6 +6,12 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["--filter", "@workspace/lakeside-taxis", "dev", "--port", "5173"],
       "port": 5173
+    },
+    {
+      "name": "lakeside-taxis-prod",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "@workspace/lakeside-taxis", "serve", "--port", "4173"],
+      "port": 4173
     }
   ]
 }
