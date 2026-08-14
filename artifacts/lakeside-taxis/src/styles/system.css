@@ -28,6 +28,14 @@
   --ls-yellow-deep: #e8bd00;
   --ls-on-yellow: #1d1d1f;
 
+  /* ── WhatsApp ──
+     The one colour on the site that isn't ours. It stays because the green is
+     the affordance — people recognise it faster than any label. Text on it is
+     ink, not white: white on #25d366 is 1.8:1, ink is 9.4:1. */
+  --ls-whatsapp: #25d366;
+  --ls-whatsapp-deep: #1eb955;
+  --ls-on-whatsapp: #10251a;
+
   /* ── Hairlines ── */
   --ls-line: rgba(0, 0, 0, 0.08);
   --ls-line-strong: rgba(0, 0, 0, 0.14);
@@ -59,8 +67,12 @@
   /* Tightened from clamp(72px, 9vw, 132px) — the generous rendition read as
      dead space on mobile, where most visitors land. */
   --ls-section-y: clamp(48px, 5.4vw, 84px);
-  --ls-shell: 1080px;
-  --ls-shell-wide: 1240px;
+  /* Matches the header and footer container (Tailwind max-w-7xl = 1280px) so
+     page content lines up with the logo and nav rather than sitting inside
+     them. The previous 1080px read as squashed against a full-width header. */
+  --ls-shell: 1280px;
+  --ls-shell-wide: 1400px;
+  /* Same horizontal padding as the header's lg:px-8, so the alignment holds. */
   --ls-pad-x: clamp(20px, 5vw, 32px);
 
   /* ── Motion ──

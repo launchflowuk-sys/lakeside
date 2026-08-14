@@ -1,290 +1,354 @@
-/* ── Quote Request Page ── */
+/* ==========================================================================
+   Quote request (/quote-request) — the conversion target.
+   Page-specific composition only — colour, radius, depth, type and motion
+   all come from src/styles/system.css.
+
+   The form is the page, not a sidebar attachment. So the form card is the one
+   elevated object: it lifts out of the dark hero and sits above the fold on a
+   white ground. Everything else on the page is deliberately quieter than it.
+   ========================================================================== */
+
+.qr {
+  background: var(--ls-white);
+}
+
+/* ==========================================================================
+   1. Hero — ink ground, same atmosphere as the town/airport heroes.
+      Shorter than a landing hero: this is a task page, the form comes first.
+   ========================================================================== */
 
 .qr-hero {
-  background: hsl(220 25% 6%);
-  padding: 72px 0 60px;
   position: relative;
+  background: var(--ls-ink);
+  color: var(--ls-text-on-ink);
+  /* Bottom padding is deliberately deep — the form card is pulled up into it. */
+  padding-block: clamp(22px, 3vw, 32px) clamp(88px, 10vw, 132px);
   overflow: hidden;
 }
 
 .qr-hero::before {
-  content: '';
+  content: "";
   position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    -45deg,
-    transparent, transparent 56px,
-    rgba(255,209,0,0.022) 56px,
-    rgba(255,209,0,0.022) 57px
+  top: -34%;
+  left: 50%;
+  width: min(1000px, 130%);
+  aspect-ratio: 1;
+  transform: translateX(-58%);
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 209, 0, 0.15) 0%,
+    rgba(255, 209, 0, 0.05) 38%,
+    transparent 68%
   );
   pointer-events: none;
 }
 
-.qr-inner {
-  width: min(1180px, calc(100% - 40px));
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-}
+.qr-hero > * { position: relative; }
 
-.qr-eyebrow {
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #ffd100;
-  display: block;
-  margin-bottom: 12px;
-}
-
-.qr-h1 {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: clamp(2.8rem, 6vw, 5rem);
-  font-weight: 900;
-  line-height: 1.0;
-  letter-spacing: -0.02em;
-  color: #ffffff;
-  text-transform: uppercase;
-  margin: 0 0 16px;
-}
-
-.qr-h1 span { color: #ffd100; }
-
-.qr-hero-sub {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: rgba(255,255,255,0.55);
-  max-width: 520px;
-  margin: 0;
-}
-
-/* ── Trust Strip ── */
-.qr-trust {
-  background: #ffd100;
-}
-
-.qr-trust-inner {
-  width: min(1180px, calc(100% - 0px));
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-}
-
-.qr-trust-item {
+.qr-breadcrumb {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 12px;
-  padding: 18px 20px;
-  border-right: 1px solid rgba(0,0,0,0.1);
+  gap: 9px;
+  font-size: 0.875rem;
+  color: var(--ls-text-2-on-ink);
+  margin-bottom: clamp(20px, 2.6vw, 30px);
 }
 
-.qr-trust-item:last-child {
-  border-right: none;
+.qr-breadcrumb a {
+  color: var(--ls-text-2-on-ink);
+  text-decoration: none;
+  transition: color var(--ls-dur-fast) var(--ls-ease-soft);
+}
+.qr-breadcrumb a:hover { color: var(--ls-text-on-ink); }
+.qr-breadcrumb svg { opacity: 0.45; }
+.qr-breadcrumb [aria-current] { color: var(--ls-text-on-ink); }
+
+.qr-hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ls-gap-sm);
+  margin-bottom: var(--ls-gap);
 }
 
-.qr-trust-icon {
-  font-size: 1.3rem;
-  flex-shrink: 0;
-}
-
-.qr-trust-title {
-  display: block;
-  font-size: 0.8rem;
+.qr-hero-title {
+  font-family: var(--app-font-display);
+  font-size: clamp(2.75rem, 7.4vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.042em;
   font-weight: 700;
-  color: #0a0a0a;
-  line-height: 1.2;
+  margin: 0;
+  max-width: 15ch;
 }
 
-.qr-trust-sub {
-  font-size: 0.68rem;
-  color: rgba(0,0,0,0.5);
+/* Same rule as the town pages: yellow is pure colour on the dark ground
+   (11.9:1), never a text colour on white. */
+.qr-hero-title span { color: var(--ls-yellow); }
+
+.qr-hero-lede {
+  margin: var(--ls-gap) 0 0;
+  font-size: clamp(1.075rem, 1.9vw, 1.3125rem);
+  line-height: 1.52;
+  letter-spacing: -0.012em;
+  color: var(--ls-text-2-on-ink);
+  max-width: 56ch;
 }
 
-/* ── Form Section ── */
+/* ==========================================================================
+   2. Body — the form lifts out of the hero.
+      The negative pull is what makes the card read as the page's one object
+      rather than the first item in a stack of sections.
+   ========================================================================== */
+
 .qr-body {
-  background: #0a0a0a;
-  padding: 64px 0 80px;
+  position: relative;
+  margin-top: clamp(-108px, -8.4vw, -68px);
+  padding-bottom: var(--ls-section-y);
 }
 
-.qr-body-inner {
-  width: min(1180px, calc(100% - 40px));
-  margin: 0 auto;
+.qr-layout {
   display: grid;
-  grid-template-columns: 1fr 380px;
-  gap: 48px;
+  grid-template-columns: minmax(0, 1fr) 344px;
+  gap: clamp(24px, 3vw, 40px);
   align-items: start;
 }
 
-/* ── Form Card ── */
+@media (max-width: 1000px) {
+  .qr-layout { grid-template-columns: 1fr; gap: var(--ls-gap); }
+}
+
+/* ── The form card ── */
+
 .qr-form-card {
-  background: #0f1623;
-  border: 1px solid #1f2937;
-  border-radius: 12px;
-  padding: 32px 28px;
+  background: var(--ls-white);
+  border-radius: var(--ls-r-xl);
+  padding: clamp(24px, 3vw, 40px);
+  box-shadow: var(--ls-shadow-lg);
+}
+
+.qr-form-head {
+  margin-bottom: var(--ls-gap);
+  padding-bottom: var(--ls-gap);
+  border-bottom: 1px solid var(--ls-line);
 }
 
 .qr-form-title {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 1.4rem;
-  font-weight: 900;
-  color: #ffffff;
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
-  margin: 0 0 4px;
-}
-
-.qr-form-sub {
-  font-size: 0.75rem;
-  color: rgba(255,255,255,0.38);
-  margin: 0 0 24px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
-}
-
-/* ── Sidebar ── */
-.qr-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.qr-sidebar-card {
-  background: #111827;
-  border: 1px solid #1f2937;
-  border-radius: 10px;
-  padding: 24px 22px;
-}
-
-.qr-sidebar-label {
-  font-size: 0.68rem;
+  font-family: var(--app-font-display);
+  font-size: clamp(1.5rem, 2.6vw, 1.875rem);
   font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #ffd100;
-  margin: 0 0 12px;
-  display: block;
-}
-
-/* ── What happens next steps ── */
-.qr-steps {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.qr-step {
-  display: flex;
-  gap: 14px;
-}
-
-.qr-step-num {
-  width: 28px;
-  height: 28px;
-  background: #ffd100;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.78rem;
-  font-weight: 800;
-  color: #0a0a0a;
-  flex-shrink: 0;
-}
-
-.qr-step-title {
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin: 0 0 3px;
-}
-
-.qr-step-desc {
-  font-size: 0.73rem;
-  line-height: 1.5;
-  color: rgba(255,255,255,0.38);
+  letter-spacing: -0.028em;
+  color: var(--ls-text);
   margin: 0;
 }
 
-/* ── Contact buttons ── */
-.qr-contact-btns {
+.qr-form-sub {
+  margin: 8px 0 0;
+  font-size: 0.9875rem;
+  line-height: 1.55;
+  color: var(--ls-text-2);
+  max-width: 56ch;
+}
+
+/* ── Sidebar ── */
+
+.qr-aside {
+  position: sticky;
+  top: 92px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--ls-gap-sm);
 }
 
-.qr-contact-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border-radius: 6px;
-  padding: 11px 16px;
-  text-decoration: none;
-  font-size: 0.85rem;
+@media (max-width: 1000px) {
+  .qr-aside { position: static; }
+}
+
+/* Recessed against the elevated form card — mist ground, no shadow, so the
+   hierarchy between "the thing you fill in" and "supporting detail" is real. */
+.qr-aside-card {
+  background: var(--ls-mist);
+  border-radius: var(--ls-r-lg);
+  padding: clamp(22px, 2.4vw, 28px);
+}
+
+.qr-aside-label {
+  display: block;
+  font-family: var(--app-font-display);
+  font-size: 1.075rem;
+  font-weight: 650;
+  letter-spacing: -0.018em;
+  color: var(--ls-text);
+  margin-bottom: var(--ls-gap-sm);
+}
+
+/* ── What happens next — numbered sequence, hairline-separated ── */
+
+.qr-steps { display: flex; flex-direction: column; }
+
+.qr-step {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 14px;
+  padding-block: 15px;
+  border-top: 1px solid var(--ls-line);
+  align-items: start;
+}
+.qr-step:first-child { border-top: 0; padding-top: 0; }
+.qr-step:last-child { padding-bottom: 0; }
+
+/* Yellow as a fill with ink on top (13.9:1) — never yellow text on light. */
+.qr-step-num {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--ls-r-pill);
+  background: var(--ls-yellow);
+  color: var(--ls-on-yellow);
+  font-size: 0.8125rem;
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
-.qr-contact-btn-phone {
-  background: rgba(255,209,0,0.1);
-  border: 1px solid rgba(255,209,0,0.2);
-  color: #ffd100;
+.qr-step-title {
+  margin: 0 0 3px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  color: var(--ls-text);
 }
 
-.qr-contact-btn-whatsapp {
-  background: rgba(37,211,102,0.1);
-  border: 1px solid rgba(37,211,102,0.2);
-  color: #25D366;
+.qr-step-desc {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--ls-text-2);
 }
 
-/* ── Mobile ── */
-@media (max-width: 700px) {
-  .qr-hero {
-    padding: 36px 0 32px;
-  }
+/* ── Direct contact ── */
 
-  .qr-hero-sub {
-    font-size: 0.9rem;
-  }
+.qr-contacts { display: grid; gap: 10px; }
 
-  /* Trust strip: 2x2 grid */
-  .qr-trust-inner {
-    grid-template-columns: repeat(2, 1fr);
-    width: 100%;
-  }
-
-  .qr-trust-item {
-    padding: 14px 16px;
-    border-right: 1px solid rgba(0,0,0,0.1);
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-  }
-
-  /* Remove right border from 2nd and 4th items */
-  .qr-trust-item:nth-child(2),
-  .qr-trust-item:nth-child(4) {
-    border-right: none;
-  }
-
-  /* Remove bottom border from last row */
-  .qr-trust-item:nth-child(3),
-  .qr-trust-item:nth-child(4) {
-    border-bottom: none;
-  }
-
-  /* Stack form above sidebar */
-  .qr-body {
-    padding: 32px 0 100px;
-  }
-
-  .qr-body-inner {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .qr-form-card {
-    padding: 24px 16px;
-  }
-
-  .qr-sidebar-card {
-    padding: 20px 16px;
-  }
+.qr-aside-note {
+  margin: var(--ls-gap-sm) 0 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--ls-text-2);
 }
+
+/* ==========================================================================
+   3. Reassurance band — mist ground, hairline-divided row.
+      Same construction as the town/airport guarantee band.
+   ========================================================================== */
+
+.qr-band {
+  background: var(--ls-mist);
+  padding-block: clamp(28px, 3.2vw, 42px);
+}
+
+.qr-band-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+
+.qr-band-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  padding-inline: clamp(16px, 2vw, 26px);
+  border-left: 1px solid var(--ls-line);
+}
+.qr-band-item:first-child { border-left: 0; padding-left: 0; }
+.qr-band-item:last-child { padding-right: 0; }
+
+.qr-band-icon { color: var(--ls-text); flex: none; margin-top: 1px; }
+
+.qr-band-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.qr-band-text strong {
+  font-size: 0.9875rem;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  color: var(--ls-text);
+}
+.qr-band-text span {
+  font-size: 0.875rem;
+  line-height: 1.42;
+  color: var(--ls-text-2);
+}
+
+@media (max-width: 900px) {
+  .qr-band-grid { grid-template-columns: repeat(2, 1fr); gap: 26px 0; }
+  .qr-band-item:nth-child(odd) { border-left: 0; padding-left: 0; }
+}
+@media (max-width: 520px) {
+  .qr-band-grid { grid-template-columns: 1fr; gap: 20px; }
+  .qr-band-item { border-left: 0; padding-inline: 0; }
+}
+
+/* ==========================================================================
+   4. Closing CTA — ink ground, for visitors who would rather talk to someone.
+   ========================================================================== */
+
+.qr-cta {
+  position: relative;
+  background: var(--ls-ink);
+  color: var(--ls-text-on-ink);
+  padding-block: clamp(52px, 6vw, 82px);
+  text-align: center;
+  overflow: hidden;
+}
+
+.qr-cta::before {
+  content: "";
+  position: absolute;
+  inset: auto 50% -60% auto;
+  width: min(860px, 120%);
+  aspect-ratio: 1;
+  transform: translateX(50%);
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 209, 0, 0.13) 0%,
+    transparent 62%
+  );
+  pointer-events: none;
+}
+
+.qr-cta > * { position: relative; }
+
+.qr-cta-title {
+  font-family: var(--app-font-display);
+  font-size: clamp(2.1rem, 5vw, 3.4rem);
+  line-height: 1.06;
+  letter-spacing: -0.036em;
+  font-weight: 700;
+  margin: 0 auto;
+  max-width: 18ch;
+  text-wrap: balance;
+}
+
+.qr-cta-sub {
+  margin: var(--ls-gap) auto 0;
+  font-size: clamp(1rem, 1.6vw, 1.1875rem);
+  line-height: 1.5;
+  color: var(--ls-text-2-on-ink);
+  max-width: 48ch;
+}
+
+.qr-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--ls-gap-sm);
+  margin-top: clamp(22px, 2.6vw, 30px);
+}
+
+.qr-cta-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: var(--ls-gap) 0 0;
+  font-size: 0.9375rem;
+  color: var(--ls-text-2-on-ink);
+}
+.qr-cta-note svg { color: var(--ls-yellow); flex: none; }

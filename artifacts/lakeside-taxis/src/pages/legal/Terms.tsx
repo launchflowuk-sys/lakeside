@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/layout/Layout";
+import { IconMessage } from "@/components/icons/Icons";
 import "./legal.css";
 
 export default function Terms() {
@@ -133,7 +134,7 @@ export default function Terms() {
               </div>
 
               <div className="lg-contact-note">
-                <span className="lg-contact-note-icon">📋</span>
+                <span className="lg-contact-note-icon"><IconMessage size={18} /></span>
                 <div className="lg-contact-note-text">
                   <strong>Also see our other legal documents</strong>
                   <p>

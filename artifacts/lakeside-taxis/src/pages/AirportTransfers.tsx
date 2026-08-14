@@ -3,6 +3,22 @@ import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/layout/Layout";
 import { buildFaqSchema, BUSINESS_URL } from "@/lib/schema";
+import { useReveal } from "@/hooks/useReveal";
+import {
+  IconArrowRight,
+  IconBackpack,
+  IconBriefcase,
+  IconCar,
+  IconCheck,
+  IconClock,
+  IconLuggage,
+  IconMap,
+  IconPlane,
+  IconPlaneLanding,
+  IconPound,
+  IconSignal,
+  IconUsers,
+} from "@/components/icons/Icons";
 import "./inner-page.css";
 
 const faqs = [
@@ -52,13 +68,44 @@ const airports = [
   { name: "Southend", code: "SEN", price: "£50", href: "/airport-transfers/southend", desc: "Your closest Essex airport — shortest journey." },
 ];
 
+const trust = [
+  { Icon: IconPlane, strong: "6 airports", sub: "All major London & Essex" },
+  { Icon: IconSignal, strong: "Flight tracking", sub: "We monitor your arrival" },
+  { Icon: IconClock, strong: "24/7 service", sub: "Any hour, any day" },
+  { Icon: IconPound, strong: "Fixed price", sub: "No surprises on the day" },
+];
+
+/* Replaces a remote stock photograph that previously filled this column.
+   These are the commitments the photo was standing in for. */
+const assurances = [
+  { Icon: IconSignal, t: "We watch the flight, not the clock", d: "Inbound flights are tracked live, so a delay moves your pickup rather than costing you a fare." },
+  { Icon: IconUsers, t: "Met in arrivals by name", d: "Your driver waits in the hall with a name board — no car park hunt after a long flight." },
+  { Icon: IconPound, t: "Tolls, parking and waiting included", d: "The quoted price covers the lot. Nothing is added on the day." },
+  { Icon: IconLuggage, t: "The right vehicle for the luggage", d: "Tell us the bags and the group size and we send something that actually fits." },
+];
+
+const included = [
+  { Icon: IconPlane, title: "Outbound transfers", desc: "We get you to the terminal on time. Every time." },
+  { Icon: IconPlaneLanding, title: "Return pickups", desc: "We're waiting when you land — however late the flight." },
+  { Icon: IconUsers, title: "Meet & greet", desc: "Driver meets you in arrivals with a name board." },
+  { Icon: IconLuggage, title: "Extra luggage", desc: "Large vehicles available for multiple bags and oversized items." },
+];
+
+const related = [
+  { Icon: IconCar, title: "Local taxis", desc: "Anywhere in Thurrock, any time.", href: "/local-taxis" },
+  { Icon: IconBriefcase, title: "Corporate travel", desc: "Business accounts available.", href: "/corporate-accounts" },
+  { Icon: IconBackpack, title: "School runs", desc: "Safe, reliable daily service.", href: "/school-runs" },
+  { Icon: IconMap, title: "Long distance", desc: "UK-wide journeys.", href: "/long-distance-travel" },
+];
+
 export default function AirportTransfers() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const scope = useReveal<HTMLDivElement>();
 
   return (
     <Layout>
       <Helmet>
-        <title>Airport Transfers from Thurrock | Heathrow, Gatwick & More | Lakeside Taxis</title>
+        <title>Airport Transfers from Thurrock | Heathrow, Gatwick &amp; More | Lakeside Taxis</title>
         <meta name="description" content="Reliable airport transfers from Grays, Purfleet and Thurrock to Heathrow, Gatwick, Stansted, Luton, London City and Southend. Fixed prices, flight tracking, 24/7 service." />
         <link rel="canonical" href={`${BUSINESS_URL}/airport-transfers`} />
         <meta property="og:title" content="Airport Transfers from Thurrock | Lakeside & Purfleet Taxis" />
@@ -67,38 +114,39 @@ export default function AirportTransfers() {
         <meta property="og:image" content={`${BUSINESS_URL}/opengraph.jpg`} />
         <script type="application/ld+json">{JSON.stringify(buildFaqSchema(faqs, "/airport-transfers"))}</script>
       </Helmet>
-      <div className="ip">
+      <div className="ip" ref={scope}>
 
-        {/* ── HERO ── */}
-        <section className="ip-hero" style={{ "--hero-image": "url('/images/airport-transfers-hero.webp')" } as React.CSSProperties}>
+        {/* ── HERO ──
+            The hero photograph was dropped: it cost a 450kB download on the
+            page most often opened on mobile data, and the ink ground with its
+            single warm field is the same treatment the town pages use. */}
+        <section className="ip-hero">
           <div className="ip-inner ip-hero-inner">
-            <div className="ip-eyebrow">Airport Transfers · All Major UK Airports</div>
-            <h1>Airport Transfers <span>From Thurrock</span></h1>
-            <p className="ip-hero-copy">
+            <div className="ip-eyebrow ls-reveal">Airport transfers · All major UK airports</div>
+            <h1 className="ls-reveal">Airport transfers <span>from Thurrock</span></h1>
+            <p className="ip-hero-copy ls-reveal">
               Stress-free transfers from Grays, Purfleet, Lakeside and wider Thurrock to every major London and Essex airport. Early departures. Late arrivals. Your driver is always waiting.
             </p>
-            <div className="ip-hero-actions">
-              <Link href="/quote-request" className="ip-btn ip-btn-primary">Get Airport Quote →</Link>
-              <a href={WA} className="ip-btn ip-btn-green">WhatsApp Us</a>
+            <div className="ip-hero-actions ls-reveal">
+              <Link href="/quote-request" className="ip-btn ip-btn-primary">
+                Get an airport quote
+                <IconArrowRight size={18} />
+              </Link>
+              <a href={WA} className="ip-btn ip-btn-green" target="_blank" rel="noopener noreferrer">WhatsApp us</a>
               <a href={TEL} className="ip-btn ip-btn-outline-light">01375 383878</a>
             </div>
-            <div className="ip-micro">
-              <span><strong>✓</strong> Fixed price confirmed before travel</span>
-              <span><strong>✓</strong> Flight tracking on return pickups</span>
-              <span><strong>✓</strong> 24/7 service</span>
+            <div className="ip-micro ls-reveal">
+              <span><IconCheck size={17} /> Fixed price confirmed before travel</span>
+              <span><IconCheck size={17} /> Flight tracking on return pickups</span>
+              <span><IconCheck size={17} /> 24/7 service</span>
             </div>
           </div>
           <div className="ip-trust-strip">
-            <div className="ip-inner ip-trust-grid">
-              {[
-                { icon: "✈", strong: "6 Airports", sub: "All major London & Essex" },
-                { icon: "📡", strong: "Flight Tracking", sub: "We monitor your arrival" },
-                { icon: "🕐", strong: "24/7 Service", sub: "Any hour, any day" },
-                { icon: "💷", strong: "Fixed Price", sub: "No surprises on the day" },
-              ].map(t => (
-                <div className="ip-trust-item" key={t.strong}>
-                  <div className="ip-trust-icon">{t.icon}</div>
-                  <div><strong>{t.strong}</strong><span>{t.sub}</span></div>
+            <div className="ip-inner ip-trust-grid ls-stagger">
+              {trust.map(({ Icon, strong, sub }) => (
+                <div className="ip-trust-item ls-reveal" key={strong}>
+                  <div className="ip-trust-icon"><Icon size={21} /></div>
+                  <div><strong>{strong}</strong><span>{sub}</span></div>
                 </div>
               ))}
             </div>
@@ -108,40 +156,41 @@ export default function AirportTransfers() {
         {/* ── AIRPORTS GRID ── */}
         <section className="ip-dark">
           <div className="ip-inner">
-            <div className="ip-kicker ip-kicker-center" style={{ color: "hsl(var(--primary))" }}>Fixed Prices From Thurrock</div>
-            <h2 className="ip-section-title ip-section-title-center" style={{ color: "hsl(var(--card))" }}>Airport Transfer <span>Prices</span></h2>
-            <p className="ip-section-sub ip-section-sub-center ip-section-sub-dark">
+            <div className="ip-kicker ip-kicker-center ls-reveal">Fixed prices from Thurrock</div>
+            <h2 className="ip-section-title ip-section-title-center ls-reveal">Airport transfer <span>prices</span></h2>
+            <p className="ip-section-sub ip-section-sub-center ip-section-sub-dark ls-reveal">
               All prices are fixed — confirmed before travel, no surprises on the day.
             </p>
-            <div className="ip-airport-grid">
+            <div className="ip-airport-grid ls-stagger">
               {airports.map(a => (
-                <div key={a.href} className="ip-airport-card">
+                <Link key={a.href} href={a.href} className="ip-airport-card ls-reveal">
                   <div className="ip-airport-card-header">
-                    <div>
-                      <div className="ip-airport-name">{a.name}</div>
-                      <div className="ip-airport-code">{a.code}</div>
-                    </div>
+                    <span className="ip-airport-name">{a.name}</span>
+                    <span className="ip-airport-code">{a.code}</span>
                   </div>
                   <div className="ip-airport-price">{a.price}</div>
                   <div className="ip-airport-price-label">fixed price from Thurrock</div>
                   <p className="ip-airport-desc">{a.desc}</p>
-                  <Link href="/quote-request" className="ip-airport-book-btn">Book Now →</Link>
-                </div>
+                  <span className="ip-airport-book-btn">
+                    See {a.name} transfers
+                    <IconArrowRight size={16} />
+                  </span>
+                </Link>
               ))}
             </div>
           </div>
         </section>
 
         {/* ── HOW IT WORKS ── */}
-        <section className="ip-dark">
+        <section className="ip-muted">
           <div className="ip-inner ip-two-col">
             <div>
-              <div className="ip-kicker">How It Works</div>
-              <h2 className="ip-section-title">Simple. <span>Reliable. Stress-Free.</span></h2>
-              <p className="ip-section-sub ip-section-sub-dark">
+              <div className="ip-kicker ls-reveal">How it works</div>
+              <h2 className="ip-section-title ls-reveal">Simple. <span>Reliable. Stress-free.</span></h2>
+              <p className="ip-section-sub ip-section-sub-light ls-reveal">
                 No guesswork. No waiting around. We handle everything so your journey starts and ends smoothly.
               </p>
-              <ul className="ip-check-list ip-check-list-dark">
+              <ul className="ip-check-list ls-reveal">
                 <li>Send us your flight details and pickup address</li>
                 <li>We confirm your fixed price and driver details</li>
                 <li>Your driver arrives on time — or early for early flights</li>
@@ -150,34 +199,40 @@ export default function AirportTransfers() {
                 <li>Meet and greet available at the arrivals hall</li>
                 <li>Help with luggage as standard</li>
               </ul>
-              <div className="ip-hero-actions" style={{ marginTop: 28 }}>
-                <Link href="/quote-request" className="ip-btn ip-btn-primary">Book Your Transfer →</Link>
-                <a href={WA} className="ip-btn ip-btn-green">WhatsApp Us</a>
+              <div className="ip-hero-actions ls-reveal">
+                <Link href="/quote-request" className="ip-btn ip-btn-primary">
+                  Book your transfer
+                  <IconArrowRight size={18} />
+                </Link>
+                <a href={WA} className="ip-btn ip-btn-green" target="_blank" rel="noopener noreferrer">WhatsApp us</a>
               </div>
             </div>
-            <div
-              className="ip-image-block"
-              style={{ backgroundImage: "url('https://images.unsplash.com/photo-1530521954074-e64f6810b32d?auto=format&fit=crop&w=900&q=80')" }}
-            />
+
+            <div className="ip-commitments ls-stagger">
+              {assurances.map(({ Icon, t, d }) => (
+                <div className="ip-commitment ls-reveal" key={t}>
+                  <span className="ip-commitment-icon"><Icon size={20} /></span>
+                  <span className="ip-commitment-body">
+                    <strong>{t}</strong>
+                    <span>{d}</span>
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
         {/* ── WHAT'S INCLUDED ── */}
-        <section className="ip-muted">
+        <section className="ip-light">
           <div className="ip-inner">
-            <div className="ip-kicker ip-kicker-center">What's Included</div>
-            <h2 className="ip-section-title ip-section-title-center">Everything You <span>Need Covered</span></h2>
-            <div className="ip-cards-4">
-              {[
-                { icon: "🛫", title: "Outbound Transfers", desc: "We get you to the terminal on time. Every time." },
-                { icon: "🛬", title: "Return Pickups", desc: "We're waiting when you land — however late the flight." },
-                { icon: "👔", title: "Meet & Greet", desc: "Driver meets you in arrivals with a name board." },
-                { icon: "🧳", title: "Extra Luggage", desc: "Large vehicles available for multiple bags and oversized items." },
-              ].map(c => (
-                <div className="ip-card" key={c.title}>
-                  <div className="ip-card-icon">{c.icon}</div>
-                  <h3>{c.title}</h3>
-                  <p>{c.desc}</p>
+            <div className="ip-kicker ip-kicker-center ls-reveal">What's included</div>
+            <h2 className="ip-section-title ip-section-title-center ls-reveal">Everything you <span>need covered</span></h2>
+            <div className="ip-cards-4 ls-stagger">
+              {included.map(({ Icon, title, desc }) => (
+                <div className="ip-card ls-reveal" key={title}>
+                  <div className="ip-card-icon"><Icon size={22} /></div>
+                  <h3>{title}</h3>
+                  <p>{desc}</p>
                 </div>
               ))}
             </div>
@@ -189,20 +244,19 @@ export default function AirportTransfers() {
           <div className="ip-inner">
             <div className="ip-faq-layout">
               <div className="ip-faq-header">
-                <div className="ip-kicker">Common Questions</div>
-                <h2 className="ip-faq-title">Everything You <span>Need to Know</span></h2>
-                <p className="ip-faq-intro">
+                <div className="ip-kicker ls-reveal">Common questions</div>
+                <h2 className="ip-faq-title ls-reveal">Everything you need to know</h2>
+                <p className="ip-faq-intro ls-reveal">
                   Quick answers to the questions we get asked most. If yours isn't here, just WhatsApp us.
                 </p>
-                <a href={WA} className="ip-btn ip-btn-green ip-faq-wa-btn">Ask Us on WhatsApp →</a>
+                <a href={WA} className="ip-btn ip-btn-green ip-faq-wa-btn ls-reveal" target="_blank" rel="noopener noreferrer">
+                  Ask us on WhatsApp
+                  <IconArrowRight size={18} />
+                </a>
               </div>
               <div className="ip-faq-list">
                 {faqs.map((faq, i) => (
-                  <div
-                    key={i}
-                    className={`ip-faq-item${openFaq === i ? " ip-faq-item--open" : ""}`}
-                    style={{ animationDelay: `${i * 55}ms` }}
-                  >
+                  <div key={i} className={`ip-faq-item${openFaq === i ? " ip-faq-item--open" : ""}`}>
                     <button
                       className="ip-faq-question"
                       onClick={() => setOpenFaq(openFaq === i ? null : i)}
@@ -210,11 +264,14 @@ export default function AirportTransfers() {
                     >
                       <span className="ip-faq-num">{String(i + 1).padStart(2, "0")}</span>
                       <span className="ip-faq-q-text">{faq.q}</span>
-                      <span className="ip-faq-toggle">{openFaq === i ? "−" : "+"}</span>
+                      {/* Always a plus; the open state rotates it into a cross. */}
+                      <span className="ip-faq-toggle" aria-hidden="true">+</span>
                     </button>
-                    <div className="ip-faq-answer">
-                      <p>{faq.a}</p>
-                    </div>
+                    {openFaq === i && (
+                      <div className="ip-faq-answer">
+                        <p>{faq.a}</p>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -225,30 +282,29 @@ export default function AirportTransfers() {
         {/* ── CTA ── */}
         <section className="ip-light">
           <div className="ip-inner">
-            <div className="ip-cta-banner">
+            <div className="ip-cta-banner ls-reveal">
               <div>
-                <h2>Airport Transfer from Thurrock?</h2>
+                <h2>Airport transfer from Thurrock?</h2>
                 <p>Send us your flight details and we'll confirm your price within 2 hours.</p>
               </div>
               <div className="ip-cta-actions">
-                <a href={WA} className="ip-btn ip-btn-green">WhatsApp Us</a>
+                <Link href="/quote-request" className="ip-btn ip-btn-primary">
+                  Get a quote
+                  <IconArrowRight size={18} />
+                </Link>
                 <a href={TEL} className="ip-cta-btn-dark">01375 383878</a>
-                <Link href="/quote-request" className="ip-cta-btn-dark">Get a Quote</Link>
+                <a href={WA} className="ip-cta-btn-dark" target="_blank" rel="noopener noreferrer">WhatsApp</a>
               </div>
             </div>
-            <div style={{ marginTop: 56 }}>
-              <div className="ip-kicker ip-kicker-center" style={{ marginBottom: 16 }}>Our Other Services</div>
-              <div className="ip-related-grid">
-                {[
-                  { icon: "🚕", title: "Local Taxis", desc: "Anywhere in Thurrock, any time.", href: "/local-taxis" },
-                  { icon: "💼", title: "Corporate Travel", desc: "Business accounts available.", href: "/corporate-accounts" },
-                  { icon: "🎒", title: "School Runs", desc: "Safe, reliable daily service.", href: "/school-runs" },
-                  { icon: "🛣️", title: "Long Distance", desc: "UK-wide journeys.", href: "/long-distance-travel" },
-                ].map(r => (
-                  <Link key={r.href} href={r.href} className="ip-related-card">
-                    <div className="ip-related-icon">{r.icon}</div>
-                    <h3>{r.title}</h3>
-                    <p>{r.desc}</p>
+
+            <div className="ip-related-section">
+              <div className="ip-kicker ip-kicker-center ls-reveal">Our other services</div>
+              <div className="ip-related-grid ls-stagger">
+                {related.map(({ Icon, title, desc, href }) => (
+                  <Link key={href} href={href} className="ip-related-card ls-reveal">
+                    <div className="ip-related-icon"><Icon size={22} /></div>
+                    <h3>{title}</h3>
+                    <p>{desc}</p>
                   </Link>
                 ))}
               </div>

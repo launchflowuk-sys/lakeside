@@ -1,221 +1,224 @@
-@keyframes ty-fade-up {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+/* ==========================================================================
+   Thank you (/thank-you) — post-submission confirmation.
+   Page-specific composition only — colour, radius, depth, type and motion all
+   come from src/styles/system.css.
 
-@media (prefers-reduced-motion: reduce) {
-  .ty-card, .ty-next { animation: none !important; }
-}
+   This page has one job: confirm the request landed, and set the expectation
+   that a person will call back. It is deliberately quiet — no marketing.
+   ========================================================================== */
 
 .ty-wrap {
-  background: hsl(var(--background));
-  min-height: 70vh;
-  padding: 64px 0 80px;
+  background: var(--ls-mist);
+  padding-block: clamp(40px, 6vw, 88px);
+  min-height: 60vh;
 }
 
 .ty-inner {
-  width: min(760px, calc(100% - 40px));
-  margin: 0 auto;
+  width: 100%;
+  max-width: 780px;
+  margin-inline: auto;
+  padding-inline: var(--ls-pad-x);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ls-gap-sm);
 }
+
+/* ==========================================================================
+   1. Confirmation card
+   ========================================================================== */
 
 .ty-card {
-  background: hsl(var(--card));
-  border: 1px solid hsl(var(--border));
-  border-radius: 20px;
-  box-shadow: 0 4px 16px rgba(16, 20, 30, 0.06), 0 24px 64px rgba(16, 20, 30, 0.08);
-  padding: 48px 44px;
+  background: var(--ls-white);
+  border-radius: var(--ls-r-xl);
+  padding: clamp(28px, 4vw, 48px);
+  box-shadow: var(--ls-shadow-lg);
   text-align: center;
-  animation: ty-fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
 }
 
+/* Yellow fill with ink on top (13.9:1) — the accent confirms, it doesn't shout. */
 .ty-icon {
-  width: 68px;
-  height: 68px;
-  background: color-mix(in srgb, hsl(var(--primary)) 14%, transparent);
-  border: 2px solid color-mix(in srgb, hsl(var(--primary)) 35%, transparent);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 24px;
-  color: color-mix(in srgb, hsl(var(--primary)) 55%, hsl(var(--foreground)));
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  margin: 0 auto var(--ls-gap);
+  border-radius: var(--ls-r-pill);
+  background: var(--ls-yellow);
+  color: var(--ls-on-yellow);
 }
 
 .ty-eyebrow {
-  display: block;
-  font-family: "Poppins", sans-serif;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, hsl(var(--primary)) 55%, hsl(var(--foreground)));
-  margin-bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 15px;
+  border-radius: var(--ls-r-pill);
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--ls-text);
+  font-size: 0.8375rem;
+  font-weight: 550;
+  letter-spacing: -0.006em;
+  margin-bottom: var(--ls-gap);
 }
 
 .ty-title {
-  font-family: "Poppins", sans-serif;
-  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  font-family: var(--app-font-display);
+  font-size: clamp(2rem, 4.6vw, 3rem);
+  line-height: 1.07;
+  letter-spacing: -0.034em;
   font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  color: hsl(var(--foreground));
-  margin: 0 0 18px;
+  color: var(--ls-text);
+  margin: 0 auto;
+  max-width: 16ch;
+  text-wrap: balance;
 }
-
-.ty-title span {
-  color: color-mix(in srgb, hsl(var(--primary)) 55%, hsl(var(--foreground)));
-}
+/* On a white ground the emphasis is weight, never yellow text (1.6:1). */
+.ty-title span { color: var(--ls-text); }
 
 .ty-body {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: hsl(var(--muted-foreground));
-  max-width: 520px;
-  margin: 0 auto 24px;
+  margin: var(--ls-gap) auto 0;
+  font-size: 1.0625rem;
+  line-height: 1.62;
+  color: var(--ls-text-2);
+  max-width: 56ch;
 }
 
 .ty-notice {
-  display: inline-block;
-  background: color-mix(in srgb, hsl(var(--primary)) 8%, hsl(var(--card)));
-  border: 1px solid color-mix(in srgb, hsl(var(--primary)) 25%, transparent);
-  border-radius: 10px;
-  padding: 12px 20px;
-  font-size: 0.85rem;
-  color: hsl(var(--foreground) / 0.8);
-  margin-bottom: 32px;
+  margin-top: var(--ls-gap);
+  padding: 14px 18px;
+  border-radius: var(--ls-r-sm);
+  background: var(--ls-mist);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--ls-text-2);
 }
-
-.ty-notice strong {
-  color: hsl(var(--foreground));
-}
+.ty-notice strong { color: var(--ls-text); font-weight: 600; }
 
 .ty-actions {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 12px;
+  gap: var(--ls-gap-sm);
+  margin-top: var(--ls-gap-lg);
 }
 
 .ty-btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-family: "Poppins", sans-serif;
-  font-size: 0.9rem;
+  justify-content: center;
+  gap: 9px;
+  min-height: 50px;
+  padding: 0 26px;
+  border: 0;
+  border-radius: var(--ls-r-pill);
+  font-family: inherit;
+  font-size: 1.0125rem;
   font-weight: 600;
-  padding: 12px 22px;
-  border-radius: 10px;
+  letter-spacing: -0.012em;
   text-decoration: none;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s, border-color 0.2s, background 0.2s;
+  white-space: nowrap;
+  transition:
+    transform var(--ls-dur-fast) var(--ls-ease-soft),
+    box-shadow var(--ls-dur-fast) var(--ls-ease-soft),
+    background-color var(--ls-dur-fast) var(--ls-ease-soft);
 }
-
-.ty-btn:hover { transform: translateY(-2px); }
+.ty-btn:active { transform: scale(0.978); }
+.ty-btn svg { flex: none; }
 
 .ty-btn-primary {
-  background: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
-  box-shadow: 0 8px 24px color-mix(in srgb, hsl(var(--primary)) 30%, transparent);
+  background: var(--ls-yellow);
+  color: var(--ls-on-yellow);
+  box-shadow: var(--ls-shadow-yellow);
 }
+.ty-btn-primary:hover { background: var(--ls-yellow-deep); box-shadow: var(--ls-shadow-lg); }
 
-.ty-btn-green {
-  background: #22C55E;
-  color: #fff;
-  box-shadow: 0 8px 24px rgba(34, 197, 94, 0.25);
-}
+.ty-btn-quiet { background: rgba(0, 0, 0, 0.05); color: var(--ls-text); }
+.ty-btn-quiet:hover { background: rgba(0, 0, 0, 0.085); }
 
-.ty-btn-outline {
-  background: transparent;
-  color: hsl(var(--foreground));
-  border: 2px solid hsl(var(--border));
-}
+/* ==========================================================================
+   2. What happens next
+   ========================================================================== */
 
-.ty-btn-outline:hover {
-  border-color: color-mix(in srgb, hsl(var(--primary)) 55%, hsl(var(--foreground)));
-}
-
-/* ── What happens next ── */
 .ty-next {
-  margin-top: 28px;
-  background: hsl(var(--card));
-  border: 1px solid hsl(var(--border));
-  border-radius: 20px;
-  padding: 36px 40px;
-  animation: ty-fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s backwards;
+  background: var(--ls-white);
+  border-radius: var(--ls-r-xl);
+  padding: clamp(24px, 3vw, 36px);
 }
 
 .ty-next-title {
-  font-family: "Poppins", sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  color: hsl(var(--foreground));
-  letter-spacing: -0.01em;
-  margin: 0 0 22px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid hsl(var(--border));
+  font-family: var(--app-font-display);
+  font-size: 1.25rem;
+  font-weight: 650;
+  letter-spacing: -0.022em;
+  color: var(--ls-text);
+  margin-bottom: var(--ls-gap-sm);
 }
 
-.ty-steps {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+.ty-steps { display: flex; flex-direction: column; }
 
 .ty-step {
-  display: flex;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
   gap: 16px;
-  align-items: flex-start;
+  padding-block: 15px;
+  border-top: 1px solid var(--ls-line);
+  align-items: start;
 }
+.ty-step:first-child { border-top: 0; padding-top: 0; }
 
 .ty-step-num {
+  display: grid;
+  place-items: center;
   width: 30px;
   height: 30px;
-  background: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Poppins", sans-serif;
-  font-size: 0.8rem;
+  border-radius: var(--ls-r-pill);
+  background: var(--ls-mist);
+  color: var(--ls-text);
+  font-size: 0.8375rem;
   font-weight: 700;
-  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
 }
 
 .ty-step-title {
-  font-size: 0.9rem;
+  font-size: 0.9375rem;
   font-weight: 600;
-  color: hsl(var(--foreground));
+  letter-spacing: -0.012em;
+  color: var(--ls-text);
   margin-bottom: 3px;
 }
 
 .ty-step-desc {
-  font-size: 0.82rem;
+  font-size: 0.9125rem;
   line-height: 1.55;
-  color: hsl(var(--muted-foreground));
+  color: var(--ls-text-2);
 }
 
 .ty-next-footer {
-  margin-top: 24px;
-  padding-top: 18px;
-  border-top: 1px solid hsl(var(--border));
-  font-size: 0.82rem;
-  color: hsl(var(--muted-foreground));
-  line-height: 1.6;
-  text-align: center;
+  margin-top: var(--ls-gap);
+  padding-top: var(--ls-gap);
+  border-top: 1px solid var(--ls-line);
+  font-size: 0.9125rem;
+  line-height: 1.55;
+  color: var(--ls-text-2);
 }
-
 .ty-next-footer a {
-  color: color-mix(in srgb, hsl(var(--primary)) 55%, hsl(var(--foreground)));
-  text-decoration: none;
+  color: var(--ls-text);
   font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
-.ty-next-footer a:hover { text-decoration: underline; }
+/* ==========================================================================
+   3. Focus
+   ========================================================================== */
 
-@media (max-width: 640px) {
-  .ty-wrap { padding: 32px 0 56px; }
-  .ty-card { padding: 32px 22px; border-radius: 16px; }
-  .ty-next { padding: 26px 22px; border-radius: 16px; }
-  .ty-actions { flex-direction: column; }
-  .ty-btn { justify-content: center; }
+.ty-btn:focus-visible,
+.ty-next-footer a:focus-visible {
+  outline: 2.5px solid var(--ls-ink);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ty-btn { transition: none; }
+  .ty-btn:active { transform: none; }
 }

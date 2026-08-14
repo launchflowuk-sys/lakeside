@@ -1,7 +1,19 @@
 import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
-import { FileText, MessageCircle, Phone, ShieldCheck, Users, Car, Clock, MapPin } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
+import {
+  IconArrowRight,
+  IconCar,
+  IconCheck,
+  IconClock,
+  IconMessage,
+  IconPhone,
+  IconPin,
+  IconPound,
+  IconShield,
+  IconUsers,
+  IconWhatsApp,
+} from "@/components/icons/Icons";
 import BookingForm from "@/components/BookingForm";
 import Layout from "@/components/layout/Layout";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
@@ -188,11 +200,16 @@ const WHY_FEATURES = [
   "We reply to quote requests within 2 hours",
 ];
 
+// Every value here must be independently verifiable. A hardcoded "5★ Google
+// Rating" previously sat in this list — the business has no aggregate rating
+// and three reviews in total, so it was fabricated social proof of exactly the
+// kind the owner ordered removed on 14 Aug 2026. Ratings only ever come from
+// the live Google API, never from a constant.
 const WHY_STATS = [
   { value: "30+", label: "Years Serving Thurrock" },
   { value: "24/7", label: "Day & Night Service" },
   { value: "6", label: "Airport Routes" },
-  { value: "5★", label: "Google Rating" },
+  { value: "9", label: "Thurrock Towns Covered" },
 ];
 
 function WhySection() {
@@ -251,7 +268,7 @@ function WhySection() {
           <ul className="hp-why-features">
             {WHY_FEATURES.map((f, i) => (
               <li key={f} style={{ "--i": i } as React.CSSProperties}>
-                <span className="hp-why-check" aria-hidden="true">✓</span>
+                <span className="hp-why-check" aria-hidden="true"><IconCheck size={15} /></span>
                 {f}
               </li>
             ))}
@@ -261,29 +278,32 @@ function WhySection() {
           <div className="hp-why-cards">
             <div className="hp-why-card hp-why-card--yellow" style={{ "--i": 0 } as React.CSSProperties}>
               <div className="hp-why-card-accent" />
-              <div className="hp-why-card-icon hp-why-card-icon--yellow"><FileText size={24} /></div>
-              <h3>Get a Quote</h3>
+              <div className="hp-why-card-icon hp-why-card-icon--yellow"><IconPound size={24} /></div>
+              <h3>Get a quote</h3>
               <p>Send your journey details and we'll reply within 2 hours.</p>
               <Link href="/quote-request" className="hp-why-card-btn hp-why-card-btn--yellow">
-                Request a Quote →
+                Request a quote
+                <IconArrowRight size={17} />
               </Link>
             </div>
             <div className="hp-why-card hp-why-card--green" style={{ "--i": 1 } as React.CSSProperties}>
               <div className="hp-why-card-accent" />
-              <div className="hp-why-card-icon hp-why-card-icon--green"><MessageCircle size={24} /></div>
-              <h3>WhatsApp Us</h3>
+              <div className="hp-why-card-icon hp-why-card-icon--green"><IconMessage size={24} /></div>
+              <h3>WhatsApp us</h3>
               <p>The quickest way to get a fast response from our team.</p>
-              <a href={WA_HREF} className="hp-why-card-btn hp-why-card-btn--green">
-                WhatsApp Us →
+              <a href={WA_HREF} className="hp-why-card-btn hp-why-card-btn--green" target="_blank" rel="noopener noreferrer">
+                WhatsApp us
+                <IconArrowRight size={17} />
               </a>
             </div>
             <div className="hp-why-card hp-why-card--phone" style={{ "--i": 2 } as React.CSSProperties}>
               <div className="hp-why-card-accent" />
-              <div className="hp-why-card-icon"><Phone size={24} /></div>
-              <h3>Call Us Direct</h3>
+              <div className="hp-why-card-icon"><IconPhone size={24} /></div>
+              <h3>Call us direct</h3>
               <p>Speak with our friendly team any time, day or night.</p>
               <a href={PHONE_HREF} className="hp-why-card-btn hp-why-card-btn--outline">
-                01375 383878 →
+                01375 383878
+                <IconArrowRight size={17} />
               </a>
             </div>
           </div>
@@ -337,32 +357,99 @@ export default function Home() {
           data-section="hero"
           style={{ "--hp-hero-photo": "url('/images/hero-bg.webp')" } as React.CSSProperties}
         >
-          <div className="hp-inner hp-hero-stack">
-            <div className="hp-eyebrow"><Car size={14} strokeWidth={2.5} /> Request Your Taxi Quote Today</div>
-            <h1 className="hp-hero-title">
-              <span className="hp-hero-title-l1">Thurrock's</span>
-              <span className="hp-hero-title-l2">Most Trusted</span>
-              <span className="hp-hero-title-l3">Taxi Service</span>
-            </h1>
-            <p className="hp-hero-copy">
-              Request a quote for your local taxi, airport transfer, school run or corporate journey.
-              No payment required — we'll reply within 2 hours with availability and pricing.
-            </p>
+          <div className="hp-inner hp-hero-grid">
+            {/* Left: the claim. Right: the form. Two columns rather than one
+                stack, so the form sits beside the headline instead of being
+                pushed a screen and a half down the page. */}
+            <div className="hp-hero-copy-col">
+              {/* Factual badge only. A "#1 rated" or starred badge here would be
+                  an invented ranking on a firm with no aggregate rating. */}
+              <div className="hp-eyebrow"><IconCar size={15} /> Local private hire since 1990</div>
+              <h1 className="hp-hero-title">
+                <span className="hp-hero-title-l1">
+                  Thurrock's <span className="hp-hero-title-accent">most trusted</span>
+                </span>
+                <span className="hp-hero-title-l2">taxi service</span>
+              </h1>
+              {/* Carries the terms people actually search — the towns by name,
+                  the six airports, and the services — in plain sentences
+                  rather than a keyword list. Every claim here is verifiable:
+                  the towns are the nine area pages, the airports are the six
+                  transfer pages, and the 1990 date is the owner's. */}
+              <p className="hp-hero-copy">
+                Fast, reliable local taxis across Grays, Purfleet, Lakeside,
+                Chafford Hundred, Tilbury and West Thurrock. Fixed-price airport
+                transfers to Heathrow, Gatwick, Stansted, Luton, London City and
+                Southend, plus school runs, Tilbury cruise terminal transfers and
+                corporate accounts. Every fare is agreed with a person before you
+                travel — a Thurrock private hire firm trading since 1990, on the
+                road 24 hours a day, every day of the year.
+              </p>
 
-            <div className="hp-hero-form-card" data-testid="hero-form">
-              <h2>Get Your Taxi Quote</h2>
-              <p>Reply within 2 hours. No payment required. No obligation.</p>
-              <BookingForm compact />
+              <ul className="hp-hero-points">
+                {[
+                  "Reply within 2 hours with a clear, fixed price",
+                  "No upfront payment and no booking fee",
+                  "Serving Thurrock and surrounding areas since 1990",
+                ].map((p) => (
+                  <li key={p}>
+                    <span className="hp-hero-tick" aria-hidden="true"><IconCheck size={13} /></span>
+                    {p}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="hp-hero-actions">
+                <a href={PHONE_HREF} className="hp-hero-btn hp-hero-btn-primary">
+                  <IconPhone size={18} />
+                  01375 383878
+                </a>
+                <a
+                  href={WA_HREF}
+                  className="hp-hero-btn hp-hero-btn-whatsapp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <IconWhatsApp size={18} />
+                  WhatsApp us
+                </a>
+              </div>
+
+              <span className="hp-coverage-label">Serving local areas</span>
+              <div className="hp-coverage">
+                {["Grays", "Purfleet", "Tilbury", "Aveley", "West Thurrock"].map((area) => (
+                  <span key={area}><IconPin size={12} /> {area}</span>
+                ))}
+              </div>
+
+              {/* Carries the accent into the left column so the yellow isn't
+                  stranded in the headline and the CTA button. */}
+              <div className="hp-hero-strip">
+                {[
+                  { Icon: IconClock, label: "24/7", sub: "Every day of the year" },
+                  { Icon: IconPound, label: "Fixed price", sub: "Agreed before you travel" },
+                  { Icon: IconShield, label: "Licensed", sub: "Private hire, fully insured" },
+                ].map(({ Icon, label, sub }) => (
+                  <div className="hp-hero-strip-item" key={label}>
+                    <span className="hp-hero-strip-icon"><Icon size={17} /></span>
+                    <span className="hp-hero-strip-text">
+                      <strong>{label}</strong>
+                      <span>{sub}</span>
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <p className="hp-hero-form-note">
-              No payment · No obligation · Trusted local service since 1990
-            </p>
 
-            <span className="hp-coverage-label">Serving Thurrock and Surrounding Areas</span>
-            <div className="hp-coverage">
-              {["Grays", "Purfleet", "Chafford Hundred", "Tilbury", "Aveley", "West Thurrock", "Stanford-le-Hope"].map((area) => (
-                <span key={area}><MapPin size={12} strokeWidth={2.5} /> {area}</span>
-              ))}
+            <div className="hp-hero-form-col">
+              <div className="hp-hero-form-card" data-testid="hero-form">
+                <h2>Get your taxi quote</h2>
+                <p>Reply within 2 hours. No payment required. No obligation.</p>
+                <BookingForm compact />
+              </div>
+              <p className="hp-hero-form-note">
+                No payment · No obligation · Trusted local service since 1990
+              </p>
             </div>
           </div>
 
@@ -370,14 +457,14 @@ export default function Home() {
           <div className="hp-trust-strip">
             <div className="hp-inner hp-trust-grid">
               {[
-                { icon: Clock, strong: "Quick Response", sub: "We'll reply within 2 hours" },
-                { icon: ShieldCheck, strong: "No Obligation", sub: "Request a quote, no pressure" },
-                { icon: Users, strong: "Local Experts", sub: "30+ years serving Thurrock" },
-                { icon: null, strong: "24/7 Service", sub: "Available when you need us" },
+                { icon: IconClock, strong: "Quick response", sub: "We'll reply within 2 hours" },
+                { icon: IconShield, strong: "No obligation", sub: "Request a quote, no pressure" },
+                { icon: IconUsers, strong: "Local experts", sub: "30+ years serving Thurrock" },
+                { icon: null, strong: "24/7 service", sub: "Available when you need us" },
               ].map((item) => (
                 <div className="hp-trust-item" key={item.strong}>
                   <div className="hp-trust-icon">
-                    {item.icon ? <item.icon size={19} strokeWidth={2} /> : <span className="hp-trust-247">24/7</span>}
+                    {item.icon ? <item.icon size={20} /> : <span className="hp-trust-247">24/7</span>}
                   </div>
                   <div>
                     <strong>{item.strong}</strong>
@@ -399,11 +486,23 @@ export default function Home() {
             <div ref={servicesGridRef} className="hp-services-grid hp-reveal">
               {services.map((s) => (
                 <Link key={s.href} href={s.href} className="hp-service-card" data-testid={`service-card-${s.href.split("/").pop()}`}>
-                  <div className="hp-service-photo" style={{ backgroundImage: `url(${s.bg})` }}>
+                  {/* A real <img> rather than a CSS background so it can be
+                      lazy-loaded — as backgrounds these five tiles pulled
+                      ~260kB on first paint for content below the fold. */}
+                  <div className="hp-service-photo">
+                    <img
+                      src={s.bg}
+                      alt=""
+                      className="hp-service-img"
+                      loading="lazy"
+                      decoding="async"
+                      width={600}
+                      height={400}
+                    />
                     <div className="hp-service-overlay">
                       <h3>{s.title}</h3>
                       <p>{s.desc}</p>
-                      <span className="hp-service-cta">Learn more →</span>
+                      <span className="hp-service-cta">Learn more <IconArrowRight size={16} /></span>
                     </div>
                   </div>
                 </Link>
@@ -411,7 +510,8 @@ export default function Home() {
             </div>
             <div className="hp-center-cta">
               <Link href="/quote-request" className="hp-btn hp-btn-primary" data-testid="services-cta-btn">
-                Request a Quote for Any Journey →
+                Request a quote for any journey
+                <IconArrowRight size={18} />
               </Link>
             </div>
           </div>
@@ -454,7 +554,8 @@ export default function Home() {
                   ))}
                 </div>
                 <Link href="/airport-transfers" className="hp-btn hp-btn-primary hp-airport-all-btn" data-testid="airports-cta-btn">
-                  View All Airports &amp; Prices →
+                  View all airports &amp; prices
+                  <IconArrowRight size={18} />
                 </Link>
               </div>
             </div>
@@ -466,9 +567,18 @@ export default function Home() {
                 <p>Fast response. Friendly service. Always here for you.</p>
               </div>
               <div className="hp-final-actions">
-                <a href={WA_HREF} className="hp-btn hp-btn-green">WhatsApp Us</a>
-                <a href={PHONE_HREF} className="hp-btn hp-btn-outline">01375 383878</a>
-                <Link href="/quote-request" className="hp-btn hp-btn-outline">Request a Quote</Link>
+                <Link href="/quote-request" className="hp-btn hp-btn-primary">
+                  Request a quote
+                  <IconArrowRight size={18} />
+                </Link>
+                <a href={PHONE_HREF} className="hp-btn hp-btn-outline">
+                  <IconPhone size={18} />
+                  01375 383878
+                </a>
+                <a href={WA_HREF} className="hp-btn hp-btn-outline" target="_blank" rel="noopener noreferrer">
+                  <IconMessage size={18} />
+                  WhatsApp
+                </a>
               </div>
             </div>
           </div>

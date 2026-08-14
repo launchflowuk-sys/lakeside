@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 import { useGetPublicQuote, useAcceptQuote } from "@workspace/api-client-react";
 import Layout from "@/components/layout/Layout";
 import { BUSINESS } from "@/lib/constants";
+import { IconBriefcase, IconCheck, IconPound, IconShield } from "@/components/icons/Icons";
 import "./quote-page.css";
 
 const PHONE = BUSINESS.phone;
@@ -144,7 +145,7 @@ function QuoteDetail({ quoteRef }: { quoteRef: string }) {
         <div className="qp-payment-options">
           {quote.paymentCash === "yes" && (
             <div className="qp-payment-option">
-              <span className="qp-payment-icon">💵</span>
+              <span className="qp-payment-icon"><IconPound size={20} /></span>
               <div>
                 <p className="qp-payment-name">Cash on the Day</p>
                 <p className="qp-payment-sub">Pay your driver directly in cash</p>
@@ -153,7 +154,7 @@ function QuoteDetail({ quoteRef }: { quoteRef: string }) {
           )}
           {quote.paymentCard === "yes" && (
             <div className="qp-payment-option">
-              <span className="qp-payment-icon">💳</span>
+              <span className="qp-payment-icon"><IconShield size={20} /></span>
               <div>
                 <p className="qp-payment-name">Card Payment</p>
                 <p className="qp-payment-sub">Pay by debit or credit card</p>
@@ -162,7 +163,7 @@ function QuoteDetail({ quoteRef }: { quoteRef: string }) {
           )}
           {quote.paymentBankTransfer === "yes" && (
             <div className="qp-payment-option">
-              <span className="qp-payment-icon">🏦</span>
+              <span className="qp-payment-icon"><IconBriefcase size={20} /></span>
               <div>
                 <p className="qp-payment-name">Bank Transfer</p>
                 <p className="qp-payment-sub">Transfer directly to our account</p>
@@ -215,7 +216,7 @@ function QuoteDetail({ quoteRef }: { quoteRef: string }) {
 
       {isPaid && (
         <div className="qp-accepted-block">
-          <div className="qp-accepted-icon">✓</div>
+          <div className="qp-accepted-icon"><IconCheck size={26} strokeWidth={2} /></div>
           <h3>Payment Received</h3>
           <p>Thank you! Your payment has been received — see you on {journeyDateFormatted}.</p>
           <div className="qp-accepted-ctas">
@@ -227,7 +228,7 @@ function QuoteDetail({ quoteRef }: { quoteRef: string }) {
 
       {isAccepted && (
         <div className="qp-accepted-block">
-          <div className="qp-accepted-icon">✓</div>
+          <div className="qp-accepted-icon"><IconCheck size={26} strokeWidth={2} /></div>
           <h3>Quote Accepted</h3>
           <p>Thank you! We've received your acceptance and will be in touch shortly to confirm your booking details.</p>
           <div className="qp-accepted-ctas">

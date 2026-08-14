@@ -69,13 +69,17 @@ type Step4Data = z.infer<typeof step4Schema>;
 
 type FormData = Step1Data & Step2Data & Step3Data & Step4Data;
 
+// All six read identically. Two of these previously carried photographic
+// backgrounds — one a remote Unsplash request — which made the grid look like
+// two adverts beside four buttons, and cost two image downloads inside the
+// conversion form. The icon and label carry the meaning on their own.
 const journeyTypes = [
-  { value: "local",            label: "Local Taxi",        icon: Car,          desc: "Grays, Purfleet, Thurrock area",          bg: null },
-  { value: "airport",          label: "Airport Transfer",  icon: Plane,        desc: "Heathrow, Gatwick, Stansted & more",      bg: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80" },
-  { value: "school_run",       label: "School Run",        icon: GraduationCap, desc: "Regular or one-off school runs",         bg: null },
-  { value: "corporate",        label: "Corporate Travel",  icon: Briefcase,    desc: "Business accounts welcome",               bg: null },
-  { value: "cruise_terminal",  label: "Cruise Terminal",   icon: Anchor,       desc: "Tilbury Cruise Terminal transfers",       bg: "/images/cruise-taxis-sm.webp" },
-  { value: "other",            label: "Other",             icon: Car,          desc: "Any other journey",                       bg: null },
+  { value: "local",            label: "Local Taxi",        icon: Car,           desc: "Grays, Purfleet, Thurrock area" },
+  { value: "airport",          label: "Airport Transfer",  icon: Plane,         desc: "Heathrow, Gatwick, Stansted & more" },
+  { value: "school_run",       label: "School Run",        icon: GraduationCap, desc: "Regular or one-off school runs" },
+  { value: "corporate",        label: "Corporate Travel",  icon: Briefcase,     desc: "Business accounts welcome" },
+  { value: "cruise_terminal",  label: "Cruise Terminal",   icon: Anchor,        desc: "Tilbury Cruise Terminal transfers" },
+  { value: "other",            label: "Other",             icon: Car,           desc: "Any other journey" },
 ];
 
 const contactMethods = [
@@ -193,7 +197,10 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
   ];
 
   return (
-    <div className={`bg-card text-card-foreground border border-border rounded-xl overflow-hidden ${compact ? "" : "shadow-2xl"}`} style={{ colorScheme: "light" }} data-testid="booking-form">
+    // Every usage wraps this in a page-provided card, so the form paints no
+    // card of its own — the system has no nested cards, borders or halos.
+    // The rounding is kept only so the muted progress strip clips cleanly.
+    <div className="bg-card text-card-foreground rounded-[var(--ls-r-lg)] overflow-hidden" style={{ colorScheme: "light" }} data-testid="booking-form">
       {/* Progress — simple bar, not a software wizard */}
       <div className="bg-muted px-5 pt-3 pb-3">
         <div className="flex items-center justify-between mb-2">
@@ -214,48 +221,32 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
         {/* Step 1: Journey Type */}
         {step === 1 && (
           <form onSubmit={handleStep1}>
-            <h3 className="font-display font-bold text-lg text-foreground mb-4">What type of journey?</h3>
-            <div className="grid grid-cols-2 gap-3 mb-6">
+            <h3 className="font-display font-bold text-lg text-foreground mb-3">What type of journey?</h3>
+            <div className="grid grid-cols-2 gap-2 mb-4">
               {journeyTypes.map((jt) => {
                 const Icon = jt.icon;
                 const selected = step1Form.watch("journeyType") === jt.value;
-                const featured = !!jt.bg;
                 return (
                   <button
                     key={jt.value}
                     type="button"
                     onClick={() => step1Form.setValue("journeyType", jt.value as Step1Data["journeyType"])}
                     data-testid={`journey-type-${jt.value}`}
-                    className={`text-left rounded-lg border-2 transition-all overflow-hidden relative ${
-                      featured ? "min-h-[88px]" : "p-3"
-                    } ${
+                    aria-pressed={selected}
+                    className={`text-left rounded-[var(--ls-r-md)] p-3 transition-all ${
                       selected
-                        ? "border-primary"
-                        : featured
-                          ? "border-transparent hover:border-primary/60"
-                          : "border-border hover:border-primary/50"
+                        ? "bg-primary/12 ring-2 ring-primary"
+                        : "bg-muted ring-1 ring-transparent hover:bg-muted/70"
                     }`}
-                    style={featured ? {
-                      backgroundImage: `linear-gradient(135deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.38) 100%), url('${jt.bg}')`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    } : undefined}
                   >
-                    {featured && selected && (
-                      <span className="absolute inset-0 rounded-[6px] ring-2 ring-primary pointer-events-none" />
-                    )}
-                    <span className={`flex flex-col h-full ${featured ? "p-3" : ""}`}>
+                    <span className="flex flex-col h-full">
                       <Icon className={`w-5 h-5 mb-1.5 flex-shrink-0 ${
-                        featured ? "text-primary" : selected ? "text-primary" : "text-muted-foreground"
+                        selected ? "text-foreground" : "text-muted-foreground"
                       }`} />
-                      <span className={`text-sm font-semibold leading-tight ${
-                        featured ? "text-white" : selected ? "text-primary" : "text-foreground"
-                      }`}>
+                      <span className="text-sm font-semibold leading-tight text-foreground">
                         {jt.label}
                       </span>
-                      <span className={`text-xs mt-0.5 leading-snug ${
-                        featured ? "text-white/70" : "text-muted-foreground"
-                      }`}>
+                      <span className="text-xs mt-0.5 leading-snug text-muted-foreground">
                         {jt.desc}
                       </span>
                     </span>

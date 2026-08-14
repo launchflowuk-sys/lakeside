@@ -1,7 +1,12 @@
 import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
-import { CheckCircle2, Phone, MessageCircle, ArrowLeft } from "lucide-react";
 import Layout from "@/components/layout/Layout";
+import { useReveal } from "@/hooks/useReveal";
+import {
+  IconCheck,
+  IconMessage,
+  IconPhone,
+} from "@/components/icons/Icons";
 import "./thank-you.css";
 
 const steps = [
@@ -12,19 +17,21 @@ const steps = [
 ];
 
 export default function ThankYou() {
+  const scope = useReveal<HTMLDivElement>();
+
   return (
     <Layout>
       <Helmet>
-        <title>Booking Request Received | Lakeside & Purfleet Taxis</title>
+        <title>Booking Request Received | Lakeside &amp; Purfleet Taxis</title>
         <meta name="robots" content="noindex" />
       </Helmet>
 
-      <div className="ty-wrap">
+      <div className="ty-wrap" ref={scope}>
         <div className="ty-inner" data-testid="thank-you-page">
 
           <div className="ty-card">
             <div className="ty-icon">
-              <CheckCircle2 size={32} strokeWidth={2} />
+              <IconCheck size={30} strokeWidth={2} />
             </div>
             <span className="ty-eyebrow">Request received</span>
             <h1 className="ty-title">
@@ -38,19 +45,21 @@ export default function ThankYou() {
             </div>
             <div className="ty-actions">
               <a href="tel:01375383878" data-testid="thankyou-call-btn" className="ty-btn ty-btn-primary">
-                <Phone size={16} /> 01375 383878
+                <IconPhone size={17} />
+                01375 383878
               </a>
               <a
                 href="https://wa.me/447879956275"
                 target="_blank"
                 rel="noopener noreferrer"
                 data-testid="thankyou-whatsapp-btn"
-                className="ty-btn ty-btn-green"
+                className="ty-btn ty-btn-quiet"
               >
-                <MessageCircle size={16} /> WhatsApp Us
+                <IconMessage size={17} />
+                WhatsApp us
               </a>
-              <Link href="/" className="ty-btn ty-btn-outline">
-                <ArrowLeft size={16} /> Back to home
+              <Link href="/" className="ty-btn ty-btn-quiet">
+                Back to home
               </Link>
             </div>
           </div>
@@ -60,7 +69,7 @@ export default function ThankYou() {
             <div className="ty-steps">
               {steps.map((s) => (
                 <div className="ty-step" key={s.n}>
-                  <span className="ty-step-num">{s.n}</span>
+                  <span className="ty-step-num" aria-hidden="true">{s.n}</span>
                   <div>
                     <div className="ty-step-title">{s.t}</div>
                     <div className="ty-step-desc">{s.d}</div>

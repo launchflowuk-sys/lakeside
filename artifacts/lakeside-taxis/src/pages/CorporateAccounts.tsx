@@ -2,6 +2,22 @@ import { useState, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/layout/Layout";
 import { useSubmitCorporateApplication } from "@workspace/api-client-react";
+import { useReveal } from "@/hooks/useReveal";
+import {
+  IconArrowRight,
+  IconBackpack,
+  IconBriefcase,
+  IconCar,
+  IconCheck,
+  IconClock,
+  IconMap,
+  IconMessage,
+  IconPhone,
+  IconPound,
+  IconShield,
+  IconSignal,
+  IconUsers,
+} from "@/components/icons/Icons";
 import "./inner-page.css";
 import "./corporate-accounts.css";
 
@@ -10,46 +26,46 @@ const WA = "https://wa.me/447879956275";
 
 const sectors = [
   {
-    icon: "🏢",
+    Icon: IconBriefcase,
     name: "Private Businesses",
     desc: "Regular airport runs, client collections and staff transport for businesses of all sizes across Essex and London.",
   },
   {
-    icon: "🏛️",
+    Icon: IconShield,
     name: "Local Councils",
     desc: "Transport solutions for council staff and community services. Trusted by Thurrock Council.",
   },
   {
-    icon: "🎓",
+    Icon: IconBackpack,
     name: "Schools & Academies",
     desc: "Safe, reliable school-run contracts with DBS-checked drivers, flexible early starts and fixed monthly billing.",
   },
   {
-    icon: "🏥",
+    Icon: IconShield,
     name: "NHS & Healthcare",
     desc: "Priority booking for healthcare staff, patient transport support and 24/7 availability when it matters most.",
   },
   {
-    icon: "🏭",
+    Icon: IconCar,
     name: "Industrial & Logistics",
     desc: "Shift-pattern transport, site access and staff shuttles for manufacturing and logistics clients including Inchcape.",
   },
   {
-    icon: "💛",
+    Icon: IconUsers,
     name: "Charities & Nonprofits",
     desc: "Flexible, cost-conscious transport for charitable organisations — invoiced monthly to keep your admin simple.",
   },
 ];
 
 const benefits = [
-  { icon: "🔒", title: "Fixed pricing, every trip", desc: "Agreed rates upfront — no surprises on your invoice." },
-  { icon: "📋", title: "Monthly invoice billing", desc: "One consolidated invoice per billing period. Easy for finance teams." },
-  { icon: "👤", title: "Dedicated account manager", desc: "A named contact who knows your account and your requirements." },
-  { icon: "📞", title: "24/7 priority booking", desc: "Account holders get priority access, day and night." },
-  { icon: "🗺️", title: "UK-wide coverage", desc: "Airports, ports, city centres — we go anywhere in the UK." },
-  { icon: "📊", title: "Journey reporting", desc: "Monthly journey summaries available on request for your records." },
-  { icon: "👥", title: "Multiple booking contacts", desc: "Add your PA, operations team or authorised staff to the account." },
-  { icon: "📱", title: "No app needed", desc: "Book by phone or email — simple for everyone in your organisation." },
+  { Icon: IconPound, title: "Fixed pricing, every trip", desc: "Agreed rates upfront — no surprises on your invoice." },
+  { Icon: IconBriefcase, title: "Monthly invoice billing", desc: "One consolidated invoice per billing period. Easy for finance teams." },
+  { Icon: IconUsers, title: "Dedicated account manager", desc: "A named contact who knows your account and your requirements." },
+  { Icon: IconClock, title: "24/7 priority booking", desc: "Account holders get priority access, day and night." },
+  { Icon: IconMap, title: "UK-wide coverage", desc: "Airports, ports, city centres — we go anywhere in the UK." },
+  { Icon: IconSignal, title: "Journey reporting", desc: "Monthly journey summaries available on request for your records." },
+  { Icon: IconUsers, title: "Multiple booking contacts", desc: "Add your PA, operations team or authorised staff to the account." },
+  { Icon: IconPhone, title: "No app needed", desc: "Book by phone or email — simple for everyone in your organisation." },
 ];
 
 const steps = [
@@ -126,6 +142,7 @@ const EMPTY_FORM: FormState = {
 
 export default function CorporateAccounts() {
   const formRef = useRef<HTMLDivElement>(null);
+  const scope = useReveal<HTMLDivElement>();
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [validationError, setValidationError] = useState("");
 
@@ -222,10 +239,12 @@ export default function CorporateAccounts() {
         />
       </Helmet>
 
+      <div className="ca" ref={scope}>
+
       {/* ── Hero ── */}
       <section className="ca-hero">
         <div className="ca-hero-inner">
-          <span className="ca-hero-kicker">✦ Corporate Accounts · Essex &amp; London</span>
+          <span className="ca-hero-kicker">Corporate accounts · Essex &amp; London</span>
           <h1 className="ca-hero-h1">
             Transport that works
             <span>for business.</span>
@@ -240,7 +259,8 @@ export default function CorporateAccounts() {
               Open a corporate account
             </button>
             <a className="ca-hero-btn-secondary" href={TEL}>
-              📞 01375 383878
+              <IconPhone size={18} />
+              01375 383878
             </a>
           </div>
         </div>
@@ -284,7 +304,7 @@ export default function CorporateAccounts() {
             {sectors.map((s) => (
               <div className="ca-sector-card" key={s.name}>
                 <div className="ca-sector-icon-wrap">
-                  <span className="ca-sector-icon">{s.icon}</span>
+                  <s.Icon size={22} />
                 </div>
                 <div className="ca-sector-name">{s.name}</div>
                 <div className="ca-sector-desc">{s.desc}</div>
@@ -306,7 +326,7 @@ export default function CorporateAccounts() {
           <div className="ca-benefits-grid">
             {benefits.map((b) => (
               <div className="ca-benefit-card" key={b.title}>
-                <span className="ca-benefit-icon">{b.icon}</span>
+                <span className="ca-benefit-icon"><b.Icon size={20} /></span>
                 <div className="ca-benefit-title">{b.title}</div>
                 <div className="ca-benefit-desc">{b.desc}</div>
               </div>
@@ -344,7 +364,8 @@ export default function CorporateAccounts() {
         </p>
         <div className="ca-cta-actions">
           <a className="ca-cta-btn-dark" href={TEL}>
-            📞 01375 383878
+            <IconPhone size={18} />
+            01375 383878
           </a>
           <a
             className="ca-cta-btn-outline"
@@ -352,7 +373,8 @@ export default function CorporateAccounts() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            💬 WhatsApp us
+            <IconMessage size={18} />
+            WhatsApp us
           </a>
         </div>
       </div>
@@ -379,7 +401,7 @@ export default function CorporateAccounts() {
 
           {isSuccess ? (
             <div className="ca-success">
-              <span className="ca-success-icon">✅</span>
+              <span className="ca-success-icon"><IconCheck size={26} /></span>
               <h3 className="ca-success-h3">Application received</h3>
               <p className="ca-success-p">
                 Thank you — we'll review your application and be in touch within one
@@ -656,12 +678,14 @@ export default function CorporateAccounts() {
                   className="ca-submit-btn"
                   disabled={isPending}
                 >
-                  {isPending ? "Submitting…" : "Submit application →"}
+                  {isPending ? "Submitting…" : <>Submit application <IconArrowRight size={18} /></>}
                 </button>
               </div>
             </form>
           )}
         </div>
+      </div>
+
       </div>
     </Layout>
   );
