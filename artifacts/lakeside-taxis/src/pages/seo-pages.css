@@ -16,7 +16,7 @@
   position: relative;
   background: var(--ls-ink);
   color: var(--ls-text-on-ink);
-  padding-block: clamp(28px, 4vw, 44px) clamp(64px, 8vw, 104px);
+  padding-block: clamp(22px, 3vw, 32px) clamp(44px, 5.4vw, 68px);
   overflow: hidden;
 }
 
@@ -48,7 +48,7 @@
   gap: 9px;
   font-size: 0.875rem;
   color: var(--ls-text-2-on-ink);
-  margin-bottom: clamp(28px, 4vw, 44px);
+  margin-bottom: clamp(20px, 2.6vw, 30px);
 }
 
 .sp-breadcrumb a {
@@ -94,7 +94,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--ls-gap-sm);
-  margin-top: clamp(28px, 3.4vw, 38px);
+  margin-top: clamp(22px, 2.6vw, 30px);
 }
 
 /* Verifiable facts, set as a hairline-separated row rather than ✓ bullets. */
@@ -102,7 +102,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0;
-  margin-top: clamp(32px, 4vw, 46px);
+  margin-top: clamp(24px, 2.8vw, 34px);
   padding-top: var(--ls-gap);
   border-top: 1px solid var(--ls-line-on-ink);
 }
@@ -134,7 +134,7 @@
 
 .sp-band {
   background: var(--ls-mist);
-  padding-block: clamp(36px, 4.4vw, 56px);
+  padding-block: clamp(28px, 3.2vw, 42px);
 }
 
 .sp-band-grid {
@@ -195,7 +195,7 @@
 }
 
 .sp-content > * + * { margin-top: var(--ls-gap); }
-.sp-content > .ls-h2 { margin-top: clamp(56px, 6vw, 84px); }
+.sp-content > .ls-h2 { margin-top: clamp(36px, 3.8vw, 54px); }
 .sp-content > .ls-h2:first-child { margin-top: 0; }
 
 /* ── Quote card ── */
@@ -433,7 +433,7 @@ a.sp-tile:hover .sp-tile-go svg { transform: translateX(3px); }
    5. Nearby links
    ========================================================================== */
 
-.sp-nearby { margin-top: clamp(48px, 5vw, 72px); padding-top: var(--ls-gap-lg); border-top: 1px solid var(--ls-line); }
+.sp-nearby { margin-top: clamp(34px, 3.6vw, 48px); padding-top: var(--ls-gap); border-top: 1px solid var(--ls-line); }
 
 .sp-nearby-label {
   display: block;
@@ -471,7 +471,7 @@ a.sp-tile:hover .sp-tile-go svg { transform: translateX(3px); }
   position: relative;
   background: var(--ls-ink);
   color: var(--ls-text-on-ink);
-  padding-block: clamp(72px, 9vw, 116px);
+  padding-block: clamp(52px, 6vw, 82px);
   text-align: center;
   overflow: hidden;
 }
@@ -517,5 +517,5 @@ a.sp-tile:hover .sp-tile-go svg { transform: translateX(3px); }
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--ls-gap-sm);
-  margin-top: clamp(28px, 3.4vw, 40px);
+  margin-top: clamp(22px, 2.6vw, 30px);
 }

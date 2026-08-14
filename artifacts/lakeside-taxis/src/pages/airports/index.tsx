@@ -5,7 +5,7 @@ const airportData = {
     airportName: "Heathrow",
     airportSlug: "heathrow",
     airportCode: "LHR",
-    distance: "25–30 miles",
+    distance: "65–70 miles",
     description: "Pre-booked Heathrow airport transfers from Thurrock, Grays and Purfleet. All terminals covered.",
     content: "Heathrow is the UK's busiest international airport and one of our most frequently requested destinations. We provide direct transfers from any address in Thurrock — Grays, Purfleet, Chafford Hundred, Tilbury and beyond — to all five Heathrow terminals (T1, T2, T3, T4, T5). Our drivers know the airport inside out and will have you at the correct terminal with time to spare. Meet and greet available on return journeys.",
   },

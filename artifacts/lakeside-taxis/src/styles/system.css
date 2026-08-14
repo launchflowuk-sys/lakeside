@@ -55,8 +55,10 @@
   --ls-gap-sm: 12px;
   --ls-gap: 20px;
   --ls-gap-lg: 32px;
-  --ls-gap-xl: 56px;
-  --ls-section-y: clamp(72px, 9vw, 132px);
+  --ls-gap-xl: 44px;
+  /* Tightened from clamp(72px, 9vw, 132px) — the generous rendition read as
+     dead space on mobile, where most visitors land. */
+  --ls-section-y: clamp(48px, 5.4vw, 84px);
   --ls-shell: 1080px;
   --ls-shell-wide: 1240px;
   --ls-pad-x: clamp(20px, 5vw, 32px);
@@ -148,7 +150,7 @@
 .ls-shell-wide { max-width: var(--ls-shell-wide); }
 
 .ls-section { padding-block: var(--ls-section-y); }
-.ls-section-tight { padding-block: clamp(48px, 6vw, 80px); }
+.ls-section-tight { padding-block: clamp(34px, 4vw, 56px); }
 
 .ls-ground-white { background: var(--ls-white); }
 .ls-ground-mist { background: var(--ls-mist); }

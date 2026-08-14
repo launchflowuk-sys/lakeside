@@ -108,7 +108,6 @@ function ReviewsMarquee({ reviews }: { reviews: Review[] }) {
 function GoogleReviewsSection() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [aggregate, setAggregate] = useState<{ rating: number; count: number } | null>(null);
-  const headerRef = useScrollReveal<HTMLDivElement>();
 
   useEffect(() => {
     fetch("/api/reviews")
@@ -125,7 +124,23 @@ function GoogleReviewsSection() {
   }, []);
 
   // Nothing real to show — render nothing rather than inventing proof.
+  // The gate lives here, in the parent, so ReviewsContent MOUNTS FRESH once
+  // data arrives. Returning null from inside the section would leave its
+  // scroll-reveal ref unattached on first render, and the observer would
+  // never run — stranding the heading at opacity 0.
   if (reviews.length === 0) return null;
+
+  return <ReviewsContent reviews={reviews} aggregate={aggregate} />;
+}
+
+function ReviewsContent({
+  reviews,
+  aggregate,
+}: {
+  reviews: Review[];
+  aggregate: { rating: number; count: number } | null;
+}) {
+  const headerRef = useScrollReveal<HTMLDivElement>();
 
   return (
     <section className="hp-light hp-reviews-section" data-testid="testimonials-section" data-section="reviews">
