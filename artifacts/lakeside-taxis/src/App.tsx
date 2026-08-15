@@ -30,6 +30,7 @@ const AreasCovered = lazy(() => import("@/pages/AreasCovered"));
 const QuoteRequest = lazy(() => import("@/pages/QuoteRequest"));
 const ThankYou = lazy(() => import("@/pages/ThankYou"));
 const QuotePage = lazy(() => import("@/pages/QuotePage"));
+const BookingConfirmed = lazy(() => import("@/pages/BookingConfirmed"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 // Area pages
@@ -128,6 +129,10 @@ function Router() {
         <Route path="/quote-request" component={QuoteRequest} />
         <Route path="/thank-you" component={ThankYou} />
         <Route path="/quote/:ref" component={QuotePage} />
+        {/* Square's post-payment redirect target. The bare path covers ad-hoc
+            payment links, which carry no quote reference. */}
+        <Route path="/booking-confirmed" component={BookingConfirmed} />
+        <Route path="/booking-confirmed/:ref" component={BookingConfirmed} />
         <Route path="/quote" component={QuotePage} />
         <Route path="/privacy-policy" component={PrivacyPolicy} />
         <Route path="/terms" component={Terms} />

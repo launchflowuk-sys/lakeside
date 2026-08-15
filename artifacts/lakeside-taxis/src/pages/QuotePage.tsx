@@ -4,7 +4,16 @@ import { Helmet } from "react-helmet-async";
 import { useGetPublicQuote, useAcceptQuote } from "@workspace/api-client-react";
 import Layout from "@/components/layout/Layout";
 import { BUSINESS } from "@/lib/constants";
-import { IconBriefcase, IconCheck, IconPound, IconShield } from "@/components/icons/Icons";
+import { IconBriefcase, IconCheck, IconPhone, IconPound, IconShield } from "@/components/icons/Icons";
+import {
+  IconAmex,
+  IconApplePay,
+  IconGooglePay,
+  IconLock,
+  IconMaestro,
+  IconMastercard,
+  IconVisa,
+} from "@/components/icons/PaymentIcons";
 import "./quote-page.css";
 
 const PHONE = BUSINESS.phone;
@@ -181,12 +190,90 @@ function QuoteDetail({ quoteRef }: { quoteRef: string }) {
         </div>
       </div>
 
-      {/* Pay Online */}
+      {/* Pay Online — the block we most want acted on, so it gets its own
+          panel rather than sitting as one more row in the page. The trust
+          layer (encryption, card marks, who handles the card) sits directly
+          under the button, which is where the hesitation actually happens. */}
       {quote.squarePaymentLinkUrl && (isPending || isAccepted) && (
-        <div className="qp-section">
-          <a href={quote.squarePaymentLinkUrl} target="_blank" rel="noopener noreferrer" className="qp-btn-accept" style={{ display: "block", textAlign: "center", textDecoration: "none" }}>
-            Pay Online Now
+        <div className="qp-pay" data-testid="pay-online-block">
+          <span className="qp-pay-eyebrow">
+            <IconLock size={13} strokeWidth={2.3} />
+            Secure online payment
+          </span>
+          <h3 className="qp-pay-title">Pay now and your booking is done</h3>
+          <p className="qp-pay-sub">
+            Settle the fare in under a minute by card, Apple&nbsp;Pay or Google&nbsp;Pay — nothing to pay the driver
+            on the day, and your confirmation is instant.
+          </p>
+
+          <div className="qp-pay-amount">
+            <span className="qp-pay-amount-label">Amount to pay</span>
+            <span className="qp-pay-amount-value">{quote.price}</span>
+          </div>
+
+          <a
+            href={quote.squarePaymentLinkUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="qp-pay-btn"
+            data-testid="pay-online-btn"
+          >
+            <IconLock size={18} strokeWidth={2.2} />
+            <span>Pay {quote.price} securely</span>
           </a>
+
+          <p className="qp-pay-encrypted">
+            <IconShield size={14} />
+            256-bit SSL encrypted · Card details never touch our website
+          </p>
+
+          <div className="qp-pay-marks" aria-label="Accepted payment methods">
+            <IconVisa />
+            <IconMastercard />
+            <IconAmex />
+            <IconMaestro />
+            <IconApplePay />
+            <IconGooglePay />
+          </div>
+
+          <ul className="qp-pay-trust">
+            <li>
+              <span className="qp-pay-trust-icon"><IconShield size={15} /></span>
+              <span>
+                <strong>Handled by Square</strong>
+                Payment is taken on Square&apos;s own checkout — the same processor used by high-street shops
+                worldwide. We never see or store your card number.
+              </span>
+            </li>
+            <li>
+              <span className="qp-pay-trust-icon"><IconPound size={15} /></span>
+              <span>
+                <strong>The price is fixed</strong>
+                {quote.price} is the full fare for this journey. No booking fee, no card surcharge and no meter
+                running on the day.
+              </span>
+            </li>
+            <li>
+              <span className="qp-pay-trust-icon"><IconCheck size={15} strokeWidth={2.4} /></span>
+              <span>
+                <strong>Instant written confirmation</strong>
+                You&apos;re returned straight to our confirmation page with your booking details, and Square emails
+                you a card receipt.
+              </span>
+            </li>
+            <li>
+              <span className="qp-pay-trust-icon"><IconPhone size={15} /></span>
+              <span>
+                <strong>A real local firm behind it</strong>
+                Lakeside &amp; Purfleet Taxis has been trading in Thurrock since 1990. Reach a person on{" "}
+                <a href={`tel:${PHONE.replace(/\s/g, "")}`}>{PHONE}</a>, 24 hours a day.
+              </span>
+            </li>
+          </ul>
+
+          <p className="qp-pay-alt">
+            Would rather not pay online? Cash and bank transfer are still fine — see the payment options above.
+          </p>
         </div>
       )}
 

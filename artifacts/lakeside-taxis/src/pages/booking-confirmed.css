@@ -1,0 +1,564 @@
+/* ==========================================================================
+   Booking confirmed (/booking-confirmed/:ref) — where Square returns the
+   customer after a successful payment.
+   Page-specific composition only — colour, radius, depth, type and motion all
+   come from src/styles/system.css.
+
+   The job here is reassurance, then information: confirm the money landed,
+   show the journey they just paid for, and answer the questions they would
+   otherwise phone up to ask.
+   ========================================================================== */
+
+.bc-wrap {
+  background: var(--ls-mist);
+  padding-block: clamp(32px, 5vw, 72px);
+  min-height: 60vh;
+}
+
+.bc-inner {
+  width: 100%;
+  max-width: 780px;
+  margin-inline: auto;
+  padding-inline: var(--ls-pad-x);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ls-gap-sm);
+}
+
+.bc-card {
+  background: var(--ls-white);
+  border-radius: var(--ls-r-xl);
+  padding: clamp(24px, 3.4vw, 40px);
+}
+
+/* ==========================================================================
+   1. Status card
+   ========================================================================== */
+
+.bc-status {
+  text-align: center;
+  box-shadow: var(--ls-shadow-lg);
+  padding-block: clamp(30px, 4.4vw, 52px);
+}
+
+/* Yellow fill with ink on top (13.9:1) — the accent confirms, it doesn't shout. */
+.bc-status-icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto var(--ls-gap);
+  border-radius: var(--ls-r-pill);
+  background: var(--ls-yellow);
+  color: var(--ls-on-yellow);
+}
+
+/* Payment taken but our record hasn't caught up yet — same mark, less shout,
+   so the page doesn't over-claim before the webhook lands. */
+.bc-status-icon-quiet {
+  background: var(--ls-mist);
+  color: var(--ls-text-2);
+}
+
+.bc-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 15px;
+  border-radius: var(--ls-r-pill);
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--ls-text);
+  font-size: 0.8375rem;
+  font-weight: 550;
+  letter-spacing: -0.006em;
+  margin-bottom: var(--ls-gap);
+}
+
+.bc-title {
+  font-family: var(--app-font-display);
+  font-size: clamp(1.85rem, 4.4vw, 2.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.032em;
+  font-weight: 700;
+  color: var(--ls-text);
+  margin: 0 auto;
+  max-width: 18ch;
+  text-wrap: balance;
+}
+
+.bc-lede {
+  margin: var(--ls-gap) auto 0;
+  font-size: 1.0375rem;
+  line-height: 1.62;
+  color: var(--ls-text-2);
+  max-width: 54ch;
+}
+.bc-lede strong { color: var(--ls-text); font-weight: 650; }
+
+.bc-pending {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: var(--ls-gap);
+  padding: 9px 16px;
+  border-radius: var(--ls-r-pill);
+  background: var(--ls-mist);
+  font-size: 0.9rem;
+  color: var(--ls-text-2);
+}
+
+.bc-notice {
+  margin-top: var(--ls-gap);
+  padding: 14px 18px;
+  border-radius: var(--ls-r-sm);
+  background: var(--ls-mist);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--ls-text-2);
+  text-align: left;
+}
+.bc-notice strong { color: var(--ls-text); font-weight: 600; }
+.bc-notice a {
+  color: var(--ls-text);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Left rule rather than a colour wash — the page stays calm, the eye still
+   catches that this block is different from the rest. */
+.bc-notice-warn { border-left: 3px solid var(--ls-yellow-deep); }
+
+/* Receipt strip — the three numbers a customer screenshots. */
+.bc-receipt {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: var(--ls-gap-lg) 0 0;
+  border-radius: var(--ls-r-md);
+  overflow: hidden;
+  background: var(--ls-line);
+  text-align: left;
+}
+
+@media (max-width: 560px) {
+  .bc-receipt { grid-template-columns: 1fr; }
+}
+
+.bc-receipt-item {
+  background: var(--ls-mist);
+  padding: 15px 18px;
+}
+
+.bc-receipt-item dt {
+  font-size: 0.775rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--ls-text-2);
+  margin-bottom: 5px;
+}
+
+.bc-receipt-item dd {
+  margin: 0;
+  font-size: 0.975rem;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  color: var(--ls-text);
+}
+
+.bc-receipt-amount {
+  font-family: var(--app-font-display);
+  font-size: 1.375rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.028em;
+}
+
+.bc-receipt-ref { font-variant-numeric: tabular-nums; }
+
+/* ==========================================================================
+   2. Cards, headings, shared bits
+   ========================================================================== */
+
+.bc-card-title {
+  font-family: var(--app-font-display);
+  font-size: 1.25rem;
+  font-weight: 650;
+  letter-spacing: -0.022em;
+  color: var(--ls-text);
+  margin: 0 0 var(--ls-gap-sm);
+}
+
+.bc-note {
+  margin: var(--ls-gap) 0 0;
+  padding: 13px 16px;
+  border-radius: var(--ls-r-sm);
+  background: var(--ls-mist);
+  font-size: 0.9125rem;
+  line-height: 1.55;
+  color: var(--ls-text-2);
+}
+
+/* ==========================================================================
+   3. Route
+   ========================================================================== */
+
+.bc-route {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: var(--ls-gap);
+}
+
+.bc-route-point {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  padding-block: 9px;
+  position: relative;
+}
+
+/* The connecting line is drawn from each point down to the next, so it
+   stretches to whatever the addresses wrap to rather than a guessed height. */
+.bc-route-point:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 26px;
+  bottom: -4px;
+  width: 2px;
+  background: var(--ls-line-strong);
+  border-radius: 1px;
+}
+
+.bc-route-dot {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 2px;
+  border-radius: var(--ls-r-pill);
+  z-index: 1;
+}
+
+.bc-route-dot-start {
+  background: var(--ls-white);
+  box-shadow: inset 0 0 0 3.5px var(--ls-ink);
+}
+
+.bc-route-dot-via {
+  background: var(--ls-white);
+  box-shadow: inset 0 0 0 2.5px var(--ls-line-strong);
+}
+
+.bc-route-dot-end {
+  background: var(--ls-yellow);
+  color: var(--ls-on-yellow);
+}
+
+.bc-route-label {
+  display: block;
+  font-size: 0.775rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--ls-text-2);
+  margin-bottom: 2px;
+}
+
+.bc-route-value {
+  display: block;
+  font-size: 1.0125rem;
+  font-weight: 600;
+  line-height: 1.42;
+  letter-spacing: -0.014em;
+  color: var(--ls-text);
+}
+
+/* ==========================================================================
+   4. Facts grid
+   ========================================================================== */
+
+.bc-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  border-radius: var(--ls-r-md);
+  overflow: hidden;
+  background: var(--ls-line);
+}
+
+.bc-fact {
+  background: var(--ls-mist);
+  padding: 14px 16px;
+}
+
+.bc-fact dt {
+  font-size: 0.775rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--ls-text-2);
+  margin-bottom: 4px;
+}
+
+.bc-fact dd {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--ls-text);
+}
+
+.bc-fact-strong {
+  font-weight: 700 !important;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   5. Steps
+   ========================================================================== */
+
+.bc-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.bc-step {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 16px;
+  padding-block: 15px;
+  border-top: 1px solid var(--ls-line);
+  align-items: start;
+}
+.bc-step:first-child { border-top: 0; padding-top: 0; }
+
+.bc-step-icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--ls-r-pill);
+  background: var(--ls-mist);
+  color: var(--ls-text-2);
+}
+
+/* Step one is already done by the time they read this. */
+.bc-step-icon-done {
+  background: var(--ls-yellow);
+  color: var(--ls-on-yellow);
+}
+
+.bc-step-title {
+  display: block;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  color: var(--ls-text);
+  margin-bottom: 3px;
+}
+
+.bc-step-desc {
+  display: block;
+  font-size: 0.9125rem;
+  line-height: 1.55;
+  color: var(--ls-text-2);
+}
+
+/* ==========================================================================
+   6. On-the-day tips
+   ========================================================================== */
+
+.bc-tips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.bc-tips li {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  padding-block: 13px;
+  border-top: 1px solid var(--ls-line);
+  font-size: 0.9375rem;
+  line-height: 1.58;
+  color: var(--ls-text-2);
+}
+.bc-tips li:first-child { border-top: 0; padding-top: 0; }
+.bc-tips strong { color: var(--ls-text); font-weight: 600; }
+
+.bc-tip-icon {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--ls-r-pill);
+  background: var(--ls-mist);
+  color: var(--ls-text);
+  margin-top: 1px;
+}
+.bc-tip-icon svg { flex: none; }
+
+/* ==========================================================================
+   7. Help block
+   ========================================================================== */
+
+.bc-help { text-align: center; }
+
+.bc-help-body {
+  margin: 0 auto;
+  max-width: 54ch;
+  font-size: 0.975rem;
+  line-height: 1.62;
+  color: var(--ls-text-2);
+}
+.bc-help-body strong { color: var(--ls-text); font-weight: 650; }
+
+.bc-help-foot {
+  margin: var(--ls-gap) auto 0;
+  padding-top: var(--ls-gap);
+  border-top: 1px solid var(--ls-line);
+  max-width: 54ch;
+  font-size: 0.9125rem;
+  line-height: 1.55;
+  color: var(--ls-text-2);
+}
+.bc-help-foot strong { color: var(--ls-text); font-weight: 600; }
+.bc-help-foot a {
+  color: var(--ls-text);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ==========================================================================
+   8. Buttons
+   ========================================================================== */
+
+.bc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--ls-gap-sm);
+  margin-top: var(--ls-gap-lg);
+}
+.bc-actions-compact { margin-top: var(--ls-gap); }
+
+.bc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 50px;
+  padding: 0 26px;
+  border: 0;
+  border-radius: var(--ls-r-pill);
+  font-family: inherit;
+  font-size: 1.0125rem;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    transform var(--ls-dur-fast) var(--ls-ease-soft),
+    box-shadow var(--ls-dur-fast) var(--ls-ease-soft),
+    background-color var(--ls-dur-fast) var(--ls-ease-soft);
+}
+.bc-btn:active { transform: scale(0.978); }
+.bc-btn svg { flex: none; }
+
+.bc-btn-primary {
+  background: var(--ls-yellow);
+  color: var(--ls-on-yellow);
+  box-shadow: var(--ls-shadow-yellow);
+}
+.bc-btn-primary:hover { background: var(--ls-yellow-deep); box-shadow: var(--ls-shadow-lg); }
+
+/* WhatsApp keeps its brand green — ink on the green at 8.1:1. */
+.bc-btn-whatsapp {
+  background: var(--ls-whatsapp);
+  color: var(--ls-on-whatsapp);
+}
+.bc-btn-whatsapp:hover { background: var(--ls-whatsapp-deep); }
+
+.bc-btn-quiet { background: rgba(0, 0, 0, 0.05); color: var(--ls-text); }
+.bc-btn-quiet:hover { background: rgba(0, 0, 0, 0.085); }
+
+.bc-btn-inline {
+  margin-top: var(--ls-gap);
+  min-height: 44px;
+  font-size: 0.9375rem;
+  padding: 0 20px;
+}
+
+.bc-back {
+  display: inline-block;
+  margin-top: var(--ls-gap);
+  font-size: 0.9125rem;
+  font-weight: 600;
+  color: var(--ls-text-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.bc-back:hover { color: var(--ls-text); }
+
+/* ==========================================================================
+   9. Loading
+   ========================================================================== */
+
+.bc-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ls-gap-sm);
+  padding-block: clamp(44px, 7vw, 84px);
+  color: var(--ls-text-2);
+  box-shadow: var(--ls-shadow-lg);
+}
+.bc-loading p { margin: 0; font-size: 0.975rem; }
+
+.bc-spinner {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--ls-r-pill);
+  border: 3px solid var(--ls-line);
+  border-top-color: var(--ls-ink);
+  animation: bc-spin 0.8s linear infinite;
+}
+
+.bc-spinner-sm {
+  width: 16px;
+  height: 16px;
+  border-width: 2px;
+}
+
+@keyframes bc-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   10. Focus and reduced motion
+   ========================================================================== */
+
+.bc-btn:focus-visible,
+.bc-back:focus-visible,
+.bc-notice a:focus-visible,
+.bc-help-foot a:focus-visible {
+  outline: 2.5px solid var(--ls-ink);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bc-btn { transition: none; }
+  .bc-btn:active { transform: none; }
+  .bc-spinner { animation-duration: 2.4s; }
+}

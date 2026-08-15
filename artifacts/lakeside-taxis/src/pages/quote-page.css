@@ -580,3 +580,230 @@
 }
 .qp-btn-whatsapp:hover { background: var(--ls-whatsapp-deep); }
 .qp-btn-whatsapp:focus-visible { outline: 2.5px solid var(--ls-ink); outline-offset: 3px; }
+
+/* ==========================================================================
+   Pay online panel
+   ---------------------------------------------------------------------------
+   This is the one action on the page we want taken, so it steps out of the
+   card's section rhythm and onto the dark ground — the only inverted block
+   here, which is what makes it read as the primary move rather than another
+   row. Everything below the button exists to answer "is this safe?" at the
+   moment that question gets asked.
+   ========================================================================== */
+
+.qp-pay {
+  background: var(--ls-ink);
+  color: var(--ls-text-on-ink);
+  padding: clamp(26px, 3.6vw, 40px) clamp(22px, 3.4vw, 40px);
+  text-align: center;
+  border-bottom: 1px solid var(--ls-line);
+}
+
+.qp-pay-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  border-radius: var(--ls-r-pill);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--ls-text-on-ink);
+  font-size: 0.8125rem;
+  font-weight: 550;
+  letter-spacing: -0.004em;
+}
+.qp-pay-eyebrow svg { flex: none; color: var(--ls-yellow); }
+
+.qp-pay-title {
+  font-family: var(--app-font-display);
+  font-size: clamp(1.45rem, 3.4vw, 1.875rem);
+  line-height: 1.12;
+  letter-spacing: -0.028em;
+  font-weight: 700;
+  color: var(--ls-text-on-ink);
+  margin: var(--ls-gap-sm) auto 0;
+  max-width: 20ch;
+  text-wrap: balance;
+}
+
+.qp-pay-sub {
+  margin: 10px auto 0;
+  max-width: 50ch;
+  font-size: 0.9625rem;
+  line-height: 1.6;
+  color: var(--ls-text-2-on-ink);
+}
+
+/* The figure is restated immediately above the button so the amount and the
+   commitment are in one glance, not scrolled apart. */
+.qp-pay-amount {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-top: var(--ls-gap);
+  padding: 12px 28px;
+  border-radius: var(--ls-r-md);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.qp-pay-amount-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ls-text-2-on-ink);
+}
+
+.qp-pay-amount-value {
+  font-family: var(--app-font-display);
+  font-size: clamp(1.75rem, 4.4vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.032em;
+  line-height: 1.05;
+  color: var(--ls-yellow);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Full-width to a sensible cap and genuinely centred — margin-inline auto on a
+   flex element, rather than the old text-align on a block anchor. */
+.qp-pay-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  width: 100%;
+  max-width: 420px;
+  min-height: 62px;
+  margin: var(--ls-gap) auto 0;
+  padding: 0 28px;
+  border: 0;
+  border-radius: var(--ls-r-pill);
+  background: var(--ls-yellow);
+  color: var(--ls-on-yellow);
+  box-shadow: var(--ls-shadow-yellow);
+  font-family: inherit;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.018em;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform var(--ls-dur-fast) var(--ls-ease-soft),
+    box-shadow var(--ls-dur-fast) var(--ls-ease-soft),
+    background-color var(--ls-dur-fast) var(--ls-ease-soft);
+}
+.qp-pay-btn svg { flex: none; }
+.qp-pay-btn:hover {
+  background: var(--ls-yellow-deep);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 34px -10px rgba(0, 0, 0, 0.5);
+}
+.qp-pay-btn:active { transform: scale(0.985); }
+.qp-pay-btn:focus-visible { outline: 3px solid var(--ls-white); outline-offset: 3px; }
+
+/* A single slow sheen across the button — enough to catch the eye once, not a
+   loop that turns into noise while someone is reading the terms below it. */
+.qp-pay-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 -60%;
+  width: 45%;
+  transform: skewX(-18deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  animation: qp-pay-sheen 4.5s var(--ls-ease-soft) 1.2s 3;
+}
+
+@keyframes qp-pay-sheen {
+  0% { left: -60%; }
+  22%, 100% { left: 130%; }
+}
+
+.qp-pay-encrypted {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin: 14px 0 0;
+  font-size: 0.85rem;
+  font-weight: 550;
+  letter-spacing: -0.004em;
+  color: var(--ls-text-2-on-ink);
+}
+.qp-pay-encrypted svg { flex: none; color: var(--ls-yellow); }
+
+.qp-pay-marks {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: var(--ls-gap-sm);
+}
+.qp-card-mark { display: block; }
+
+/* The four reassurances, left-aligned inside a centred column — centred body
+   text at this length is hard to read, so only the block is centred. */
+.qp-pay-trust {
+  list-style: none;
+  margin: var(--ls-gap-lg) auto 0;
+  padding: var(--ls-gap) 0 0;
+  border-top: 1px solid var(--ls-line-on-ink);
+  max-width: 520px;
+  text-align: left;
+  display: grid;
+  gap: 14px;
+}
+
+.qp-pay-trust li {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 13px;
+  align-items: start;
+  font-size: 0.8875rem;
+  line-height: 1.55;
+  color: var(--ls-text-2-on-ink);
+}
+.qp-pay-trust strong {
+  display: block;
+  font-size: 0.925rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: var(--ls-text-on-ink);
+  margin-bottom: 2px;
+}
+.qp-pay-trust a {
+  color: var(--ls-text-on-ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.qp-pay-trust a:focus-visible { outline: 2.5px solid var(--ls-white); outline-offset: 2px; }
+
+.qp-pay-trust-icon {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--ls-r-pill);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--ls-yellow);
+  margin-top: 1px;
+}
+.qp-pay-trust-icon svg { flex: none; }
+
+.qp-pay-alt {
+  margin: var(--ls-gap) auto 0;
+  max-width: 46ch;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--ls-text-2-on-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qp-pay-btn { transition: none; }
+  .qp-pay-btn:hover { transform: none; }
+  .qp-pay-btn:active { transform: none; }
+  .qp-pay-btn::after { animation: none; display: none; }
+}

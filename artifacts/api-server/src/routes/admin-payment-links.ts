@@ -4,7 +4,7 @@ import { desc } from "drizzle-orm";
 import { z } from "zod";
 import { db, adhocPaymentLinksTable } from "@workspace/db";
 import { requireAdmin } from "../middlewares/requireAdmin";
-import { createPaymentLink } from "../lib/square";
+import { createPaymentLink, siteUrl } from "../lib/square";
 import { sendPaymentLinkEmail } from "../lib/email";
 
 const router: IRouter = Router();
@@ -61,6 +61,10 @@ router.post("/admin/payment-links", requireAdmin, paymentLinkRateLimit, async (r
     name: body.description,
     priceMinorUnits: body.amount,
     description: body.description,
+    // No quote ref on an ad-hoc link, so the confirmation page shows its
+    // generic paid state rather than a journey summary.
+    redirectUrl: siteUrl("/booking-confirmed"),
+    prefill: { name: body.customerName, email: body.customerEmail },
   });
 
   if (!link) {

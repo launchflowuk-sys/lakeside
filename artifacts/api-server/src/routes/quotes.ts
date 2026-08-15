@@ -5,7 +5,7 @@ import { db, leadsTable, quotesTable } from "@workspace/db";
 import { CreateQuoteBody } from "@workspace/api-zod";
 import { requireAdmin } from "../middlewares/requireAdmin";
 import { quoteRefRateLimit } from "../middlewares/quoteRefRateLimit";
-import { createPaymentLink } from "../lib/square";
+import { createPaymentLink, siteUrl } from "../lib/square";
 
 const router: IRouter = Router();
 
@@ -240,6 +240,18 @@ router.post("/admin/leads/:id/quote/:quoteId/payment-link", requireAdmin, async 
     name: `Taxi booking ${quote.quoteRef}`,
     priceMinorUnits: minorUnits,
     description: `Lakeside & Purfleet Taxis — quote ${quote.quoteRef}`,
+    // The ref is in the path rather than a query param, because Square
+    // appends its own params to whatever it is given — keeping ours in the
+    // path means the two can never collide. The page then reads the live
+    // quote back from GET /quotes/:ref rather than trusting the URL.
+    redirectUrl: siteUrl(`/booking-confirmed/${quote.quoteRef}`),
+    // Already collected on the enquiry — no reason to make them type it again
+    // at checkout.
+    prefill: {
+      name: quote.customerName,
+      email: quote.customerEmail,
+      phone: quote.customerMobile,
+    },
   });
 
   if (!link) {
