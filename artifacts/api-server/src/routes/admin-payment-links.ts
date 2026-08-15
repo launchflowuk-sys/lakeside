@@ -63,7 +63,7 @@ router.post("/admin/payment-links", requireAdmin, paymentLinkRateLimit, async (r
     description: body.description,
     // No quote ref on an ad-hoc link, so the confirmation page shows its
     // generic paid state rather than a journey summary.
-    redirectUrl: siteUrl("/booking-confirmed", req.headers.origin),
+    redirectUrl: siteUrl("/booking-confirmed"),
     prefill: { name: body.customerName, email: body.customerEmail },
   });
 
