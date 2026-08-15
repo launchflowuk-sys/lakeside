@@ -358,10 +358,12 @@ export default function Home() {
           style={{ "--hp-hero-photo": "url('/images/hero-bg.webp')" } as React.CSSProperties}
         >
           <div className="hp-inner hp-hero-grid">
-            {/* Left: the claim. Right: the form. Two columns rather than one
-                stack, so the form sits beside the headline instead of being
-                pushed a screen and a half down the page. */}
-            <div className="hp-hero-copy-col">
+            {/* Three blocks, not two columns, so the order can differ by width.
+                Desktop: head + body stack in the left column with the form
+                beside them. Mobile: head, then the FORM, then the body copy —
+                a phone screen of prose before the first field is what kills
+                the conversion, so the form comes second, not last. */}
+            <div className="hp-hero-head">
               {/* Factual badge only. A "#1 rated" or starred badge here would be
                   an invented ranking on a firm with no aggregate rating. */}
               <div className="hp-eyebrow"><IconCar size={15} /> Local private hire since 1990</div>
@@ -371,19 +373,43 @@ export default function Home() {
                 </span>
                 <span className="hp-hero-title-l2">taxi service</span>
               </h1>
+            </div>
+
+            {/* Second in the DOM, not third: on a phone this is what sits
+                directly under the headline, so tab and screen-reader order
+                match what is on screen. */}
+            <div className="hp-hero-form-col">
+              <div className="hp-hero-form-card" data-testid="hero-form">
+                <h2>Get your taxi quote</h2>
+                <p>Reply within 2 hours. No payment required. No obligation.</p>
+                <BookingForm compact />
+              </div>
+              <p className="hp-hero-form-note">
+                No payment · No obligation · Trusted local service since 1990
+              </p>
+            </div>
+
+            <div className="hp-hero-body">
               {/* Carries the terms people actually search — the towns by name,
                   the six airports, and the services — in plain sentences
                   rather than a keyword list. Every claim here is verifiable:
                   the towns are the nine area pages, the airports are the six
-                  transfer pages, and the 1990 date is the owner's. */}
+                  transfer pages, and the 1990 date is the owner's.
+
+                  The middle sentence is hidden on phones (CSS only — the text
+                  stays in the document for crawlers) so the block under the
+                  form reads as two short sentences rather than a wall. */}
               <p className="hp-hero-copy">
                 Fast, reliable local taxis across Grays, Purfleet, Lakeside,
-                Chafford Hundred, Tilbury and West Thurrock. Fixed-price airport
-                transfers to Heathrow, Gatwick, Stansted, Luton, London City and
-                Southend, plus school runs, Tilbury cruise terminal transfers and
-                corporate accounts. Every fare is agreed with a person before you
-                travel — a Thurrock private hire firm trading since 1990, on the
-                road 24 hours a day, every day of the year.
+                Chafford Hundred, Tilbury and West Thurrock.{" "}
+                <span className="hp-hero-copy-extra">
+                  Fixed-price airport transfers to Heathrow, Gatwick, Stansted,
+                  Luton, London City and Southend, plus school runs, Tilbury
+                  cruise terminal transfers and corporate accounts.{" "}
+                </span>
+                Every fare is agreed with a person before you travel — a
+                Thurrock private hire firm trading since 1990, on the road 24
+                hours a day, every day of the year.
               </p>
 
               <ul className="hp-hero-points">
@@ -439,17 +465,6 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-            </div>
-
-            <div className="hp-hero-form-col">
-              <div className="hp-hero-form-card" data-testid="hero-form">
-                <h2>Get your taxi quote</h2>
-                <p>Reply within 2 hours. No payment required. No obligation.</p>
-                <BookingForm compact />
-              </div>
-              <p className="hp-hero-form-note">
-                No payment · No obligation · Trusted local service since 1990
-              </p>
             </div>
           </div>
 

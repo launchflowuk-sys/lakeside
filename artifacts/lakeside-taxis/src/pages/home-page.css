@@ -95,12 +95,20 @@
    Height is capped rather than full-viewport — a hero that fills the screen
    pushes the services below the fold on every laptop, and this one has a job
    to do (be read, be filled in), not an entrance to make. */
+/* Named areas rather than source order, because the two layouts want
+   different orders: side by side on desktop, but head → form → copy once it
+   stacks. Row gap is zero on desktop — the head and body are one continuous
+   column there, and their own margins do the spacing. */
 .hp-hero-grid {
   position: relative;
   z-index: 2;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 430px);
-  gap: clamp(32px, 4vw, 64px);
+  grid-template-areas:
+    "head form"
+    "body form";
+  column-gap: clamp(32px, 4vw, 64px);
+  row-gap: 0;
   /* Top-aligned so the headline sits high, but with real air above it — the
      content must not crowd the header. Top padding is deliberately much
      larger than the bottom. */
@@ -111,16 +119,37 @@
   padding-block: clamp(56px, 6.6vw, 104px) clamp(18px, 2vw, 30px);
 }
 
+/* Stacked. The form is pulled up under the headline so the first field is in
+   the opening screen — a phone-height block of prose between the two is the
+   single biggest drop-off on this page. */
 @media (max-width: 1040px) {
   .hp-hero-grid {
     grid-template-columns: 1fr;
+    grid-template-areas:
+      "head"
+      "form"
+      "body";
     min-height: 0;
-    gap: clamp(28px, 4vw, 40px);
+    row-gap: clamp(18px, 3.4vw, 26px);
+    padding-block: clamp(26px, 5vw, 48px) clamp(22px, 3vw, 30px);
   }
+
+  /* The eyebrow costs ~50px of the opening screen and repeats what the
+     "since 1990" lines below already say. */
+  .hp-hero-head .hp-eyebrow { margin-bottom: 12px; }
+
+  /* The body is supporting material once it sits below the form, so it gets
+     a clear break from the card rather than running straight on. */
+  .hp-hero-body .hp-hero-copy { margin-top: 0; }
 }
 
-.hp-hero-copy-col { min-width: 0; }
-.hp-hero-form-col { min-width: 0; }
+@media (max-width: 620px) {
+  .hp-hero-head .hp-eyebrow { display: none; }
+}
+
+.hp-hero-head { grid-area: head; min-width: 0; }
+.hp-hero-body { grid-area: body; min-width: 0; }
+.hp-hero-form-col { grid-area: form; min-width: 0; }
 
 .hp-eyebrow {
   display: inline-flex;
@@ -175,6 +204,13 @@
   letter-spacing: -0.008em;
   color: var(--ls-text-2-on-ink);
   max-width: 62ch;
+}
+
+/* The airports-and-services sentence. It stays in the markup (crawlers read
+   it either way) but is dropped on phones, where it turns a two-sentence
+   paragraph into a seven-line one. */
+@media (max-width: 620px) {
+  .hp-hero-copy-extra { display: none; }
 }
 
 /* ── The form card ── */
