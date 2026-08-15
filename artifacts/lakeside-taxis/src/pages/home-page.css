@@ -185,12 +185,15 @@
 .hp-hero-title-l1,
 .hp-hero-title-l2 { display: block; white-space: nowrap; }
 
-/* Below the two-column breakpoint the column is full width, so the nowrap
-   guarantee is dropped rather than risking overflow on a small phone. */
+/* Two lines on a phone, not three. "Thurrock's most trusted" measures 11.44em
+   in this face at this weight and tracking, and the column is the viewport
+   less 2x --ls-pad-x (20px), so the largest size that still holds one line is
+   (100vw - 40px) / 11.44 — that is the 8.5vw - 3.5px below, with the margin
+   rounded in our favour. Holds from 280px through the 460px breakpoint, so
+   nowrap stays on rather than being dropped: the size is derived from the
+   width, so it cannot overflow. */
 @media (max-width: 460px) {
-  .hp-hero-title { font-size: clamp(1.9rem, 8.4vw, 2.4rem); }
-  .hp-hero-title-l1,
-  .hp-hero-title-l2 { white-space: normal; }
+  .hp-hero-title { font-size: min(calc(8.5vw - 3.5px), 2.4rem); }
 }
 
 /* The accent sits inline, mid-line — yellow is pure colour on the dark ground
