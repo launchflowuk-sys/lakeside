@@ -200,6 +200,25 @@
    here (11.9:1), never on a light one. */
 .hp-hero-title-accent { color: var(--ls-yellow); }
 
+/* Off on desktop: .hp-hero-copy is already the line under the headline there,
+   and two summaries stacked would just repeat each other. */
+.hp-hero-lede { display: none; }
+
+@media (max-width: 1040px) {
+  .hp-hero-lede {
+    display: block;
+    margin: 11px 0 0;
+    font-size: clamp(0.95rem, 3.6vw, 1.0375rem);
+    line-height: 1.5;
+    letter-spacing: -0.008em;
+    color: var(--ls-text-2-on-ink);
+    /* Holds it to three lines on a 375px phone and two from ~520px up,
+       rather than running the full tablet width as a single line. */
+    max-width: 38ch;
+    text-wrap: pretty;
+  }
+}
+
 .hp-hero-copy {
   margin: var(--ls-gap) 0 0;
   font-size: clamp(0.9875rem, 1.25vw, 1.075rem);

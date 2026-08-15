@@ -373,6 +373,15 @@ export default function Home() {
                 </span>
                 <span className="hp-hero-title-l2">taxi service</span>
               </h1>
+              {/* Stacked layouts only. On desktop the body copy already sits
+                  directly under the headline in this column; below 1040px the
+                  form takes that slot, leaving the title alone against the
+                  photo. Two or three short lines, not a paragraph — every
+                  line here pushes the first field down the screen. */}
+              <p className="hp-hero-lede">
+                Fixed prices agreed with a person before you travel. Local
+                drivers, 24 hours a day, right across Thurrock.
+              </p>
             </div>
 
             {/* Second in the DOM, not third: on a phone this is what sits
