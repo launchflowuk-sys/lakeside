@@ -17,14 +17,36 @@ export function isSquareConfigured(): boolean {
 
 /**
  * Public origin of the customer-facing site, used to build the URL Square
- * sends the buyer back to once they've paid. Same default as ADMIN_URL in
- * lib/email.ts. Trailing slashes are stripped so callers can always join
- * with a leading-slash path.
+ * sends the buyer back to once they've paid.
+ *
+ * Resolution order matters here, because getting it wrong sends a paying
+ * customer to a dead host — worse than leaving them on Square's receipt:
+ *
+ *   1. SITE_URL, when the operator has set it explicitly.
+ *   2. The Origin of the request that asked for the link. Payment links are
+ *      only ever created from the admin panel, which is served by this same
+ *      app on the same origin as the customer site — so whatever host the
+ *      site is actually reachable on, this matches it with no configuration.
+ *   3. The live domain, as a last resort for a request with no Origin header.
+ *
+ * Trailing slashes are stripped so callers can always join a leading-slash
+ * path.
  */
-const SITE_URL = (process.env.SITE_URL ?? "https://lakesidetaxi.co.uk").replace(/\/+$/, "");
+const FALLBACK_SITE_URL = "https://lakesidetaxi.co.uk";
 
-export function siteUrl(path: string): string {
-  return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
+function normaliseOrigin(value: string): string {
+  return value.replace(/\/+$/, "");
+}
+
+export function siteUrl(path: string, requestOrigin?: string | null): string {
+  const configured = process.env.SITE_URL?.trim();
+  const base = configured
+    ? normaliseOrigin(configured)
+    : requestOrigin && /^https?:\/\//.test(requestOrigin)
+      ? normaliseOrigin(requestOrigin)
+      : FALLBACK_SITE_URL;
+
+  return `${base}${path.startsWith("/") ? path : `/${path}`}`;
 }
 
 function getSquareClient(): SquareClient | null {

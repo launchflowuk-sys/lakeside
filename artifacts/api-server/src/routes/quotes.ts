@@ -244,7 +244,7 @@ router.post("/admin/leads/:id/quote/:quoteId/payment-link", requireAdmin, async 
     // appends its own params to whatever it is given — keeping ours in the
     // path means the two can never collide. The page then reads the live
     // quote back from GET /quotes/:ref rather than trusting the URL.
-    redirectUrl: siteUrl(`/booking-confirmed/${quote.quoteRef}`),
+    redirectUrl: siteUrl(`/booking-confirmed/${quote.quoteRef}`, req.headers.origin),
     // Already collected on the enquiry — no reason to make them type it again
     // at checkout.
     prefill: {
