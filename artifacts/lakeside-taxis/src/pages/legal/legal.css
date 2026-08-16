@@ -256,3 +256,104 @@
   .lg-doc { grid-template-columns: 1fr; }
   .lg-sidenav { display: none; }
 }
+
+/* ==========================================================================
+   Additions for the rewritten legal pages.
+   ========================================================================== */
+
+/* Sections are now real anchor targets. Without this, jumping to one from the
+   "On this page" nav lands its heading underneath the sticky header. */
+.lg-section {
+  scroll-margin-top: 96px;
+}
+
+.lg-intro {
+  margin-bottom: var(--ls-gap-lg);
+  padding-bottom: var(--ls-gap);
+  border-bottom: 1px solid var(--ls-line);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--ls-text-2);
+}
+
+.lg-intro p {
+  margin: 0;
+}
+
+.lg-subhead {
+  margin: var(--ls-gap-lg) 0 var(--ls-gap-sm);
+  font-size: 1rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: var(--ls-text);
+}
+
+/* Term/definition rows — used for retention periods, lawful bases and the
+   list of suppliers, where a plain bulleted list loses the pairing. */
+.lg-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: var(--ls-gap-sm) 0 var(--ls-gap);
+  background: var(--ls-line);
+  border: 1px solid var(--ls-line);
+  border-radius: var(--ls-r-md);
+  overflow: hidden;
+}
+
+.lg-row {
+  display: grid;
+  grid-template-columns: minmax(160px, 240px) 1fr;
+  gap: var(--ls-gap-sm);
+  padding: 14px 16px;
+  background: var(--ls-white);
+}
+
+.lg-row-term {
+  font-size: 0.9063rem;
+  font-weight: 650;
+  color: var(--ls-text);
+}
+
+.lg-row-def {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--ls-text-2);
+}
+
+@media (max-width: 640px) {
+  .lg-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
+
+/* Outstanding business facts. Deliberately loud: an unfilled placeholder in a
+   legal document must never read as though it were a stated fact. */
+.lg-todo {
+  display: inline-block;
+  padding: 2px 9px;
+  border: 1px dashed #c2410c;
+  border-radius: var(--ls-r-sm);
+  background: rgba(249, 115, 22, 0.1);
+  color: #9a3412;
+  font-size: 0.8438rem;
+  font-weight: 600;
+}
+
+.lg-todo::before {
+  content: "To add: ";
+  opacity: 0.75;
+}
+
+/* The side nav entries are real links now, not decorative spans. */
+a.lg-sidenav-link {
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color var(--ls-dur-fast) var(--ls-ease);
+}
+
+a.lg-sidenav-link:hover {
+  color: var(--ls-yellow-deep);
+}

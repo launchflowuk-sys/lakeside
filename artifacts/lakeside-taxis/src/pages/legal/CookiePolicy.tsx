@@ -1,156 +1,157 @@
-import { Link } from "wouter";
-import { Helmet } from "react-helmet-async";
-import Layout from "@/components/layout/Layout";
-import { IconMessage } from "@/components/icons/Icons";
-import "./legal.css";
+import LegalPage, { type LegalSection } from "./LegalPage";
 
-export default function CookiePolicy() {
-  const updated = new Date().toLocaleDateString("en-GB", { year: "numeric", month: "long" });
+const UPDATED = "16 August 2026";
 
-  return (
-    <Layout>
-      <Helmet>
-        <title>Cookie Policy | Lakeside & Purfleet Taxis Ltd</title>
-        <meta name="description" content="Cookie policy for Lakeside & Purfleet Taxis Ltd. We use minimal functional cookies only — no tracking or advertising cookies." />
-      </Helmet>
-
-      <section className="lg-hero">
-        <div className="lg-inner">
-          <nav className="lg-breadcrumb">
-            <Link href="/">Home</Link>
-            <span>/</span>
-            <span style={{ color: "rgba(255,255,255,0.5)" }}>Cookie Policy</span>
-          </nav>
-          <span className="lg-hero-tag">Legal</span>
-          <h1>Cookie Policy</h1>
-          <p className="lg-hero-meta">
-            <strong>Lakeside &amp; Purfleet Taxis Ltd</strong> · Last updated: {updated}
-          </p>
-        </div>
-      </section>
-
-      <div className="lg-body">
-        <div className="lg-inner">
-          <div className="lg-doc">
-
-            <div className="lg-content">
-
-              <div className="lg-section">
-                <span className="lg-section-num">Section 1</span>
-                <h2>What are cookies?</h2>
-                <p>
-                  Cookies are small text files that are stored on your device (computer, tablet or phone) when you visit a website. They are widely used to make websites work correctly, improve performance, and provide a better user experience.
-                </p>
-                <p>
-                  Cookies cannot carry viruses or install malware on your device.
-                </p>
-              </div>
-
-              <div className="lg-section">
-                <span className="lg-section-num">Section 2</span>
-                <h2>How we use cookies</h2>
-                <p>
-                  Our website uses only the minimal cookies necessary for the site to function correctly. We do not use tracking cookies, advertising cookies, or any form of behavioural profiling. We do not share cookie data with third parties.
-                </p>
-                <p>The cookies we use are:</p>
-                <div className="lg-list">
-                  {[
-                    "Session cookies — to maintain your browsing session while you navigate the site. These are deleted automatically when you close your browser.",
-                    "Functional cookies — to remember your preferences during a visit, such as form progress. These expire at the end of your session.",
-                  ].map((item) => (
-                    <div className="lg-list-item" key={item}>{item}</div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="lg-section">
-                <span className="lg-section-num">Section 3</span>
-                <h2>What we do not use cookies for</h2>
-                <p>We want to be clear about what our site does not do:</p>
-                <div className="lg-list">
-                  {[
-                    "We do not use Google Analytics or any other analytics tracking",
-                    "We do not use advertising or remarketing cookies",
-                    "We do not track your behaviour across other websites",
-                    "We do not use any third-party cookies",
-                    "We do not use cookies to build a profile of you",
-                  ].map((item) => (
-                    <div className="lg-list-item" key={item}>{item}</div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="lg-section">
-                <span className="lg-section-num">Section 4</span>
-                <h2>Managing cookies</h2>
-                <p>
-                  You can control and manage cookies through your browser settings. Most browsers allow you to refuse cookies, delete existing cookies, or be notified when new cookies are set.
-                </p>
-                <p>
-                  Please note that disabling essential session cookies may affect the functionality of our website, particularly the booking request form.
-                </p>
-                <p>
-                  For guidance on managing cookies in your browser, visit your browser's help documentation or <a href="https://www.aboutcookies.org" target="_blank" rel="noopener noreferrer">www.aboutcookies.org</a>.
-                </p>
-              </div>
-
-              <div className="lg-section">
-                <span className="lg-section-num">Section 5</span>
-                <h2>Changes to this policy</h2>
-                <p>
-                  We may update this cookie policy from time to time. Any changes will be reflected on this page with an updated "last updated" date. We encourage you to review this page periodically.
-                </p>
-              </div>
-
-              <div className="lg-section">
-                <span className="lg-section-num">Section 6</span>
-                <h2>Contact us</h2>
-                <p>
-                  If you have any questions about our use of cookies, please contact us:
-                </p>
-                <div className="lg-list">
-                  <div className="lg-list-item">Email: <a href="mailto:info@lakesidetaxi.co.uk" style={{ marginLeft: 6 }}>info@lakesidetaxi.co.uk</a></div>
-                  <div className="lg-list-item">Phone: <a href="tel:01375383878" style={{ marginLeft: 6 }}>01375 383878</a></div>
-                </div>
-              </div>
-
-              <div className="lg-contact-note">
-                <span className="lg-contact-note-icon"><IconMessage size={18} /></span>
-                <div className="lg-contact-note-text">
-                  <strong>Also see our other legal documents</strong>
-                  <p>
-                    Read our <Link href="/privacy-policy">Privacy Policy</Link> and <Link href="/terms-conditions">Terms &amp; Conditions</Link> for further information.
-                  </p>
-                </div>
-              </div>
-
-            </div>
-
-            <aside className="lg-sidenav">
-              <span className="lg-sidenav-title">On this page</span>
-              <nav className="lg-sidenav-links">
-                {[
-                  "What are cookies?",
-                  "How we use them",
-                  "What we don't do",
-                  "Managing cookies",
-                  "Policy changes",
-                  "Contact",
-                ].map((item) => (
-                  <span key={item} className="lg-sidenav-link">{item}</span>
-                ))}
-              </nav>
-              <div className="lg-sidenav-divider" />
-              <span className="lg-sidenav-title">Other legal pages</span>
-              <div className="lg-sidenav-other">
-                <Link href="/privacy-policy">Privacy Policy</Link>
-                <Link href="/terms-conditions">Terms &amp; Conditions</Link>
-              </div>
-            </aside>
-
+const sections: LegalSection[] = [
+  {
+    id: "the-short-version",
+    heading: "The short version",
+    content: (
+      <>
+        <p>
+          <strong>
+            Browsing this website sets no cookies on your device at all.
+          </strong>{" "}
+          We use no analytics, no advertising trackers and no social media pixels. That
+          is why you have never seen a cookie banner here — there is nothing to ask you
+          to consent to.
+        </p>
+        <p>
+          The only cookie this site can set is a sign-in cookie for our own office staff,
+          and it is only created once someone signs into the admin area. As a visitor,
+          you will never receive it.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "what-cookies-are",
+    heading: "What cookies are",
+    content: (
+      <p>
+        A cookie is a small text file a website asks your browser to store, so it can
+        recognise you on a later page or a later visit. Some are strictly necessary to
+        make a site work, such as keeping someone signed in. Others exist to measure
+        behaviour or target advertising, and those need your consent under UK law.
+      </p>
+    ),
+  },
+  {
+    id: "what-we-use",
+    heading: "What we actually use",
+    content: (
+      <>
+        <div className="lg-rows">
+          <div className="lg-row">
+            <span className="lg-row-term">Staff sign-in cookie</span>
+            <span className="lg-row-def">
+              Strictly necessary. Created only when a member of our office staff signs
+              into the admin area, so the system knows they are logged in. It holds a
+              random session reference and no personal information. It expires after
+              seven days, or when they sign out.
+            </span>
           </div>
         </div>
-      </div>
-    </Layout>
+        <p>
+          That is the complete list. It is a strictly necessary cookie, so it does not
+          require consent, and it is never set for members of the public browsing the
+          site.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "what-we-dont-use",
+    heading: "What we do not use",
+    content: (
+      <>
+        <p>To be specific, this website does not run any of the following:</p>
+        <div className="lg-list">
+          {[
+            "Google Analytics or Google Tag Manager",
+            "Facebook or Meta advertising pixels",
+            "Advertising or retargeting networks of any kind",
+            "Session recording or heatmap tools",
+            "Cross-site tracking or data brokers",
+          ].map((item) => (
+            <div className="lg-list-item" key={item}>{item}</div>
+          ))}
+        </div>
+        <p>
+          We do not track you across other websites, and we do not sell or share browsing
+          data with anyone.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "third-party-pages",
+    heading: "Pages hosted by other companies",
+    content: (
+      <>
+        <p>
+          One part of using us takes you off our website, and different rules apply there:
+        </p>
+        <div className="lg-rows">
+          <div className="lg-row">
+            <span className="lg-row-term">Paying by card</span>
+            <span className="lg-row-def">
+              If we send you a payment link, following it takes you to a checkout page
+              hosted by Square, not by us. Square sets its own cookies on that page under
+              its own privacy and cookie policies. Once payment completes you are
+              returned to our website.
+            </span>
+          </div>
+        </div>
+        <p>
+          If you follow a link from our site to WhatsApp, Google Maps or any other
+          service, that service's own cookie policy applies from the moment you arrive.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "managing-cookies",
+    heading: "Managing cookies",
+    content: (
+      <>
+        <p>
+          Because we set no cookies for visitors, there is nothing here for you to turn
+          off. If you want to manage cookies generally, every major browser lets you view
+          and delete them, and block them by site, from its settings or privacy menu.
+        </p>
+        <p>
+          Blocking cookies entirely will not stop you using this website, browsing our
+          pages, or submitting a quote request or a driver application.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "changes",
+    heading: "Changes to this policy",
+    content: (
+      <p>
+        If we ever add analytics or any other non-essential cookie, we will update this
+        page, change the date at the top, and ask for your consent before setting it.
+        This policy was last updated on {UPDATED}.
+      </p>
+    ),
+  },
+];
+
+export default function CookiePolicy() {
+  return (
+    <LegalPage
+      title="Cookie Policy"
+      metaDescription="Lakeside & Purfleet Taxis Ltd sets no cookies for website visitors and uses no analytics or advertising trackers. Here is exactly what that means."
+      canonicalPath="/cookie-policy"
+      updated={UPDATED}
+      sections={sections}
+      related={[
+        { href: "/privacy-policy", label: "Privacy Policy" },
+        { href: "/terms", label: "Terms & Conditions" },
+      ]}
+    />
   );
 }
