@@ -69,6 +69,7 @@ const AdminSettings = lazy(() => import("@/pages/admin/Settings"));
 const AdminCorporateApplications = lazy(() => import("@/pages/admin/CorporateApplications"));
 const AdminCorporateApplicationDetail = lazy(() => import("@/pages/admin/CorporateApplicationDetail"));
 const AdminPaymentLinks = lazy(() => import("@/pages/admin/PaymentLinks"));
+const AdminHelp = lazy(() => import("@/pages/admin/Help"));
 const AdminDriverApplications = lazy(() => import("@/pages/admin/DriverApplications"));
 const AdminDriverApplicationDetail = lazy(
   () => import("@/pages/admin/DriverApplicationDetail"),
@@ -157,6 +158,7 @@ function Router() {
         <Route path="/admin/payment-links" component={AdminPaymentLinks} />
         <Route path="/admin/driver-applications/:id" component={AdminDriverApplicationDetail} />
         <Route path="/admin/driver-applications" component={AdminDriverApplications} />
+        <Route path="/admin/help" component={AdminHelp} />
         <Route path="/admin" component={AdminDashboard} />
 
         <Route component={NotFound} />

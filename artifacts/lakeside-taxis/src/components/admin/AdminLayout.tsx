@@ -2,7 +2,7 @@ import { Link, useLocation } from "wouter";
 import { useAdminLogout, useGetAdminMe, getGetAdminMeQueryKey } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
 import {
-  LayoutDashboard, Users, CheckSquare, Settings, LogOut, Menu, X, Car, Building2, CreditCard
+  LayoutDashboard, Users, CheckSquare, Settings, LogOut, Menu, X, Car, Building2, CreditCard, HelpCircle
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,7 @@ const navItems = [
   { href: "/admin/driver-applications", label: "Driver Applications", icon: Car },
   { href: "/admin/payment-links", label: "Payment Links", icon: CreditCard },
   { href: "/admin/settings", label: "Settings", icon: Settings },
+  { href: "/admin/help", label: "Help", icon: HelpCircle },
 ];
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
