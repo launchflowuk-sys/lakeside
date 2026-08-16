@@ -24,6 +24,7 @@ const LocalTaxis = lazy(() => import("@/pages/LocalTaxis"));
 const AirportTransfers = lazy(() => import("@/pages/AirportTransfers"));
 const CorporateAccounts = lazy(() => import("@/pages/CorporateAccounts"));
 const BecomeADriver = lazy(() => import("@/pages/BecomeADriver"));
+const DriverApplicationReceived = lazy(() => import("@/pages/DriverApplicationReceived"));
 const SchoolRuns = lazy(() => import("@/pages/SchoolRuns"));
 const LongDistanceTravel = lazy(() => import("@/pages/LongDistanceTravel"));
 const CruiseTerminalTransfers = lazy(() => import("@/pages/CruiseTerminalTransfers"));
@@ -119,6 +120,7 @@ function Router() {
         <Route path="/airport-transfers/southend" component={SouthendPage} />
         <Route path="/corporate-accounts" component={CorporateAccounts} />
         <Route path="/become-a-driver" component={BecomeADriver} />
+        <Route path="/driver-application-received" component={DriverApplicationReceived} />
         <Route path="/school-runs" component={SchoolRuns} />
         <Route path="/long-distance-travel" component={LongDistanceTravel} />
         <Route path="/tilbury-cruise-terminal" component={CruiseTerminalTransfers} />

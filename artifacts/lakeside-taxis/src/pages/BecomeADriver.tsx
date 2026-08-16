@@ -1,4 +1,5 @@
 import { useState, useRef, type ChangeEvent, type FormEvent } from "react";
+import { useLocation } from "wouter";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/layout/Layout";
 import { useReveal } from "@/hooks/useReveal";
@@ -172,11 +173,11 @@ async function readError(response: Response): Promise<string> {
 export default function BecomeADriver() {
   const revealRef = useReveal<HTMLDivElement>();
   const formRef = useRef<HTMLDivElement>(null);
+  const [, navigate] = useLocation();
 
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [documents, setDocuments] = useState<Partial<Record<DocType, File>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const isLicensed = form.isLicensed === "yes";
@@ -303,8 +304,7 @@ export default function BecomeADriver() {
         headers: { "x-upload-token": uploadToken },
       });
 
-      setIsSuccess(true);
-      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      navigate("/driver-application-received");
     } catch {
       setError(
         "We could not reach the server. Please check your connection and try again, or call us on 01375 383878.",
@@ -468,27 +468,7 @@ export default function BecomeADriver() {
               </p>
             </div>
 
-            {isSuccess ? (
-              <div className="bd-success">
-                <span className="bd-success-icon">
-                  <IconCheck size={26} />
-                </span>
-                <h3 className="bd-success-h3">Application received</h3>
-                <p className="bd-success-p">
-                  Thanks — we have your application and we will be in touch. We have also
-                  sent a confirmation to your email address.
-                </p>
-                <p className="bd-success-p">
-                  If you want to talk to someone sooner, call{" "}
-                  <a href={BUSINESS.phoneTel}>{BUSINESS.phone}</a> or message us on{" "}
-                  <a href={BUSINESS.whatsappHref} target="_blank" rel="noreferrer">
-                    WhatsApp
-                  </a>
-                  .
-                </p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} noValidate>
+            <form onSubmit={handleSubmit} noValidate>
                 {/* Section 1 — about you */}
                 <div className="bd-form-block">
                   <div className="bd-form-block-title">01 — About you</div>
@@ -852,8 +832,7 @@ export default function BecomeADriver() {
                     .
                   </p>
                 </div>
-              </form>
-            )}
+            </form>
           </div>
         </section>
       </div>
