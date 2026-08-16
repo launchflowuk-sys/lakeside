@@ -1,6 +1,6 @@
 import { Router, type IRouter } from "express";
 import fs from "node:fs";
-import { eq, desc, sql, and } from "drizzle-orm";
+import { eq, desc, sql, and, inArray } from "drizzle-orm";
 import { z } from "zod";
 import {
   db,
@@ -118,7 +118,7 @@ router.get("/admin/driver-applications", requireAdmin, async (req, res): Promise
         count: sql<number>`count(*)::int`,
       })
       .from(driverApplicationDocumentsTable)
-      .where(sql`${driverApplicationDocumentsTable.applicationId} = ANY(${ids})`)
+      .where(inArray(driverApplicationDocumentsTable.applicationId, ids))
       .groupBy(driverApplicationDocumentsTable.applicationId);
     for (const entry of counts) docCounts.set(entry.applicationId, entry.count);
   }
