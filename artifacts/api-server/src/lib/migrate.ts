@@ -19,6 +19,7 @@ export async function runMigrations(): Promise<void> {
     // call here is its own auto-committed statement, so this is safe.
     await client.query(`ALTER TYPE quote_status ADD VALUE IF NOT EXISTS 'paid'`);
     await client.query(`DO $$ BEGIN CREATE TYPE adhoc_payment_link_status AS ENUM ('pending','paid'); EXCEPTION WHEN duplicate_object THEN NULL; END $$`);
+    await client.query(`DO $$ BEGIN CREATE TYPE driver_app_status AS ENUM ('new','reviewing','interview','approved','rejected','on_hold'); EXCEPTION WHEN duplicate_object THEN NULL; END $$`);
 
     // ── Detect and fix old leads schema ───────────────────────────────────
     // If the table was created with the old column names ('name' instead of
@@ -210,6 +211,61 @@ export async function runMigrations(): Promise<void> {
     await client.query(`DO $$ BEGIN
       ALTER TABLE corporate_applications ALTER COLUMN organisation_type TYPE organisation_type USING organisation_type::organisation_type;
     EXCEPTION WHEN others THEN NULL; END $$`);
+
+    // ── driver_applications ────────────────────────────────────────────────
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS driver_applications (
+        id                      SERIAL PRIMARY KEY,
+        created_at              TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        updated_at              TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        status                  driver_app_status NOT NULL DEFAULT 'new',
+        full_name               TEXT NOT NULL,
+        email                   TEXT NOT NULL,
+        phone                   TEXT NOT NULL,
+        address_line            TEXT,
+        city                    TEXT,
+        postcode                TEXT NOT NULL,
+        right_to_work           TEXT NOT NULL,
+        is_licensed             BOOLEAN NOT NULL DEFAULT FALSE,
+        licence_authority       TEXT,
+        ph_licence_number       TEXT,
+        ph_licence_expiry       TEXT,
+        dvla_licence_number     TEXT,
+        dvla_years_held         TEXT,
+        penalty_points          TEXT,
+        has_own_vehicle         BOOLEAN NOT NULL DEFAULT FALSE,
+        vehicle_details         TEXT,
+        years_experience        TEXT,
+        availability            TEXT,
+        how_heard               TEXT,
+        additional_info         TEXT,
+        upload_token            TEXT,
+        upload_token_expires_at TIMESTAMPTZ,
+        admin_notes             TEXT,
+        assigned_to             TEXT
+      )
+    `);
+
+    // ── driver_application_documents ───────────────────────────────────────
+    // ON DELETE CASCADE so deleting an application from the admin panel also
+    // clears its document rows; the files themselves are unlinked from disk
+    // by the delete route before the row goes.
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS driver_application_documents (
+        id                SERIAL PRIMARY KEY,
+        application_id    INTEGER NOT NULL REFERENCES driver_applications(id) ON DELETE CASCADE,
+        doc_type          TEXT NOT NULL,
+        original_filename TEXT NOT NULL,
+        stored_filename   TEXT NOT NULL,
+        mime_type         TEXT NOT NULL,
+        size_bytes        INTEGER NOT NULL,
+        uploaded_at       TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )
+    `);
+    await client.query(`
+      CREATE INDEX IF NOT EXISTS idx_driver_app_docs_application
+        ON driver_application_documents (application_id)
+    `);
 
     // ── admin_sessions ─────────────────────────────────────────────────────
     // Managed here rather than via connect-pg-simple's createTableIfMissing

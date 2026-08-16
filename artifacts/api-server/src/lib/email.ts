@@ -5,15 +5,15 @@ const SMTP_HOST = process.env.SMTP_HOST;
 const SMTP_PORT = parseInt(process.env.SMTP_PORT ?? "587", 10);
 const SMTP_USER = process.env.SMTP_USER;
 const SMTP_PASS = process.env.SMTP_PASS;
-const SMTP_FROM = process.env.SMTP_FROM ?? "noreply@lakesidetaxi.co.uk";
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? "info@lakesidetaxi.co.uk";
+export const SMTP_FROM = process.env.SMTP_FROM ?? "noreply@lakesidetaxi.co.uk";
+export const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? "info@lakesidetaxi.co.uk";
 
-const BUSINESS_PHONE = "01375 383878";
-const BUSINESS_WHATSAPP = "07879 956275";
-const BUSINESS_WHATSAPP_HREF = "https://wa.me/447879956275";
-const BUSINESS_EMAIL = "info@lakesidetaxi.co.uk";
+export const BUSINESS_PHONE = "01375 383878";
+export const BUSINESS_WHATSAPP = "07879 956275";
+export const BUSINESS_WHATSAPP_HREF = "https://wa.me/447879956275";
+export const BUSINESS_EMAIL = "info@lakesidetaxi.co.uk";
 
-function createTransport() {
+export function createTransport() {
   if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) {
     return null;
   }

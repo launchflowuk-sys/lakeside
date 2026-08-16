@@ -23,6 +23,7 @@ const Contact = lazy(() => import("@/pages/Contact"));
 const LocalTaxis = lazy(() => import("@/pages/LocalTaxis"));
 const AirportTransfers = lazy(() => import("@/pages/AirportTransfers"));
 const CorporateAccounts = lazy(() => import("@/pages/CorporateAccounts"));
+const BecomeADriver = lazy(() => import("@/pages/BecomeADriver"));
 const SchoolRuns = lazy(() => import("@/pages/SchoolRuns"));
 const LongDistanceTravel = lazy(() => import("@/pages/LongDistanceTravel"));
 const CruiseTerminalTransfers = lazy(() => import("@/pages/CruiseTerminalTransfers"));
@@ -67,6 +68,10 @@ const AdminSettings = lazy(() => import("@/pages/admin/Settings"));
 const AdminCorporateApplications = lazy(() => import("@/pages/admin/CorporateApplications"));
 const AdminCorporateApplicationDetail = lazy(() => import("@/pages/admin/CorporateApplicationDetail"));
 const AdminPaymentLinks = lazy(() => import("@/pages/admin/PaymentLinks"));
+const AdminDriverApplications = lazy(() => import("@/pages/admin/DriverApplications"));
+const AdminDriverApplicationDetail = lazy(
+  () => import("@/pages/admin/DriverApplicationDetail"),
+);
 
 function ScrollToTop() {
   const [location] = useLocation();
@@ -113,6 +118,7 @@ function Router() {
         <Route path="/airport-transfers/london-city" component={LondonCityPage} />
         <Route path="/airport-transfers/southend" component={SouthendPage} />
         <Route path="/corporate-accounts" component={CorporateAccounts} />
+        <Route path="/become-a-driver" component={BecomeADriver} />
         <Route path="/school-runs" component={SchoolRuns} />
         <Route path="/long-distance-travel" component={LongDistanceTravel} />
         <Route path="/tilbury-cruise-terminal" component={CruiseTerminalTransfers} />
@@ -147,6 +153,8 @@ function Router() {
         <Route path="/admin/corporate/:id" component={AdminCorporateApplicationDetail} />
         <Route path="/admin/corporate" component={AdminCorporateApplications} />
         <Route path="/admin/payment-links" component={AdminPaymentLinks} />
+        <Route path="/admin/driver-applications/:id" component={AdminDriverApplicationDetail} />
+        <Route path="/admin/driver-applications" component={AdminDriverApplications} />
         <Route path="/admin" component={AdminDashboard} />
 
         <Route component={NotFound} />

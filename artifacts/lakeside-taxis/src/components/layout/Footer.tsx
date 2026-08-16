@@ -7,6 +7,7 @@ const serviceLinks = [
   { href: "/corporate-accounts", label: "Corporate Accounts" },
   { href: "/school-runs", label: "School Runs" },
   { href: "/long-distance-travel", label: "Long Distance Travel" },
+  { href: "/become-a-driver", label: "Become a Driver" },
 ];
 
 const airportLinks = [

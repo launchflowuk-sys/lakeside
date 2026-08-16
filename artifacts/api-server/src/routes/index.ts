@@ -11,6 +11,8 @@ import quotesRouter from "./quotes";
 import debugRouter from "./debug";
 import webhooksRouter from "./webhooks";
 import adminPaymentLinksRouter from "./admin-payment-links";
+import driverApplicationsRouter from "./driver-applications";
+import adminDriverApplicationsRouter from "./admin-driver-applications";
 
 const router: IRouter = Router();
 
@@ -26,5 +28,7 @@ router.use(quotesRouter);
 router.use(debugRouter);
 router.use(webhooksRouter);
 router.use(adminPaymentLinksRouter);
+router.use(driverApplicationsRouter);
+router.use(adminDriverApplicationsRouter);
 
 export default router;

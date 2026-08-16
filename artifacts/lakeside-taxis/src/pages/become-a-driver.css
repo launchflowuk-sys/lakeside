@@ -1,0 +1,627 @@
+/* ==========================================================================
+   Become a driver (/become-a-driver).
+   Page-specific composition only — colour, radius, depth, type and motion all
+   come from src/styles/system.css.
+   ========================================================================== */
+
+.bd-hero-inner,
+.bd-section-inner,
+.bd-apply-inner {
+  width: 100%;
+  max-width: var(--ls-shell);
+  margin-inline: auto;
+  padding-inline: var(--ls-pad-x);
+}
+
+/* ==========================================================================
+   1. Hero
+   ========================================================================== */
+
+.bd-hero {
+  position: relative;
+  background: var(--ls-ink);
+  color: var(--ls-text-on-ink);
+  padding-block: clamp(44px, 5.4vw, 76px) clamp(44px, 5.4vw, 68px);
+  overflow: hidden;
+}
+
+.bd-hero::before {
+  content: "";
+  position: absolute;
+  top: -34%;
+  left: 50%;
+  width: min(1000px, 130%);
+  aspect-ratio: 1;
+  transform: translateX(-58%);
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 209, 0, 0.15) 0%,
+    rgba(255, 209, 0, 0.05) 38%,
+    transparent 68%
+  );
+  pointer-events: none;
+}
+
+.bd-hero-inner {
+  position: relative;
+}
+
+.bd-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 15px;
+  border-radius: var(--ls-r-pill);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--ls-text-on-ink);
+  font-size: 0.8375rem;
+  font-weight: 550;
+  letter-spacing: -0.006em;
+  margin-bottom: var(--ls-gap);
+}
+
+.bd-hero-h1 {
+  margin: 0 0 var(--ls-gap-sm);
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  line-height: 1.06;
+  letter-spacing: -0.022em;
+  font-weight: 700;
+}
+
+.bd-hero-lede {
+  margin: 0 0 var(--ls-gap-lg);
+  max-width: 56ch;
+  font-size: clamp(1rem, 1.6vw, 1.125rem);
+  line-height: 1.6;
+  color: var(--ls-text-2-on-ink);
+}
+
+.bd-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ls-gap-sm);
+}
+
+/* ==========================================================================
+   2. Buttons
+   ========================================================================== */
+
+.bd-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 24px;
+  border: 1px solid transparent;
+  border-radius: var(--ls-r-md);
+  font-size: 0.9375rem;
+  font-weight: 650;
+  letter-spacing: -0.008em;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform var(--ls-dur-fast) var(--ls-ease),
+    background var(--ls-dur-fast) var(--ls-ease),
+    box-shadow var(--ls-dur-fast) var(--ls-ease);
+}
+
+.bd-btn--primary {
+  background: var(--ls-yellow);
+  color: var(--ls-on-yellow);
+  box-shadow: var(--ls-shadow-yellow);
+}
+
+.bd-btn--primary:hover:not(:disabled) {
+  background: var(--ls-yellow-deep);
+  transform: translateY(-1px);
+}
+
+.bd-btn--primary:disabled {
+  opacity: 0.62;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.bd-btn--ghost {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--ls-line-on-ink);
+  color: var(--ls-text-on-ink);
+}
+
+.bd-btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   3. Sections
+   ========================================================================== */
+
+.bd-section {
+  padding-block: var(--ls-section-y);
+  background: var(--ls-white);
+}
+
+.bd-section--alt {
+  background: var(--ls-mist);
+}
+
+.bd-section-kicker {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ls-yellow-deep);
+  margin-bottom: 6px;
+}
+
+.bd-section-h2 {
+  margin: 0 0 var(--ls-gap-lg);
+  font-size: clamp(1.5rem, 3.2vw, 2.125rem);
+  line-height: 1.14;
+  letter-spacing: -0.018em;
+  font-weight: 700;
+  color: var(--ls-text);
+}
+
+/* ==========================================================================
+   4. Reason cards
+   ========================================================================== */
+
+.bd-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--ls-gap);
+}
+
+.bd-card {
+  padding: var(--ls-gap);
+  background: var(--ls-white);
+  border: 1px solid var(--ls-line);
+  border-radius: var(--ls-r-lg);
+  box-shadow: var(--ls-shadow-sm);
+  transition:
+    transform var(--ls-dur) var(--ls-ease-soft),
+    box-shadow var(--ls-dur) var(--ls-ease-soft);
+}
+
+.bd-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--ls-shadow-md);
+}
+
+.bd-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--ls-r-md);
+  background: rgba(255, 209, 0, 0.16);
+  color: var(--ls-yellow-deep);
+  margin-bottom: var(--ls-gap-sm);
+}
+
+.bd-card-h3 {
+  margin: 0 0 6px;
+  font-size: 1.0625rem;
+  font-weight: 650;
+  letter-spacing: -0.012em;
+  color: var(--ls-text);
+}
+
+.bd-card-p {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--ls-text-2);
+}
+
+/* ==========================================================================
+   5. Requirements
+   ========================================================================== */
+
+.bd-req-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--ls-gap);
+}
+
+.bd-req {
+  padding: var(--ls-gap-lg);
+  background: var(--ls-white);
+  border: 1px solid var(--ls-line);
+  border-radius: var(--ls-r-lg);
+  box-shadow: var(--ls-shadow-sm);
+}
+
+.bd-req-h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 var(--ls-gap-sm);
+  font-size: 1.0625rem;
+  font-weight: 650;
+  letter-spacing: -0.012em;
+  color: var(--ls-text);
+}
+
+.bd-req-h3 svg {
+  color: var(--ls-yellow-deep);
+  flex-shrink: 0;
+}
+
+.bd-req-p {
+  margin: 0 0 var(--ls-gap-sm);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--ls-text-2);
+}
+
+.bd-req-p:last-child {
+  margin-bottom: 0;
+}
+
+.bd-list {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--ls-text-2);
+}
+
+.bd-list li {
+  margin-bottom: 7px;
+}
+
+.bd-list li::marker {
+  color: var(--ls-yellow-deep);
+}
+
+/* ==========================================================================
+   6. Steps
+   ========================================================================== */
+
+.bd-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: var(--ls-gap);
+}
+
+.bd-step {
+  padding: var(--ls-gap);
+  border: 1px solid var(--ls-line);
+  border-radius: var(--ls-r-lg);
+  background: var(--ls-white);
+}
+
+.bd-step-n {
+  display: block;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ls-yellow);
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.bd-step-h3 {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  font-weight: 650;
+  color: var(--ls-text);
+}
+
+.bd-step-p {
+  margin: 0;
+  font-size: 0.9063rem;
+  line-height: 1.6;
+  color: var(--ls-text-2);
+}
+
+/* ==========================================================================
+   7. Application form
+   ========================================================================== */
+
+.bd-apply {
+  padding-block: var(--ls-section-y);
+  background: var(--ls-ink);
+  color: var(--ls-text-on-ink);
+}
+
+.bd-apply-heading {
+  text-align: center;
+  margin-bottom: var(--ls-gap-xl);
+}
+
+.bd-apply-heading .bd-section-h2 {
+  color: var(--ls-text-on-ink);
+  margin-bottom: var(--ls-gap-sm);
+}
+
+.bd-apply-desc {
+  margin: 0 auto;
+  max-width: 56ch;
+  font-size: 0.9688rem;
+  line-height: 1.6;
+  color: var(--ls-text-2-on-ink);
+}
+
+.bd-form-block {
+  padding: var(--ls-gap-lg);
+  margin-bottom: var(--ls-gap);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--ls-line-on-ink);
+  border-radius: var(--ls-r-lg);
+}
+
+.bd-form-block-title {
+  font-size: 0.8125rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ls-yellow);
+  margin-bottom: var(--ls-gap);
+}
+
+.bd-form-block-note {
+  margin: calc(var(--ls-gap) * -0.5) 0 var(--ls-gap);
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--ls-text-2-on-ink);
+}
+
+.bd-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--ls-gap-sm);
+}
+
+.bd-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bd-field--full {
+  grid-column: 1 / -1;
+}
+
+.bd-label {
+  font-size: 0.875rem;
+  font-weight: 550;
+  color: var(--ls-text-on-ink);
+}
+
+.bd-label span,
+.bd-required {
+  color: var(--ls-yellow);
+}
+
+.bd-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--ls-line-on-ink);
+  border-radius: var(--ls-r-sm);
+  color: var(--ls-text-on-ink);
+  font-size: 0.9375rem;
+  font-family: inherit;
+  transition:
+    border-color var(--ls-dur-fast) var(--ls-ease),
+    background var(--ls-dur-fast) var(--ls-ease);
+}
+
+.bd-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.bd-input:focus {
+  outline: none;
+  border-color: var(--ls-yellow);
+  background: rgba(255, 255, 255, 0.09);
+}
+
+/* Native select options render on the OS layer, so they need explicit dark
+   colours or they inherit white-on-white on some platforms. */
+.bd-input option {
+  background: var(--ls-graphite);
+  color: var(--ls-text-on-ink);
+}
+
+.bd-textarea {
+  resize: vertical;
+  min-height: 96px;
+}
+
+/* ==========================================================================
+   8. Document uploads
+   ========================================================================== */
+
+.bd-doc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--ls-gap);
+}
+
+.bd-doc {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: var(--ls-gap-sm);
+  border: 1px dashed var(--ls-line-on-ink);
+  border-radius: var(--ls-r-md);
+}
+
+.bd-doc-hint {
+  font-size: 0.8125rem;
+  color: var(--ls-text-2-on-ink);
+}
+
+.bd-file {
+  margin-top: 4px;
+  font-size: 0.8438rem;
+  color: var(--ls-text-2-on-ink);
+  cursor: pointer;
+}
+
+.bd-file::file-selector-button {
+  margin-right: 10px;
+  padding: 8px 14px;
+  border: 1px solid var(--ls-line-on-ink);
+  border-radius: var(--ls-r-sm);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--ls-text-on-ink);
+  font-size: 0.8438rem;
+  font-weight: 550;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background var(--ls-dur-fast) var(--ls-ease);
+}
+
+.bd-file::file-selector-button:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.bd-doc-chosen {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-size: 0.8125rem;
+  font-weight: 550;
+  color: var(--ls-yellow);
+  overflow-wrap: anywhere;
+}
+
+/* ==========================================================================
+   9. Consent, errors, submit
+   ========================================================================== */
+
+.bd-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  font-size: 0.9063rem;
+  line-height: 1.55;
+  color: var(--ls-text-2-on-ink);
+  cursor: pointer;
+}
+
+.bd-consent input {
+  margin-top: 3px;
+  width: 17px;
+  height: 17px;
+  accent-color: var(--ls-yellow);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.bd-error {
+  margin: var(--ls-gap-sm) 0 0;
+  padding: 11px 14px;
+  border: 1px solid rgba(248, 113, 113, 0.5);
+  border-radius: var(--ls-r-sm);
+  background: rgba(248, 113, 113, 0.12);
+  color: #fecaca;
+  font-size: 0.9063rem;
+  line-height: 1.5;
+}
+
+.bd-submit {
+  width: 100%;
+  margin-top: var(--ls-gap);
+  padding-block: 15px;
+  font-size: 1rem;
+}
+
+.bd-form-foot {
+  margin: var(--ls-gap-sm) 0 0;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--ls-text-2-on-ink);
+}
+
+.bd-form-foot a {
+  color: var(--ls-yellow);
+  font-weight: 550;
+  text-decoration: none;
+}
+
+.bd-form-foot a:hover {
+  text-decoration: underline;
+}
+
+.bd-form-foot svg {
+  vertical-align: -2px;
+}
+
+/* ==========================================================================
+   10. Success
+   ========================================================================== */
+
+.bd-success {
+  max-width: 560px;
+  margin-inline: auto;
+  padding: var(--ls-gap-xl) var(--ls-gap-lg);
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--ls-line-on-ink);
+  border-radius: var(--ls-r-lg);
+}
+
+.bd-success-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--ls-yellow);
+  color: var(--ls-on-yellow);
+  margin-bottom: var(--ls-gap);
+}
+
+.bd-success-h3 {
+  margin: 0 0 var(--ls-gap-sm);
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.014em;
+  color: var(--ls-text-on-ink);
+}
+
+.bd-success-p {
+  margin: 0 0 var(--ls-gap-sm);
+  font-size: 0.9688rem;
+  line-height: 1.6;
+  color: var(--ls-text-2-on-ink);
+}
+
+.bd-success-p:last-child {
+  margin-bottom: 0;
+}
+
+.bd-success-p a {
+  color: var(--ls-yellow);
+  font-weight: 550;
+  text-decoration: none;
+}
+
+.bd-success-p a:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   11. Small screens
+   ========================================================================== */
+
+@media (max-width: 640px) {
+  .bd-form-block {
+    padding: var(--ls-gap);
+  }
+
+  .bd-hero-actions .bd-btn {
+    flex: 1 1 100%;
+  }
+}

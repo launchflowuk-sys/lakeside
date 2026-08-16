@@ -41,6 +41,14 @@ services:
       # Google Reviews — leave blank to use built-in fallback reviews
       GOOGLE_PLACES_API_KEY: ${GOOGLE_PLACES_API_KEY:-}
       GOOGLE_PLACE_ID: ${GOOGLE_PLACE_ID:-}
+      # Driver application documents. Must match the bind mount below.
+      UPLOAD_DIR: /app/uploads
+    volumes:
+      # Host bind mount, not a named volume — the container filesystem is
+      # rebuilt on every Coolify redeploy, so uploaded driver documents would
+      # be destroyed on the next deploy without this. Same reasoning as the
+      # Postgres data mount below.
+      - /var/lib/lakeside/uploads:/app/uploads
     depends_on:
       db:
         condition: service_healthy

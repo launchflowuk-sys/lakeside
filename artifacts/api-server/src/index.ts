@@ -2,6 +2,7 @@ import app from "./app";
 import { logger } from "./lib/logger";
 import { runMigrations } from "./lib/migrate";
 import { seedAdminFromEnv } from "./lib/seedAdmin";
+import { ensureUploadDirs } from "./lib/uploads";
 
 const rawPort = process.env["PORT"];
 
@@ -18,6 +19,7 @@ if (Number.isNaN(port) || port <= 0) {
 async function start() {
   await runMigrations();
   await seedAdminFromEnv();
+  ensureUploadDirs();
   app.listen(port, (err) => {
     if (err) {
       logger.error({ err }, "Error listening on port");

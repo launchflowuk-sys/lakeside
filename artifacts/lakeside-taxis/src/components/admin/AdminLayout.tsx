@@ -16,6 +16,7 @@ const navItems = [
   { href: "/admin/leads", label: "Leads", icon: Users },
   { href: "/admin/booked", label: "Booked Jobs", icon: CheckSquare },
   { href: "/admin/corporate", label: "Corporate", icon: Building2 },
+  { href: "/admin/driver-applications", label: "Driver Applications", icon: Car },
   { href: "/admin/payment-links", label: "Payment Links", icon: CreditCard },
   { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
