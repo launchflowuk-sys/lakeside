@@ -33,15 +33,6 @@ interface LegalPageProps {
   related: RelatedLink[];
 }
 
-/**
- * Marks a value the business still has to supply. Rendered visibly rather than
- * left as prose so an unfilled placeholder cannot quietly ship as if it were
- * fact — grep for `lg-todo` to find every outstanding one.
- */
-export function Placeholder({ children }: { children: ReactNode }) {
-  return <span className="lg-todo">{children}</span>;
-}
-
 export default function LegalPage({
   title,
   metaDescription,

@@ -275,24 +275,6 @@
   color: var(--ls-text-2);
 }
 
-/* Outstanding business facts. Deliberately loud: an unfilled placeholder in a
-   legal document must never read as though it were a stated fact. */
-.lg-todo {
-  display: inline-block;
-  padding: 2px 9px;
-  border: 1px dashed #c2410c;
-  border-radius: var(--ls-r-sm);
-  background: rgba(249, 115, 22, 0.1);
-  color: #9a3412;
-  font-size: 0.8438rem;
-  font-weight: 600;
-}
-
-.lg-todo::before {
-  content: "To add: ";
-  opacity: 0.75;
-}
-
 /* ==========================================================================
    6. Cross-links to the other legal pages
    ========================================================================== */

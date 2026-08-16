@@ -1,4 +1,4 @@
-import LegalPage, { Placeholder, type LegalSection } from "./LegalPage";
+import LegalPage, { type LegalSection } from "./LegalPage";
 
 const UPDATED = "16 August 2026";
 
@@ -16,9 +16,7 @@ const sections: LegalSection[] = [
         <div className="lg-rows">
           <div className="lg-row">
             <span className="lg-row-term">Operator licence</span>
-            <span className="lg-row-def">
-              <Placeholder>Thurrock Council operator licence number</Placeholder>
-            </span>
+            <span className="lg-row-def">Available on request</span>
           </div>
           <div className="lg-row">
             <span className="lg-row-term">Company number</span>

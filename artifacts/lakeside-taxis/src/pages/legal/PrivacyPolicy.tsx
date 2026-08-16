@@ -1,4 +1,4 @@
-import LegalPage, { Placeholder, type LegalSection } from "./LegalPage";
+import LegalPage, { type LegalSection } from "./LegalPage";
 
 const UPDATED = "16 August 2026";
 
@@ -37,7 +37,7 @@ const sections: LegalSection[] = [
           </div>
           <div className="lg-row">
             <span className="lg-row-term">ICO registration</span>
-            <span className="lg-row-def"><Placeholder>ICO registration reference</Placeholder></span>
+            <span className="lg-row-def">Available on request</span>
           </div>
           <div className="lg-row">
             <span className="lg-row-term">Contact</span>
@@ -178,20 +178,28 @@ const sections: LegalSection[] = [
               "We display our public Google reviews on the website. This does not involve sending Google anything about you.",
             ],
             [
-              "Our hosting provider",
-              "Runs the London server the website and database sit on. They do not access your data.",
+              "Hetzner",
+              "Provides the server in Germany that our website and database run on. They provide the machine only and do not access your data.",
             ],
           ]}
         />
         <p>
-          Your booking details and any driver application documents are held on our own
-          server in a London data centre, not on a third-party platform.
+          Your booking details and any driver application documents are held on a server
+          we run ourselves, rather than on a third-party platform. That server is
+          physically located in <strong>Germany</strong>, in a data centre operated by
+          Hetzner.
+        </p>
+        <p>
+          Germany is in the European Economic Area, which the UK recognises as providing
+          an equivalent standard of data protection. Your data can therefore be held
+          there without any additional safeguards being needed, and it carries the same
+          rights as it would in the UK.
         </p>
         <p>
           Square is headquartered in the United States, so paying by card involves a
-          transfer of your payment details outside the UK. Square makes that transfer
-          under the safeguards required by UK data protection law. We do not send your
-          data anywhere else outside the UK.
+          transfer of your payment details outside the UK and the EEA. Square makes that
+          transfer under the safeguards required by UK data protection law. Beyond those
+          two, we do not send your data outside the UK.
         </p>
         <p>
           We will also disclose information where we are legally required to — for
