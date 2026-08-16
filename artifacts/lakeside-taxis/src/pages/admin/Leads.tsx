@@ -6,6 +6,13 @@ import { useListAdminLeads, getListAdminLeadsQueryKey } from "@workspace/api-cli
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Filter, Search, X } from "lucide-react";
+import {
+  useTableSelection,
+  SelectCheckbox,
+  DeleteDialog,
+  BulkDeleteBar,
+  RowDeleteButton,
+} from "@/components/admin/DeleteControls";
 
 const STATUSES = ["all", "new", "contacted", "quoted", "booked", "completed", "cancelled", "archived"];
 const JOURNEY_TYPES = ["all", "local", "airport", "school_run", "corporate", "long_distance", "other"];
@@ -65,6 +72,10 @@ export default function AdminLeads() {
   const handleStatusChange = (s: string) => { setStatus(s); setPage(1); };
   const handleJourneyTypeChange = (t: string) => { setJourneyType(t); setPage(1); };
   const clearSearch = () => setSearch("");
+
+  const visibleIds = filteredLeads.map((lead) => lead.id);
+  const selection = useTableSelection(visibleIds);
+  const [pendingDelete, setPendingDelete] = useState<number[]>([]);
 
   return (
     <AdminLayout>
@@ -129,6 +140,24 @@ export default function AdminLeads() {
         ))}
       </div>
 
+      <BulkDeleteBar
+        count={selection.selectedIds.length}
+        nounPlural="leads"
+        onClear={selection.clear}
+        onDelete={() => setPendingDelete(selection.selectedIds)}
+      />
+
+      <DeleteDialog
+        entity="leads"
+        ids={pendingDelete}
+        noun="lead"
+        nounPlural="leads"
+        open={pendingDelete.length > 0}
+        onOpenChange={(open) => !open && setPendingDelete([])}
+        invalidateKeys={[["/api/admin/leads"], ["/api/admin/stats"]]}
+        onDeleted={selection.clear}
+      />
+
       <div className="bg-card border border-border rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
           {isLoading ? (
@@ -141,6 +170,13 @@ export default function AdminLeads() {
             <table className="w-full text-sm" data-testid="leads-table">
               <thead>
                 <tr className="border-b border-border">
+                  <th className="w-10 px-5 py-3">
+                    <SelectCheckbox
+                      checked={selection.allVisibleSelected}
+                      onChange={selection.toggleAll}
+                      label="Select all leads on this page"
+                    />
+                  </th>
                   <th className="text-left px-5 py-3 text-muted-foreground font-medium text-xs">#</th>
                   <th className="text-left px-5 py-3 text-muted-foreground font-medium text-xs">Customer</th>
                   <th className="text-left px-5 py-3 text-muted-foreground font-medium text-xs hidden md:table-cell">Journey</th>
@@ -156,6 +192,13 @@ export default function AdminLeads() {
                     className={`border-b border-border/50 hover:bg-muted/20 transition-colors ${lead.status === "new" ? "border-l-2 border-l-blue-500" : ""}`}
                     data-testid={`lead-row-${lead.id}`}
                   >
+                    <td className="px-5 py-3">
+                      <SelectCheckbox
+                        checked={selection.selected.has(lead.id)}
+                        onChange={() => selection.toggle(lead.id)}
+                        label={`Select lead ${lead.id}`}
+                      />
+                    </td>
                     <td className="px-5 py-3 text-muted-foreground font-mono text-xs">#{lead.id}</td>
                     <td className="px-5 py-3">
                       <p className="font-medium text-foreground">{lead.fullName}</p>
@@ -176,9 +219,15 @@ export default function AdminLeads() {
                       </span>
                     </td>
                     <td className="px-5 py-3">
-                      <Link href={`/admin/leads/${lead.id}`} className="text-primary text-xs font-semibold hover:underline">
-                        View &rarr;
-                      </Link>
+                      <div className="flex items-center gap-3">
+                        <Link href={`/admin/leads/${lead.id}`} className="text-primary text-xs font-semibold hover:underline">
+                          View &rarr;
+                        </Link>
+                        <RowDeleteButton
+                          onClick={() => setPendingDelete([lead.id])}
+                          label={`Delete lead ${lead.id}`}
+                        />
+                      </div>
                     </td>
                   </tr>
                 ))}

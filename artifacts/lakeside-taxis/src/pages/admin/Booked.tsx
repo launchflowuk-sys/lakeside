@@ -1,15 +1,27 @@
+import { useState } from "react";
 import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useListAdminLeads, getListAdminLeadsQueryKey } from "@workspace/api-client-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CheckCircle } from "lucide-react";
+import {
+  useTableSelection,
+  SelectCheckbox,
+  DeleteDialog,
+  BulkDeleteBar,
+  RowDeleteButton,
+} from "@/components/admin/DeleteControls";
 
 export default function AdminBooked() {
   const { data, isLoading } = useListAdminLeads(
     { status: "booked", limit: 50 },
     { query: { queryKey: getListAdminLeadsQueryKey({ status: "booked", limit: 50 }), staleTime: 30_000, refetchOnWindowFocus: false } }
   );
+
+  const visibleIds = (data?.leads ?? []).map((lead) => lead.id);
+  const selection = useTableSelection(visibleIds);
+  const [pendingDelete, setPendingDelete] = useState<number[]>([]);
 
   return (
     <AdminLayout>
@@ -18,6 +30,24 @@ export default function AdminBooked() {
         <h1 className="font-display font-black text-3xl text-foreground">BOOKED JOBS</h1>
         <p className="text-muted-foreground text-sm mt-1">Confirmed bookings</p>
       </div>
+      <BulkDeleteBar
+        count={selection.selectedIds.length}
+        nounPlural="booked jobs"
+        onClear={selection.clear}
+        onDelete={() => setPendingDelete(selection.selectedIds)}
+      />
+
+      <DeleteDialog
+        entity="leads"
+        ids={pendingDelete}
+        noun="booked job"
+        nounPlural="booked jobs"
+        open={pendingDelete.length > 0}
+        onOpenChange={(open) => !open && setPendingDelete([])}
+        invalidateKeys={[["/api/admin/leads"], ["/api/admin/stats"]]}
+        onDeleted={selection.clear}
+      />
+
       <div className="bg-card border border-border rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
           {isLoading ? (
@@ -31,6 +61,13 @@ export default function AdminBooked() {
             <table className="w-full text-sm" data-testid="booked-table">
               <thead>
                 <tr className="border-b border-border">
+                  <th className="w-10 px-5 py-3">
+                    <SelectCheckbox
+                      checked={selection.allVisibleSelected}
+                      onChange={selection.toggleAll}
+                      label="Select all booked jobs"
+                    />
+                  </th>
                   <th className="text-left px-5 py-3 text-muted-foreground font-medium text-xs">#</th>
                   <th className="text-left px-5 py-3 text-muted-foreground font-medium text-xs">Customer</th>
                   <th className="text-left px-5 py-3 text-muted-foreground font-medium text-xs hidden md:table-cell">Journey</th>
@@ -42,6 +79,13 @@ export default function AdminBooked() {
               <tbody>
                 {data.leads.map((lead) => (
                   <tr key={lead.id} className="border-b border-border/50 hover:bg-muted/20 transition-colors" data-testid={`booked-row-${lead.id}`}>
+                    <td className="px-5 py-3">
+                      <SelectCheckbox
+                        checked={selection.selected.has(lead.id)}
+                        onChange={() => selection.toggle(lead.id)}
+                        label={`Select booked job ${lead.id}`}
+                      />
+                    </td>
                     <td className="px-5 py-3 text-muted-foreground font-mono text-xs">#{lead.id}</td>
                     <td className="px-5 py-3">
                       <p className="font-medium text-foreground">{lead.fullName}</p>
@@ -57,7 +101,13 @@ export default function AdminBooked() {
                       <p className="text-green-400 font-semibold text-sm">{lead.quotedPrice ?? "—"}</p>
                     </td>
                     <td className="px-5 py-3">
-                      <Link href={`/admin/leads/${lead.id}`} className="text-primary text-xs font-semibold hover:underline">View</Link>
+                      <div className="flex items-center gap-3">
+                        <Link href={`/admin/leads/${lead.id}`} className="text-primary text-xs font-semibold hover:underline">View</Link>
+                        <RowDeleteButton
+                          onClick={() => setPendingDelete([lead.id])}
+                          label={`Delete booked job ${lead.id}`}
+                        />
+                      </div>
                     </td>
                   </tr>
                 ))}

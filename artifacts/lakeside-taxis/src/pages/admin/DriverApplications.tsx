@@ -10,6 +10,13 @@ import {
   listDriverApplications,
   listDriverApplicationsKey,
 } from "@/lib/driverApplicationsApi";
+import {
+  useTableSelection,
+  SelectCheckbox,
+  DeleteDialog,
+  BulkDeleteBar,
+  RowDeleteButton,
+} from "@/components/admin/DeleteControls";
 
 const STATUSES = ["all", "new", "reviewing", "interview", "approved", "rejected", "on_hold"];
 const LIMIT = 20;
@@ -46,9 +53,14 @@ export default function DriverApplications() {
 
   const totalPages = data ? Math.max(1, Math.ceil(data.total / LIMIT)) : 1;
 
+  const visibleIds = (data?.applications ?? []).map((app) => app.id);
+  const selection = useTableSelection(visibleIds);
+  const [pendingDelete, setPendingDelete] = useState<number[]>([]);
+
   const handleStatusChange = (next: string) => {
     setStatus(next);
     setPage(1);
+    selection.clear();
   };
 
   return (
@@ -92,11 +104,36 @@ export default function DriverApplications() {
         </div>
       )}
 
+      <BulkDeleteBar
+        count={selection.selectedIds.length}
+        nounPlural="applications"
+        onClear={selection.clear}
+        onDelete={() => setPendingDelete(selection.selectedIds)}
+      />
+
+      <DeleteDialog
+        entity="driver-applications"
+        ids={pendingDelete}
+        noun="application"
+        nounPlural="applications"
+        open={pendingDelete.length > 0}
+        onOpenChange={(open) => !open && setPendingDelete([])}
+        invalidateKeys={[["admin", "driver-applications"]]}
+        onDeleted={selection.clear}
+      />
+
       <div className="bg-card border border-border rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border bg-muted/30">
+                <th className="w-10 px-4 py-3">
+                  <SelectCheckbox
+                    checked={selection.allVisibleSelected}
+                    onChange={selection.toggleAll}
+                    label="Select all applications on this page"
+                  />
+                </th>
                 <th className="text-left px-4 py-3 text-muted-foreground font-semibold text-xs tracking-wide">Applicant</th>
                 <th className="text-left px-4 py-3 text-muted-foreground font-semibold text-xs tracking-wide">Contact</th>
                 <th className="text-left px-4 py-3 text-muted-foreground font-semibold text-xs tracking-wide">Licensed</th>
@@ -111,7 +148,7 @@ export default function DriverApplications() {
               {isLoading &&
                 Array.from({ length: 6 }).map((_, i) => (
                   <tr key={i} className="border-b border-border/50">
-                    {Array.from({ length: 8 }).map((__, j) => (
+                    {Array.from({ length: 9 }).map((__, j) => (
                       <td key={j} className="px-4 py-3">
                         <Skeleton className="h-4 w-full" />
                       </td>
@@ -121,7 +158,7 @@ export default function DriverApplications() {
 
               {!isLoading && data?.applications.length === 0 && (
                 <tr>
-                  <td colSpan={8} className="px-4 py-12 text-center text-muted-foreground text-sm">
+                  <td colSpan={9} className="px-4 py-12 text-center text-muted-foreground text-sm">
                     No driver applications
                     {status !== "all" ? ` with status "${status.replace("_", " ")}"` : ""} yet.
                   </td>
@@ -135,6 +172,13 @@ export default function DriverApplications() {
                     className="border-b border-border/50 hover:bg-muted/20 transition-colors"
                     data-testid="driver-app-row"
                   >
+                    <td className="px-4 py-3">
+                      <SelectCheckbox
+                        checked={selection.selected.has(app.id)}
+                        onChange={() => selection.toggle(app.id)}
+                        label={`Select ${app.fullName}`}
+                      />
+                    </td>
                     <td className="px-4 py-3 font-semibold text-foreground max-w-[200px]">
                       <div className="truncate">{app.fullName}</div>
                       <div className="text-xs text-muted-foreground">
@@ -178,11 +222,17 @@ export default function DriverApplications() {
                       {formatDate(app.createdAt)}
                     </td>
                     <td className="px-4 py-3">
-                      <Link href={`/admin/driver-applications/${app.id}`}>
-                        <Button variant="outline" size="sm" className="text-xs">
-                          View
-                        </Button>
-                      </Link>
+                      <div className="flex items-center gap-2">
+                        <Link href={`/admin/driver-applications/${app.id}`}>
+                          <Button variant="outline" size="sm" className="text-xs">
+                            View
+                          </Button>
+                        </Link>
+                        <RowDeleteButton
+                          onClick={() => setPendingDelete([app.id])}
+                          label={`Delete application from ${app.fullName}`}
+                        />
+                      </div>
                     </td>
                   </tr>
                 ))}

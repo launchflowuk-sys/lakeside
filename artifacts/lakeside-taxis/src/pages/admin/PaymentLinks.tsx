@@ -12,6 +12,13 @@ import {
 } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { CreditCard, Copy, CheckCircle2, Link as LinkIcon } from "lucide-react";
+import {
+  useTableSelection,
+  SelectCheckbox,
+  DeleteDialog,
+  BulkDeleteBar,
+  RowDeleteButton,
+} from "@/components/admin/DeleteControls";
 
 function formatPence(pence: number): string {
   return `£${(pence / 100).toFixed(2)}`;
@@ -23,6 +30,10 @@ export default function AdminPaymentLinks() {
     query: { queryKey: getListAdminPaymentLinksQueryKey(), staleTime: 15_000, refetchOnWindowFocus: false },
   });
   const createLink = useCreateAdminPaymentLink();
+
+  const visibleIds = (data?.paymentLinks ?? []).map((link) => link.id);
+  const selection = useTableSelection(visibleIds);
+  const [pendingDelete, setPendingDelete] = useState<number[]>([]);
 
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
@@ -102,6 +113,24 @@ export default function AdminPaymentLinks() {
         )}
       </div>
 
+      <BulkDeleteBar
+        count={selection.selectedIds.length}
+        nounPlural="payment links"
+        onClear={selection.clear}
+        onDelete={() => setPendingDelete(selection.selectedIds)}
+      />
+
+      <DeleteDialog
+        entity="payment-links"
+        ids={pendingDelete}
+        noun="payment link"
+        nounPlural="payment links"
+        open={pendingDelete.length > 0}
+        onOpenChange={(open) => !open && setPendingDelete([])}
+        invalidateKeys={[["/api/admin/payment-links"]]}
+        onDeleted={selection.clear}
+      />
+
       <div className="bg-card border border-border rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
           {isLoading ? (
@@ -115,6 +144,13 @@ export default function AdminPaymentLinks() {
             <table className="w-full text-sm" data-testid="payment-links-table">
               <thead>
                 <tr className="border-b border-border">
+                  <th className="w-10 px-5 py-3">
+                    <SelectCheckbox
+                      checked={selection.allVisibleSelected}
+                      onChange={selection.toggleAll}
+                      label="Select all payment links on this page"
+                    />
+                  </th>
                   <th className="text-left px-5 py-3 text-muted-foreground font-medium text-xs">Description</th>
                   <th className="text-left px-5 py-3 text-muted-foreground font-medium text-xs">Customer</th>
                   <th className="text-left px-5 py-3 text-muted-foreground font-medium text-xs">Amount</th>
@@ -125,6 +161,13 @@ export default function AdminPaymentLinks() {
               <tbody>
                 {data.paymentLinks.map((link) => (
                   <tr key={link.id} className="border-b border-border/50 hover:bg-muted/20 transition-colors">
+                    <td className="px-5 py-3">
+                      <SelectCheckbox
+                        checked={selection.selected.has(link.id)}
+                        onChange={() => selection.toggle(link.id)}
+                        label={`Select payment link ${link.description}`}
+                      />
+                    </td>
                     <td className="px-5 py-3 text-foreground/80">{link.description}</td>
                     <td className="px-5 py-3">
                       <p className="text-foreground text-xs">{link.customerName ?? "—"}</p>
@@ -137,11 +180,17 @@ export default function AdminPaymentLinks() {
                       }`}>{link.status}</span>
                     </td>
                     <td className="px-5 py-3">
-                      {link.squarePaymentLinkUrl && (
-                        <Button size="sm" variant="outline" onClick={() => copyLink(link.id, link.squarePaymentLinkUrl!)}>
-                          {copiedId === link.id ? <><CheckCircle2 className="w-3.5 h-3.5 mr-1.5 text-green-400" /> Copied!</> : <><Copy className="w-3.5 h-3.5 mr-1.5" /> Copy Link</>}
-                        </Button>
-                      )}
+                      <div className="flex items-center gap-2">
+                        {link.squarePaymentLinkUrl && (
+                          <Button size="sm" variant="outline" onClick={() => copyLink(link.id, link.squarePaymentLinkUrl!)}>
+                            {copiedId === link.id ? <><CheckCircle2 className="w-3.5 h-3.5 mr-1.5 text-green-400" /> Copied!</> : <><Copy className="w-3.5 h-3.5 mr-1.5" /> Copy Link</>}
+                          </Button>
+                        )}
+                        <RowDeleteButton
+                          onClick={() => setPendingDelete([link.id])}
+                          label={`Delete payment link ${link.description}`}
+                        />
+                      </div>
                     </td>
                   </tr>
                 ))}
