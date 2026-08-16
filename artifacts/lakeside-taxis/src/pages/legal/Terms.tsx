@@ -22,11 +22,11 @@ const sections: LegalSection[] = [
           </div>
           <div className="lg-row">
             <span className="lg-row-term">Company number</span>
-            <span className="lg-row-def"><Placeholder>Companies House number</Placeholder></span>
+            <span className="lg-row-def">06329710</span>
           </div>
           <div className="lg-row">
             <span className="lg-row-term">Registered office</span>
-            <span className="lg-row-def"><Placeholder>registered office address</Placeholder></span>
+            <span className="lg-row-def">49a Orsett Road, Grays, Essex, RM17 5HJ</span>
           </div>
         </div>
         <p>

@@ -29,11 +29,11 @@ const sections: LegalSection[] = [
         <div className="lg-rows">
           <div className="lg-row">
             <span className="lg-row-term">Registered office</span>
-            <span className="lg-row-def"><Placeholder>registered office address</Placeholder></span>
+            <span className="lg-row-def">49a Orsett Road, Grays, Essex, RM17 5HJ</span>
           </div>
           <div className="lg-row">
             <span className="lg-row-term">Company number</span>
-            <span className="lg-row-def"><Placeholder>Companies House number</Placeholder></span>
+            <span className="lg-row-def">06329710</span>
           </div>
           <div className="lg-row">
             <span className="lg-row-term">ICO registration</span>
@@ -170,8 +170,8 @@ const sections: LegalSection[] = [
               "Processes card payments when we send you a payment link. Your card details are entered on Square's own checkout and are never seen or stored by us.",
             ],
             [
-              "Our email provider",
-              "Sends booking confirmations, quotes, payment links and application acknowledgements on our behalf.",
+              "IONOS",
+              "Provides our email, and sends booking confirmations, quotes, payment links and application acknowledgements on our behalf.",
             ],
             [
               "Google",
@@ -179,14 +179,19 @@ const sections: LegalSection[] = [
             ],
             [
               "Our hosting provider",
-              "Runs the server the website and database sit on.",
+              "Runs the London server the website and database sit on. They do not access your data.",
             ],
           ]}
         />
         <p>
-          Our email is sent via <Placeholder>SMTP provider name</Placeholder>, and our
-          server is hosted with Hetzner in{" "}
-          <Placeholder>data centre location</Placeholder>.
+          Your booking details and any driver application documents are held on our own
+          server in a London data centre, not on a third-party platform.
+        </p>
+        <p>
+          Square is headquartered in the United States, so paying by card involves a
+          transfer of your payment details outside the UK. Square makes that transfer
+          under the safeguards required by UK data protection law. We do not send your
+          data anywhere else outside the UK.
         </p>
         <p>
           We will also disclose information where we are legally required to — for
