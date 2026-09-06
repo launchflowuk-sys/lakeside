@@ -47,7 +47,6 @@ export default function BlogIndex() {
         <meta property="og:description" content={META_DESC} />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${BUSINESS_URL}/opengraph.jpg`} />
         <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
 

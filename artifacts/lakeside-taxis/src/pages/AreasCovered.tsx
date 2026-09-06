@@ -160,7 +160,6 @@ export default function AreasCovered() {
         <meta property="og:title" content={acTitle} />
         <meta property="og:description" content={acMetaDesc} />
         <meta property="og:url" content={acCanonicalUrl} />
-        <meta property="og:image" content={`${BUSINESS_URL}/opengraph.jpg`} />
         <script type="application/ld+json">{JSON.stringify(acSchema)}</script>
       </Helmet>
 

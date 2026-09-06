@@ -101,6 +101,11 @@ export default function LongDistanceTravel() {
       <Helmet>
         <title>Long Distance Taxi from Thurrock &amp; Essex | UK-Wide Travel | Lakeside Taxis</title>
         <meta name="description" content="Long distance taxi journeys from Thurrock and Essex to anywhere in the UK. Fixed prices, comfortable vehicles, professional drivers. Call for a quote today." />
+        <link rel="canonical" href="https://lakesidetaxi.co.uk/long-distance-travel" />
+        <meta property="og:title" content="Long Distance Taxi from Thurrock &amp; Essex | UK-Wide Travel | Lakeside Taxis" />
+        <meta property="og:description" content="Long distance taxi journeys from Thurrock and Essex to anywhere in the UK. Fixed prices, comfortable vehicles, professional drivers. Call for a quote today." />
+        <meta property="og:url" content="https://lakesidetaxi.co.uk/long-distance-travel" />
+        <meta property="og:type" content="website" />
       </Helmet>
       <div className="ip" ref={scope}>
 

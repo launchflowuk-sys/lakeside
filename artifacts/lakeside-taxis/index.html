@@ -3,19 +3,39 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <!--
+      HEAD TAG OWNERSHIP — read this before adding anything here.
+
+      Only tags that are correct for EVERY url may live in this file. This head
+      is shared by all 34 pages, so a page-specific tag here becomes a wrong
+      tag on 33 of them.
+
+      It cannot be worked around. On React 19, react-helmet-async v3 detects
+      the version and becomes a passthrough: React's own metadata hoisting
+      renders the per-page tags, and it does NOT dedupe them against tags
+      already present in this file. So anything page-specific left here ends up
+      as a second, contradicting copy on every page. (data-rh does nothing —
+      that is Helmet's own bookkeeping attribute and Helmet is not running.)
+
+      Therefore:
+        - description, og:title, og:description, og:type, canonical and og:url
+          are page-specific. They live in each page's <Helmet>, never here.
+        - og:image, og:site_name and the twitter card tags are identical
+          sitewide, so they live ONLY here — pages must not repeat them.
+        - twitter:title / twitter:description are omitted deliberately; X falls
+          back to og:title / og:description, which are correct per page.
+        - robots is omitted deliberately: index, follow is the default anyway,
+          and leaving it out lets the 404 page's noindex be the only robots
+          directive on the page rather than a contradicting second one.
+
+      <title> stays as the no-JS fallback. This is a client-rendered SPA, so a
+      crawler that does not execute JS sees this file's head on every url — the
+      real fix for that is prerendering the public routes, not more tags here.
+    -->
     <title>Lakeside &amp; Purfleet Taxis Ltd | Thurrock's Trusted Taxi Company Since 1990</title>
-    <meta name="description" content="Local taxis, airport transfers and corporate travel across Grays, Purfleet, Lakeside and all of Thurrock, Essex. Fixed prices, 24/7, family-run since 1990." />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://lakesidetaxi.co.uk/" />
-    <meta property="og:title" content="Lakeside &amp; Purfleet Taxis Ltd | Thurrock's Trusted Taxi Company" />
-    <meta property="og:description" content="Local taxis, airport transfers and corporate travel across Grays, Purfleet, Lakeside and all of Thurrock, Essex. Fixed prices, 24/7, family-run since 1990." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://lakesidetaxi.co.uk/" />
     <meta property="og:image" content="https://lakesidetaxi.co.uk/opengraph.jpg" />
     <meta property="og:site_name" content="Lakeside & Purfleet Taxis Ltd" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Lakeside &amp; Purfleet Taxis Ltd | Thurrock's Trusted Taxi Company" />
-    <meta name="twitter:description" content="Local taxis, airport transfers and corporate travel across Grays, Purfleet, Lakeside and all of Thurrock, Essex. Fixed prices, 24/7, family-run since 1990." />
     <meta name="twitter:image" content="https://lakesidetaxi.co.uk/opengraph.jpg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />

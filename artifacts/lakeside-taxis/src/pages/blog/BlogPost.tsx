@@ -58,7 +58,6 @@ export default function BlogPost({ slug }: BlogPostProps) {
         <meta property="og:description" content={post.metaDescription} />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content={`${BUSINESS_URL}/opengraph.jpg`} />
         <meta property="article:published_time" content={post.published} />
         <meta property="article:section" content={post.category} />
         <script type="application/ld+json">{JSON.stringify(schema)}</script>

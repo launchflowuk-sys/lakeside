@@ -237,6 +237,14 @@ export default function CorporateAccounts() {
           name="description"
           content="Open a corporate taxi account with Lakeside & Purfleet Taxis. Fixed pricing, monthly billing and dedicated account management for businesses, councils, schools and NHS in Essex and London."
         />
+        <link rel="canonical" href="https://lakesidetaxi.co.uk/corporate-accounts" />
+        <meta property="og:title" content="Corporate Accounts | Lakeside &amp; Purfleet Taxis" />
+        <meta
+          property="og:description"
+          content="Open a corporate taxi account with Lakeside & Purfleet Taxis. Fixed pricing, monthly billing and dedicated account management for businesses, councils, schools and NHS in Essex and London."
+        />
+        <meta property="og:url" content="https://lakesidetaxi.co.uk/corporate-accounts" />
+        <meta property="og:type" content="website" />
       </Helmet>
 
       <div className="ca" ref={scope}>

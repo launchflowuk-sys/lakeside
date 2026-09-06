@@ -99,6 +99,11 @@ export default function SchoolRuns() {
       <Helmet>
         <title>School Runs Thurrock &amp; Essex | Safe, Reliable | Lakeside Taxis</title>
         <meta name="description" content="Safe and reliable school runs across Thurrock and Essex. Regular or one-off journeys, experienced local drivers, fixed prices. Trusted by Thurrock families since 1990." />
+        <link rel="canonical" href="https://lakesidetaxi.co.uk/school-runs" />
+        <meta property="og:title" content="School Runs Thurrock &amp; Essex | Safe, Reliable | Lakeside Taxis" />
+        <meta property="og:description" content="Safe and reliable school runs across Thurrock and Essex. Regular or one-off journeys, experienced local drivers, fixed prices. Trusted by Thurrock families since 1990." />
+        <meta property="og:url" content="https://lakesidetaxi.co.uk/school-runs" />
+        <meta property="og:type" content="website" />
       </Helmet>
       <div className="ip" ref={scope}>
 

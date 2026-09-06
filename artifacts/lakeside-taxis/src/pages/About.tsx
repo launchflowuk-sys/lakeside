@@ -110,7 +110,6 @@ export default function About() {
         <meta property="og:title" content={title} />
         <meta property="og:description" content={metaDesc} />
         <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:image" content={`${BUSINESS_URL}/opengraph.jpg`} />
         <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
 

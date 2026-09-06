@@ -109,6 +109,11 @@ export default function LocalTaxis() {
       <Helmet>
         <title>Local Taxis Thurrock | Grays, Purfleet &amp; Essex | Lakeside Taxis</title>
         <meta name="description" content="Reliable local taxis across Thurrock. Serving Grays, Purfleet, Chafford Hundred, Tilbury and all surrounding areas day and night. Fixed prices, no app needed." />
+        <link rel="canonical" href="https://lakesidetaxi.co.uk/local-taxis" />
+        <meta property="og:title" content="Local Taxis Thurrock | Grays, Purfleet &amp; Essex | Lakeside Taxis" />
+        <meta property="og:description" content="Reliable local taxis across Thurrock. Serving Grays, Purfleet, Chafford Hundred, Tilbury and all surrounding areas day and night. Fixed prices, no app needed." />
+        <meta property="og:url" content="https://lakesidetaxi.co.uk/local-taxis" />
+        <meta property="og:type" content="website" />
       </Helmet>
       <div className="ip" ref={scope}>
 

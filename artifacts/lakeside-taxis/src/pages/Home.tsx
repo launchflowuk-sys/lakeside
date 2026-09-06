@@ -332,8 +332,11 @@ export default function Home() {
       <Helmet>
         <title>Lakeside &amp; Purfleet Taxis Ltd | Thurrock's Trusted Taxi Company</title>
         <meta name="description" content="Thurrock's trusted local taxi company for over 30 years. Local taxis, airport transfers and corporate travel across Grays, Purfleet, Lakeside and all of Thurrock, Essex." />
+        <link rel="canonical" href="https://lakesidetaxi.co.uk/" />
         <meta property="og:title" content="Lakeside & Purfleet Taxis Ltd | Thurrock's Trusted Taxi Company" />
         <meta property="og:description" content="Thurrock's trusted local taxi company for over 30 years. Local taxis, airport transfers and corporate travel across Essex." />
+        <meta property="og:url" content="https://lakesidetaxi.co.uk/" />
+        <meta property="og:type" content="website" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "TaxiService",
