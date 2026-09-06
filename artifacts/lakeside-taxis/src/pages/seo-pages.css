@@ -519,3 +519,18 @@ a.sp-tile:hover .sp-tile-go svg { transform: translateX(3px); }
   gap: var(--ls-gap-sm);
   margin-top: clamp(22px, 2.6vw, 30px);
 }
+
+/* ==========================================================================
+   7. 404 — the one page short enough not to fill a tall desktop viewport,
+      which left a white strip between its dark CTA and the dark footer.
+      Only from lg up, where the mobile bar's padding is off.
+   ========================================================================== */
+
+@media (min-width: 1024px) {
+  .sp-short {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 73px);
+  }
+  .sp-short .sp-cta { margin-top: auto; }
+}
