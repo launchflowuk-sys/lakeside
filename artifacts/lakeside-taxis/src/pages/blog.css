@@ -1,0 +1,560 @@
+/* ==========================================================================
+   Blog — index (/blog) and post (/blog/*).
+   Composition only. Colour, radius, depth, type and motion come from
+   src/styles/system.css, and the hero/band/CTA grammar deliberately matches
+   the town and airport pages in seo-pages.css so the blog reads as part of
+   the site rather than as a bolted-on section.
+   ========================================================================== */
+
+.bl {
+  background: var(--ls-white);
+}
+
+/* ==========================================================================
+   1. Hero — shared by the index and the posts.
+   ========================================================================== */
+
+.bl-hero {
+  position: relative;
+  background: var(--ls-ink);
+  color: var(--ls-text-on-ink);
+  padding-block: clamp(22px, 3vw, 32px) clamp(40px, 5vw, 62px);
+  overflow: hidden;
+}
+
+.bl-hero::before {
+  content: "";
+  position: absolute;
+  top: -34%;
+  left: 50%;
+  width: min(1000px, 130%);
+  aspect-ratio: 1;
+  transform: translateX(-58%);
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 209, 0, 0.15) 0%,
+    rgba(255, 209, 0, 0.05) 38%,
+    transparent 68%
+  );
+  pointer-events: none;
+}
+
+.bl-hero > * { position: relative; }
+
+.bl-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.875rem;
+  color: var(--ls-text-2-on-ink);
+  margin-bottom: clamp(20px, 2.6vw, 30px);
+}
+
+.bl-breadcrumb a {
+  color: var(--ls-text-2-on-ink);
+  text-decoration: none;
+  transition: color var(--ls-dur-fast) var(--ls-ease-soft);
+}
+.bl-breadcrumb a:hover { color: var(--ls-text-on-ink); }
+.bl-breadcrumb svg { opacity: 0.45; }
+.bl-breadcrumb [aria-current] { color: var(--ls-text-on-ink); }
+
+.bl-hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ls-gap-sm);
+  margin-bottom: var(--ls-gap);
+}
+
+.bl-hero-title {
+  font-family: var(--app-font-display);
+  font-size: clamp(2.6rem, 6.6vw, 4.4rem);
+  line-height: 1.03;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+  margin: 0;
+  max-width: 17ch;
+}
+.bl-hero-title span { color: var(--ls-yellow); }
+
+.bl-hero-lede {
+  margin: var(--ls-gap) 0 0;
+  font-size: clamp(1.075rem, 1.9vw, 1.3125rem);
+  line-height: 1.52;
+  letter-spacing: -0.012em;
+  color: var(--ls-text-2-on-ink);
+  max-width: 58ch;
+}
+
+/* ==========================================================================
+   2. Index — one lead post, then the rest.
+   ========================================================================== */
+
+.bl-body { padding-block: var(--ls-section-y); }
+
+.bl-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(20px, 2.4vw, 30px);
+}
+
+@media (max-width: 780px) {
+  .bl-grid { grid-template-columns: 1fr; }
+}
+
+.bl-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--ls-white);
+  border-radius: var(--ls-r-xl);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--ls-shadow-sm);
+  transition:
+    transform var(--ls-dur-fast) var(--ls-ease-soft),
+    box-shadow var(--ls-dur-fast) var(--ls-ease-soft);
+}
+
+a.bl-card:hover { transform: translateY(-4px); box-shadow: var(--ls-shadow-lg); }
+
+/* The newest post takes the full row and sets the covers side by side with
+   the copy — the grid reads as an edited page rather than a row of equals. */
+.bl-card-lead { grid-column: 1 / -1; }
+
+@media (min-width: 781px) {
+  .bl-card-lead { flex-direction: row; align-items: stretch; }
+  .bl-card-lead .bl-card-media { flex: 0 0 clamp(320px, 42%, 520px); }
+  .bl-card-lead .bl-card-cover { height: 100%; aspect-ratio: auto; min-height: 300px; }
+  .bl-card-lead .bl-card-body { padding: clamp(28px, 3vw, 40px); }
+  .bl-card-lead .bl-card-title { font-size: clamp(1.6rem, 2.5vw, 2.05rem); }
+}
+
+.bl-card-media {
+  position: relative;
+  background: var(--ls-ink);
+}
+
+.bl-card-cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1200 / 630;
+  object-fit: cover;
+}
+
+.bl-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  padding: clamp(22px, 2.4vw, 28px);
+  flex: 1;
+}
+
+.bl-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.8375rem;
+  color: var(--ls-text-2);
+}
+
+.bl-card-meta .bl-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+.bl-card-title {
+  font-family: var(--app-font-display);
+  font-size: clamp(1.2rem, 1.9vw, 1.4rem);
+  line-height: 1.2;
+  letter-spacing: -0.022em;
+  font-weight: 650;
+  color: var(--ls-text);
+  margin: 0;
+  text-wrap: balance;
+}
+
+.bl-card-excerpt {
+  font-size: 0.9625rem;
+  line-height: 1.58;
+  color: var(--ls-text-2);
+  margin: 0;
+  max-width: 62ch;
+}
+
+.bl-card-go {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 8px;
+  font-size: 0.9125rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ls-text);
+}
+a.bl-card:hover .bl-card-go svg { transform: translateX(3px); }
+.bl-card-go svg { transition: transform var(--ls-dur-fast) var(--ls-ease-soft); }
+
+/* ==========================================================================
+   3. Post — cover, short answer, prose column, sticky quote card.
+   ========================================================================== */
+
+.bp-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: clamp(22px, 2.6vw, 30px);
+  padding-top: var(--ls-gap);
+  border-top: 1px solid var(--ls-line-on-ink);
+  font-size: 0.9375rem;
+  color: var(--ls-text-2-on-ink);
+}
+.bp-meta .bl-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+/* The cover straddles the hero and the body — it belongs to both, and the
+   overlap is what stops the post opening with two stacked full-width blocks. */
+.bp-cover-wrap {
+  background: linear-gradient(to bottom, var(--ls-ink) 0 50%, var(--ls-white) 50% 100%);
+}
+
+/* A wider band than the artwork's own 1200×630. The SVG slices to fill, which
+   trims empty ground above and below the route rather than zooming into it —
+   capping the height instead would scale the badge up out of proportion. */
+.bp-cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1200 / 430;
+  border-radius: var(--ls-r-xl);
+  box-shadow: var(--ls-shadow-lg);
+}
+
+/* On a phone the cinematic band collapses to a sliver, so the cover goes
+   squarer and slices at the sides instead — the pickup dot and the badge both
+   sit well inside the crop. */
+@media (max-width: 700px) {
+  .bp-cover { aspect-ratio: 1200 / 720; border-radius: var(--ls-r-lg); }
+}
+
+.bp-body { padding-block: clamp(34px, 4vw, 56px) var(--ls-section-y); }
+
+.bp-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 386px;
+  gap: clamp(40px, 5vw, 72px);
+  align-items: start;
+}
+
+@media (max-width: 1000px) {
+  .bp-layout { grid-template-columns: 1fr; gap: 48px; }
+}
+
+.bp-form-col { position: sticky; top: 92px; }
+
+@media (max-width: 1000px) {
+  .bp-form-col { position: static; }
+}
+
+/* ── Short answer ── */
+
+.bp-key {
+  background: var(--ls-mist);
+  border-radius: var(--ls-r-xl);
+  padding: clamp(22px, 2.6vw, 32px);
+}
+
+.bp-key-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--app-font-display);
+  font-size: 1.0625rem;
+  font-weight: 650;
+  letter-spacing: -0.018em;
+  color: var(--ls-text);
+  margin-bottom: var(--ls-gap-sm);
+}
+.bp-key-label svg { color: var(--ls-text-2); }
+
+.bp-key-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+
+.bp-key-list li {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding-block: 11px;
+  border-top: 1px solid var(--ls-line);
+  font-size: 0.9875rem;
+  line-height: 1.56;
+  color: var(--ls-text-2);
+}
+.bp-key-list li:first-child { border-top: 0; padding-top: 4px; }
+.bp-key-list svg { color: var(--ls-text); margin-top: 3px; }
+
+/* ── Prose ── */
+
+.bp-content > * + * { margin-top: var(--ls-gap); }
+
+.bp-content > .bp-section { margin-top: clamp(38px, 4vw, 58px); }
+
+.bp-section > * + * { margin-top: var(--ls-gap); }
+
+.bp-section h2 {
+  font-family: var(--app-font-display);
+  font-size: clamp(1.55rem, 2.9vw, 2.05rem);
+  line-height: 1.14;
+  letter-spacing: -0.026em;
+  font-weight: 700;
+  color: var(--ls-text);
+  margin: 0;
+  max-width: 24ch;
+  text-wrap: balance;
+}
+
+.bp-section p {
+  font-size: 1.0625rem;
+  line-height: 1.68;
+  color: var(--ls-text-2);
+  margin: 0;
+  max-width: 68ch;
+}
+
+/* ── Structured points inside a section ── */
+
+.bp-points { display: flex; flex-direction: column; }
+
+.bp-point {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 13px;
+  padding-block: 16px;
+  border-top: 1px solid var(--ls-line);
+  align-items: start;
+}
+.bp-point:first-child { border-top: 0; }
+.bp-point > svg { color: var(--ls-text); margin-top: 3px; }
+
+.bp-point-text { display: flex; flex-direction: column; gap: 3px; }
+.bp-point-text strong {
+  font-size: 0.9875rem;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  color: var(--ls-text);
+}
+.bp-point-text span {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--ls-text-2);
+}
+
+/* ── Aside ── */
+
+.bp-note {
+  background: var(--ls-ink);
+  color: var(--ls-text-on-ink);
+  border-radius: var(--ls-r-lg);
+  padding: clamp(22px, 2.6vw, 30px);
+}
+.bp-note strong {
+  display: block;
+  font-family: var(--app-font-display);
+  font-size: 1.125rem;
+  font-weight: 650;
+  letter-spacing: -0.018em;
+  color: var(--ls-yellow);
+  margin-bottom: 8px;
+}
+.bp-note p {
+  margin: 0;
+  font-size: 0.9875rem;
+  line-height: 1.64;
+  color: var(--ls-text-2-on-ink);
+  max-width: 64ch;
+}
+
+/* ── FAQ ── */
+
+.bp-faq { display: flex; flex-direction: column; }
+
+.bp-faq-item {
+  padding-block: clamp(18px, 2vw, 22px);
+  border-top: 1px solid var(--ls-line);
+}
+.bp-faq-item:first-child { border-top: 0; }
+
+.bp-faq-q {
+  font-family: var(--app-font-display);
+  font-size: 1.075rem;
+  font-weight: 650;
+  letter-spacing: -0.018em;
+  color: var(--ls-text);
+  margin: 0 0 6px;
+}
+
+.bp-faq-a {
+  margin: 0;
+  font-size: 0.9875rem;
+  line-height: 1.62;
+  color: var(--ls-text-2);
+  max-width: 66ch;
+}
+
+/* ── Related ── */
+
+.bp-related { margin-top: clamp(34px, 3.6vw, 48px); padding-top: var(--ls-gap); border-top: 1px solid var(--ls-line); }
+
+.bp-related-label {
+  display: block;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  color: var(--ls-text);
+  margin-bottom: var(--ls-gap-sm);
+}
+
+.bp-related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--ls-gap-sm);
+}
+
+@media (max-width: 760px) {
+  .bp-related-grid { grid-template-columns: 1fr; }
+}
+
+.bp-related-card {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: var(--ls-mist);
+  border-radius: var(--ls-r-lg);
+  padding: 18px 20px;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    transform var(--ls-dur-fast) var(--ls-ease-soft),
+    background-color var(--ls-dur-fast) var(--ls-ease-soft);
+}
+a.bp-related-card:hover { transform: translateY(-3px); background: #ededf0; }
+
+.bp-related-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--app-font-display);
+  font-size: 1rem;
+  font-weight: 650;
+  letter-spacing: -0.018em;
+  color: var(--ls-text);
+}
+.bp-related-name svg { color: var(--ls-text-2); }
+
+.bp-related-desc {
+  font-size: 0.9125rem;
+  line-height: 1.5;
+  color: var(--ls-text-2);
+}
+
+/* ==========================================================================
+   4. More posts — mist band closing the article.
+   ========================================================================== */
+
+.bl-more {
+  background: var(--ls-mist);
+  padding-block: var(--ls-section-y);
+}
+
+.bl-more-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--ls-gap-sm);
+  margin-bottom: var(--ls-gap-lg);
+}
+
+.bl-more-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ls-text);
+  text-decoration: none;
+}
+.bl-more-link:hover svg { transform: translateX(3px); }
+.bl-more-link svg { transition: transform var(--ls-dur-fast) var(--ls-ease-soft); }
+
+.bl-more .bl-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.bl-more .bl-card { background: var(--ls-white); }
+
+@media (max-width: 780px) {
+  .bl-more .bl-grid { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
+   5. Closing CTA — same grammar as the town and airport pages.
+   ========================================================================== */
+
+.bl-cta {
+  position: relative;
+  background: var(--ls-ink);
+  color: var(--ls-text-on-ink);
+  padding-block: clamp(52px, 6vw, 82px);
+  text-align: center;
+  overflow: hidden;
+}
+
+.bl-cta::before {
+  content: "";
+  position: absolute;
+  inset: auto 50% -60% auto;
+  width: min(860px, 120%);
+  aspect-ratio: 1;
+  transform: translateX(50%);
+  background: radial-gradient(circle at 50% 50%, rgba(255, 209, 0, 0.13) 0%, transparent 62%);
+  pointer-events: none;
+}
+
+.bl-cta > * { position: relative; }
+
+.bl-cta-title {
+  font-family: var(--app-font-display);
+  font-size: clamp(2.1rem, 5vw, 3.4rem);
+  line-height: 1.06;
+  letter-spacing: -0.036em;
+  font-weight: 700;
+  margin: 0 auto;
+  max-width: 18ch;
+  text-wrap: balance;
+}
+
+.bl-cta-sub {
+  margin: var(--ls-gap) auto 0;
+  font-size: clamp(1rem, 1.6vw, 1.1875rem);
+  line-height: 1.5;
+  color: var(--ls-text-2-on-ink);
+  max-width: 48ch;
+}
+
+.bl-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--ls-gap-sm);
+  margin-top: clamp(22px, 2.6vw, 30px);
+}

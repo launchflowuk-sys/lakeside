@@ -150,4 +150,96 @@ export function buildFaqSchema(faqs: { q: string; a: string }[], path: string) {
   };
 }
 
+/* ── Blog ──────────────────────────────────────────────────────────────────
+   The posts are advice pieces about journeys we actually run, so each one
+   carries BlogPosting plus its own FAQPage. Publisher is the business itself,
+   not a separate Organization node — there is only one entity here.
+   ────────────────────────────────────────────────────────────────────────── */
+
+interface BlogPostingOptions {
+  slug: string;
+  title: string;
+  description: string;
+  /** ISO date (YYYY-MM-DD). */
+  published: string;
+  category: string;
+  faqs?: { q: string; a: string }[];
+}
+
+export function buildBlogPostingSchema({
+  slug,
+  title,
+  description,
+  published,
+  category,
+  faqs,
+}: BlogPostingOptions) {
+  const path = `/blog/${slug}`;
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `${BUSINESS_URL}${path}#post`,
+        headline: title,
+        description,
+        datePublished: published,
+        dateModified: published,
+        articleSection: category,
+        inLanguage: "en-GB",
+        mainEntityOfPage: { "@type": "WebPage", "@id": `${BUSINESS_URL}${path}` },
+        image: `${BUSINESS_URL}/opengraph.jpg`,
+        author: { "@type": "Organization", name: BUSINESS_NAME, url: BUSINESS_URL },
+        publisher: buildLocalBusinessSchema({ path }),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: `${BUSINESS_URL}/` },
+          { "@type": "ListItem", position: 2, name: "Blog", item: `${BUSINESS_URL}/blog` },
+          { "@type": "ListItem", position: 3, name: title, item: `${BUSINESS_URL}${path}` },
+        ],
+      },
+      ...(faqs && faqs.length ? [buildFaqSchema(faqs, path)] : []),
+    ],
+  };
+}
+
+interface BlogIndexOptions {
+  posts: { slug: string; title: string; excerpt: string; published: string }[];
+}
+
+export function buildBlogIndexSchema({ posts }: BlogIndexOptions) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Blog",
+        "@id": `${BUSINESS_URL}/blog#blog`,
+        name: `${BUSINESS_NAME} — Travel advice`,
+        description:
+          "Practical travel advice from a Thurrock taxi firm: airport timing, cruise terminal transfers, school runs and getting around Essex.",
+        url: `${BUSINESS_URL}/blog`,
+        inLanguage: "en-GB",
+        publisher: buildLocalBusinessSchema({ path: "/blog" }),
+        blogPost: posts.map((p) => ({
+          "@type": "BlogPosting",
+          "@id": `${BUSINESS_URL}/blog/${p.slug}#post`,
+          headline: p.title,
+          description: p.excerpt,
+          datePublished: p.published,
+          url: `${BUSINESS_URL}/blog/${p.slug}`,
+        })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: `${BUSINESS_URL}/` },
+          { "@type": "ListItem", position: 2, name: "Blog", item: `${BUSINESS_URL}/blog` },
+        ],
+      },
+    ],
+  };
+}
+
 export { BUSINESS_NAME, BUSINESS_URL, BUSINESS_TEL, BUSINESS_EMAIL };

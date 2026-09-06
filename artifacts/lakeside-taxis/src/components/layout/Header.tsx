@@ -18,6 +18,7 @@ const navLinks = [
   { href: "/", label: "Home" },
   { label: "Services", children: serviceLinks },
   { href: "/areas-covered", label: "Areas Covered" },
+  { href: "/blog",          label: "Blog" },
   { href: "/about",         label: "About" },
   { href: "/contact",       label: "Contact" },
 ];

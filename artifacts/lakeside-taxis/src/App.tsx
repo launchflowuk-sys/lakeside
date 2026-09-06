@@ -32,6 +32,8 @@ const AreasCovered = lazy(() => import("@/pages/AreasCovered"));
 const QuoteRequest = lazy(() => import("@/pages/QuoteRequest"));
 const ThankYou = lazy(() => import("@/pages/ThankYou"));
 const QuotePage = lazy(() => import("@/pages/QuotePage"));
+const BlogIndex = lazy(() => import("@/pages/blog/BlogIndex"));
+const BlogPost = lazy(() => import("@/pages/blog/BlogPost"));
 const BookingConfirmed = lazy(() => import("@/pages/BookingConfirmed"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
@@ -135,6 +137,10 @@ function Router() {
         <Route path="/areas/west-thurrock" component={WestThurrockPage} />
         <Route path="/areas/stanford-le-hope" component={StanfordLeHopePage} />
         <Route path="/areas/corringham" component={CorringhamPage} />
+        <Route path="/blog/:slug">
+          {(params) => <BlogPost key={params.slug} slug={params.slug ?? ""} />}
+        </Route>
+        <Route path="/blog" component={BlogIndex} />
         <Route path="/quote-request" component={QuoteRequest} />
         <Route path="/thank-you" component={ThankYou} />
         <Route path="/quote/:ref" component={QuotePage} />
