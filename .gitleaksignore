@@ -1,0 +1,27 @@
+# gitleaks allowlist - generated 2026-09-30 after secret-leak remediation.
+# Every entry below is in git HISTORY only and is either a confirmed false
+# positive or a secret that has been rotated/dead - do not un-ignore.
+# Never add a live or unverified secret here: remove it and rotate instead.
+
+# FP: Coolify build-secrets HASH in a deploy log (no secret value)
+86128c163d3bfa14fd3350def7f984ea3bad771c:attached_assets/deployment-hg1vrcpr27qno89zk1dqbdpo-all-logs-2026-06-26-06-40-_1782456117837.txt:generic-api-key:109
+# FP: docker image tag (git commit SHA) in a Coolify deploy log
+86128c163d3bfa14fd3350def7f984ea3bad771c:attached_assets/deployment-hg1vrcpr27qno89zk1dqbdpo-all-logs-2026-06-26-06-40-_1782456117837.txt:generic-api-key:325
+# FP: docker image tag (git commit SHA) in a Coolify deploy log
+86128c163d3bfa14fd3350def7f984ea3bad771c:attached_assets/deployment-hg1vrcpr27qno89zk1dqbdpo-all-logs-2026-06-26-06-40-_1782456117837.txt:generic-api-key:326
+# FP: docker image tag (git commit SHA) in a Coolify deploy log
+86128c163d3bfa14fd3350def7f984ea3bad771c:attached_assets/deployment-hg1vrcpr27qno89zk1dqbdpo-all-logs-2026-06-26-06-40-_1782456117837.txt:generic-api-key:327
+# FP: Coolify build-secrets HASH in a deploy log (no secret value)
+095464fdf280c4258285ff94363234def27eed0d:attached_assets/deployment-dk9y8omticrrlassumi0zvnl-all-logs-2026-06-11-10-52-_1781175196645.txt:generic-api-key:106
+# FP: docker image tag (git commit SHA) in a Coolify deploy log
+095464fdf280c4258285ff94363234def27eed0d:attached_assets/deployment-dk9y8omticrrlassumi0zvnl-all-logs-2026-06-11-10-52-_1781175196645.txt:generic-api-key:329
+# FP: docker image tag (git commit SHA) in a Coolify deploy log
+095464fdf280c4258285ff94363234def27eed0d:attached_assets/deployment-dk9y8omticrrlassumi0zvnl-all-logs-2026-06-11-10-52-_1781175196645.txt:generic-api-key:330
+# FP: docker image tag (git commit SHA) in a Coolify deploy log
+095464fdf280c4258285ff94363234def27eed0d:attached_assets/deployment-dk9y8omticrrlassumi0zvnl-all-logs-2026-06-11-10-52-_1781175196645.txt:generic-api-key:331
+# FP: Coolify build-secrets HASH in a deploy log (no secret value)
+095464fdf280c4258285ff94363234def27eed0d:attached_assets/deployment-dk9y8omticrrlassumi0zvnl-all-logs-2026-06-11-10-52-_1781175196645.txt:generic-api-key:407
+# FP: Coolify build-secrets HASH in a deploy log (no secret value)
+7129ce24c0399f069fd772d0b2d69c60aad92a2d:attached_assets/deployment-d12eobukpi7ecmqc37iypvgu-all-logs-2026-06-11-10-15-_1781172917097.txt:generic-api-key:106
+# FP: Coolify build-secrets HASH in a deploy log (no secret value)
+7129ce24c0399f069fd772d0b2d69c60aad92a2d:attached_assets/deployment-d12eobukpi7ecmqc37iypvgu-all-logs-2026-06-11-10-15-_1781172917097.txt:generic-api-key:296

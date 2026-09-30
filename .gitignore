@@ -60,3 +60,8 @@ credentials*.txt
 
 # Driver application document uploads (local development)
 uploads/
+
+# Deploy/runtime/build log dumps (never commit)
+*.log
+attached_assets/*logs-*.txt
+attached_assets/deployment-*.txt
