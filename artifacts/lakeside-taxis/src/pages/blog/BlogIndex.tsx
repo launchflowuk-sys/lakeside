@@ -3,6 +3,8 @@ import { Helmet } from "react-helmet-async";
 import Layout from "@/components/layout/Layout";
 import PostCard from "./PostCard";
 import { POSTS_BY_DATE } from "./posts";
+import { useLaunchosPosts } from "./launchos";
+import { LaunchosCard } from "./LaunchosPost";
 import { buildBlogIndexSchema, BUSINESS_URL } from "@/lib/schema";
 import { useReveal } from "@/hooks/useReveal";
 import {
@@ -26,15 +28,29 @@ const META_DESC =
 export default function BlogIndex() {
   const scope = useReveal<HTMLDivElement>();
   const canonicalUrl = `${BUSINESS_URL}/blog`;
-  const [lead, ...rest] = POSTS_BY_DATE;
+  const { data: remote = [] } = useLaunchosPosts();
+  // Hand-written guides and LaunchOS posts, newest first after the lead. A
+  // hand-written guide keeps its slug if LaunchOS ever publishes the same one.
+  // The lead stays the newest hand-written guide: LaunchOS posts arrive after
+  // the reveal observer has run, and promoting one would re-render the old
+  // lead's className and drop its "is-revealed" state, hiding it.
+  const taken = new Set(POSTS_BY_DATE.map((p) => p.slug));
+  const local = POSTS_BY_DATE.map((p) => ({ slug: p.slug, title: p.title, excerpt: p.excerpt, published: p.published, local: p, remote: null }));
+  const fromLaunchos = remote
+    .filter((p) => !taken.has(p.slug))
+    .map((p) => ({ slug: p.slug, title: p.title, excerpt: p.excerpt, published: p.published, local: null, remote: p }));
+  const [lead, ...rest] = [
+    ...local.slice(0, 1),
+    ...[...local.slice(1), ...fromLaunchos].sort((a, b) => b.published.localeCompare(a.published)),
+  ];
+  const all = lead ? [lead, ...rest] : rest;
+  const card = (entry: (typeof all)[number], isLead = false) =>
+    entry.local
+      ? <PostCard key={entry.slug} post={entry.local} lead={isLead} />
+      : entry.remote && <LaunchosCard key={entry.slug} post={entry.remote} lead={isLead} />;
 
   const schema = buildBlogIndexSchema({
-    posts: POSTS_BY_DATE.map((p) => ({
-      slug: p.slug,
-      title: p.title,
-      excerpt: p.excerpt,
-      published: p.published,
-    })),
+    posts: all.map(({ slug, title, excerpt, published }) => ({ slug, title, excerpt, published })),
   });
 
   return (
@@ -67,7 +83,7 @@ export default function BlogIndex() {
               </span>
               <span className="ls-pill ls-pill-on-ink">
                 <IconClock size={15} />
-                {POSTS_BY_DATE.length} guides
+                {all.length} guides
               </span>
             </div>
 
@@ -87,10 +103,8 @@ export default function BlogIndex() {
         <div className="bl-body">
           <div className="ls-shell">
             <div className="bl-grid ls-stagger">
-              {lead && <PostCard post={lead} lead />}
-              {rest.map((post) => (
-                <PostCard key={post.slug} post={post} />
-              ))}
+              {lead && card(lead, true)}
+              {rest.map((entry) => card(entry))}
             </div>
           </div>
         </div>

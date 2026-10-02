@@ -1,0 +1,78 @@
+/* LaunchOS posts arrive as HTML; this maps their plain tags onto the
+   .bp-section type scale in blog.css so they read like the hand-written guides. */
+
+.lb-loading { min-height: 70vh; }
+
+.lb-cover-img { object-fit: cover; }
+
+.lb-prose > * + * { margin-top: var(--ls-gap); }
+
+.lb-prose h2 {
+  font-family: var(--app-font-display);
+  font-size: clamp(1.55rem, 2.9vw, 2.05rem);
+  line-height: 1.14;
+  letter-spacing: -0.026em;
+  font-weight: 700;
+  color: var(--ls-text);
+  max-width: 24ch;
+  text-wrap: balance;
+  margin-top: clamp(38px, 4vw, 58px);
+}
+.lb-prose > h2:first-child { margin-top: 0; }
+
+.lb-prose h3,
+.lb-prose h4 {
+  font-family: var(--app-font-display);
+  font-size: 1.25rem;
+  line-height: 1.25;
+  letter-spacing: -0.018em;
+  font-weight: 650;
+  color: var(--ls-text);
+  margin-top: var(--ls-gap-lg);
+}
+
+.lb-prose p,
+.lb-prose li {
+  font-size: 1.0625rem;
+  line-height: 1.68;
+  color: var(--ls-text-2);
+  max-width: 68ch;
+}
+
+.lb-prose ul,
+.lb-prose ol { padding-left: 1.3em; }
+.lb-prose ul { list-style: disc; }
+.lb-prose ol { list-style: decimal; }
+.lb-prose li + li { margin-top: 6px; }
+.lb-prose li::marker { color: var(--ls-yellow-deep); }
+
+.lb-prose strong { color: var(--ls-text); font-weight: 650; }
+
+.lb-prose a {
+  color: var(--ls-text);
+  text-decoration: underline;
+  text-decoration-color: var(--ls-yellow-deep);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.lb-prose blockquote {
+  background: var(--ls-ink);
+  color: var(--ls-text-on-ink);
+  border-radius: var(--ls-r-lg);
+  padding: clamp(22px, 2.6vw, 30px);
+}
+.lb-prose blockquote p { color: var(--ls-text-2-on-ink); margin: 0; }
+
+.lb-prose hr { border: 0; border-top: 1px solid var(--ls-line); }
+
+.lb-prose img { border-radius: var(--ls-r-lg); height: auto; max-width: 100%; }
+
+.lb-prose code {
+  background: var(--ls-mist);
+  border-radius: 6px;
+  padding: 1px 6px;
+  font-size: 0.92em;
+}
+
+.lb-back { margin-top: clamp(34px, 3.6vw, 48px); }

@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
 import Layout from "@/components/layout/Layout";
 import BookingForm from "@/components/BookingForm";
-import NotFound from "@/pages/not-found";
+import LaunchosPostPage from "./LaunchosPost";
 import BlogCover from "./BlogCover";
 import PostCard from "./PostCard";
 import { formatPostDate, getPost, POSTS_BY_DATE } from "./posts";
@@ -34,7 +34,8 @@ export default function BlogPost({ slug }: BlogPostProps) {
   const scope = useReveal<HTMLDivElement>();
 
   // Hooks run before this branch so the order stays stable across slugs.
-  if (!post) return <NotFound />;
+  // Not a hand-written guide: it may be a post published from LaunchOS.
+  if (!post) return <LaunchosPostPage slug={slug} />;
 
   const canonicalUrl = `${BUSINESS_URL}/blog/${post.slug}`;
   const schema = buildBlogPostingSchema({
